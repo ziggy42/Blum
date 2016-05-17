@@ -5,9 +5,9 @@ import com.andreapivetta.blu.arch.exception.MvpViewNotAttachedException
 /**
  * Created by andrea on 15/05/16.
  */
-class BasePresenter<V : MvpView> : Presenter<V> {
+open class BasePresenter<V : MvpView> : Presenter<V> {
 
-    private var mvpView: V? = null
+    protected  var mvpView: V? = null
 
     override fun attachView(mvpView: V) {
         this.mvpView = mvpView

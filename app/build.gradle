@@ -21,6 +21,11 @@ android {
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
+    buildTypes.each {
+        it.buildConfigField 'String', 'TWITTER_CALLBACK', CallBackUrl
+        it.buildConfigField 'String', 'TWITTER_CONSUMER_KEY', ConsumerKey
+        it.buildConfigField 'String', 'TWITTER_CONSUMER_SECRET', ConsumerSecret
+    }
 }
 
 dependencies {
@@ -36,11 +41,13 @@ dependencies {
     compile 'org.twitter4j:twitter4j-stream:4.0.4'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.uwetrottmann.photoview:library:1.2.4'
+    compile 'jp.wasabeef:recyclerview-animators:2.2.1'
 
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     testCompile 'junit:junit:4.12'
+    compile project(path: ':loginView')
 }
 buildscript {
     ext.kotlin_version = '1.0.2'
