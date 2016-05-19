@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    card_view:cardBackgroundColor="?appCardViewBackgroundColor"
+    card_view:cardCornerRadius="3dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/userProfilePicImageView"
+                android:layout_width="68dp"
+                android:layout_height="68dp"
+                android:layout_margin="10dp"
+                android:contentDescription="@string/profile_pic_contentDescriptor"
+                android:scaleType="centerCrop"
+                android:src="@drawable/placeholder" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="68dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/userNameTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="bold"
+                    android:includeFontPadding="false"
+                    android:textSize="25sp" />
+
+                <TextView
+                    android:id="@+id/screenNameTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:includeFontPadding="false"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/timeTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-thin" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/statusTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:textSize="19sp" />
+
+        <ImageView
+            android:id="@+id/tweetPhotoImageView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/tweet_photo_contentDescriptor"
+            android:scaleType="fitCenter"
+            android:transitionName="@string/image_transition"
+            android:visibility="gone" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/tweetPhotosRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/picHeight"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/videoCover"
+            layout="@layout/video_cover"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/picHeight"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:visibility="gone" />
+
+        <ViewStub
+            android:id="@+id/quotedViewStub"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:inflatedId="@+id/quotedStatusLinearLayout"
+            android:layout="@layout/quoted_tweet"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/statsLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/retweetsStatsTextView"
+                android:layout_width="0dp"
+                android:layout_height="25dp"
+                android:layout_weight="1"
+                android:gravity="center" />
+
+            <TextView
+                android:id="@+id/favouritesStatsTextView"
+                android:layout_width="0dp"
+                android:layout_height="25dp"
+                android:layout_weight="1"
+                android:gravity="center" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/interactionLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/favouriteImageButton"
+                android:layout_width="0dp"
+                android:layout_height="25dp"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="?android:selectableItemBackground"
+                android:contentDescription="@string/favourite_imageButton_contentDescriptor"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_favorite_grey_600_36dp" />
+
+            <ImageButton
+                android:id="@+id/retweetImageButton"
+                android:layout_width="0dp"
+                android:layout_height="25dp"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="?android:selectableItemBackground"
+                android:contentDescription="@string/retweet_imageButton_contentDescriptor"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_repeat_grey600_36dp" />
+
+            <ImageButton
+                android:id="@+id/quoteImageButton"
+                android:layout_width="0dp"
+                android:layout_height="25dp"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="?android:selectableItemBackground"
+                android:contentDescription="@string/respond_imageButton_contentDescriptor"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_format_quote_grey600_36dp" />
+
+            <ImageButton
+                android:id="@+id/respondImageButton"
+                android:layout_width="0dp"
+                android:layout_height="25dp"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="?android:selectableItemBackground"
+                android:contentDescription="@string/respond_imageButton_contentDescriptor"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_reply_grey600_36dp" />
+
+            <ImageButton
+                android:id="@+id/shareImageButton"
+                android:layout_width="0dp"
+                android:layout_height="25dp"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="?android:selectableItemBackground"
+                android:contentDescription="@string/share_imageButton_contentDescriptor"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_share_grey600_36dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

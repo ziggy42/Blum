@@ -1,0 +1,37 @@
+<com.andreapivetta.blu.ui.base.BorderedLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/quotedStatusLinearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="4dp"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:paddingTop="4dp"
+    app:borderColor="?attr/colorPrimary">
+
+    <TextView
+        android:id="@+id/quotedUserNameTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="17sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/quotedStatusTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15sp" />
+
+    <ImageView
+        android:id="@+id/photoImageView"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_margin="5dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/tweet_photo_contentDescriptor"
+        android:maxHeight="@dimen/picHeight"
+        android:scaleType="fitCenter"
+        android:visibility="gone" />
+
+</com.andreapivetta.blu.ui.base.BorderedLinearLayout>

@@ -7,4 +7,6 @@ interface AppSettings {
 
     fun isUserLoggedIn() : Boolean
 
+    fun setUserLoggedIn(logged: Boolean)
+
 }

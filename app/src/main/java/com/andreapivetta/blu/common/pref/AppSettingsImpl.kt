@@ -14,6 +14,10 @@ class AppSettingsImpl(context: Context) : AppSettings {
     val pref: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
     override fun isUserLoggedIn() =
-            pref.getLong(context.getString(R.string.pref_key_logged_user), 0L) != 0L
+            pref.getBoolean(context.getString(R.string.pref_key_login), false)
+
+    override fun setUserLoggedIn(logged: Boolean) {
+        pref.edit().putBoolean(context.getString(R.string.pref_key_logged_user), logged).apply()
+    }
 
 }

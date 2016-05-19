@@ -1,15 +1,15 @@
 package com.andreapivetta.blu.ui.login
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import android.support.v7.app.AppCompatActivity
 import android.widget.Button
 import android.widget.Toast
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.pref.AppSettingsImpl
+import com.andreapivetta.blu.ui.main.MainActivity
 
-class LoginActivity : Activity(), LoginMvpView {
+class LoginActivity : AppCompatActivity(), LoginMvpView {
 
     private val loginButton: Button by lazy { findViewById(R.id.login_button) as Button }
     private val presenter: LoginPresenter by lazy { LoginPresenter(AppSettingsImpl(applicationContext)) }
@@ -45,8 +45,11 @@ class LoginActivity : Activity(), LoginMvpView {
     }
 
     override fun moveOn() {
-        // TODO clear task, open MainActivity
-        Log.i("LoginView", "moveOn")
+        intent = Intent(this, MainActivity::class.java)
+        //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        startActivity(intent)
+        finish()
     }
 
 }

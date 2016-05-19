@@ -19,17 +19,6 @@ object TwitterUtils {
     private var accessToken: AccessToken? = null
     private var factory: TwitterFactory? = null
 
-    // TODO use settings
-    private fun getAccessToken(context: Context): AccessToken {
-        if (accessToken == null) {
-            val mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-            accessToken = AccessToken(mSharedPreferences.getString(context.getString(R.string.pref_oauth_token), ""),
-                    mSharedPreferences.getString(context.getString(R.string.pref_oauth_token_secret), ""))
-        }
-
-        return accessToken as AccessToken
-    }
-
     private fun getFactory(): TwitterFactory {
         if (factory == null) {
             val builder = ConfigurationBuilder()
@@ -40,8 +29,8 @@ object TwitterUtils {
         return factory as TwitterFactory
     }
 
-    fun getTwitter(context: Context): Twitter {
-        return getFactory().getInstance(getAccessToken(context))
+    fun getTwitter(): Twitter {
+        return getFactory().getInstance(accessToken)
     }
 
     fun nullTwitter() {
@@ -53,6 +42,13 @@ object TwitterUtils {
         val builder = ConfigurationBuilder()
         builder.setOAuthConsumerKey(BuildConfig.TWITTER_CONSUMER_KEY).setOAuthConsumerSecret(BuildConfig.TWITTER_CONSUMER_SECRET)
 
-        return TwitterStreamFactory(builder.build()).getInstance(getAccessToken(context))
+        return TwitterStreamFactory(builder.build()).getInstance(accessToken)
+    }
+
+    fun init(context: Context?) {
+        // TODO Use Settings
+        val mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+        accessToken = AccessToken(mSharedPreferences.getString(context?.getString(R.string.pref_oauth_token), ""),
+                mSharedPreferences.getString(context?.getString(R.string.pref_oauth_token_secret), ""))
     }
 }

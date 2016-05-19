@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    tools:ignore="MergeRootFrame">
+
+    <ImageView
+        android:id="@+id/tweetVideoImageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/video_preview_contentDescription" />
+
+    <ImageButton
+        android:id="@+id/playVideoImageButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center"
+        android:background="?attr/circleButton"
+        android:contentDescription="@string/play_video_contentDescription"
+        android:src="@drawable/ic_play_arrow_white_24dp" />
+
+</FrameLayout>
