@@ -249,6 +249,6 @@
 
     <string name="cancellation">Cancellation</string>
     <string name="error">Error</string>
-    <string name="title_activity_main">Blum</string>
+    <string name="title_activity_main" translatable="false">Blum</string>
 
 </resources>

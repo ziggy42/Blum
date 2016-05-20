@@ -37,6 +37,8 @@ class NewTweetActivity : AppCompatActivity(), NewTweetMvpView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_newtweet)
         setSupportActionBar(toolbar)
+        toolbar.setNavigationIcon(R.drawable.abc_ic_clear_mtrl_alpha)
+        toolbar.setNavigationOnClickListener { finish() }
         presenter.attachView(this)
 
         newTweetEditText.addTextChangedListener(object : TextWatcher {
