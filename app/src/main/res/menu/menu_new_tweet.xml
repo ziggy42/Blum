@@ -1,0 +1,18 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.andreapivetta.blu.activities.NewTweetActivity">
+
+    <item
+        android:id="@+id/action_send"
+        android:icon="@drawable/ic_stat_navigation_check"
+        android:orderInCategory="100"
+        android:title="@string/send_tweet"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_chars_left"
+        android:title="@string/chars_left"
+        app:showAsAction="ifRoom" />
+
+</menu>

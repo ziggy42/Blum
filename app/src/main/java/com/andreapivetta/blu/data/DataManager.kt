@@ -2,7 +2,6 @@ package com.andreapivetta.blu.data
 
 import com.andreapivetta.blu.twitter.TwitterUtils
 import rx.Single
-import timber.log.Timber
 import twitter4j.Paging
 import twitter4j.Status
 import java.util.concurrent.Future
@@ -32,6 +31,29 @@ object DataManager {
                 }
 
                 override fun isCancelled(): Boolean {
+                    throw UnsupportedOperationException()
+                }
+            });
+
+    fun updateTwitterStatus(tweet: String?): Single<Status> =
+            Single.from(object : Future<Status> {
+                override fun isDone(): Boolean {
+                    throw UnsupportedOperationException()
+                }
+
+                override fun isCancelled(): Boolean {
+                    throw UnsupportedOperationException()
+                }
+
+                override fun get(): Status? {
+                    return TwitterUtils.getTwitter().updateStatus(tweet)
+                }
+
+                override fun get(timeout: Long, unit: TimeUnit?): Status? {
+                    throw UnsupportedOperationException()
+                }
+
+                override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
                     throw UnsupportedOperationException()
                 }
             });

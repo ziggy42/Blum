@@ -6,4 +6,9 @@ import com.andreapivetta.blu.arch.BasePresenter
  * Created by andrea on 18/05/16.
  */
 class MainPresenter : BasePresenter<MainMvpView>() {
+
+    fun fabClicked() {
+        mvpView?.newTweet()
+    }
+
 }

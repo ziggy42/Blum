@@ -1,4 +1,4 @@
-package com.andreapivetta.blu.ui.base
+package com.andreapivetta.blu.ui.base.views
 
 import android.content.Context
 import android.graphics.*
