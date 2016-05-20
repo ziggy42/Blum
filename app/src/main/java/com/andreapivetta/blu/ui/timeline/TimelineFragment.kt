@@ -1,12 +1,13 @@
 package com.andreapivetta.blu.ui.timeline
 
 import android.os.Bundle
-import android.os.Handler
+import android.support.annotation.ColorRes
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +16,6 @@ import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.Common
 import com.andreapivetta.blu.data.twitter.TwitterUtils
 import com.andreapivetta.blu.ui.base.decorators.SpaceTopItemDecoration
-import twitter4j.Paging
 import twitter4j.Status
 
 /**
@@ -56,9 +56,16 @@ class TimelineFragment : Fragment(), TimelineMvpView {
         recyclerView.adapter = adapter
 
         swipeRefreshLayout.setOnRefreshListener { presenter.onRefresh() }
+        swipeRefreshLayout.setColorSchemeColors(getRefreshColor())
 
         presenter.getTweets()
         return rootView
+    }
+
+    @ColorRes private fun getRefreshColor(): Int {
+        val typedValue = TypedValue()
+        activity.theme.resolveAttribute(R.attr.appColorPrimary, typedValue, true)
+        return typedValue.data
     }
 
     override fun showTweets(tweets: MutableList<Status>) {
