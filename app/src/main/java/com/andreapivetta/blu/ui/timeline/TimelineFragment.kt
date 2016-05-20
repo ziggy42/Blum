@@ -12,7 +12,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import com.andreapivetta.blu.R
+import com.andreapivetta.blu.common.Common
 import com.andreapivetta.blu.twitter.TwitterUtils
+import com.andreapivetta.blu.ui.base.decorators.SpaceTopItemDecoration
 import twitter4j.Paging
 import twitter4j.Status
 
@@ -49,6 +51,7 @@ class TimelineFragment : Fragment(), TimelineMvpView {
 
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.setHasFixedSize(true)
+        recyclerView.addItemDecoration(SpaceTopItemDecoration(Common.dpToPx(activity, 10)))
         adapter = TimelineAdapter(activity, TwitterUtils.getTwitter(), -1)
         recyclerView.adapter = adapter
 
