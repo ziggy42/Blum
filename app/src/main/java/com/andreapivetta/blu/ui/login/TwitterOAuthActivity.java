@@ -4,12 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.andreapivetta.blu.BuildConfig;
 import com.andreapivetta.blu.R;
-import com.andreapivetta.blu.twitter.TwitterUtils;
 import com.andreapivetta.twitterloginview.TwitterLoginListener;
 import com.andreapivetta.twitterloginview.TwitterLoginView;
 

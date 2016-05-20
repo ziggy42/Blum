@@ -1,7 +1,7 @@
 package com.andreapivetta.blu.ui.timeline
 
 import com.andreapivetta.blu.arch.BasePresenter
-import com.andreapivetta.blu.data.DataManager
+import com.andreapivetta.blu.data.twitter.TwitterAPI
 import rx.SingleSubscriber
 import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
@@ -28,7 +28,7 @@ class TimelinePresenter : BasePresenter<TimelineMvpView>() {
         checkViewAttached()
         mvpView?.showLoading()
 
-        mSubscriber = DataManager.getHomeTimeline(Paging(page, 50))
+        mSubscriber = TwitterAPI.getHomeTimeline(Paging(page, 50))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(object : SingleSubscriber<MutableList<Status>>() {

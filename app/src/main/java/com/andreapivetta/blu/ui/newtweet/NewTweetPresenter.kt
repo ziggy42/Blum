@@ -1,7 +1,7 @@
 package com.andreapivetta.blu.ui.newtweet
 
 import com.andreapivetta.blu.arch.BasePresenter
-import com.andreapivetta.blu.data.DataManager
+import com.andreapivetta.blu.data.twitter.TwitterAPI
 import com.andreapivetta.blu.ui.new.NewTweetMvpView
 import rx.SingleSubscriber
 import rx.Subscription
@@ -40,7 +40,7 @@ class NewTweetPresenter : BasePresenter<NewTweetMvpView>() {
         if (charsLeft < 0)
             mvpView?.showTooManyCharsError()
         else
-            mSubscriber = DataManager.updateTwitterStatus(mvpView?.getTweet())
+            mSubscriber = TwitterAPI.updateTwitterStatus(mvpView?.getTweet())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
                     .subscribe(object : SingleSubscriber<Status>() {

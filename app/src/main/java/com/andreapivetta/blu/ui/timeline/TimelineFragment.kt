@@ -13,7 +13,7 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.Common
-import com.andreapivetta.blu.twitter.TwitterUtils
+import com.andreapivetta.blu.data.twitter.TwitterUtils
 import com.andreapivetta.blu.ui.base.decorators.SpaceTopItemDecoration
 import twitter4j.Paging
 import twitter4j.Status

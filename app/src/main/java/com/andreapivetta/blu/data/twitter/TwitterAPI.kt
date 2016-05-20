@@ -1,6 +1,5 @@
-package com.andreapivetta.blu.data
+package com.andreapivetta.blu.data.twitter
 
-import com.andreapivetta.blu.twitter.TwitterUtils
 import rx.Single
 import twitter4j.Paging
 import twitter4j.Status
@@ -10,7 +9,7 @@ import java.util.concurrent.TimeUnit
 /**
  * Created by andrea on 18/05/16.
  */
-object DataManager {
+object TwitterAPI {
 
     fun getHomeTimeline(paging: Paging): Single<MutableList<Status>> =
             Single.from(object : Future<MutableList<Status>> {

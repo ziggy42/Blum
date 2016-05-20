@@ -1,7 +1,7 @@
 package com.andreapivetta.blu
 
 import android.app.Application
-import com.andreapivetta.blu.twitter.TwitterUtils
+import com.andreapivetta.blu.data.twitter.TwitterUtils
 import timber.log.Timber
 
 /**
