@@ -35,19 +35,15 @@ class LoginActivity : AppCompatActivity(), LoginMvpView {
     }
 
     override fun showLoginError() {
-        Toast.makeText(this, getString(R.string.error), Toast.LENGTH_LONG)
-                .show()
+        Toast.makeText(this, getString(R.string.error), Toast.LENGTH_LONG).show()
     }
 
     override fun showLoginCanceled() {
-        Toast.makeText(this, getString(R.string.cancellation), Toast.LENGTH_LONG)
-                .show()
+        Toast.makeText(this, getString(R.string.cancellation), Toast.LENGTH_LONG).show()
     }
 
     override fun moveOn() {
         intent = Intent(this, MainActivity::class.java)
-        //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
         startActivity(intent)
         finish()
     }
