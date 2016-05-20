@@ -50,7 +50,7 @@ class TimelinePresenter : BasePresenter<TimelineMvpView>() {
     }
 
     fun onRefresh() {
-        getTweets()
+
     }
 
 }
