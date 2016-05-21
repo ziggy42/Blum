@@ -16,6 +16,7 @@ import twitter4j.Status
 class TimelinePresenter : BasePresenter<TimelineMvpView>() {
 
     private var page: Int = 1
+    private var isLoading: Boolean = false
     private var mSubscriber: Subscription? = null
     private var mRefreshSubscriber: Subscription? = null
 
@@ -30,6 +31,7 @@ class TimelinePresenter : BasePresenter<TimelineMvpView>() {
     fun getTweets() {
         checkViewAttached()
         mvpView?.showLoading()
+        isLoading = true
 
         mSubscriber = TwitterAPI.getHomeTimeline(Paging(page, 50))
                 .observeOn(AndroidSchedulers.mainThread())
@@ -41,12 +43,42 @@ class TimelinePresenter : BasePresenter<TimelineMvpView>() {
                             mvpView?.showEmpty()
                         else
                             mvpView?.showTweets(list)
+                        page++
+                        isLoading = false
                     }
 
                     override fun onError(error: Throwable?) {
                         Timber.e(error?.message)
                         mvpView?.hideLoading()
                         mvpView?.showError()
+                        isLoading = false
+                    }
+                })
+    }
+
+    fun getMoreTweets() {
+        if (isLoading)
+            return
+
+        checkViewAttached()
+        isLoading = true
+
+        mSubscriber = TwitterAPI.getHomeTimeline(Paging(page, 50))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(object : SingleSubscriber<MutableList<Status>>() {
+                    override fun onSuccess(list: MutableList<Status>?) {
+                        if (list != null) {
+                            if (list.isNotEmpty())
+                                mvpView?.showMoreTweets(list)
+                            page++
+                        }
+                        isLoading = false
+                    }
+
+                    override fun onError(error: Throwable?) {
+                        Timber.e(error?.message)
+                        isLoading = false
                     }
                 })
     }

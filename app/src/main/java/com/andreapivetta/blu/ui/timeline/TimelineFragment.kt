@@ -49,11 +49,20 @@ class TimelineFragment : Fragment(), TimelineMvpView {
         swipeRefreshLayout = rootView?.findViewById(R.id.swipeRefreshLayout) as SwipeRefreshLayout
         loadingProgressBar = rootView?.findViewById(R.id.loadingProgressBar) as ProgressBar
 
-        recyclerView.layoutManager = LinearLayoutManager(activity)
+        val linearLayoutManager = LinearLayoutManager(activity)
+        recyclerView.layoutManager = linearLayoutManager
         recyclerView.setHasFixedSize(true)
         recyclerView.addItemDecoration(SpaceTopItemDecoration(Common.dpToPx(activity, 10)))
         adapter = TimelineAdapter(activity, TwitterUtils.getTwitter(), -1)
         recyclerView.adapter = adapter
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (linearLayoutManager.childCount + linearLayoutManager.findFirstVisibleItemPosition() + 1 >
+                        linearLayoutManager.itemCount - 10)
+                    presenter.getMoreTweets()
+            }
+        })
 
         swipeRefreshLayout.setOnRefreshListener { presenter.onRefresh() }
         swipeRefreshLayout.setColorSchemeColors(getRefreshColor())
@@ -78,6 +87,10 @@ class TimelineFragment : Fragment(), TimelineMvpView {
         adapter.mDataSet.removeAt(adapter.mDataSet.size - 1)
         recyclerView.scrollToPosition(0)
         adapter.notifyItemInserted(0)
+    }
+
+    override fun showMoreTweets(tweets: MutableList<Status>) {
+        adapter.mDataSet.addAll(tweets)
     }
 
     override fun getLastTweetId(): Long {
