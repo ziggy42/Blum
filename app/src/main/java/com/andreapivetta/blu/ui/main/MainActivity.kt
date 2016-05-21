@@ -23,9 +23,9 @@ class MainActivity : AppCompatActivity(), MainMvpView {
 
         fab.setOnClickListener { presenter.fabClicked() }
 
-        supportFragmentManager.beginTransaction()
-                .add(R.id.container_frameLayout, TimelineFragment.newInstance())
-                .commit()
+        if (savedInstanceState == null)
+            supportFragmentManager.beginTransaction()
+                    .replace(R.id.container_frameLayout, TimelineFragment.newInstance()).commit()
     }
 
     override fun openSettings() {

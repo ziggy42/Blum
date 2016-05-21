@@ -15,7 +15,7 @@ import twitter4j.Status
  */
 class TimelinePresenter : BasePresenter<TimelineMvpView>() {
 
-    private var page: Int = 1
+    var page: Int = 1
     private var isLoading: Boolean = false
     private var mSubscriber: Subscription? = null
     private var mRefreshSubscriber: Subscription? = null

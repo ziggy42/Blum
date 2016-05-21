@@ -17,6 +17,7 @@ import com.andreapivetta.blu.common.Common
 import com.andreapivetta.blu.data.twitter.TwitterUtils
 import com.andreapivetta.blu.ui.base.decorators.SpaceTopItemDecoration
 import twitter4j.Status
+import java.io.Serializable
 
 /**
  * Created by andrea on 17/05/16.
@@ -27,6 +28,9 @@ class TimelineFragment : Fragment(), TimelineMvpView {
         fun newInstance(): TimelineFragment {
             return TimelineFragment()
         }
+
+        val TAG_TWEET_LIST = "tweet_list"
+        val TAG_PAGE = "page"
     }
 
     private val presenter: TimelinePresenter by lazy { TimelinePresenter() }
@@ -39,6 +43,12 @@ class TimelineFragment : Fragment(), TimelineMvpView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         presenter.attachView(this)
+
+        adapter = TimelineAdapter(activity, TwitterUtils.getTwitter(), -1)
+        if (savedInstanceState != null) {
+            adapter.mDataSet = savedInstanceState.getSerializable(TAG_TWEET_LIST) as MutableList<Status>
+            presenter.page = savedInstanceState.getInt(TAG_PAGE)
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
@@ -53,7 +63,6 @@ class TimelineFragment : Fragment(), TimelineMvpView {
         recyclerView.layoutManager = linearLayoutManager
         recyclerView.setHasFixedSize(true)
         recyclerView.addItemDecoration(SpaceTopItemDecoration(Common.dpToPx(activity, 10)))
-        adapter = TimelineAdapter(activity, TwitterUtils.getTwitter(), -1)
         recyclerView.adapter = adapter
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
@@ -67,8 +76,15 @@ class TimelineFragment : Fragment(), TimelineMvpView {
         swipeRefreshLayout.setOnRefreshListener { presenter.onRefresh() }
         swipeRefreshLayout.setColorSchemeColors(getRefreshColor())
 
-        presenter.getTweets()
+        if (adapter.mDataSet.isEmpty())
+            presenter.getTweets()
         return rootView
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        outState?.putSerializable(TAG_TWEET_LIST, adapter.mDataSet as Serializable)
+        outState?.putInt(TAG_PAGE, presenter.page)
+        super.onSaveInstanceState(outState)
     }
 
     @ColorRes private fun getRefreshColor(): Int {
