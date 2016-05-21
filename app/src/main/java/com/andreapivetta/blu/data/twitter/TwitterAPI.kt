@@ -34,6 +34,8 @@ object TwitterAPI {
                 }
             });
 
+    fun refreshTimeLine(paging: Paging): Single<MutableList<Status>> = getHomeTimeline(paging)
+
     fun updateTwitterStatus(tweet: String?): Single<Status> =
             Single.from(object : Future<Status> {
                 override fun isDone(): Boolean {

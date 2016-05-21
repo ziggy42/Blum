@@ -10,6 +10,12 @@ interface TimelineMvpView : MvpView {
 
     fun showTweets(tweets: MutableList<Status>)
 
+    fun showTweet(tweet: Status)
+
+    fun getLastTweetId(): Long
+
+    fun stopRefresh()
+
     fun showEmpty()
 
     fun showError()

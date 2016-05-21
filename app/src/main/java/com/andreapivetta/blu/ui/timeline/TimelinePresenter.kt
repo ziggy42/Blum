@@ -17,11 +17,14 @@ class TimelinePresenter : BasePresenter<TimelineMvpView>() {
 
     private var page: Int = 1
     private var mSubscriber: Subscription? = null
+    private var mRefreshSubscriber: Subscription? = null
 
     override fun detachView() {
         super.detachView()
         if (mSubscriber != null)
             mSubscriber?.unsubscribe()
+        if (mRefreshSubscriber != null)
+            mRefreshSubscriber?.unsubscribe()
     }
 
     fun getTweets() {
@@ -44,13 +47,30 @@ class TimelinePresenter : BasePresenter<TimelineMvpView>() {
                         Timber.e(error?.message)
                         mvpView?.hideLoading()
                         mvpView?.showError()
-                        Timber.d(error?.message)
                     }
                 })
     }
 
     fun onRefresh() {
+        checkViewAttached()
 
+        val page = Paging(1, 200)
+        page.sinceId = mvpView!!.getLastTweetId()
+
+        mRefreshSubscriber = TwitterAPI.refreshTimeLine(page)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(object : SingleSubscriber<MutableList<Status>>() {
+                    override fun onSuccess(list: MutableList<Status>?) {
+                        mvpView?.stopRefresh()
+                        list?.reversed()?.forEach { status -> mvpView?.showTweet(status) }
+                    }
+
+                    override fun onError(error: Throwable?) {
+                        Timber.e(error?.message)
+                        mvpView?.stopRefresh()
+                    }
+                })
     }
 
 }

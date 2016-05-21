@@ -73,6 +73,21 @@ class TimelineFragment : Fragment(), TimelineMvpView {
         adapter.notifyDataSetChanged()
     }
 
+    override fun showTweet(tweet: Status) {
+        adapter.mDataSet.add(0, tweet)
+        adapter.mDataSet.removeAt(adapter.mDataSet.size - 1)
+        recyclerView.scrollToPosition(0)
+        adapter.notifyItemInserted(0)
+    }
+
+    override fun getLastTweetId(): Long {
+        return adapter.mDataSet[0].id
+    }
+
+    override fun stopRefresh() {
+        swipeRefreshLayout.isRefreshing = false
+    }
+
     override fun showEmpty() {
         // TODO
     }
