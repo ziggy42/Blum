@@ -10,8 +10,6 @@ import com.andreapivetta.blu.R
 import com.bumptech.glide.Glide
 import twitter4j.Status
 import twitter4j.Twitter
-import java.util.*
-import java.util.concurrent.TimeUnit
 
 open class VHItem(val container: View) : BaseViewHolder(container) {
 
@@ -32,28 +30,7 @@ open class VHItem(val container: View) : BaseViewHolder(container) {
         val currentUser = currentStatus.user
         userNameTextView.text = currentUser.name
         userScreenNameTextView.text = "@" + currentUser.screenName
-
-        val c = Calendar.getInstance()
-        val c2 = Calendar.getInstance()
-        c2.time = currentStatus.createdAt
-
-        val diff = c.timeInMillis - c2.timeInMillis
-        val seconds = TimeUnit.MILLISECONDS.toSeconds(diff)
-        if (seconds > 60) {
-            val minutes = TimeUnit.MILLISECONDS.toMinutes(diff)
-            if (minutes > 60) {
-                val hours = TimeUnit.MILLISECONDS.toHours(diff)
-                if (hours > 24) {
-                    if (c.get(Calendar.YEAR) == c2.get(Calendar.YEAR))
-                        timeTextView.text = " • " + java.text.SimpleDateFormat("MMM dd", Locale.getDefault()).format(currentStatus.createdAt)
-                    else
-                        timeTextView.text = " • " + java.text.SimpleDateFormat("MMM dd yyyy", Locale.getDefault()).format(currentStatus.createdAt)
-                } else
-                    timeTextView.text = " • " + context.getString(R.string.mini_hours, hours.toInt())
-            } else
-                timeTextView.text = " • " + context.getString(R.string.mini_minutes, minutes.toInt())
-        } else
-            timeTextView.text = " • " + context.getString(R.string.mini_seconds, seconds.toInt())
+        timeTextView.text = formatDate(currentStatus.createdAt, context)
 
         Glide.with(context).load(currentUser.biggerProfileImageURL)
                 .dontAnimate()
@@ -84,9 +61,10 @@ open class VHItem(val container: View) : BaseViewHolder(container) {
         favouriteImageButton.setOnClickListener { /* TODO */ }
 
         retweetImageButton.setOnClickListener {
-            val builder = AlertDialog.Builder(context)
-            builder.setTitle(context.getString(R.string.retweet_title)).setPositiveButton(R.string.retweet) { dialog, which -> /* TODO */ }
-                    .setNegativeButton(R.string.cancel, null).create().show()
+            AlertDialog.Builder(context).setTitle(context.getString(R.string.retweet_title)).
+                    setPositiveButton(R.string.retweet) { dialog, which -> /* TODO */ }
+                    .setNegativeButton(R.string.cancel, null)
+                    .create().show()
         }
 
         respondImageButton.setOnClickListener { /* TODO */ }

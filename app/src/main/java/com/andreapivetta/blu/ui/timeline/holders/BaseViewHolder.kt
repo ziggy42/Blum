@@ -9,6 +9,8 @@ import android.widget.TextView
 import com.andreapivetta.blu.R
 import twitter4j.Status
 import twitter4j.Twitter
+import java.util.*
+import java.util.concurrent.TimeUnit
 
 abstract class BaseViewHolder(container: View) : RecyclerView.ViewHolder(container) {
 
@@ -40,5 +42,29 @@ abstract class BaseViewHolder(container: View) : RecyclerView.ViewHolder(contain
 
     abstract fun setup(status: Status, context: Context, favorites: MutableList<Long>,
                        retweets: MutableList<Long>, twitter: Twitter)
+
+    protected fun formatDate(date: Date, context: Context): String {
+        val c = Calendar.getInstance()
+        val c2 = Calendar.getInstance()
+        c2.time = date
+
+        val diff = c.timeInMillis - c2.timeInMillis
+        val seconds = TimeUnit.MILLISECONDS.toSeconds(diff)
+        if (seconds > 60) {
+            val minutes = TimeUnit.MILLISECONDS.toMinutes(diff)
+            if (minutes > 60) {
+                val hours = TimeUnit.MILLISECONDS.toHours(diff)
+                if (hours > 24) {
+                    if (c.get(Calendar.YEAR) == c2.get(Calendar.YEAR))
+                        return " • " + java.text.SimpleDateFormat("MMM dd", Locale.getDefault()).format(date)
+                    else
+                        return " • " + java.text.SimpleDateFormat("MMM dd yyyy", Locale.getDefault()).format(date)
+                } else
+                    return " • " + context.getString(R.string.mini_hours, hours.toInt())
+            } else
+                return " • " + context.getString(R.string.mini_minutes, minutes.toInt())
+        } else
+            return " • " + context.getString(R.string.mini_seconds, seconds.toInt())
+    }
 
 }

@@ -25,12 +25,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import twitter4j.Status
 import twitter4j.Twitter
-import java.util.*
-import java.util.concurrent.TimeUnit
 
 class VHHeader(container: View) : BaseViewHolder(container) {
 
-    private val screenNameTextView: TextView
     private val tweetPhotoImageView: ImageView
     private val tweetVideoImageView: ImageView
     private val quotedTweetViewStub: ViewStub
@@ -42,7 +39,6 @@ class VHHeader(container: View) : BaseViewHolder(container) {
 
     init {
         this.tweetPhotoImageView = container.findViewById(R.id.tweetPhotoImageView) as ImageView
-        this.screenNameTextView = container.findViewById(R.id.screenNameTextView) as TextView
         this.quotedTweetViewStub = container.findViewById(R.id.quotedViewStub) as ViewStub
         this.tweetPhotosRecyclerView = container.findViewById(R.id.tweetPhotosRecyclerView) as RecyclerView
         this.tweetVideoImageView = container.findViewById(R.id.tweetVideoImageView) as ImageView
@@ -57,29 +53,7 @@ class VHHeader(container: View) : BaseViewHolder(container) {
         val currentUser = status.user
 
         userNameTextView.text = currentUser.name
-
-        val d = status.createdAt
-        val c = Calendar.getInstance()
-        val c2 = Calendar.getInstance()
-        c2.time = d
-
-        val diff = c.timeInMillis - c2.timeInMillis
-        val seconds = TimeUnit.MILLISECONDS.toSeconds(diff)
-        if (seconds > 60) {
-            val minutes = TimeUnit.MILLISECONDS.toMinutes(diff)
-            if (minutes > 60) {
-                val hours = TimeUnit.MILLISECONDS.toHours(diff)
-                if (hours > 24) {
-                    if (c.get(Calendar.YEAR) == c2.get(Calendar.YEAR))
-                        timeTextView.text = java.text.SimpleDateFormat("MMM dd", Locale.getDefault()).format(d)
-                    else
-                        timeTextView.text = java.text.SimpleDateFormat("MMM dd yyyy", Locale.getDefault()).format(d)
-                } else
-                    timeTextView.text = context.getString(R.string.mini_hours, hours.toInt())
-            } else
-                timeTextView.text = context.getString(R.string.mini_minutes, minutes.toInt())
-        } else
-            timeTextView.text = context.getString(R.string.mini_seconds, seconds.toInt())
+        timeTextView.text = formatDate(status.createdAt, context)
 
         Glide.with(context).load(currentUser.biggerProfileImageURL).placeholder(R.drawable.placeholder).into(userProfilePicImageView)
 
@@ -165,7 +139,7 @@ class VHHeader(container: View) : BaseViewHolder(container) {
         statusTextView.text = Html.fromHtml(iHateHtml.toString())
         statusTextView.movementMethod = LinkMovementMethod.getInstance()
 
-        screenNameTextView.text = "@" + currentUser.screenName
+        userScreenNameTextView.text = "@" + currentUser.screenName
 
         var amount = status.favoriteCount.toString() + ""
         var b = StyleSpan(android.graphics.Typeface.BOLD)
