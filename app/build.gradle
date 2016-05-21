@@ -16,6 +16,12 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField 'String', 'TWITTER_CONSUMER_KEY', ConsumerKey
+            buildConfigField 'String', 'TWITTER_CONSUMER_SECRET', ConsumerSecret
+        }
+        debug {
+            buildConfigField 'String', 'TWITTER_CONSUMER_KEY', DebugConsumerKey
+            buildConfigField 'String', 'TWITTER_CONSUMER_SECRET', DebugConsumerSecret
         }
     }
     sourceSets {
@@ -23,8 +29,6 @@ android {
     }
     buildTypes.each {
         it.buildConfigField 'String', 'TWITTER_CALLBACK', CallBackUrl
-        it.buildConfigField 'String', 'TWITTER_CONSUMER_KEY', ConsumerKey
-        it.buildConfigField 'String', 'TWITTER_CONSUMER_SECRET', ConsumerSecret
     }
 }
 

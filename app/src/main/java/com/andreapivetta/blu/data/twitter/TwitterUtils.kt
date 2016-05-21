@@ -6,8 +6,6 @@ import com.andreapivetta.blu.BuildConfig
 import com.andreapivetta.blu.R
 import twitter4j.Twitter
 import twitter4j.TwitterFactory
-import twitter4j.TwitterStream
-import twitter4j.TwitterStreamFactory
 import twitter4j.auth.AccessToken
 import twitter4j.conf.ConfigurationBuilder
 
@@ -29,20 +27,11 @@ object TwitterUtils {
         return factory as TwitterFactory
     }
 
-    fun getTwitter(): Twitter {
-        return getFactory().getInstance(accessToken)
-    }
+    fun getTwitter(): Twitter = getFactory().getInstance(accessToken)
 
     fun nullTwitter() {
         factory = null
         accessToken = null
-    }
-
-    fun getTwitterStream(context: Context): TwitterStream {
-        val builder = ConfigurationBuilder()
-        builder.setOAuthConsumerKey(BuildConfig.TWITTER_CONSUMER_KEY).setOAuthConsumerSecret(BuildConfig.TWITTER_CONSUMER_SECRET)
-
-        return TwitterStreamFactory(builder.build()).getInstance(accessToken)
     }
 
     fun init(context: Context?) {
