@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp">
+
+    <ImageButton
+        android:id="@+id/favouriteImageButton"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_margin="3dp"
+        android:background="?selectableItemBackgroundBorderless"
+        android:contentDescription="@string/favourite_imageButton_contentDescriptor"
+        android:padding="2dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_favorite_grey_600_36dp" />
+
+    <TextView
+        android:id="@+id/favouritesStatsTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:fontFamily="sans-serif-thin"
+        android:textSize="12sp" />
+
+    <ImageButton
+        android:id="@+id/retweetImageButton"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginTop="3dp"
+        android:background="?selectableItemBackgroundBorderless"
+        android:contentDescription="@string/retweet_imageButton_contentDescriptor"
+        android:padding="2dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_repeat_grey600_36dp" />
+
+    <TextView
+        android:id="@+id/retweetsStatsTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:fontFamily="sans-serif-thin"
+        android:textSize="12sp" />
+
+    <ImageButton
+        android:id="@+id/respondImageButton"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:background="?selectableItemBackgroundBorderless"
+        android:contentDescription="@string/respond_imageButton_contentDescriptor"
+        android:padding="2dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_reply_grey600_36dp"
+        android:textSize="12sp" />
+
+</LinearLayout>

@@ -2,13 +2,10 @@ package com.andreapivetta.blu.ui.timeline.holders
 
 
 import android.content.Context
-import android.content.Intent
 import android.support.annotation.CallSuper
 import android.support.v7.app.AlertDialog
 import android.text.util.Linkify
 import android.view.View
-import android.widget.FrameLayout
-import android.widget.ImageButton
 import com.andreapivetta.blu.R
 import com.bumptech.glide.Glide
 import twitter4j.Status
@@ -16,15 +13,7 @@ import twitter4j.Twitter
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-open class VHItem(container: View) : BaseViewHolder(container) {
-
-    protected var cardView: FrameLayout
-    protected var openTweetImageButton: ImageButton
-
-    init {
-        this.cardView = container.findViewById(R.id.card_view) as FrameLayout
-        this.openTweetImageButton = container.findViewById(R.id.openTweetImageButton) as ImageButton
-    }
+open class VHItem(val container: View) : BaseViewHolder(container) {
 
     @CallSuper
     override fun setup(status: Status, context: Context, favorites: MutableList<Long>,
@@ -42,6 +31,7 @@ open class VHItem(container: View) : BaseViewHolder(container) {
 
         val currentUser = currentStatus.user
         userNameTextView.text = currentUser.name
+        userScreenNameTextView.text = "@" + currentUser.screenName
 
         val c = Calendar.getInstance()
         val c2 = Calendar.getInstance()
@@ -55,17 +45,19 @@ open class VHItem(container: View) : BaseViewHolder(container) {
                 val hours = TimeUnit.MILLISECONDS.toHours(diff)
                 if (hours > 24) {
                     if (c.get(Calendar.YEAR) == c2.get(Calendar.YEAR))
-                        timeTextView.text = java.text.SimpleDateFormat("MMM dd", Locale.getDefault()).format(currentStatus.createdAt)
+                        timeTextView.text = " • " + java.text.SimpleDateFormat("MMM dd", Locale.getDefault()).format(currentStatus.createdAt)
                     else
-                        timeTextView.text = java.text.SimpleDateFormat("MMM dd yyyy", Locale.getDefault()).format(currentStatus.createdAt)
+                        timeTextView.text = " • " + java.text.SimpleDateFormat("MMM dd yyyy", Locale.getDefault()).format(currentStatus.createdAt)
                 } else
-                    timeTextView.text = context.getString(R.string.mini_hours, hours.toInt())
+                    timeTextView.text = " • " + context.getString(R.string.mini_hours, hours.toInt())
             } else
-                timeTextView.text = context.getString(R.string.mini_minutes, minutes.toInt())
+                timeTextView.text = " • " + context.getString(R.string.mini_minutes, minutes.toInt())
         } else
-            timeTextView.text = context.getString(R.string.mini_seconds, seconds.toInt())
+            timeTextView.text = " • " + context.getString(R.string.mini_seconds, seconds.toInt())
 
-        Glide.with(context).load(currentUser.biggerProfileImageURL).placeholder(R.drawable.placeholder).into(userProfilePicImageView)
+        Glide.with(context).load(currentUser.biggerProfileImageURL)
+                .dontAnimate()
+                .into(userProfilePicImageView)
 
         if (currentStatus.isFavorited || favorites.contains(currentStatus.id))
             favouriteImageButton.setImageResource(R.drawable.ic_favorite_red_a700_36dp)
@@ -77,9 +69,11 @@ open class VHItem(container: View) : BaseViewHolder(container) {
         else
             retweetImageButton.setImageResource(R.drawable.ic_repeat_grey600_36dp)
 
+        favouritesStatsTextView.text = status.favoriteCount.toString()
+        retweetsStatsTextView.text = status.retweetCount.toString()
+
         val entities = status.extendedMediaEntities
         var text = currentStatus.text
-        //noinspection ForLoopReplaceableByForEach
         for (i in entities.indices)
             text = text.replace(entities[i].url, "")
         statusTextView.text = text
@@ -95,23 +89,8 @@ open class VHItem(container: View) : BaseViewHolder(container) {
                     .setNegativeButton(R.string.cancel, null).create().show()
         }
 
-        quoteImageButton.setOnClickListener { /*TODO */ }
-
         respondImageButton.setOnClickListener { /* TODO */ }
 
-        shareImageButton.setOnClickListener {
-            val sendIntent = Intent()
-            sendIntent.setAction(Intent.ACTION_SEND).putExtra(Intent.EXTRA_TEXT, "https://twitter.com/" +
-                    currentUser.screenName + "/status/" + currentStatus.id).type = "text/plain"
-            context.startActivity(Intent.createChooser(sendIntent, context.getString(R.string.share_tweet)))
-        }
-
-        interactionLinearLayout.visibility = View.GONE
-
-        statusTextView.setOnClickListener { interactionLinearLayout.visibility = if (interactionLinearLayout.visibility == View.VISIBLE) View.GONE else View.VISIBLE }
-
-        cardView.setOnClickListener { interactionLinearLayout.visibility = if (interactionLinearLayout.visibility == View.VISIBLE) View.GONE else View.VISIBLE }
-
-        openTweetImageButton.setOnClickListener { /* TODO */ }
+        container.setOnClickListener { /* TODO */ }
     }
 }

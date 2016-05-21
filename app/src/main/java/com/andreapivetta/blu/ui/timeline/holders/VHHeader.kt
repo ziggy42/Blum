@@ -3,7 +3,6 @@ package com.andreapivetta.blu.ui.timeline.holders
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -32,8 +31,6 @@ import java.util.concurrent.TimeUnit
 class VHHeader(container: View) : BaseViewHolder(container) {
 
     private val screenNameTextView: TextView
-    private val retweetsStatsTextView: TextView
-    private val favouritesStatsTextView: TextView
     private val tweetPhotoImageView: ImageView
     private val tweetVideoImageView: ImageView
     private val quotedTweetViewStub: ViewStub
@@ -46,8 +43,6 @@ class VHHeader(container: View) : BaseViewHolder(container) {
     init {
         this.tweetPhotoImageView = container.findViewById(R.id.tweetPhotoImageView) as ImageView
         this.screenNameTextView = container.findViewById(R.id.screenNameTextView) as TextView
-        this.retweetsStatsTextView = container.findViewById(R.id.retweetsStatsTextView) as TextView
-        this.favouritesStatsTextView = container.findViewById(R.id.favouritesStatsTextView) as TextView
         this.quotedTweetViewStub = container.findViewById(R.id.quotedViewStub) as ViewStub
         this.tweetPhotosRecyclerView = container.findViewById(R.id.tweetPhotosRecyclerView) as RecyclerView
         this.tweetVideoImageView = container.findViewById(R.id.tweetVideoImageView) as ImageView
@@ -108,16 +103,7 @@ class VHHeader(container: View) : BaseViewHolder(container) {
                     .setNegativeButton(R.string.cancel, null).create().show()
         }
 
-        quoteImageButton.setOnClickListener { /* TODO */ }
-
         respondImageButton.setOnClickListener { /* TODO */ }
-
-        shareImageButton.setOnClickListener {
-            val sendIntent = Intent()
-            sendIntent.setAction(Intent.ACTION_SEND).putExtra(Intent.EXTRA_TEXT, "https://twitter.com/" +
-                    currentUser.screenName + "/status/" + status.id).type = "text/plain"
-            context.startActivity(Intent.createChooser(sendIntent, context.getString(R.string.share_tweet)))
-        }
 
         var text = status.text
         val mediaEntityArray = status.extendedMediaEntities
