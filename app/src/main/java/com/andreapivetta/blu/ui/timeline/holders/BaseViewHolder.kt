@@ -13,8 +13,7 @@ import twitter4j.Status
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-abstract class BaseViewHolder(val container: View, val listener: InteractionListener,
-                              val tweetInfoProvider: TweetInfoProvider) :
+abstract class BaseViewHolder(val container: View, val listener: InteractionListener, val tweetInfoProvider: TweetInfoProvider) :
         RecyclerView.ViewHolder(container) {
 
     protected var userNameTextView: TextView

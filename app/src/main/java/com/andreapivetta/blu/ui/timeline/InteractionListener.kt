@@ -18,7 +18,7 @@ interface InteractionListener {
 
     fun replay(status: Status)
 
-    fun showTweet(status: Status)
+    fun openTweet(status: Status)
 
     fun showUser(user: User)
 

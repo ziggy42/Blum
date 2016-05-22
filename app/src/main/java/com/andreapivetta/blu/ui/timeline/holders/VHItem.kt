@@ -73,12 +73,12 @@ open class VHItem(container: View, listener: InteractionListener, tweetInfoProvi
                 retweetImageButton.setImageResource(R.drawable.ic_repeat_grey600_36dp)
             } else {
                 listener.retweet(currentStatus)
-                favouriteImageButton.setImageResource(R.drawable.ic_repeat_green_a700_36dp)
+                retweetImageButton.setImageResource(R.drawable.ic_repeat_green_a700_36dp)
             }
         }
 
         respondImageButton.setOnClickListener { listener.replay(currentStatus) }
 
-        container.setOnClickListener { listener.showTweet(currentStatus) }
+        container.setOnClickListener { listener.openTweet(currentStatus) }
     }
 }

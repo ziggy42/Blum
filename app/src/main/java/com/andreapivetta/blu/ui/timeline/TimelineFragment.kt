@@ -16,6 +16,7 @@ import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.Common
 import com.andreapivetta.blu.data.twitter.TwitterUtils
 import com.andreapivetta.blu.ui.base.decorators.SpaceTopItemDecoration
+import timber.log.Timber
 import twitter4j.Status
 import twitter4j.User
 import java.io.Serializable
@@ -143,26 +144,30 @@ class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
     // InteractionListener
 
     override fun favorite(status: Status) {
-        throw UnsupportedOperationException()
+        Timber.d(status.text)
     }
 
     override fun retweet(status: Status) {
-        throw UnsupportedOperationException()
+        Timber.d(status.text)
     }
 
     override fun unfavorite(status: Status) {
-        throw UnsupportedOperationException()
+        Timber.d(status.text)
     }
 
     override fun unretweet(status: Status) {
-        throw UnsupportedOperationException()
+        Timber.d(status.text)
     }
 
     override fun replay(status: Status) {
-        throw UnsupportedOperationException()
+        Timber.d(status.text)
+    }
+
+    override fun openTweet(status: Status) {
+        Timber.d(status.text)
     }
 
     override fun showUser(user: User) {
-        throw UnsupportedOperationException()
+        Timber.d(user.name)
     }
 }
