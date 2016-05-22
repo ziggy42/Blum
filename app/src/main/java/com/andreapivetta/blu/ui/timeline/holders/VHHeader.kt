@@ -2,8 +2,6 @@ package com.andreapivetta.blu.ui.timeline.holders
 
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.Html
@@ -21,12 +19,14 @@ import android.widget.TextView
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.ui.base.decorators.SpaceLeftItemDecoration
 import com.andreapivetta.blu.ui.timeline.ImagesAdapter
+import com.andreapivetta.blu.ui.timeline.InteractionListener
+import com.andreapivetta.blu.ui.timeline.TweetInfoProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import twitter4j.Status
-import twitter4j.Twitter
 
-class VHHeader(container: View) : BaseViewHolder(container) {
+class VHHeader(container: View, listener: InteractionListener, tweetInfoProvider: TweetInfoProvider) :
+        BaseViewHolder(container, listener, tweetInfoProvider) {
 
     private val tweetPhotoImageView: ImageView
     private val tweetVideoImageView: ImageView
@@ -47,34 +47,46 @@ class VHHeader(container: View) : BaseViewHolder(container) {
     }
 
     @SuppressLint("NewApi")
-    override fun setup(status: Status, context: Context, favorites: MutableList<Long>,
-                       retweets: MutableList<Long>, twitter: Twitter) {
+    override fun setup(status: Status) {
 
         val currentUser = status.user
 
         userNameTextView.text = currentUser.name
-        timeTextView.text = formatDate(status.createdAt, context)
+        timeTextView.text = formatDate(status.createdAt, container.context)
 
-        Glide.with(context).load(currentUser.biggerProfileImageURL).placeholder(R.drawable.placeholder).into(userProfilePicImageView)
+        Glide.with(container.context).load(currentUser.biggerProfileImageURL)
+                .placeholder(R.drawable.placeholder).into(userProfilePicImageView)
 
-        if (status.isFavorited || favorites.contains(status.id))
+        if (status.isFavorited || tweetInfoProvider.isFavorite(status))
             favouriteImageButton.setImageResource(R.drawable.ic_favorite_red_a700_36dp)
         else
             favouriteImageButton.setImageResource(R.drawable.ic_favorite_grey_600_36dp)
 
-        if (status.isRetweeted || retweets.contains(status.id))
+        if (status.isRetweeted || tweetInfoProvider.isRetweet(status))
             retweetImageButton.setImageResource(R.drawable.ic_repeat_green_a700_36dp)
         else
             retweetImageButton.setImageResource(R.drawable.ic_repeat_grey600_36dp)
 
         userProfilePicImageView.setOnClickListener { /* TODO */ }
 
-        favouriteImageButton.setOnClickListener { /* TODO */ }
+        favouriteImageButton.setOnClickListener {
+            if (status.isFavorited || tweetInfoProvider.isFavorite(status)) {
+                listener.unfavorite(status)
+                favouriteImageButton.setImageResource(R.drawable.ic_favorite_grey_600_36dp)
+            } else {
+                listener.favorite(status)
+                favouriteImageButton.setImageResource(R.drawable.ic_favorite_red_a700_36dp)
+            }
+        }
 
         retweetImageButton.setOnClickListener {
-            val builder = AlertDialog.Builder(context)
-            builder.setTitle(context.getString(R.string.retweet_title)).setPositiveButton(R.string.retweet) { dialog, which -> /* TODO */ }
-                    .setNegativeButton(R.string.cancel, null).create().show()
+            if (status.isRetweeted || tweetInfoProvider.isRetweet(status)) {
+                listener.unretweet(status)
+                retweetImageButton.setImageResource(R.drawable.ic_repeat_grey600_36dp)
+            } else {
+                listener.retweet(status)
+                favouriteImageButton.setImageResource(R.drawable.ic_repeat_green_a700_36dp)
+            }
         }
 
         respondImageButton.setOnClickListener { /* TODO */ }
@@ -144,14 +156,14 @@ class VHHeader(container: View) : BaseViewHolder(container) {
         var amount = status.favoriteCount.toString() + ""
         var b = StyleSpan(android.graphics.Typeface.BOLD)
 
-        var sb = SpannableStringBuilder(context.getString(R.string.likes, amount))
+        var sb = SpannableStringBuilder(container.context.getString(R.string.likes, amount))
         sb.setSpan(b, 0, amount.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         favouritesStatsTextView.text = sb
 
         amount = status.retweetCount.toString() + ""
         b = StyleSpan(android.graphics.Typeface.BOLD)
 
-        sb = SpannableStringBuilder(context.getString(R.string.retweets, amount))
+        sb = SpannableStringBuilder(container.context.getString(R.string.retweets, amount))
         sb.setSpan(b, 0, amount.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         retweetsStatsTextView.text = sb
 
@@ -159,21 +171,22 @@ class VHHeader(container: View) : BaseViewHolder(container) {
             val mediaEntity = mediaEntityArray[0]
             if (mediaEntity.type == "photo") {
                 tweetPhotoImageView.visibility = View.VISIBLE
-                Glide.with(context).load(mediaEntity.mediaURL).asBitmap().dontTransform()
-                        .diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.drawable.placeholder).into(tweetPhotoImageView)
+                Glide.with(container.context).load(mediaEntity.mediaURL).asBitmap().dontTransform()
+                        .diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.drawable.placeholder)
+                        .into(tweetPhotoImageView)
 
                 tweetPhotoImageView.setOnClickListener { /* TODO */ }
             } else {
                 videoCover.visibility = View.VISIBLE
-                Glide.with(context).load(mediaEntity.mediaURL).placeholder(R.drawable.placeholder).centerCrop().into(tweetVideoImageView)
+                Glide.with(container.context).load(mediaEntity.mediaURL).placeholder(R.drawable.placeholder).centerCrop().into(tweetVideoImageView)
 
                 playVideoImageButton.setOnClickListener { /* TODO */ }
             }
         } else if (mediaEntityArray.size > 1) {
             tweetPhotosRecyclerView.visibility = View.VISIBLE
             tweetPhotosRecyclerView.addItemDecoration(SpaceLeftItemDecoration(5))
-            tweetPhotosRecyclerView.adapter = ImagesAdapter(status.extendedMediaEntities, context)
-            tweetPhotosRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            tweetPhotosRecyclerView.adapter = ImagesAdapter(status.extendedMediaEntities, container.context)
+            tweetPhotosRecyclerView.layoutManager = LinearLayoutManager(container.context, LinearLayoutManager.HORIZONTAL, false)
         }
 
         if (status.quotedStatusId > 0) {
@@ -187,7 +200,7 @@ class VHHeader(container: View) : BaseViewHolder(container) {
 
             if (quotedStatus.mediaEntities.size > 0) {
                 photoImageView.visibility = View.VISIBLE
-                Glide.with(context).load(quotedStatus.mediaEntities[0].mediaURL).placeholder(R.drawable.placeholder).into(photoImageView)
+                Glide.with(container.context).load(quotedStatus.mediaEntities[0].mediaURL).placeholder(R.drawable.placeholder).into(photoImageView)
 
                 (tweetView!!.findViewById(R.id.quotedStatusTextView) as TextView).text = quotedStatus.text.replace(quotedStatus.mediaEntities[0].url, "")
             } else {

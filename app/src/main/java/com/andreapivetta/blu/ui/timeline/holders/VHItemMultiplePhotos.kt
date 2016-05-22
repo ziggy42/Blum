@@ -1,17 +1,18 @@
 package com.andreapivetta.blu.ui.timeline.holders
 
 
-import android.content.Context
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.ui.base.decorators.SpaceLeftItemDecoration
 import com.andreapivetta.blu.ui.timeline.ImagesAdapter
+import com.andreapivetta.blu.ui.timeline.InteractionListener
+import com.andreapivetta.blu.ui.timeline.TweetInfoProvider
 import twitter4j.Status
-import twitter4j.Twitter
 
-class VHItemMultiplePhotos(container: View) : VHItem(container) {
+class VHItemMultiplePhotos(container: View, listener: InteractionListener, tweetInfoProvider: TweetInfoProvider) :
+        VHItem(container, listener, tweetInfoProvider) {
 
     private val tweetPhotosRecyclerView: RecyclerView
 
@@ -22,9 +23,8 @@ class VHItemMultiplePhotos(container: View) : VHItem(container) {
         this.tweetPhotosRecyclerView.setHasFixedSize(true)
     }
 
-    override fun setup(status: Status, context: Context, favorites: MutableList<Long>,
-                       retweets: MutableList<Long>, twitter: Twitter) {
-        super.setup(status, context, favorites, retweets, twitter)
-        tweetPhotosRecyclerView.adapter = ImagesAdapter(status.extendedMediaEntities, context)
+    override fun setup(status: Status) {
+        super.setup(status)
+        tweetPhotosRecyclerView.adapter = ImagesAdapter(status.extendedMediaEntities, container.context)
     }
 }

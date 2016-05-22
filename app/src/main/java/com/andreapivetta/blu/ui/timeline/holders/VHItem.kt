@@ -1,27 +1,26 @@
 package com.andreapivetta.blu.ui.timeline.holders
 
 
-import android.content.Context
 import android.support.annotation.CallSuper
-import android.support.v7.app.AlertDialog
 import android.text.util.Linkify
 import android.view.View
 import com.andreapivetta.blu.R
+import com.andreapivetta.blu.ui.timeline.InteractionListener
+import com.andreapivetta.blu.ui.timeline.TweetInfoProvider
 import com.bumptech.glide.Glide
 import twitter4j.Status
-import twitter4j.Twitter
 
-open class VHItem(val container: View) : BaseViewHolder(container) {
+open class VHItem(container: View, listener: InteractionListener, tweetInfoProvider: TweetInfoProvider) :
+        BaseViewHolder(container, listener, tweetInfoProvider) {
 
     @CallSuper
-    override fun setup(status: Status, context: Context, favorites: MutableList<Long>,
-                       retweets: MutableList<Long>, twitter: Twitter) {
+    override fun setup(status: Status) {
         val currentStatus: Status
 
         if (status.isRetweet) {
             currentStatus = status.retweetedStatus
             retweetTextView.visibility = View.VISIBLE
-            retweetTextView.text = context.getString(R.string.retweeted_by, status.user.screenName)
+            retweetTextView.text = container.context.getString(R.string.retweeted_by, status.user.screenName)
         } else {
             currentStatus = status
             retweetTextView.visibility = View.GONE
@@ -30,18 +29,18 @@ open class VHItem(val container: View) : BaseViewHolder(container) {
         val currentUser = currentStatus.user
         userNameTextView.text = currentUser.name
         userScreenNameTextView.text = "@" + currentUser.screenName
-        timeTextView.text = formatDate(currentStatus.createdAt, context)
+        timeTextView.text = formatDate(currentStatus.createdAt, container.context)
 
-        Glide.with(context).load(currentUser.biggerProfileImageURL)
+        Glide.with(container.context).load(currentUser.biggerProfileImageURL)
                 .dontAnimate()
                 .into(userProfilePicImageView)
 
-        if (currentStatus.isFavorited || favorites.contains(currentStatus.id))
+        if (currentStatus.isFavorited || tweetInfoProvider.isFavorite(currentStatus))
             favouriteImageButton.setImageResource(R.drawable.ic_favorite_red_a700_36dp)
         else
             favouriteImageButton.setImageResource(R.drawable.ic_favorite_grey_600_36dp)
 
-        if (currentStatus.isRetweeted || retweets.contains(currentStatus.id))
+        if (currentStatus.isRetweeted || tweetInfoProvider.isRetweet(currentStatus))
             retweetImageButton.setImageResource(R.drawable.ic_repeat_green_a700_36dp)
         else
             retweetImageButton.setImageResource(R.drawable.ic_repeat_grey600_36dp)
@@ -56,19 +55,30 @@ open class VHItem(val container: View) : BaseViewHolder(container) {
         statusTextView.text = text
         Linkify.addLinks(statusTextView, Linkify.ALL)
 
-        userProfilePicImageView.setOnClickListener { /* TODO */ }
+        userProfilePicImageView.setOnClickListener { listener.showUser(currentUser) }
 
-        favouriteImageButton.setOnClickListener { /* TODO */ }
-
-        retweetImageButton.setOnClickListener {
-            AlertDialog.Builder(context).setTitle(context.getString(R.string.retweet_title)).
-                    setPositiveButton(R.string.retweet) { dialog, which -> /* TODO */ }
-                    .setNegativeButton(R.string.cancel, null)
-                    .create().show()
+        favouriteImageButton.setOnClickListener {
+            if (currentStatus.isFavorited || tweetInfoProvider.isFavorite(currentStatus)) {
+                listener.unfavorite(currentStatus)
+                favouriteImageButton.setImageResource(R.drawable.ic_favorite_grey_600_36dp)
+            } else {
+                listener.favorite(currentStatus)
+                favouriteImageButton.setImageResource(R.drawable.ic_favorite_red_a700_36dp)
+            }
         }
 
-        respondImageButton.setOnClickListener { /* TODO */ }
+        retweetImageButton.setOnClickListener {
+            if (currentStatus.isRetweeted || tweetInfoProvider.isRetweet(currentStatus)) {
+                listener.unretweet(currentStatus)
+                retweetImageButton.setImageResource(R.drawable.ic_repeat_grey600_36dp)
+            } else {
+                listener.retweet(currentStatus)
+                favouriteImageButton.setImageResource(R.drawable.ic_repeat_green_a700_36dp)
+            }
+        }
 
-        container.setOnClickListener { /* TODO */ }
+        respondImageButton.setOnClickListener { listener.replay(currentStatus) }
+
+        container.setOnClickListener { listener.showTweet(currentStatus) }
     }
 }

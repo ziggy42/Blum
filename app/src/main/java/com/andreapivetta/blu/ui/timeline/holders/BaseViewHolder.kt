@@ -7,12 +7,15 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import com.andreapivetta.blu.R
+import com.andreapivetta.blu.ui.timeline.InteractionListener
+import com.andreapivetta.blu.ui.timeline.TweetInfoProvider
 import twitter4j.Status
-import twitter4j.Twitter
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-abstract class BaseViewHolder(container: View) : RecyclerView.ViewHolder(container) {
+abstract class BaseViewHolder(val container: View, val listener: InteractionListener,
+                              val tweetInfoProvider: TweetInfoProvider) :
+        RecyclerView.ViewHolder(container) {
 
     protected var userNameTextView: TextView
     protected var userScreenNameTextView: TextView
@@ -40,8 +43,7 @@ abstract class BaseViewHolder(container: View) : RecyclerView.ViewHolder(contain
         this.respondImageButton = container.findViewById(R.id.respondImageButton) as ImageButton
     }
 
-    abstract fun setup(status: Status, context: Context, favorites: MutableList<Long>,
-                       retweets: MutableList<Long>, twitter: Twitter)
+    abstract fun setup(status: Status)
 
     protected fun formatDate(date: Date, context: Context): String {
         val c = Calendar.getInstance()

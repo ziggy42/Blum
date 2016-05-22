@@ -14,8 +14,9 @@ import java.util.*
 /**
  * Created by andrea on 17/05/16.
  */
-class TimelineAdapter(var context: Context, var twitter: Twitter, var headerPosition: Int) :
-        RecyclerView.Adapter<BaseViewHolder>() {
+class TimelineAdapter(val context: Context, val twitter: Twitter, val headerPosition: Int,
+                      val listener: InteractionListener) :
+        RecyclerView.Adapter<BaseViewHolder>(), TweetInfoProvider {
 
     companion object {
         private val TYPE_HEADER = 0
@@ -33,32 +34,32 @@ class TimelineAdapter(var context: Context, var twitter: Twitter, var headerPosi
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): BaseViewHolder? {
         when (viewType) {
             TYPE_ITEM ->
-                return VHItem(LayoutInflater.from(parent?.context).inflate(R.layout.tweet_basic, parent, false))
+                return VHItem(LayoutInflater.from(parent?.context).inflate(R.layout.tweet_basic, parent, false), listener, this)
             TYPE_ITEM_PHOTO ->
                 return VHItemPhoto(
-                        LayoutInflater.from(parent?.context).inflate(R.layout.tweet_photo, parent, false))
+                        LayoutInflater.from(parent?.context).inflate(R.layout.tweet_photo, parent, false), listener, this)
             TYPE_ITEM_QUOTE ->
                 VHItemQuote(
-                        LayoutInflater.from(parent?.context).inflate(R.layout.tweet_quote, parent, false))
+                        LayoutInflater.from(parent?.context).inflate(R.layout.tweet_quote, parent, false), listener, this)
             TYPE_ITEM_MULTIPLE_PHOTOS ->
                 return VHItemMultiplePhotos(
-                        LayoutInflater.from(parent?.context).inflate(R.layout.tweet_multiplephotos, parent, false))
+                        LayoutInflater.from(parent?.context).inflate(R.layout.tweet_multiplephotos, parent, false), listener, this)
             TYPE_ITEM_VIDEO ->
                 return VHItemVideo(
-                        LayoutInflater.from(parent?.context).inflate(R.layout.tweet_video, parent, false))
+                        LayoutInflater.from(parent?.context).inflate(R.layout.tweet_video, parent, false), listener, this)
             TYPE_HEADER ->
                 return VHHeader(
-                        LayoutInflater.from(parent?.context).inflate(R.layout.tweet_expanded, parent, false))
+                        LayoutInflater.from(parent?.context).inflate(R.layout.tweet_expanded, parent, false), listener, this)
             else ->
                 throw UnsupportedOperationException("No Type found")
         }
 
         // TODO ??
-        return VHItem(LayoutInflater.from(parent?.context).inflate(R.layout.tweet_basic, parent, false))
+        return VHItem(LayoutInflater.from(parent?.context).inflate(R.layout.tweet_basic, parent, false), listener, this)
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder?, position: Int) {
-        holder?.setup(mDataSet[position], context, favorites, retweets, twitter)
+        holder?.setup(mDataSet[position])
     }
 
     override fun getItemCount(): Int = mDataSet.size
@@ -88,8 +89,24 @@ class TimelineAdapter(var context: Context, var twitter: Twitter, var headerPosi
         return position == headerPosition
     }
 
-    private fun add(status: Status) {
-        mDataSet.add(status)
-        notifyItemInserted(mDataSet.size - 1)
+    fun setFavorite(statusId: Long) {
+        favorites.add(statusId)
     }
+
+    fun setRetweet(statusId: Long) {
+        retweets.add(statusId)
+    }
+
+    fun removeFavorite(statusId: Long) {
+        favorites.remove(statusId)
+    }
+
+    fun removeRetweet(statusId: Long) {
+        retweets.remove(statusId)
+    }
+
+    // TweetInfoProvider
+    override fun isFavorite(status: Status) = favorites.contains(status.id)
+
+    override fun isRetweet(status: Status) = retweets.contains(status.id)
 }

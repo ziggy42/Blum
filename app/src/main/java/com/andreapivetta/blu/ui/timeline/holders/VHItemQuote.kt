@@ -1,20 +1,17 @@
 package com.andreapivetta.blu.ui.timeline.holders
 
-import android.content.Context
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-
 import com.andreapivetta.blu.R
+import com.andreapivetta.blu.ui.timeline.InteractionListener
+import com.andreapivetta.blu.ui.timeline.TweetInfoProvider
 import com.bumptech.glide.Glide
-
-import java.util.ArrayList
-
 import twitter4j.Status
-import twitter4j.Twitter
 
-class VHItemQuote(container: View) : VHItem(container) {
+class VHItemQuote(container: View, listener: InteractionListener, tweetInfoProvider: TweetInfoProvider) :
+        VHItem(container, listener, tweetInfoProvider) {
 
     private val quotedUserNameTextView: TextView
     private val quotedStatusTextView: TextView
@@ -28,9 +25,8 @@ class VHItemQuote(container: View) : VHItem(container) {
         this.quotedStatusLinearLayout = container.findViewById(R.id.quotedStatus) as LinearLayout
     }
 
-    override fun setup(status: Status, context: Context, favorites: MutableList<Long>,
-                       retweets: MutableList<Long>, twitter: Twitter) {
-        super.setup(status, context, favorites, retweets, twitter)
+    override fun setup(status: Status) {
+        super.setup(status)
 
         val quotedStatus = status.quotedStatus
         if (quotedStatus != null) {
@@ -38,7 +34,7 @@ class VHItemQuote(container: View) : VHItem(container) {
 
             if (quotedStatus.mediaEntities.size > 0) {
                 photoImageView.visibility = View.VISIBLE
-                Glide.with(context).load(quotedStatus.mediaEntities[0].mediaURL).placeholder(R.drawable.placeholder).into(photoImageView)
+                Glide.with(container.context).load(quotedStatus.mediaEntities[0].mediaURL).placeholder(R.drawable.placeholder).into(photoImageView)
 
                 quotedStatusTextView.text = quotedStatus.text.replace(quotedStatus.mediaEntities[0].url, "")
             } else {

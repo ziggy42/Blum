@@ -17,12 +17,13 @@ import com.andreapivetta.blu.common.Common
 import com.andreapivetta.blu.data.twitter.TwitterUtils
 import com.andreapivetta.blu.ui.base.decorators.SpaceTopItemDecoration
 import twitter4j.Status
+import twitter4j.User
 import java.io.Serializable
 
 /**
  * Created by andrea on 17/05/16.
  */
-class TimelineFragment : Fragment(), TimelineMvpView {
+class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
 
     companion object {
         fun newInstance(): TimelineFragment {
@@ -44,7 +45,7 @@ class TimelineFragment : Fragment(), TimelineMvpView {
         super.onCreate(savedInstanceState)
         presenter.attachView(this)
 
-        adapter = TimelineAdapter(activity, TwitterUtils.getTwitter(), -1)
+        adapter = TimelineAdapter(activity, TwitterUtils.getTwitter(), -1, this)
         if (savedInstanceState != null) {
             adapter.mDataSet = savedInstanceState.getSerializable(TAG_TWEET_LIST) as MutableList<Status>
             presenter.page = savedInstanceState.getInt(TAG_PAGE)
@@ -93,6 +94,8 @@ class TimelineFragment : Fragment(), TimelineMvpView {
         return typedValue.data
     }
 
+    // TimelineMvpView
+
     override fun showTweets(tweets: MutableList<Status>) {
         adapter.mDataSet = tweets
         adapter.notifyDataSetChanged()
@@ -137,4 +140,29 @@ class TimelineFragment : Fragment(), TimelineMvpView {
         loadingProgressBar.visibility = View.GONE
     }
 
+    // InteractionListener
+
+    override fun favorite(status: Status) {
+        throw UnsupportedOperationException()
+    }
+
+    override fun retweet(status: Status) {
+        throw UnsupportedOperationException()
+    }
+
+    override fun unfavorite(status: Status) {
+        throw UnsupportedOperationException()
+    }
+
+    override fun unretweet(status: Status) {
+        throw UnsupportedOperationException()
+    }
+
+    override fun replay(status: Status) {
+        throw UnsupportedOperationException()
+    }
+
+    override fun showUser(user: User) {
+        throw UnsupportedOperationException()
+    }
 }
