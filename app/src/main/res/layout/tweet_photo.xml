@@ -24,6 +24,7 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginTop="10dp"
+            android:duplicateParentState="true"
             android:textSize="16sp" />
 
         <ImageView
@@ -32,6 +33,7 @@
             android:layout_height="@dimen/picHeight"
             android:adjustViewBounds="true"
             android:contentDescription="@string/tweet_photo_contentDescriptor"
+            android:duplicateParentState="true"
             android:scaleType="fitCenter"
             android:transitionName="@string/image_transition" />
 

@@ -37,6 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:ellipsize="end"
-        android:fontFamily="sans-serif-thin" />
+        android:fontFamily="sans-serif-thin"
+        android:maxLines="1" />
 
 </LinearLayout>
