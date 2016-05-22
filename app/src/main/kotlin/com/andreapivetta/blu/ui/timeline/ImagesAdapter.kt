@@ -9,7 +9,6 @@ import android.widget.ImageView
 import com.andreapivetta.blu.R
 import com.bumptech.glide.Glide
 import twitter4j.ExtendedMediaEntity
-import twitter4j.MediaEntity
 
 
 class ImagesAdapter(private val mediaEntities: Array<ExtendedMediaEntity>, private val context: Context) : RecyclerView.Adapter<ImagesAdapter.VHItem>() {
