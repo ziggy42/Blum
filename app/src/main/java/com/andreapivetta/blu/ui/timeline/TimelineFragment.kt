@@ -5,6 +5,7 @@ import android.support.annotation.ColorRes
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.TypedValue
@@ -12,6 +13,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
+import android.widget.Toast
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.Common
 import com.andreapivetta.blu.data.twitter.TwitterUtils
@@ -141,22 +143,47 @@ class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
         loadingProgressBar.visibility = View.GONE
     }
 
+    override fun favoriteAdded(status: Status) {
+        adapter.setFavorite(status.id)
+        adapter.notifyDataSetChanged()
+    }
+
+    override fun favoriteRemoved(status: Status) {
+        adapter.removeFavorite(status.id)
+        adapter.notifyDataSetChanged()
+    }
+
+    override fun retweetAdded(status: Status) {
+        adapter.setRetweet(status.retweetedStatus.id)
+        adapter.notifyDataSetChanged()
+    }
+
+    override fun retweetRemoved(status: Status) {
+        adapter.removeRetweet(status.id)
+        adapter.notifyItemRangeChanged(0, adapter.mDataSet.size - 1)
+    }
+
     // InteractionListener
 
     override fun favorite(status: Status) {
-        Timber.d(status.text)
+        presenter.favorite(status)
     }
 
     override fun retweet(status: Status) {
-        Timber.d(status.text)
+        AlertDialog.Builder(context)
+                .setTitle(context.getString(R.string.retweet_title))
+                .setPositiveButton(context.getString(R.string.retweet),
+                        { dialogInterface, i -> presenter.retweet(status) })
+                .setNegativeButton(R.string.cancel, null)
+                .create().show()
     }
 
     override fun unfavorite(status: Status) {
-        Timber.d(status.text)
+        presenter.unfavorite(status)
     }
 
     override fun unretweet(status: Status) {
-        Timber.d(status.text)
+        Toast.makeText(context, "Not yet implemented", Toast.LENGTH_SHORT).show()
     }
 
     override fun replay(status: Status) {

@@ -78,9 +78,7 @@ class TimelineAdapter(val context: Context, val twitter: Twitter, val headerPosi
         return TYPE_ITEM
     }
 
-    private fun isPositionHeader(position: Int): Boolean {
-        return position == headerPosition
-    }
+    private fun isPositionHeader(position: Int): Boolean = position == headerPosition
 
     fun setFavorite(statusId: Long) {
         favorites.add(statusId)

@@ -28,4 +28,12 @@ interface TimelineMvpView : MvpView {
 
     fun hideLoading()
 
+    fun favoriteAdded(status: Status)
+
+    fun favoriteRemoved(status: Status)
+
+    fun retweetAdded(status: Status)
+
+    fun retweetRemoved(status: Status)
+
 }

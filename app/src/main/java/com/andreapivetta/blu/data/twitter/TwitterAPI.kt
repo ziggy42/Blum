@@ -118,26 +118,5 @@ object TwitterAPI {
                     throw UnsupportedOperationException()
                 }
             })
-
-    fun unretweet(status: Status): Single<Status> =
-            Single.from(object : Future<Status> {
-                override fun isDone(): Boolean {
-                    throw UnsupportedOperationException()
-                }
-
-                override fun get(): Status? =
-                        TwitterUtils.getTwitter().destroyStatus(status.currentUserRetweetId)
-
-                override fun get(timeout: Long, unit: TimeUnit?): Status? {
-                    throw UnsupportedOperationException()
-                }
-
-                override fun isCancelled(): Boolean {
-                    throw UnsupportedOperationException()
-                }
-
-                override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
-                    throw UnsupportedOperationException()
-                }
-            })
 }
+

@@ -58,27 +58,20 @@ open class VHItem(container: View, listener: InteractionListener, tweetInfoProvi
         userProfilePicImageView.setOnClickListener { listener.showUser(currentUser) }
 
         favouriteImageButton.setOnClickListener {
-            if (currentStatus.isFavorited || tweetInfoProvider.isFavorite(currentStatus)) {
+            if (currentStatus.isFavorited || tweetInfoProvider.isFavorite(currentStatus))
                 listener.unfavorite(currentStatus)
-                favouriteImageButton.setImageResource(R.drawable.ic_favorite_grey_600_36dp)
-            } else {
+            else
                 listener.favorite(currentStatus)
-                favouriteImageButton.setImageResource(R.drawable.ic_favorite_red_a700_36dp)
-            }
         }
 
         retweetImageButton.setOnClickListener {
-            if (currentStatus.isRetweeted || tweetInfoProvider.isRetweet(currentStatus)) {
+            if (currentStatus.isRetweeted || tweetInfoProvider.isRetweet(currentStatus))
                 listener.unretweet(currentStatus)
-                retweetImageButton.setImageResource(R.drawable.ic_repeat_grey600_36dp)
-            } else {
+            else
                 listener.retweet(currentStatus)
-                retweetImageButton.setImageResource(R.drawable.ic_repeat_green_a700_36dp)
-            }
         }
 
         respondImageButton.setOnClickListener { listener.replay(currentStatus) }
-
         container.setOnClickListener { listener.openTweet(currentStatus) }
     }
 }

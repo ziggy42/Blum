@@ -19,13 +19,19 @@ class TimelinePresenter : BasePresenter<TimelineMvpView>() {
     private var isLoading: Boolean = false
     private var mSubscriber: Subscription? = null
     private var mRefreshSubscriber: Subscription? = null
+    private var mFavoriteSubscriber: Subscription? = null
+    private var mRetweetSubscriber: Subscription? = null
+    private var mUnfavoriteSubscriber: Subscription? = null
+    private var mUnretweetSubscriber: Subscription? = null
 
     override fun detachView() {
         super.detachView()
-        if (mSubscriber != null)
-            mSubscriber?.unsubscribe()
-        if (mRefreshSubscriber != null)
-            mRefreshSubscriber?.unsubscribe()
+        mSubscriber?.unsubscribe()
+        mRefreshSubscriber?.unsubscribe()
+        mFavoriteSubscriber?.unsubscribe()
+        mRefreshSubscriber?.unsubscribe()
+        mUnfavoriteSubscriber?.unsubscribe()
+        mUnretweetSubscriber?.unsubscribe()
     }
 
     fun getTweets() {
@@ -101,6 +107,57 @@ class TimelinePresenter : BasePresenter<TimelineMvpView>() {
                     override fun onError(error: Throwable?) {
                         Timber.e(error?.message)
                         mvpView?.stopRefresh()
+                    }
+                })
+    }
+
+    fun favorite(status: Status) {
+        checkViewAttached()
+
+        mFavoriteSubscriber = TwitterAPI.favorite(status)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(object : SingleSubscriber<Status>() {
+                    override fun onError(error: Throwable?) {
+                        Timber.e(error?.message)
+                    }
+
+                    override fun onSuccess(value: Status?) {
+                        mvpView?.favoriteAdded(value!!)
+                    }
+                })
+    }
+
+    fun retweet(status: Status) {
+        checkViewAttached()
+
+        mRetweetSubscriber = TwitterAPI.retweet(status)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(object : SingleSubscriber<Status>() {
+                    override fun onError(error: Throwable?) {
+                        Timber.e(error?.message)
+                    }
+
+                    override fun onSuccess(value: Status?) {
+                        mvpView?.retweetAdded(value!!)
+                    }
+                })
+    }
+
+    fun unfavorite(status: Status) {
+        checkViewAttached()
+
+        mUnfavoriteSubscriber = TwitterAPI.unfavorite(status)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(object : SingleSubscriber<Status>() {
+                    override fun onError(error: Throwable?) {
+                        Timber.e(error?.message)
+                    }
+
+                    override fun onSuccess(value: Status?) {
+                        mvpView?.favoriteRemoved(value!!)
                     }
                 })
     }
