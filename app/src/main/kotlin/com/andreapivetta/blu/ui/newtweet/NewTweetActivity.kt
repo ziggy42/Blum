@@ -28,8 +28,24 @@ class NewTweetActivity : AppCompatActivity(), NewTweetMvpView {
     }
 
     companion object {
+        private val TAG_USER_PREFIX = "userPref"
+        private val TAG_REPLY_ID = "replyId"
+
         fun launch(context: Context) {
             context.startActivity(Intent(context, NewTweetActivity::class.java))
+        }
+
+        fun launch(context: Context, userPref: String) {
+            val intent = Intent(context, NewTweetActivity::class.java)
+            intent.putExtra(TAG_USER_PREFIX, userPref)
+            context.startActivity(intent)
+        }
+
+        fun launch(context: Context, userPref: String, replyId: Long) {
+            val intent = Intent(context, NewTweetActivity::class.java)
+            intent.putExtra(TAG_USER_PREFIX, userPref)
+                    .putExtra(TAG_REPLY_ID, replyId)
+            context.startActivity(intent)
         }
     }
 
@@ -53,6 +69,12 @@ class NewTweetActivity : AppCompatActivity(), NewTweetMvpView {
                 presenter.onTextChanged(s, start, before, count)
             }
         })
+
+        if (intent.hasExtra(TAG_USER_PREFIX)) {
+            newTweetEditText.setText(intent.getStringExtra(TAG_USER_PREFIX) + " ")
+            newTweetEditText.setSelection(newTweetEditText.text.length)
+            presenter.afterTextChanged(newTweetEditText.text.toString())
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -74,7 +96,10 @@ class NewTweetActivity : AppCompatActivity(), NewTweetMvpView {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (item?.itemId == R.id.action_send)
-            presenter.sendTweet()
+            if (intent.hasExtra(TAG_REPLY_ID))
+                presenter.reply(intent.getLongExtra(TAG_REPLY_ID, -1))
+            else
+                presenter.sendTweet()
         return true
     }
 

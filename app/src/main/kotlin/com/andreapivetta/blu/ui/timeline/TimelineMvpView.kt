@@ -2,6 +2,7 @@ package com.andreapivetta.blu.ui.timeline
 
 import com.andreapivetta.blu.arch.MvpView
 import twitter4j.Status
+import twitter4j.User
 
 /**
  * Created by andrea on 17/05/16.
@@ -27,6 +28,8 @@ interface TimelineMvpView : MvpView {
     fun showLoading()
 
     fun hideLoading()
+
+    fun showNewTweet(status: Status, user: User)
 
     fun favoriteAdded(status: Status)
 

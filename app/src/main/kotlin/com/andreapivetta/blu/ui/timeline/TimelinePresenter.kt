@@ -9,6 +9,7 @@ import rx.schedulers.Schedulers
 import timber.log.Timber
 import twitter4j.Paging
 import twitter4j.Status
+import twitter4j.User
 
 /**
  * Created by andrea on 17/05/16.
@@ -160,6 +161,10 @@ class TimelinePresenter : BasePresenter<TimelineMvpView>() {
                         mvpView?.favoriteRemoved(value!!)
                     }
                 })
+    }
+
+    fun reply(status: Status, user: User) {
+        mvpView?.showNewTweet(status, user)
     }
 
 }

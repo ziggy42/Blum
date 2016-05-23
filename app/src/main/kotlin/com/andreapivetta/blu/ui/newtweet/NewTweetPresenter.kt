@@ -55,6 +55,25 @@ class NewTweetPresenter : BasePresenter<NewTweetMvpView>() {
                     })
     }
 
+    fun reply(inReplyToStatusId: Long) {
+        if (charsLeft < 0)
+            mvpView?.showTooManyCharsError()
+        else
+            mSubscriber = TwitterAPI.reply(mvpView?.getTweet(), inReplyToStatusId)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe(object : SingleSubscriber<Status>() {
+                        override fun onSuccess(value: Status?) {
+                            mvpView?.close()
+                        }
+
+                        override fun onError(error: Throwable?) {
+                            Timber.e(error?.message)
+                            mvpView?.showSendTweetError()
+                        }
+                    })
+    }
+
     private fun checkLength(text: String) {
         var wordsLength = 0
         var urls = 0
@@ -67,4 +86,5 @@ class NewTweetPresenter : BasePresenter<NewTweetMvpView>() {
     private fun isUrl(text: String): Boolean {
         return urlPattern.matcher(text).find()
     }
+
 }

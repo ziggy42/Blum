@@ -18,6 +18,7 @@ import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.Common
 import com.andreapivetta.blu.data.twitter.TwitterUtils
 import com.andreapivetta.blu.ui.base.decorators.SpaceTopItemDecoration
+import com.andreapivetta.blu.ui.newtweet.NewTweetActivity
 import timber.log.Timber
 import twitter4j.Status
 import twitter4j.User
@@ -143,6 +144,10 @@ class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
         loadingProgressBar.visibility = View.GONE
     }
 
+    override fun showNewTweet(status: Status, user: User) {
+        NewTweetActivity.launch(context, "@" + user.screenName, status.id)
+    }
+
     override fun favoriteAdded(status: Status) {
         adapter.setFavorite(status.id)
         adapter.notifyDataSetChanged()
@@ -186,8 +191,8 @@ class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
         Toast.makeText(context, "Not yet implemented", Toast.LENGTH_SHORT).show()
     }
 
-    override fun replay(status: Status) {
-        Timber.d(status.text)
+    override fun reply(status: Status, user: User) {
+        presenter.reply(status, user)
     }
 
     override fun openTweet(status: Status) {

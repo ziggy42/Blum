@@ -29,14 +29,7 @@ android {
     }
 
     sourceSets {
-        main {
-            java.srcDirs += 'src/main/kotlin'
-
-            res.srcDirs = [
-                    "src/main/res",
-                    "src/main/res/layouts/timeline"
-            ]
-        }
+        main.java.srcDirs += 'src/main/kotlin'
     }
 }
 

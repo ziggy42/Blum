@@ -3,6 +3,7 @@ package com.andreapivetta.blu.data.twitter
 import rx.Single
 import twitter4j.Paging
 import twitter4j.Status
+import twitter4j.StatusUpdate
 import java.util.concurrent.Future
 import java.util.concurrent.TimeUnit
 
@@ -52,6 +53,31 @@ object TwitterAPI {
                 }
 
                 override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
+                    throw UnsupportedOperationException()
+                }
+            })
+
+    fun reply(tweet: String?, inReplyToStatusId: Long): Single<Status> =
+            Single.from(object : Future<Status> {
+                override fun get(): Status? {
+                    val status = StatusUpdate(tweet)
+                    status.inReplyToStatusId = inReplyToStatusId
+                    return TwitterUtils.getTwitter().updateStatus(status)
+                }
+
+                override fun get(timeout: Long, unit: TimeUnit?): Status? {
+                    throw UnsupportedOperationException()
+                }
+
+                override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
+                    throw UnsupportedOperationException()
+                }
+
+                override fun isCancelled(): Boolean {
+                    throw UnsupportedOperationException()
+                }
+
+                override fun isDone(): Boolean {
                     throw UnsupportedOperationException()
                 }
             })

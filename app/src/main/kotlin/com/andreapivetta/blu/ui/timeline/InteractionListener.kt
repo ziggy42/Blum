@@ -16,7 +16,7 @@ interface InteractionListener {
 
     fun unretweet(status: Status)
 
-    fun replay(status: Status)
+    fun reply(status: Status, user: User)
 
     fun openTweet(status: Status)
 

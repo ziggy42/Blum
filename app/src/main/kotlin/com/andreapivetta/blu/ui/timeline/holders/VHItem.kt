@@ -71,7 +71,7 @@ open class VHItem(container: View, listener: InteractionListener, tweetInfoProvi
                 listener.retweet(currentStatus)
         }
 
-        respondImageButton.setOnClickListener { listener.replay(currentStatus) }
+        respondImageButton.setOnClickListener { listener.reply(currentStatus, currentUser) }
         container.setOnClickListener { listener.openTweet(currentStatus) }
     }
 }
