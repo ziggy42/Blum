@@ -18,7 +18,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.ui.base.decorators.SpaceLeftItemDecoration
-import com.andreapivetta.blu.ui.timeline.ImagesAdapter
 import com.andreapivetta.blu.ui.timeline.InteractionListener
 import com.andreapivetta.blu.ui.timeline.TweetInfoProvider
 import com.bumptech.glide.Glide

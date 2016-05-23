@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.ui.base.decorators.SpaceLeftItemDecoration
-import com.andreapivetta.blu.ui.timeline.ImagesAdapter
 import com.andreapivetta.blu.ui.timeline.InteractionListener
 import com.andreapivetta.blu.ui.timeline.TweetInfoProvider
 import twitter4j.Status

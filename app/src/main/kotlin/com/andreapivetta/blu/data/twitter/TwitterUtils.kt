@@ -20,7 +20,8 @@ object TwitterUtils {
     private fun getFactory(): TwitterFactory {
         if (factory == null) {
             val builder = ConfigurationBuilder()
-            builder.setOAuthConsumerKey(BuildConfig.TWITTER_CONSUMER_KEY).setOAuthConsumerSecret(BuildConfig.TWITTER_CONSUMER_SECRET)
+            builder.setOAuthConsumerKey(BuildConfig.TWITTER_CONSUMER_KEY)
+                    .setOAuthConsumerSecret(BuildConfig.TWITTER_CONSUMER_SECRET)
             factory = TwitterFactory(builder.build())
         }
 

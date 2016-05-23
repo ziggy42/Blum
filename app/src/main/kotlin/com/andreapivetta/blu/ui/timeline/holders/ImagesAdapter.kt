@@ -1,4 +1,4 @@
-package com.andreapivetta.blu.ui.timeline
+package com.andreapivetta.blu.ui.timeline.holders
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
