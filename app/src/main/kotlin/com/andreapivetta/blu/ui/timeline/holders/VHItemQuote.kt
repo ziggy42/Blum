@@ -34,7 +34,10 @@ class VHItemQuote(container: View, listener: InteractionListener, tweetInfoProvi
 
             if (quotedStatus.mediaEntities.size > 0) {
                 photoImageView.visibility = View.VISIBLE
-                Glide.with(container.context).load(quotedStatus.mediaEntities[0].mediaURL).placeholder(R.drawable.placeholder).into(photoImageView)
+                Glide.with(container.context)
+                        .load(quotedStatus.mediaEntities[0].mediaURL)
+                        .placeholder(R.drawable.placeholder)
+                        .into(photoImageView)
 
                 quotedStatusTextView.text = quotedStatus.text.replace(quotedStatus.mediaEntities[0].url, "")
             } else {
@@ -42,9 +45,7 @@ class VHItemQuote(container: View, listener: InteractionListener, tweetInfoProvi
                 quotedStatusTextView.text = quotedStatus.text
             }
 
-            quotedStatusLinearLayout.setOnClickListener { /* TODO */ }
-        } else {
-            quotedStatusLinearLayout.visibility = View.GONE
-        }
+            quotedStatusLinearLayout.setOnClickListener { listener.openTweet(quotedStatus) }
+        } else quotedStatusLinearLayout.visibility = View.GONE
     }
 }

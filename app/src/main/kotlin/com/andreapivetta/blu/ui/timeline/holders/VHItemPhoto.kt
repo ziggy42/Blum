@@ -22,9 +22,13 @@ class VHItemPhoto(container: View, listener: InteractionListener, tweetInfoProvi
 
         val mediaEntity = status.mediaEntities[0]
         if (mediaEntity.type == "photo") {
-            Glide.with(container.context).load(mediaEntity.mediaURL).placeholder(R.drawable.placeholder).centerCrop().into(tweetPhotoImageView)
+            Glide.with(container.context)
+                    .load(mediaEntity.mediaURL)
+                    .placeholder(R.drawable.placeholder)
+                    .centerCrop()
+                    .into(tweetPhotoImageView)
 
-            tweetPhotoImageView.setOnClickListener { /* TODO */ }
+            tweetPhotoImageView.setOnClickListener { listener.showImage(mediaEntity.mediaURL) }
         }
     }
 }

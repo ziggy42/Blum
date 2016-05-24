@@ -22,4 +22,10 @@ interface InteractionListener {
 
     fun showUser(user: User)
 
+    fun showImage(imageUrl: String)
+
+    fun showImages(imageUrls: List<String>, index: Int)
+
+    fun showVideo(videoUrl: String, videoType: String)
+
 }

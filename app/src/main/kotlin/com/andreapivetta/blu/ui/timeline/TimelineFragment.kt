@@ -30,9 +30,7 @@ import java.io.Serializable
 class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
 
     companion object {
-        fun newInstance(): TimelineFragment {
-            return TimelineFragment()
-        }
+        fun newInstance(): TimelineFragment = TimelineFragment()
 
         val TAG_TWEET_LIST = "tweet_list"
         val TAG_PAGE = "page"
@@ -201,5 +199,17 @@ class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
 
     override fun showUser(user: User) {
         Timber.d(user.name)
+    }
+
+    override fun showImage(imageUrl: String) {
+        Timber.d(imageUrl)
+    }
+
+    override fun showImages(imageUrls: List<String>, index: Int) {
+        imageUrls.forEach { url -> Timber.d(url) }
+    }
+
+    override fun showVideo(videoUrl: String, videoType: String) {
+        Timber.d(videoUrl)
     }
 }

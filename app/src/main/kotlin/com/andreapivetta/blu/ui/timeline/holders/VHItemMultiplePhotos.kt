@@ -18,12 +18,13 @@ class VHItemMultiplePhotos(container: View, listener: InteractionListener, tweet
     init {
         this.tweetPhotosRecyclerView = container.findViewById(R.id.tweetPhotosRecyclerView) as RecyclerView
         this.tweetPhotosRecyclerView.addItemDecoration(SpaceLeftItemDecoration(5))
-        this.tweetPhotosRecyclerView.layoutManager = LinearLayoutManager(container.context, LinearLayoutManager.HORIZONTAL, false)
+        this.tweetPhotosRecyclerView.layoutManager =
+                LinearLayoutManager(container.context, LinearLayoutManager.HORIZONTAL, false)
         this.tweetPhotosRecyclerView.setHasFixedSize(true)
     }
 
     override fun setup(status: Status) {
         super.setup(status)
-        tweetPhotosRecyclerView.adapter = ImagesAdapter(status.extendedMediaEntities, container.context)
+        tweetPhotosRecyclerView.adapter = ImagesAdapter(status.extendedMediaEntities, listener)
     }
 }

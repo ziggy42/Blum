@@ -26,9 +26,15 @@ class VHItemVideo(container: View, listener: InteractionListener, tweetInfoProvi
 
         val mediaEntity = status.extendedMediaEntities[0]
 
-        Glide.with(container.context).load(mediaEntity.mediaURL).placeholder(R.drawable.placeholder).centerCrop().into(tweetVideoImageView)
+        Glide.with(container.context)
+                .load(mediaEntity.mediaURL)
+                .placeholder(R.drawable.placeholder)
+                .centerCrop()
+                .into(tweetVideoImageView)
 
-        playVideoImageButton.setOnClickListener { /* TODO */ }
+        playVideoImageButton.setOnClickListener {
+            listener.showVideo(mediaEntity.videoVariants[0].url, mediaEntity.type)
+        }
     }
 
 

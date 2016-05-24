@@ -184,7 +184,7 @@ class VHHeader(container: View, listener: InteractionListener, tweetInfoProvider
         } else if (mediaEntityArray.size > 1) {
             tweetPhotosRecyclerView.visibility = View.VISIBLE
             tweetPhotosRecyclerView.addItemDecoration(SpaceLeftItemDecoration(5))
-            tweetPhotosRecyclerView.adapter = ImagesAdapter(status.extendedMediaEntities, container.context)
+            tweetPhotosRecyclerView.adapter = ImagesAdapter(status.extendedMediaEntities, listener)
             tweetPhotosRecyclerView.layoutManager = LinearLayoutManager(container.context, LinearLayoutManager.HORIZONTAL, false)
         }
 
