@@ -13,10 +13,9 @@ import android.view.View
 class ScrollAwareFABBehavior(context: Context, attrs: AttributeSet) : FloatingActionButton.Behavior() {
 
     override fun onStartNestedScroll(coordinatorLayout: CoordinatorLayout?, child: FloatingActionButton?,
-                                     directTargetChild: View?, target: View?, nestedScrollAxes: Int): Boolean {
-        return nestedScrollAxes == ViewCompat.SCROLL_AXIS_VERTICAL || super.onStartNestedScroll(
-                coordinatorLayout, child, directTargetChild, target, nestedScrollAxes)
-    }
+                                     directTargetChild: View?, target: View?, nestedScrollAxes: Int) =
+            nestedScrollAxes == ViewCompat.SCROLL_AXIS_VERTICAL || super.onStartNestedScroll(
+                    coordinatorLayout, child, directTargetChild, target, nestedScrollAxes)
 
     override fun onNestedScroll(coordinatorLayout: CoordinatorLayout?, child: FloatingActionButton?, target: View?,
                                 dxConsumed: Int, dyConsumed: Int, dxUnconsumed: Int, dyUnconsumed: Int) {

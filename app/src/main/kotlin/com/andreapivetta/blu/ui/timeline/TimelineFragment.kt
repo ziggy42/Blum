@@ -1,6 +1,5 @@
 package com.andreapivetta.blu.ui.timeline
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.ColorRes
 import android.support.design.widget.Snackbar
@@ -203,15 +202,11 @@ class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
     }
 
     override fun showImage(imageUrl: String) {
-        val intent = Intent(context, ImageActivity::class.java)
-        intent.putExtra(ImageActivity.TAG_IMAGES, arrayOf(imageUrl))
-        startActivity(intent)
+        ImageActivity.launch(context, arrayOf(imageUrl))
     }
 
     override fun showImages(imageUrls: List<String>, index: Int) {
-        val intent = Intent(context, ImageActivity::class.java)
-        intent.putExtra(ImageActivity.TAG_IMAGES, imageUrls.toTypedArray())
-        startActivity(intent)
+        ImageActivity.launch(context, imageUrls.toTypedArray())
     }
 
     override fun showVideo(videoUrl: String, videoType: String) {

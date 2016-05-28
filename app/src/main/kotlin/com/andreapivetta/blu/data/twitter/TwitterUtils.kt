@@ -4,7 +4,6 @@ import android.content.Context
 import android.preference.PreferenceManager
 import com.andreapivetta.blu.BuildConfig
 import com.andreapivetta.blu.R
-import twitter4j.Twitter
 import twitter4j.TwitterFactory
 import twitter4j.auth.AccessToken
 import twitter4j.conf.ConfigurationBuilder
@@ -18,17 +17,14 @@ object TwitterUtils {
     private var factory: TwitterFactory? = null
 
     private fun getFactory(): TwitterFactory {
-        if (factory == null) {
-            val builder = ConfigurationBuilder()
-            builder.setOAuthConsumerKey(BuildConfig.TWITTER_CONSUMER_KEY)
-                    .setOAuthConsumerSecret(BuildConfig.TWITTER_CONSUMER_SECRET)
-            factory = TwitterFactory(builder.build())
-        }
-
+        if (factory == null)
+            factory = TwitterFactory(ConfigurationBuilder()
+                    .setOAuthConsumerKey(BuildConfig.TWITTER_CONSUMER_KEY)
+                    .setOAuthConsumerSecret(BuildConfig.TWITTER_CONSUMER_SECRET).build())
         return factory as TwitterFactory
     }
 
-    fun getTwitter(): Twitter = getFactory().getInstance(accessToken)
+    fun getTwitter() = getFactory().getInstance(accessToken)
 
     fun nullTwitter() {
         factory = null

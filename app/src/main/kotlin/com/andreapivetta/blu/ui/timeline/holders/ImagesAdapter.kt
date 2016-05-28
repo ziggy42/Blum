@@ -14,9 +14,8 @@ import twitter4j.ExtendedMediaEntity
 class ImagesAdapter(private val mediaEntities: Array<ExtendedMediaEntity>, private val listener: InteractionListener) :
         RecyclerView.Adapter<ImagesAdapter.VHItem>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VHItem {
-        return VHItem(LayoutInflater.from(parent.context).inflate(R.layout.photo, parent, false))
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+            VHItem(LayoutInflater.from(parent.context).inflate(R.layout.photo, parent, false))
 
     override fun onBindViewHolder(holder: VHItem, position: Int) {
         Glide.with(holder.itemView.context)
@@ -29,9 +28,7 @@ class ImagesAdapter(private val mediaEntities: Array<ExtendedMediaEntity>, priva
         }
     }
 
-    override fun getItemCount(): Int {
-        return mediaEntities.size
-    }
+    override fun getItemCount() = mediaEntities.size
 
     inner class VHItem(container: View) : RecyclerView.ViewHolder(container) {
         var tweetPhotoImageView: ImageView

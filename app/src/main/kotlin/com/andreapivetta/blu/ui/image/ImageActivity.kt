@@ -1,5 +1,7 @@
 package com.andreapivetta.blu.ui.image
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.FragmentManager
@@ -16,6 +18,12 @@ class ImageActivity : AppCompatActivity() {
     companion object {
         val TAG_IMAGES = "images"
         val TAG_CURRENT_ITEM = "current_item"
+
+        fun launch(context: Context, imageUrls: Array<String>) {
+            val intent = Intent(context, ImageActivity::class.java)
+            intent.putExtra(ImageActivity.TAG_IMAGES, imageUrls)
+            context.startActivity(intent)
+        }
     }
 
     private lateinit var images: List<String>
@@ -38,7 +46,7 @@ class ImageActivity : AppCompatActivity() {
         toolbar.setNavigationOnClickListener { finish() }
 
         val viewPager = findViewById(R.id.photosViewPager) as ViewPager
-        viewPager.adapter = ImageFragmentPagerAdapter(supportFragmentManager, images)
+        viewPager.adapter = ImageFragmentPagerAdapter(supportFragmentManager)
         viewPager.currentItem = currentItem
         viewPager.setPageTransformer(true, { view, position ->
             val pageWidth = view.width
@@ -96,7 +104,7 @@ class ImageActivity : AppCompatActivity() {
         }
     }
 
-    class ImageFragmentPagerAdapter(supportFragmentManager: FragmentManager, val images: List<String>) :
+    inner class ImageFragmentPagerAdapter(supportFragmentManager: FragmentManager) :
             FragmentPagerAdapter(supportFragmentManager) {
 
         override fun getItem(position: Int) = ImageFragment.newInstance(images[position])

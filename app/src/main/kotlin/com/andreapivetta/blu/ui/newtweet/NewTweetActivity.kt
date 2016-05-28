@@ -103,9 +103,7 @@ class NewTweetActivity : AppCompatActivity(), NewTweetMvpView {
         return true
     }
 
-    override fun getTweet(): String {
-        return newTweetEditText.text.toString()
-    }
+    override fun getTweet() = newTweetEditText.text.toString()
 
     override fun showTooManyCharsError() {
         AlertDialog.Builder(this)

@@ -41,16 +41,13 @@ open class TimelineAdapter(val listener: InteractionListener) :
                     .inflate(R.layout.tweet_video, parent, false), listener, this)
             else -> throw UnsupportedOperationException("No Type found")
         }
-
-        return StatusViewHolder(LayoutInflater.from(parent?.context)
-                .inflate(R.layout.tweet_basic, parent, false), listener, this)
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder?, position: Int) {
         holder?.setup(mDataSet[position])
     }
 
-    override fun getItemCount(): Int = mDataSet.size
+    override fun getItemCount() = mDataSet.size
 
     override fun getItemViewType(position: Int): Int {
         val status = mDataSet[position]

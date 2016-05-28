@@ -30,6 +30,7 @@ class EditedViewPager : ViewPager {
         } catch(err: IllegalArgumentException) {
             err.printStackTrace()
         }
+
         return false
     }
 
