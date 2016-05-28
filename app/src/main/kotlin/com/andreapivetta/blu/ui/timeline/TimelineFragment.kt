@@ -1,5 +1,6 @@
 package com.andreapivetta.blu.ui.timeline
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.ColorRes
 import android.support.design.widget.Snackbar
@@ -17,6 +18,7 @@ import android.widget.Toast
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.Common
 import com.andreapivetta.blu.ui.base.decorators.SpaceTopItemDecoration
+import com.andreapivetta.blu.ui.image.ImageActivity
 import com.andreapivetta.blu.ui.newtweet.NewTweetActivity
 import com.andreapivetta.blu.ui.tweetdetails.TweetDetailsActivity
 import twitter4j.Status
@@ -201,11 +203,15 @@ class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
     }
 
     override fun showImage(imageUrl: String) {
-        // TODO
+        val intent = Intent(context, ImageActivity::class.java)
+        intent.putExtra(ImageActivity.TAG_IMAGES, arrayOf(imageUrl))
+        startActivity(intent)
     }
 
     override fun showImages(imageUrls: List<String>, index: Int) {
-        // TODO
+        val intent = Intent(context, ImageActivity::class.java)
+        intent.putExtra(ImageActivity.TAG_IMAGES, imageUrls.toTypedArray())
+        startActivity(intent)
     }
 
     override fun showVideo(videoUrl: String, videoType: String) {
