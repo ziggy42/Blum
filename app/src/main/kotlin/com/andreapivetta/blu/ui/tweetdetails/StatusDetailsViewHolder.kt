@@ -79,27 +79,21 @@ class StatusDetailsViewHolder(container: View, listener: InteractionListener, tw
             retweetImageButton.setImageResource(R.drawable.ic_repeat_grey600_36dp)
 
         favouriteImageButton.setOnClickListener {
-            if (status.isFavorited || tweetInfoProvider.isFavorite(status)) {
+            if (status.isFavorited || tweetInfoProvider.isFavorite(status))
                 listener.unfavorite(status)
-                favouriteImageButton.setImageResource(R.drawable.ic_favorite_grey_600_36dp)
-            } else {
+            else
                 listener.favorite(status)
-                favouriteImageButton.setImageResource(R.drawable.ic_favorite_red_a700_36dp)
-            }
         }
 
         retweetImageButton.setOnClickListener {
-            if (status.isRetweeted || tweetInfoProvider.isRetweet(status)) {
+            if (status.isRetweeted || tweetInfoProvider.isRetweet(status))
                 listener.unretweet(status)
-                retweetImageButton.setImageResource(R.drawable.ic_repeat_grey600_36dp)
-            } else {
+            else
                 listener.retweet(status)
-                favouriteImageButton.setImageResource(R.drawable.ic_repeat_green_a700_36dp)
-            }
         }
 
-        userProfilePicImageView.setOnClickListener { /* TODO */ }
-        respondImageButton.setOnClickListener { /* TODO */ }
+        userProfilePicImageView.setOnClickListener { listener.showUser(currentUser) }
+        respondImageButton.setOnClickListener { listener.reply(status, currentUser) }
 
         if (hasPhoto(status)) {
             if (inflatedMediaView == null) {
@@ -112,7 +106,7 @@ class StatusDetailsViewHolder(container: View, listener: InteractionListener, tw
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .placeholder(R.drawable.placeholder)
                     .into(inflatedMediaView as ImageView)
-            inflatedMediaView?.setOnClickListener { /* TODO */ }
+            inflatedMediaView?.setOnClickListener { listener.showImage(status.extendedMediaEntities[0].mediaURL) }
         } else if (hasPhotos(status)) {
             if (inflatedMediaView == null) {
                 mediaViewStub.layoutResource = R.layout.stub_photos
@@ -135,7 +129,10 @@ class StatusDetailsViewHolder(container: View, listener: InteractionListener, tw
                     .placeholder(R.drawable.placeholder)
                     .centerCrop().into(inflatedMediaView?.findViewById(R.id.tweetVideoImageView) as ImageView)
 
-            inflatedMediaView?.findViewById(R.id.playVideoImageButton)?.setOnClickListener { /* TODO */ }
+            inflatedMediaView?.findViewById(R.id.playVideoImageButton)?.setOnClickListener {
+                listener.showVideo(status.extendedMediaEntities[0].videoVariants[0].url,
+                        status.extendedMediaEntities[0].type)
+            }
         }
 
         if (hasQuotedStatus(status)) {
@@ -164,7 +161,7 @@ class StatusDetailsViewHolder(container: View, listener: InteractionListener, tw
                         quotedStatus.text
             }
 
-            inflatedQuotedView?.setOnClickListener { /* TODO */ }
+            inflatedQuotedView?.setOnClickListener { listener.openTweet(quotedStatus, quotedStatus.user) }
         }
     }
 

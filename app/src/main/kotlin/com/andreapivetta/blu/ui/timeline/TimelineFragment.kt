@@ -19,7 +19,6 @@ import com.andreapivetta.blu.common.Common
 import com.andreapivetta.blu.ui.base.decorators.SpaceTopItemDecoration
 import com.andreapivetta.blu.ui.newtweet.NewTweetActivity
 import com.andreapivetta.blu.ui.tweetdetails.TweetDetailsActivity
-import timber.log.Timber
 import twitter4j.Status
 import twitter4j.User
 import java.io.Serializable
@@ -163,7 +162,7 @@ class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
 
     override fun retweetRemoved(status: Status) {
         adapter.removeRetweet(status.id)
-        adapter.notifyItemRangeChanged(0, adapter.mDataSet.size - 1)
+        adapter.notifyDataSetChanged()
     }
 
     // InteractionListener
@@ -190,7 +189,6 @@ class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
     }
 
     override fun reply(status: Status, user: User) {
-        // TODO meh, let's not pass for the presenter all we'll end up with 1000000 methods...
         presenter.reply(status, user)
     }
 
@@ -199,18 +197,18 @@ class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
     }
 
     override fun showUser(user: User) {
-        Timber.d(user.name)
+        // TODO
     }
 
     override fun showImage(imageUrl: String) {
-        Timber.d(imageUrl)
+        // TODO
     }
 
     override fun showImages(imageUrls: List<String>, index: Int) {
-        imageUrls.forEach { url -> Timber.d(url) }
+        // TODO
     }
 
     override fun showVideo(videoUrl: String, videoType: String) {
-        Timber.d(videoUrl)
+        // TODO
     }
 }
