@@ -27,7 +27,7 @@ import twitter4j.Status
 /**
  * Created by andrea on 26/05/16.
  */
-class TweetDetailsViewHolder(container: View, listener: InteractionListener, tweetInfoProvider: TweetInfoProvider) :
+class StatusDetailsViewHolder(container: View, listener: InteractionListener, tweetInfoProvider: TweetInfoProvider) :
         BaseViewHolder(container, listener, tweetInfoProvider) {
 
     private val mediaViewStub: ViewStub

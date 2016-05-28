@@ -20,7 +20,7 @@ class SingleTweetAdapter(listener: InteractionListener) : TimelineAdapter(listen
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): BaseViewHolder? {
         if (viewType == TYPE_HEADER)
-            return TweetDetailsViewHolder(LayoutInflater.from(parent?.context)
+            return StatusDetailsViewHolder(LayoutInflater.from(parent?.context)
                     .inflate(R.layout.tweet_big, parent, false), listener, this)
         return super.onCreateViewHolder(parent, viewType)
     }

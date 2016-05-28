@@ -29,20 +29,20 @@ open class TimelineAdapter(val listener: InteractionListener) :
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): BaseViewHolder? {
         when (viewType) {
-            TYPE_ITEM -> return VHItem(LayoutInflater.from(parent?.context)
+            TYPE_ITEM -> return StatusViewHolder(LayoutInflater.from(parent?.context)
                     .inflate(R.layout.tweet_basic, parent, false), listener, this)
-            TYPE_ITEM_PHOTO -> return VHItemPhoto(LayoutInflater.from(parent?.context)
+            TYPE_ITEM_PHOTO -> return StatusPhotoViewHolder(LayoutInflater.from(parent?.context)
                     .inflate(R.layout.tweet_photo, parent, false), listener, this)
-            TYPE_ITEM_QUOTE -> VHItemQuote(LayoutInflater.from(parent?.context)
+            TYPE_ITEM_QUOTE -> StatusQuoteViewHolder(LayoutInflater.from(parent?.context)
                     .inflate(R.layout.tweet_quote, parent, false), listener, this)
-            TYPE_ITEM_MULTIPLE_PHOTOS -> return VHItemMultiplePhotos(LayoutInflater.from(parent?.context)
+            TYPE_ITEM_MULTIPLE_PHOTOS -> return StatusMultiplePhotosViewHolder(LayoutInflater.from(parent?.context)
                     .inflate(R.layout.tweet_multiplephotos, parent, false), listener, this)
-            TYPE_ITEM_VIDEO -> return VHItemVideo(LayoutInflater.from(parent?.context)
+            TYPE_ITEM_VIDEO -> return StatusVideoViewHolder(LayoutInflater.from(parent?.context)
                     .inflate(R.layout.tweet_video, parent, false), listener, this)
             else -> throw UnsupportedOperationException("No Type found")
         }
 
-        return VHItem(LayoutInflater.from(parent?.context)
+        return StatusViewHolder(LayoutInflater.from(parent?.context)
                 .inflate(R.layout.tweet_basic, parent, false), listener, this)
     }
 

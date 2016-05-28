@@ -10,8 +10,8 @@ import com.andreapivetta.blu.ui.timeline.TweetInfoProvider
 import com.bumptech.glide.Glide
 import twitter4j.Status
 
-class VHItemVideo(container: View, listener: InteractionListener, tweetInfoProvider: TweetInfoProvider) :
-        VHItem(container, listener, tweetInfoProvider) {
+class StatusVideoViewHolder(container: View, listener: InteractionListener, tweetInfoProvider: TweetInfoProvider) :
+        StatusViewHolder(container, listener, tweetInfoProvider) {
 
     private val tweetVideoImageView: ImageView
     private val playVideoImageButton: ImageButton

@@ -10,8 +10,8 @@ import com.andreapivetta.blu.ui.timeline.InteractionListener
 import com.andreapivetta.blu.ui.timeline.TweetInfoProvider
 import twitter4j.Status
 
-class VHItemMultiplePhotos(container: View, listener: InteractionListener, tweetInfoProvider: TweetInfoProvider) :
-        VHItem(container, listener, tweetInfoProvider) {
+class StatusMultiplePhotosViewHolder(container: View, listener: InteractionListener, tweetInfoProvider: TweetInfoProvider) :
+        StatusViewHolder(container, listener, tweetInfoProvider) {
 
     private val tweetPhotosRecyclerView: RecyclerView
 

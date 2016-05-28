@@ -11,7 +11,7 @@ import com.andreapivetta.blu.ui.timeline.TweetInfoProvider
 import com.bumptech.glide.Glide
 import twitter4j.Status
 
-open class VHItem(container: View, listener: InteractionListener, tweetInfoProvider: TweetInfoProvider) :
+open class StatusViewHolder(container: View, listener: InteractionListener, tweetInfoProvider: TweetInfoProvider) :
         BaseViewHolder(container, listener, tweetInfoProvider) {
 
     protected var retweetTextView: TextView
