@@ -8,7 +8,7 @@ import com.andreapivetta.blu.R
 /**
  * Created by andrea on 15/05/16.
  */
-class ThemedActivity : AppCompatActivity() {
+open class ThemedActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         when (PreferenceManager.getDefaultSharedPreferences(this)

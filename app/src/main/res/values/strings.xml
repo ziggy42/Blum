@@ -26,8 +26,8 @@
     <string name="logout_title_dialog">Logout?</string>
     <string name="yes">Yes</string>
     <string name="internet_connection_required">This operation requires an internet connection</string>
-    <string name="likes">%1$s LIKES</string>
-    <string name="retweets">%1$s RETWEETS</string>
+    <string name="likes">%1$s Likes</string>
+    <string name="retweets">%1$s Retweets</string>
     <string name="notifications">Notifications</string>
     <string name="nothing_to_show">Nothing to show here :(</string>
     <string name="is_following_not">%1$s is now following you</string>
@@ -250,5 +250,6 @@
     <string name="cancellation">Cancellation</string>
     <string name="error">Error</string>
     <string name="title_activity_main" translatable="false">Blum</string>
+    <string name="title_activity_tweet_details">TweetDetailsActivity</string>
 
 </resources>

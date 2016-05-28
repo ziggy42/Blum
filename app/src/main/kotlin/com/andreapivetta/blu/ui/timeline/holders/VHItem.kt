@@ -4,6 +4,7 @@ package com.andreapivetta.blu.ui.timeline.holders
 import android.support.annotation.CallSuper
 import android.text.util.Linkify
 import android.view.View
+import android.widget.TextView
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.ui.timeline.InteractionListener
 import com.andreapivetta.blu.ui.timeline.TweetInfoProvider
@@ -12,6 +13,12 @@ import twitter4j.Status
 
 open class VHItem(container: View, listener: InteractionListener, tweetInfoProvider: TweetInfoProvider) :
         BaseViewHolder(container, listener, tweetInfoProvider) {
+
+    protected var retweetTextView: TextView
+
+    init {
+        this.retweetTextView = container.findViewById(R.id.retweetTextView) as TextView
+    }
 
     @CallSuper
     override fun setup(status: Status) {
@@ -29,7 +36,7 @@ open class VHItem(container: View, listener: InteractionListener, tweetInfoProvi
         val currentUser = currentStatus.user
         userNameTextView.text = currentUser.name
         userScreenNameTextView.text = "@" + currentUser.screenName
-        timeTextView.text = formatDate(currentStatus.createdAt, container.context)
+        timeTextView.text = " • " + formatDate(currentStatus.createdAt, container.context)
 
         Glide.with(container.context).load(currentUser.biggerProfileImageURL)
                 .dontAnimate()
@@ -72,6 +79,6 @@ open class VHItem(container: View, listener: InteractionListener, tweetInfoProvi
         }
 
         respondImageButton.setOnClickListener { listener.reply(currentStatus, currentUser) }
-        container.setOnClickListener { listener.openTweet(currentStatus) }
+        container.setOnClickListener { listener.openTweet(currentStatus, currentUser) }
     }
 }

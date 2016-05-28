@@ -16,9 +16,9 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.Common
-import com.andreapivetta.blu.data.twitter.TwitterUtils
 import com.andreapivetta.blu.ui.base.decorators.SpaceTopItemDecoration
 import com.andreapivetta.blu.ui.newtweet.NewTweetActivity
+import com.andreapivetta.blu.ui.tweetdetails.TweetDetailsActivity
 import timber.log.Timber
 import twitter4j.Status
 import twitter4j.User
@@ -47,7 +47,7 @@ class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
         super.onCreate(savedInstanceState)
         presenter.attachView(this)
 
-        adapter = TimelineAdapter(activity, TwitterUtils.getTwitter(), -1, this)
+        adapter = TimelineAdapter(this)
         if (savedInstanceState != null) {
             adapter.mDataSet = savedInstanceState.getSerializable(TAG_TWEET_LIST) as MutableList<Status>
             presenter.page = savedInstanceState.getInt(TAG_PAGE)
@@ -190,11 +190,12 @@ class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
     }
 
     override fun reply(status: Status, user: User) {
+        // TODO meh, let's not pass for the presenter all we'll end up with 1000000 methods...
         presenter.reply(status, user)
     }
 
-    override fun openTweet(status: Status) {
-        Timber.d(status.text)
+    override fun openTweet(status: Status, user: User) {
+        TweetDetailsActivity.launch(context, status.id, user.screenName)
     }
 
     override fun showUser(user: User) {

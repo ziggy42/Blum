@@ -45,7 +45,7 @@ class VHItemQuote(container: View, listener: InteractionListener, tweetInfoProvi
                 quotedStatusTextView.text = quotedStatus.text
             }
 
-            quotedStatusLinearLayout.setOnClickListener { listener.openTweet(quotedStatus) }
+            quotedStatusLinearLayout.setOnClickListener { listener.openTweet(quotedStatus, quotedStatus.user) }
         } else quotedStatusLinearLayout.visibility = View.GONE
     }
 }

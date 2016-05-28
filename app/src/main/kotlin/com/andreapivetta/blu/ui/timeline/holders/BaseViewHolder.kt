@@ -20,7 +20,6 @@ abstract class BaseViewHolder(val container: View, val listener: InteractionList
     protected var userScreenNameTextView: TextView
     protected var statusTextView: TextView
     protected var timeTextView: TextView
-    protected var retweetTextView: TextView
     protected val retweetsStatsTextView: TextView
     protected val favouritesStatsTextView: TextView
     protected var userProfilePicImageView: ImageView
@@ -34,7 +33,6 @@ abstract class BaseViewHolder(val container: View, val listener: InteractionList
         this.statusTextView = container.findViewById(R.id.statusTextView) as TextView
         this.userProfilePicImageView = container.findViewById(R.id.userProfilePicImageView) as ImageView
         this.timeTextView = container.findViewById(R.id.timeTextView) as TextView
-        this.retweetTextView = container.findViewById(R.id.retweetTextView) as TextView
         this.retweetsStatsTextView = container.findViewById(R.id.retweetsStatsTextView) as TextView
         this.favouritesStatsTextView = container.findViewById(R.id.favouritesStatsTextView) as TextView
         this.favouriteImageButton = container.findViewById(R.id.favouriteImageButton) as ImageButton
@@ -57,15 +55,15 @@ abstract class BaseViewHolder(val container: View, val listener: InteractionList
                 val hours = TimeUnit.MILLISECONDS.toHours(diff)
                 if (hours > 24) {
                     if (c.get(Calendar.YEAR) == c2.get(Calendar.YEAR))
-                        return " • " + java.text.SimpleDateFormat("MMM dd", Locale.getDefault()).format(date)
+                        return java.text.SimpleDateFormat("MMM dd", Locale.getDefault()).format(date)
                     else
-                        return " • " + java.text.SimpleDateFormat("MMM dd yyyy", Locale.getDefault()).format(date)
+                        return java.text.SimpleDateFormat("MMM dd yyyy", Locale.getDefault()).format(date)
                 } else
-                    return " • " + context.getString(R.string.mini_hours, hours.toInt())
+                    return context.getString(R.string.mini_hours, hours.toInt())
             } else
-                return " • " + context.getString(R.string.mini_minutes, minutes.toInt())
+                return context.getString(R.string.mini_minutes, minutes.toInt())
         } else
-            return " • " + context.getString(R.string.mini_seconds, seconds.toInt())
+            return context.getString(R.string.mini_seconds, seconds.toInt())
     }
 
 }

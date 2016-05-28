@@ -2,8 +2,10 @@ package com.andreapivetta.blu.data.twitter
 
 import rx.Single
 import twitter4j.Paging
+import twitter4j.Query
 import twitter4j.Status
 import twitter4j.StatusUpdate
+import java.util.*
 import java.util.concurrent.Future
 import java.util.concurrent.TimeUnit
 
@@ -144,5 +146,47 @@ object TwitterAPI {
                     throw UnsupportedOperationException()
                 }
             })
+
+    fun getConversation(statusId: Long): Single<Pair<MutableList<Status>, Int>> =
+            Single.from(object : Future<Pair<MutableList<Status>, Int>> {
+                override fun isCancelled(): Boolean {
+                    throw UnsupportedOperationException()
+                }
+
+                override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
+                    throw UnsupportedOperationException()
+                }
+
+                override fun get(): Pair<MutableList<Status>, Int>? {
+                    val list = ArrayList<Status>()
+                    val status = TwitterUtils.getTwitter().showStatus(statusId)
+                    var currentStatus = status
+                    var id: Long = currentStatus.inReplyToStatusId
+                    while (id != -1L) {
+                        currentStatus = TwitterUtils.getTwitter().showStatus(id)
+                        list.add(currentStatus)
+                        id = currentStatus.inReplyToStatusId
+                    }
+
+                    val targetIndex = list.size
+                    list.add(status)
+
+                    val result = TwitterUtils.getTwitter().search(Query("to:" + status.user.screenName))
+                    result.tweets.forEach {
+                        tmpStatus ->
+                        if (status.id == tmpStatus.inReplyToStatusId) list.add(tmpStatus)
+                    }
+                    return Pair(list, targetIndex)
+                }
+
+                override fun get(timeout: Long, unit: TimeUnit?): Pair<MutableList<Status>, Int>? {
+                    throw UnsupportedOperationException()
+                }
+
+                override fun isDone(): Boolean {
+                    throw UnsupportedOperationException()
+                }
+            })
+
 }
 

@@ -1,6 +1,5 @@
 package com.andreapivetta.blu.ui.timeline
 
-import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,17 +7,15 @@ import com.andreapivetta.blu.R
 import com.andreapivetta.blu.ui.timeline.holders.*
 import twitter4j.ExtendedMediaEntity
 import twitter4j.Status
-import twitter4j.Twitter
 import java.util.*
 
 /**
  * Created by andrea on 17/05/16.
  */
-class TimelineAdapter(val context: Context, val twitter: Twitter, val headerPosition: Int, val listener: InteractionListener) :
+open class TimelineAdapter(val listener: InteractionListener) :
         RecyclerView.Adapter<BaseViewHolder>(), TweetInfoProvider {
 
     companion object {
-        private val TYPE_HEADER = 0
         private val TYPE_ITEM = 1
         private val TYPE_ITEM_PHOTO = 2
         private val TYPE_ITEM_QUOTE = 3
@@ -42,8 +39,6 @@ class TimelineAdapter(val context: Context, val twitter: Twitter, val headerPosi
                     .inflate(R.layout.tweet_multiplephotos, parent, false), listener, this)
             TYPE_ITEM_VIDEO -> return VHItemVideo(LayoutInflater.from(parent?.context)
                     .inflate(R.layout.tweet_video, parent, false), listener, this)
-            TYPE_HEADER -> return VHHeader(LayoutInflater.from(parent?.context)
-                    .inflate(R.layout.tweet_expanded, parent, false), listener, this)
             else -> throw UnsupportedOperationException("No Type found")
         }
 
@@ -58,9 +53,6 @@ class TimelineAdapter(val context: Context, val twitter: Twitter, val headerPosi
     override fun getItemCount(): Int = mDataSet.size
 
     override fun getItemViewType(position: Int): Int {
-        if (isPositionHeader(position))
-            return TYPE_HEADER
-
         val status = mDataSet[position]
         val mediaEntities: Array<ExtendedMediaEntity> = status.extendedMediaEntities
         if (mediaEntities.size == 1) {
@@ -77,8 +69,6 @@ class TimelineAdapter(val context: Context, val twitter: Twitter, val headerPosi
 
         return TYPE_ITEM
     }
-
-    private fun isPositionHeader(position: Int): Boolean = position == headerPosition
 
     fun setFavorite(statusId: Long) {
         favorites.add(statusId)

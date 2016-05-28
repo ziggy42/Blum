@@ -18,7 +18,7 @@ interface InteractionListener {
 
     fun reply(status: Status, user: User)
 
-    fun openTweet(status: Status)
+    fun openTweet(status: Status, user: User)
 
     fun showUser(user: User)
 
