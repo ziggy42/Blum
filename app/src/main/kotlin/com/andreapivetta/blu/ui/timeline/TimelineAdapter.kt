@@ -33,7 +33,7 @@ open class TimelineAdapter(val listener: InteractionListener) :
                     .inflate(R.layout.tweet_basic, parent, false), listener, this)
             TYPE_ITEM_PHOTO -> return StatusPhotoViewHolder(LayoutInflater.from(parent?.context)
                     .inflate(R.layout.tweet_photo, parent, false), listener, this)
-            TYPE_ITEM_QUOTE -> StatusQuoteViewHolder(LayoutInflater.from(parent?.context)
+            TYPE_ITEM_QUOTE -> return StatusQuoteViewHolder(LayoutInflater.from(parent?.context)
                     .inflate(R.layout.tweet_quote, parent, false), listener, this)
             TYPE_ITEM_MULTIPLE_PHOTOS -> return StatusMultiplePhotosViewHolder(LayoutInflater.from(parent?.context)
                     .inflate(R.layout.tweet_multiplephotos, parent, false), listener, this)
