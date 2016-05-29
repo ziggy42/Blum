@@ -35,8 +35,8 @@ open class StatusViewHolder(container: View, listener: InteractionListener, twee
 
         val currentUser = currentStatus.user
         userNameTextView.text = currentUser.name
-        userScreenNameTextView.text = "@" + currentUser.screenName
-        timeTextView.text = " • " + formatDate(currentStatus.createdAt, container.context)
+        userScreenNameTextView.text = "@${currentUser.screenName}"
+        timeTextView.text = " • ${formatDate(currentStatus.createdAt, container.context)}"
 
         Glide.with(container.context).load(currentUser.biggerProfileImageURL)
                 .dontAnimate()

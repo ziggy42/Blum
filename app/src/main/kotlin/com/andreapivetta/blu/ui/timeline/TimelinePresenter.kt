@@ -46,11 +46,16 @@ class TimelinePresenter : BasePresenter<TimelineMvpView>() {
                 .subscribe(object : SingleSubscriber<MutableList<Status>>() {
                     override fun onSuccess(list: MutableList<Status>?) {
                         mvpView?.hideLoading()
-                        if (list!!.isEmpty())
-                            mvpView?.showEmpty()
-                        else
-                            mvpView?.showTweets(list)
-                        page++
+
+                        when {
+                            list == null -> mvpView?.showError()
+                            list.isEmpty() -> mvpView?.showEmpty()
+                            else -> {
+                                mvpView?.showTweets(list)
+                                page++
+                            }
+                        }
+
                         isLoading = false
                     }
 

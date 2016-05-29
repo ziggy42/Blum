@@ -15,7 +15,12 @@ import java.util.concurrent.TimeUnit
 object TwitterAPI {
 
     fun getHomeTimeline(paging: Paging) = Single.from(object : Future<MutableList<Status>> {
-        override fun get() = TwitterUtils.getTwitter().getHomeTimeline(paging)
+        override fun get() =
+                try {
+                    TwitterUtils.getTwitter().getHomeTimeline(paging)
+                } catch(err: Exception) {
+                    null
+                }
 
         override fun get(timeout: Long, unit: TimeUnit?): MutableList<Status>? {
             throw UnsupportedOperationException()
@@ -45,7 +50,11 @@ object TwitterAPI {
             throw UnsupportedOperationException()
         }
 
-        override fun get() = TwitterUtils.getTwitter().updateStatus(tweet)
+        override fun get() = try {
+            TwitterUtils.getTwitter().updateStatus(tweet)
+        } catch (err: Exception) {
+            null
+        }
 
         override fun get(timeout: Long, unit: TimeUnit?): Status? {
             throw UnsupportedOperationException()
@@ -150,25 +159,29 @@ object TwitterAPI {
         }
 
         override fun get(): Pair<MutableList<Status>, Int>? {
-            val list = ArrayList<Status>()
-            val status = TwitterUtils.getTwitter().showStatus(statusId)
-            var currentStatus = status
-            var id: Long = currentStatus.inReplyToStatusId
-            while (id != -1L) {
-                currentStatus = TwitterUtils.getTwitter().showStatus(id)
-                list.add(currentStatus)
-                id = currentStatus.inReplyToStatusId
-            }
+            try {
+                val list = ArrayList<Status>()
+                val status = TwitterUtils.getTwitter().showStatus(statusId)
+                var currentStatus = status
+                var id: Long = currentStatus.inReplyToStatusId
+                while (id != -1L) {
+                    currentStatus = TwitterUtils.getTwitter().showStatus(id)
+                    list.add(currentStatus)
+                    id = currentStatus.inReplyToStatusId
+                }
 
-            val targetIndex = list.size
-            list.add(status)
+                val targetIndex = list.size
+                list.add(status)
 
-            val result = TwitterUtils.getTwitter().search(Query("to:" + status.user.screenName))
-            result.tweets.forEach {
-                tmpStatus ->
-                if (status.id == tmpStatus.inReplyToStatusId) list.add(tmpStatus)
+                val result = TwitterUtils.getTwitter().search(Query("to: ${status.user.screenName}"))
+                result.tweets.forEach {
+                    tmpStatus ->
+                    if (status.id == tmpStatus.inReplyToStatusId) list.add(tmpStatus)
+                }
+                return Pair(list, targetIndex)
+            } catch(err: Exception) {
+                return null
             }
-            return Pair(list, targetIndex)
         }
 
         override fun get(timeout: Long, unit: TimeUnit?): Pair<MutableList<Status>, Int>? {

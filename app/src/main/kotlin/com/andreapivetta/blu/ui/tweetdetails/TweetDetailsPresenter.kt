@@ -41,13 +41,18 @@ class TweetDetailsPresenter : BasePresenter<TweetDetailsMvpView>() {
                 .subscribe(object : SingleSubscriber<Pair<MutableList<Status>, Int>>() {
                     override fun onSuccess(value: Pair<MutableList<Status>, Int>?) {
                         mvpView?.hideLoading()
-                        val (list, index) = value!!
-                        mvpView?.setHeaderIndex(index)
 
-                        if (list.isEmpty())
-                            mvpView?.showEmpty()
-                        else
-                            mvpView?.showTweets(list)
+                        if (value == null)
+                            mvpView?.showError()
+                        else {
+                            val (list, index) = value
+                            mvpView?.setHeaderIndex(index)
+
+                            if (list.isEmpty())
+                                mvpView?.showEmpty()
+                            else
+                                mvpView?.showTweets(list)
+                        }
                         isLoading = false
                     }
 
