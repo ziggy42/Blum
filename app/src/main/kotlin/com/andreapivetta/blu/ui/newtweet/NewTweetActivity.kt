@@ -3,20 +3,27 @@ package com.andreapivetta.blu.ui.newtweet
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Environment
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.MenuItemCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.ui.base.views.EditTextCursorWatcher
-import com.andreapivetta.blu.ui.new.NewTweetMvpView
+import com.mlsdev.rximagepicker.RxImageConverters
+import com.mlsdev.rximagepicker.RxImagePicker
+import com.mlsdev.rximagepicker.Sources
+import java.io.File
 
 class NewTweetActivity : AppCompatActivity(), NewTweetMvpView {
 
@@ -26,6 +33,14 @@ class NewTweetActivity : AppCompatActivity(), NewTweetMvpView {
     private val newTweetEditText: EditTextCursorWatcher by lazy {
         findViewById(R.id.newTweet_editText) as EditTextCursorWatcher
     }
+    private val photosRecyclerView: RecyclerView by lazy {
+        findViewById(R.id.photosRecyclerView) as RecyclerView
+    }
+    private val photoImageButton: ImageButton by lazy { findViewById(R.id.photoImageButton) as ImageButton }
+    private val imageImageButton: ImageButton by lazy { findViewById(R.id.imageImageButton) as ImageButton }
+    private val locationImageButton: ImageButton by lazy { findViewById(R.id.locationImageButton) as ImageButton }
+
+    private val adapter: DeletableImageAdapter by lazy { DeletableImageAdapter(applicationContext, mutableListOf()) }
 
     companion object {
         private val TAG_USER_PREFIX = "userPref"
@@ -70,6 +85,13 @@ class NewTweetActivity : AppCompatActivity(), NewTweetMvpView {
             }
         })
 
+        photosRecyclerView.layoutManager = GridLayoutManager(applicationContext, 2)
+        photosRecyclerView.adapter = adapter
+
+        photoImageButton.setOnClickListener { presenter.takePicture(adapter.itemCount) }
+        imageImageButton.setOnClickListener { presenter.grabImage(adapter.itemCount) }
+        locationImageButton.setOnClickListener { }
+
         if (intent.hasExtra(TAG_USER_PREFIX)) {
             newTweetEditText.setText(intent.getStringExtra(TAG_USER_PREFIX) + " ")
             newTweetEditText.setSelection(newTweetEditText.text.length)
@@ -97,9 +119,9 @@ class NewTweetActivity : AppCompatActivity(), NewTweetMvpView {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (item?.itemId == R.id.action_send)
             if (intent.hasExtra(TAG_REPLY_ID))
-                presenter.reply(intent.getLongExtra(TAG_REPLY_ID, -1))
+                presenter.reply(intent.getLongExtra(TAG_REPLY_ID, -1), adapter.imageFiles)
             else
-                presenter.sendTweet()
+                presenter.sendTweet(adapter.imageFiles)
         return true
     }
 
@@ -107,10 +129,20 @@ class NewTweetActivity : AppCompatActivity(), NewTweetMvpView {
 
     override fun showTooManyCharsError() {
         AlertDialog.Builder(this)
-                .setTitle(R.string.too_many_characters)
+                .setTitle(R.string.error)
+                .setMessage(R.string.too_many_characters)
                 .setPositiveButton(R.string.ok, null)
                 .create()
-                .show();
+                .show()
+    }
+
+    override fun showTooManyImagesError() {
+        AlertDialog.Builder(this)
+                .setTitle(R.string.error)
+                .setMessage(R.string.too_many_images)
+                .setPositiveButton(R.string.ok, null)
+                .create()
+                .show()
     }
 
     override fun showSendTweetError() {
@@ -126,10 +158,26 @@ class NewTweetActivity : AppCompatActivity(), NewTweetMvpView {
     }
 
     override fun takePicture() {
-        throw UnsupportedOperationException()
+        RxImagePicker.with(applicationContext).requestImage(Sources.CAMERA)
+                .flatMap {
+                    RxImageConverters.uriToFile(applicationContext, it, File(
+                            getExternalFilesDir(Environment.DIRECTORY_PICTURES), "${System.currentTimeMillis()}_image.jpeg"))
+                }
+                .subscribe {
+                    adapter.imageFiles.add(it)
+                    adapter.notifyDataSetChanged()
+                }
     }
 
     override fun grabImage() {
-        throw UnsupportedOperationException()
+        RxImagePicker.with(applicationContext).requestImage(Sources.GALLERY)
+                .flatMap {
+                    RxImageConverters.uriToFile(applicationContext, it, File(
+                            getExternalFilesDir(Environment.DIRECTORY_PICTURES), "${System.currentTimeMillis()}_image.jpeg"))
+                }
+                .subscribe {
+                    adapter.imageFiles.add(it)
+                    adapter.notifyDataSetChanged()
+                }
     }
 }

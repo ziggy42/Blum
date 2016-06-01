@@ -5,6 +5,7 @@ import twitter4j.Paging
 import twitter4j.Query
 import twitter4j.Status
 import twitter4j.StatusUpdate
+import java.io.File
 import java.util.*
 import java.util.concurrent.Future
 import java.util.concurrent.TimeUnit
@@ -65,11 +66,68 @@ object TwitterAPI {
         }
     })
 
+    fun updateTwitterStatus(tweet: String?, images: List<File>) = Single.from(object : Future<Status> {
+        override fun isDone(): Boolean {
+            throw UnsupportedOperationException()
+        }
+
+        override fun isCancelled(): Boolean {
+            throw UnsupportedOperationException()
+        }
+
+        override fun get() = try {
+            val status = StatusUpdate(tweet)
+            val mediaIds = LongArray(images.size)
+            images.forEachIndexed { i, file -> mediaIds[i] = TwitterUtils.getTwitter().uploadMedia(images[i]).mediaId }
+            status.setMediaIds(mediaIds)
+            TwitterUtils.getTwitter().updateStatus(status)
+        } catch (err: Exception) {
+            null
+        }
+
+        override fun get(timeout: Long, unit: TimeUnit?): Status? {
+            throw UnsupportedOperationException()
+        }
+
+        override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
+            throw UnsupportedOperationException()
+        }
+    })
+
     fun reply(tweet: String?, inReplyToStatusId: Long) = Single.from(object : Future<Status> {
         override fun get(): Status? {
             val status = StatusUpdate(tweet)
             status.inReplyToStatusId = inReplyToStatusId
             return TwitterUtils.getTwitter().updateStatus(status)
+        }
+
+        override fun get(timeout: Long, unit: TimeUnit?): Status? {
+            throw UnsupportedOperationException()
+        }
+
+        override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
+            throw UnsupportedOperationException()
+        }
+
+        override fun isCancelled(): Boolean {
+            throw UnsupportedOperationException()
+        }
+
+        override fun isDone(): Boolean {
+            throw UnsupportedOperationException()
+        }
+    })
+
+    fun reply(tweet: String?, inReplyToStatusId: Long, images: List<File>) = Single.from(object : Future<Status> {
+        override fun get() = try {
+            val status = StatusUpdate(tweet)
+            val mediaIds = LongArray(images.size)
+            images.forEachIndexed { i, file -> mediaIds[i] = TwitterUtils.getTwitter().uploadMedia(images[i]).mediaId }
+            status.setMediaIds(mediaIds)
+            status.inReplyToStatusId = inReplyToStatusId
+            TwitterUtils.getTwitter().updateStatus(status)
+        } catch (err: Exception) {
+            null
         }
 
         override fun get(timeout: Long, unit: TimeUnit?): Status? {

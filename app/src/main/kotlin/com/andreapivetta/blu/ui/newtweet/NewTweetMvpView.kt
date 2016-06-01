@@ -1,4 +1,4 @@
-package com.andreapivetta.blu.ui.new
+package com.andreapivetta.blu.ui.newtweet
 
 import com.andreapivetta.blu.arch.MvpView
 
@@ -10,6 +10,8 @@ interface NewTweetMvpView : MvpView {
     fun getTweet() : String
 
     fun showTooManyCharsError()
+
+    fun showTooManyImagesError()
 
     fun showSendTweetError()
 
