@@ -33,13 +33,11 @@ class MediaAdapter(val listener: MediaListener) : RecyclerView.Adapter<MediaView
         Glide.with(holder?.container?.context).load(media.mediaUrl)
                 .placeholder(R.drawable.placeholder).into(holder?.mediaImageView)
 
-        if (media.retweet)
-            holder?.retweetImageButton?.setColorFilter(
-                    ContextCompat.getColor(holder.container.context, R.color.greenThemeColorPrimary))
+        holder?.retweetImageButton?.setColorFilter(ContextCompat.getColor(holder.container.context,
+                if (media.retweet) R.color.greenThemeColorPrimary else R.color.white))
 
-        if (media.favorite)
-            holder?.favouriteImageButton?.setColorFilter(
-                    ContextCompat.getColor(holder.container.context, R.color.red))
+        holder?.favouriteImageButton?.setColorFilter(ContextCompat.getColor(holder.container.context,
+                if (media.favorite) R.color.red else R.color.white))
 
         holder?.favouriteImageButton?.setOnClickListener {
             if (media.favorite)

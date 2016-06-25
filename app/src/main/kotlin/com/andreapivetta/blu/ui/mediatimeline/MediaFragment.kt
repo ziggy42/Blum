@@ -1,13 +1,10 @@
 package com.andreapivetta.blu.ui.mediatimeline
 
 import android.os.Bundle
-import android.support.annotation.ColorRes
 import android.support.v4.app.Fragment
-import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,7 +38,6 @@ class MediaFragment : Fragment(), MediaMvpView, MediaAdapter.MediaListener {
     private val presenter: MediaPresenter by lazy { MediaPresenter(arguments.getLong(TAG_USER_ID)) }
     private lateinit var adapter: MediaAdapter
     private lateinit var recyclerView: RecyclerView
-    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var loadingProgressBar: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,7 +56,6 @@ class MediaFragment : Fragment(), MediaMvpView, MediaAdapter.MediaListener {
         val rootView = inflater?.inflate(R.layout.fragment_timeline, container, false)
 
         recyclerView = rootView?.findViewById(R.id.tweetsRecyclerView) as RecyclerView
-        swipeRefreshLayout = rootView?.findViewById(R.id.swipeRefreshLayout) as SwipeRefreshLayout
         loadingProgressBar = rootView?.findViewById(R.id.loadingProgressBar) as ProgressBar
 
         val linearLayoutManager = LinearLayoutManager(activity)
@@ -77,18 +72,10 @@ class MediaFragment : Fragment(), MediaMvpView, MediaAdapter.MediaListener {
             }
         })
 
-        swipeRefreshLayout.setColorSchemeColors(getRefreshColor())
-
         if (adapter.mDataSet.isEmpty())
             presenter.getPhotos()
 
         return rootView
-    }
-
-    @ColorRes private fun getRefreshColor(): Int {
-        val typedValue = TypedValue()
-        activity.theme.resolveAttribute(R.attr.appColorPrimary, typedValue, true)
-        return typedValue.data
     }
 
     override fun showPhoto(media: Media) {
