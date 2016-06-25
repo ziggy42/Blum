@@ -3,13 +3,13 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 24
+    buildToolsVersion "24.0.0"
 
     defaultConfig {
         applicationId "com.andreapivetta.blu"
         minSdkVersion 16
-        targetSdkVersion 23
+        targetSdkVersion 24
         versionCode 45
         versionName "5.0"
     }
@@ -35,7 +35,7 @@ android {
 }
 
 dependencies {
-    final SUPPORT_LIBRARY_VERSION = '23.4.0'
+    final SUPPORT_LIBRARY_VERSION = '24.0.0'
 
     compile "com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION"
     compile "com.android.support:palette-v7:$SUPPORT_LIBRARY_VERSION"
