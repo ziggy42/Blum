@@ -1,13 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="300dp"
-    android:orientation="vertical">
+    android:layout_height="300dp">
 
     <ImageView
-        android:scaleType="centerCrop"
         android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:contentDescription="@string/take_photo_contentDescriptor"
+        android:scaleType="centerCrop" />
 
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/blackTransparent"
+        android:padding="2dp">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <ImageButton
+            android:id="@+id/retweetImageButton"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_margin="3dp"
+            android:background="?selectableItemBackgroundBorderless"
+            android:contentDescription="@string/retweet_imageButton_contentDescriptor"
+            android:padding="2dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_repeat_white_36dp" />
+
+        <ImageButton
+            android:id="@+id/favouriteImageButton"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_margin="3dp"
+            android:background="?selectableItemBackgroundBorderless"
+            android:contentDescription="@string/favourite_imageButton_contentDescriptor"
+            android:padding="2dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_heart_white_36dp" />
+
+    </LinearLayout>
+
+</FrameLayout>

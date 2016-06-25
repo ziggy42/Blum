@@ -2,6 +2,7 @@ package com.andreapivetta.blu.ui.mediatimeline.holders
 
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import android.widget.ImageButton
 import android.widget.ImageView
 import com.andreapivetta.blu.R
 
@@ -10,10 +11,14 @@ import com.andreapivetta.blu.R
  */
 class MediaViewHolder(val container: View) : RecyclerView.ViewHolder(container) {
 
-    var mediaImageView: ImageView
+    val mediaImageView: ImageView
+    val favouriteImageButton: ImageButton
+    val retweetImageButton: ImageButton
 
     init {
-        mediaImageView = container.findViewById(R.id.imageView) as ImageView
+        this.mediaImageView = container.findViewById(R.id.imageView) as ImageView
+        this.favouriteImageButton = container.findViewById(R.id.favouriteImageButton) as ImageButton
+        this.retweetImageButton = container.findViewById(R.id.retweetImageButton) as ImageButton
     }
 
 }

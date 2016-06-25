@@ -189,6 +189,7 @@ open class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
     }
 
     override fun unretweet(status: Status) {
+        // TODO
         Toast.makeText(context, "Not yet implemented", Toast.LENGTH_SHORT).show()
     }
 

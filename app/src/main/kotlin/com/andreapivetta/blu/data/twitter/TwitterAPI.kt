@@ -176,7 +176,7 @@ object TwitterAPI {
         }
     })
 
-    fun favorite(status: Status) = Single.from(object : Future<Status> {
+    fun favorite(statusId: Long) = Single.from(object : Future<Status> {
         override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
             throw UnsupportedOperationException()
         }
@@ -185,7 +185,7 @@ object TwitterAPI {
             throw UnsupportedOperationException()
         }
 
-        override fun get() = TwitterUtils.getTwitter().createFavorite(status.id)
+        override fun get() = TwitterUtils.getTwitter().createFavorite(statusId)
 
         override fun get(timeout: Long, unit: TimeUnit?): Status? {
             throw UnsupportedOperationException()
@@ -196,7 +196,7 @@ object TwitterAPI {
         }
     })
 
-    fun unfavorite(status: Status) = Single.from(object : Future<Status> {
+    fun unfavorite(statusId: Long) = Single.from(object : Future<Status> {
         override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
             throw UnsupportedOperationException()
         }
@@ -205,7 +205,7 @@ object TwitterAPI {
             throw UnsupportedOperationException()
         }
 
-        override fun get() = TwitterUtils.getTwitter().destroyFavorite(status.id)
+        override fun get() = TwitterUtils.getTwitter().destroyFavorite(statusId)
 
         override fun get(timeout: Long, unit: TimeUnit?): Status? {
             throw UnsupportedOperationException()
@@ -216,12 +216,12 @@ object TwitterAPI {
         }
     })
 
-    fun retweet(status: Status) = Single.from(object : Future<Status> {
+    fun retweet(statusId: Long) = Single.from(object : Future<Status> {
         override fun get(timeout: Long, unit: TimeUnit?): Status? {
             throw UnsupportedOperationException()
         }
 
-        override fun get() = TwitterUtils.getTwitter().retweetStatus(status.id)
+        override fun get() = TwitterUtils.getTwitter().retweetStatus(statusId)
 
         override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
             throw UnsupportedOperationException()

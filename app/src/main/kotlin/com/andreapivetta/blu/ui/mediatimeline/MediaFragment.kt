@@ -11,15 +11,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
+import android.widget.Toast
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.Common
 import com.andreapivetta.blu.ui.base.decorators.SpaceTopItemDecoration
+import com.andreapivetta.blu.ui.mediatimeline.model.Media
 import com.andreapivetta.blu.ui.timeline.TimelineFragment
 
 /**
  * Created by andrea on 24/06/16.
  */
-class MediaFragment : Fragment(), MediaMvpView {
+class MediaFragment : Fragment(), MediaMvpView, MediaAdapter.MediaListener {
 
     companion object {
         fun newInstance(userId: Long): MediaFragment {
@@ -45,9 +47,9 @@ class MediaFragment : Fragment(), MediaMvpView {
         super.onCreate(savedInstanceState)
         presenter.attachView(this)
 
-        adapter = MediaAdapter()
+        adapter = MediaAdapter(this)
         if (savedInstanceState != null) {
-            adapter.mDataSet = savedInstanceState.getStringArrayList(TAG_LIST)
+            adapter.mDataSet = savedInstanceState.getSerializable(TAG_LIST) as MutableList<Media>
             presenter.page = savedInstanceState.getInt(TimelineFragment.TAG_PAGE)
         }
     }
@@ -80,12 +82,8 @@ class MediaFragment : Fragment(), MediaMvpView {
         return typedValue.data
     }
 
-    override fun showPhotos(photos: MutableList<String>) {
-        throw UnsupportedOperationException()
-    }
-
-    override fun showPhoto(photo: String) {
-        adapter.mDataSet.add(photo)
+    override fun showPhoto(media: Media) {
+        adapter.mDataSet.add(media)
         adapter.notifyDataSetChanged()
     }
 
@@ -95,5 +93,27 @@ class MediaFragment : Fragment(), MediaMvpView {
 
     override fun hideLoading() {
         loadingProgressBar.visibility = View.GONE
+    }
+
+    override fun onNewInteraction() {
+        adapter.notifyDataSetChanged()
+    }
+
+    // MediaListener
+    override fun favorite(media: Media) {
+        presenter.favorite(media)
+    }
+
+    override fun retweet(media: Media) {
+        presenter.retweet(media)
+    }
+
+    override fun unfavorite(media: Media) {
+        presenter.unfavorite(media)
+    }
+
+    override fun unretweet(media: Media) {
+        // TODO
+        Toast.makeText(context, "Not yet implemented", Toast.LENGTH_SHORT).show()
     }
 }

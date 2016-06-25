@@ -65,7 +65,7 @@ class TweetDetailsPresenter : BasePresenter<TweetDetailsMvpView>() {
     fun favorite(status: Status) {
         checkViewAttached()
 
-        mFavoriteSubscriber = TwitterAPI.favorite(status)
+        mFavoriteSubscriber = TwitterAPI.favorite(status.id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(object : SingleSubscriber<Status>() {
@@ -82,7 +82,7 @@ class TweetDetailsPresenter : BasePresenter<TweetDetailsMvpView>() {
     fun retweet(status: Status) {
         checkViewAttached()
 
-        mRetweetSubscriber = TwitterAPI.retweet(status)
+        mRetweetSubscriber = TwitterAPI.retweet(status.id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(object : SingleSubscriber<Status>() {
@@ -99,7 +99,7 @@ class TweetDetailsPresenter : BasePresenter<TweetDetailsMvpView>() {
     fun unfavorite(status: Status) {
         checkViewAttached()
 
-        mUnfavoriteSubscriber = TwitterAPI.unfavorite(status)
+        mUnfavoriteSubscriber = TwitterAPI.unfavorite(status.id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(object : SingleSubscriber<Status>() {
