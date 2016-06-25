@@ -13,7 +13,7 @@
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapse_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="360dp"
+            android:layout_height="380dp"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
             app:expandedTitleTextAppearance="@style/TransparentText"
@@ -30,8 +30,9 @@
                 <ImageView
                     android:id="@+id/header"
                     android:layout_width="match_parent"
-                    android:layout_height="144dp"
+                    android:layout_height="154dp"
                     android:background="@drawable/placeholder"
+                    android:contentDescription="@string/profile_background_contentDescriptor"
                     android:fitsSystemWindows="true"
                     android:scaleType="centerCrop" />
 
