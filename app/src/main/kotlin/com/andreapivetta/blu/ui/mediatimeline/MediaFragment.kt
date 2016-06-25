@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.annotation.ColorRes
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.TypedValue
@@ -67,6 +68,14 @@ class MediaFragment : Fragment(), MediaMvpView, MediaAdapter.MediaListener {
         recyclerView.setHasFixedSize(true)
         recyclerView.addItemDecoration(SpaceTopItemDecoration(Common.dpToPx(activity, 10)))
         recyclerView.adapter = adapter
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (linearLayoutManager.childCount + linearLayoutManager.findFirstVisibleItemPosition() + 1 >
+                        linearLayoutManager.itemCount - 10)
+                    presenter.getMorePhotos()
+            }
+        })
 
         swipeRefreshLayout.setColorSchemeColors(getRefreshColor())
 
@@ -105,7 +114,12 @@ class MediaFragment : Fragment(), MediaMvpView, MediaAdapter.MediaListener {
     }
 
     override fun retweet(media: Media) {
-        presenter.retweet(media)
+        AlertDialog.Builder(context)
+                .setTitle(context.getString(R.string.retweet_title))
+                .setPositiveButton(context.getString(R.string.retweet),
+                        { dialogInterface, i -> presenter.retweet(media) })
+                .setNegativeButton(R.string.cancel, null)
+                .create().show()
     }
 
     override fun unfavorite(media: Media) {

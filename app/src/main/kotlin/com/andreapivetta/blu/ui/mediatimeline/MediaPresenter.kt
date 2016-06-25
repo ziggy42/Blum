@@ -54,7 +54,37 @@ class MediaPresenter(val userId: Long) : BasePresenter<MediaMvpView>() {
                     }
 
                     override fun onCompleted() {
-                        Timber.i("onCompleted!!")
+                        page++
+                        isLoading = false
+                    }
+                })
+    }
+
+    fun getMorePhotos() {
+        if (isLoading)
+            return
+
+        checkViewAttached()
+        isLoading = true
+
+        TwitterAPI.getUserTimeline(userId, Paging(page, 200))
+                .flatMap { list -> Observable.from(list) }
+                .filter { status -> status.mediaEntities.size > 0 }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(object : Subscriber<Status>() {
+                    override fun onNext(status: Status) {
+                        mvpView?.hideLoading()
+                        mvpView?.showPhoto(Media(status))
+                    }
+
+                    override fun onError(e: Throwable?) {
+                        Timber.e(e, "Error!")
+                    }
+
+                    override fun onCompleted() {
+                        page++
+                        isLoading = false
                     }
                 })
     }
