@@ -23,7 +23,7 @@ class TweetDetailsActivity : ThemedActivity() {
         setContentView(R.layout.activity_tweet_details)
         val toolbar: Toolbar = findViewById(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
-        toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         toolbar.setNavigationOnClickListener { finish() }
 
         if (savedInstanceState == null)

@@ -42,7 +42,7 @@ class ImageActivity : AppCompatActivity() {
             getString(R.string.m_of_n, currentItem + 1, images.size) else ""
         toolbar.title = toolbarTitle
         setSupportActionBar(toolbar)
-        toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         toolbar.setNavigationOnClickListener { finish() }
 
         val viewPager = findViewById(R.id.photosViewPager) as ViewPager
