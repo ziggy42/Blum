@@ -33,6 +33,11 @@
             android:name=".ui.image.ImageActivity"
             android:label="@string/title_empty"
             android:theme="@style/ImageActivityTheme" />
+        <activity
+            android:name=".ui.profile.ProfileActivity"
+            android:label="@string/title_empty"
+            android:theme="@style/ProfileTheme" />
+
     </application>
 
 </manifest>

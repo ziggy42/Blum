@@ -1,5 +1,6 @@
 package com.andreapivetta.blu.data.twitter
 
+import rx.Observable
 import rx.Single
 import twitter4j.Paging
 import twitter4j.Query
@@ -40,7 +41,35 @@ object TwitterAPI {
         }
     })
 
+    fun getUserTimeline(userId: Long, paging: Paging) =
+            Observable.from(object : Future<MutableList<Status>> {
+                override fun get() =
+                        try {
+                            TwitterUtils.getTwitter().getUserTimeline(userId, paging)
+                        } catch(err: Exception) {
+                            null
+                        }
+
+                override fun get(timeout: Long, unit: TimeUnit?): MutableList<Status>? {
+                    throw UnsupportedOperationException()
+                }
+
+                override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
+                    return true
+                }
+
+                override fun isDone(): Boolean {
+                    throw UnsupportedOperationException()
+                }
+
+                override fun isCancelled(): Boolean {
+                    throw UnsupportedOperationException()
+                }
+            })
+
     fun refreshTimeLine(paging: Paging) = getHomeTimeline(paging)
+
+    fun refreshUserTimeLine(userId: Long, paging: Paging) = getUserTimeline(userId, paging)
 
     fun updateTwitterStatus(tweet: String?) = Single.from(object : Future<Status> {
         override fun isDone(): Boolean {

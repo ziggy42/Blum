@@ -14,12 +14,12 @@ import twitter4j.User
 /**
  * Created by andrea on 17/05/16.
  */
-class TimelinePresenter : BasePresenter<TimelineMvpView>() {
+open class TimelinePresenter : BasePresenter<TimelineMvpView>() {
 
     var page: Int = 1
-    private var isLoading: Boolean = false
-    private var mSubscriber: Subscription? = null
-    private var mRefreshSubscriber: Subscription? = null
+    protected var isLoading: Boolean = false
+    protected var mSubscriber: Subscription? = null
+    protected var mRefreshSubscriber: Subscription? = null
     private var mFavoriteSubscriber: Subscription? = null
     private var mRetweetSubscriber: Subscription? = null
     private var mUnfavoriteSubscriber: Subscription? = null
@@ -35,7 +35,7 @@ class TimelinePresenter : BasePresenter<TimelineMvpView>() {
         mUnretweetSubscriber?.unsubscribe()
     }
 
-    fun getTweets() {
+    open fun getTweets() {
         checkViewAttached()
         mvpView?.showLoading()
         isLoading = true
@@ -68,7 +68,7 @@ class TimelinePresenter : BasePresenter<TimelineMvpView>() {
                 })
     }
 
-    fun getMoreTweets() {
+    open fun getMoreTweets() {
         if (isLoading)
             return
 
@@ -95,7 +95,7 @@ class TimelinePresenter : BasePresenter<TimelineMvpView>() {
                 })
     }
 
-    fun onRefresh() {
+    open fun onRefresh() {
         checkViewAttached()
 
         val page = Paging(1, 200)

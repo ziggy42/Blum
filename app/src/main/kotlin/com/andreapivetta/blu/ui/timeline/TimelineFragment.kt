@@ -19,6 +19,7 @@ import com.andreapivetta.blu.common.Common
 import com.andreapivetta.blu.ui.base.decorators.SpaceTopItemDecoration
 import com.andreapivetta.blu.ui.image.ImageActivity
 import com.andreapivetta.blu.ui.newtweet.NewTweetActivity
+import com.andreapivetta.blu.ui.profile.ProfileActivity
 import com.andreapivetta.blu.ui.tweetdetails.TweetDetailsActivity
 import twitter4j.Status
 import twitter4j.User
@@ -27,21 +28,23 @@ import java.io.Serializable
 /**
  * Created by andrea on 17/05/16.
  */
-class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
+open class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
 
     companion object {
-        fun newInstance(): TimelineFragment = TimelineFragment()
+        fun newInstance() = TimelineFragment()
 
         val TAG_TWEET_LIST = "tweet_list"
         val TAG_PAGE = "page"
     }
 
-    private val presenter: TimelinePresenter by lazy { TimelinePresenter() }
+    private val presenter: TimelinePresenter by lazy { getTimelinePresenter() }
 
     private lateinit var adapter: TimelineAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var loadingProgressBar: ProgressBar
+
+    protected open fun getTimelinePresenter() = TimelinePresenter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -198,7 +201,7 @@ class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
     }
 
     override fun showUser(user: User) {
-        // TODO
+        ProfileActivity.launch(context, user)
     }
 
     override fun showImage(imageUrl: String) {

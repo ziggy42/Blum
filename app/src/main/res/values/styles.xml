@@ -84,4 +84,13 @@
         <item name="android:windowBackground">@color/black</item>
     </style>
 
+    <style name="ProfileTheme" parent="LightBaseTheme">
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryDark">@color/lightGrey</item>
+        <item name="colorAccent">@color/blueThemeColorPrimary</item>
+        <item name="circleDrawable">@drawable/circle_darkblue</item>
+        <item name="rectBackground">@drawable/rect_background_blue</item>
+        <item name="circleButton">@drawable/circle_button_blue</item>
+    </style>
+
 </resources>
