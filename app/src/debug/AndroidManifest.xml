@@ -1,0 +1,9 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.andreapivetta.blu">
+
+    <application
+        android:name=".BlumApplicationDebug"
+        tools:replace="android:name" />
+
+</manifest>

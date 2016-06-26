@@ -15,6 +15,7 @@ import com.andreapivetta.blu.common.Common
 import com.andreapivetta.blu.ui.base.decorators.SpaceTopItemDecoration
 import com.andreapivetta.blu.ui.mediatimeline.model.Media
 import com.andreapivetta.blu.ui.timeline.TimelineFragment
+import java.io.Serializable
 
 /**
  * Created by andrea on 24/06/16.
@@ -76,6 +77,12 @@ class MediaFragment : Fragment(), MediaMvpView, MediaAdapter.MediaListener {
             presenter.getPhotos()
 
         return rootView
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        outState?.putSerializable(TimelineFragment.TAG_TWEET_LIST, adapter.mDataSet as Serializable)
+        outState?.putInt(TimelineFragment.TAG_PAGE, presenter.page)
+        super.onSaveInstanceState(outState)
     }
 
     override fun showPhoto(media: Media) {
