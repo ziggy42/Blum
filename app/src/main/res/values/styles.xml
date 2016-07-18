@@ -85,6 +85,7 @@
     </style>
 
     <style name="ProfileTheme" parent="LightBaseTheme">
+        <item name="colorControlNormal">@color/blueThemeColorPrimary</item>
         <item name="colorPrimary">@color/white</item>
         <item name="colorPrimaryDark">@color/lightGrey</item>
         <item name="colorAccent">@color/blueThemeColorPrimary</item>

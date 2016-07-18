@@ -98,10 +98,11 @@ object Common {
 
     }
 
-    fun dpToPx(context: Context, dp: Int): Int {
-        val displayMetrics = context.resources.displayMetrics
-        return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT))
-    }
+    fun dpToPx(context: Context, dp: Int) = Math.round(dp *
+            (context.resources.displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT))
+
+    fun pxToDp(context: Context, px: Int) = Math.round(px /
+            (context.resources.displayMetrics.densityDpi.toDouble() / DisplayMetrics.DENSITY_DEFAULT.toDouble())).toInt()
 
     fun getResourceColorPrimary(context: Context): Int {
         when (PreferenceManager.getDefaultSharedPreferences(context).getString(context.getString(R.string.pref_key_themes), "B")) {
