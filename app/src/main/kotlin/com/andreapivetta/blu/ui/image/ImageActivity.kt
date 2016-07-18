@@ -8,10 +8,10 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import com.andreapivetta.blu.R
+import kotlinx.android.synthetic.main.activity_image.*
 
 class ImageActivity : AppCompatActivity() {
 
@@ -28,7 +28,6 @@ class ImageActivity : AppCompatActivity() {
 
     private lateinit var images: List<String>
     private var isToolbarVisible = true
-    private val toolbar: Toolbar by lazy { findViewById(R.id.toolbar) as Toolbar }
     private val handler: Handler = Handler()
     private var hideToolbarRunnable = Runnable { hideToolbar() }
 

@@ -3,9 +3,9 @@ package com.andreapivetta.blu.ui.tweetdetails
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.widget.Toolbar
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.ui.base.ThemedActivity
+import kotlinx.android.synthetic.main.activity_tweet_details.*
 
 class TweetDetailsActivity : ThemedActivity() {
 
@@ -21,7 +21,6 @@ class TweetDetailsActivity : ThemedActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tweet_details)
-        val toolbar: Toolbar = findViewById(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         toolbar.setNavigationOnClickListener { finish() }

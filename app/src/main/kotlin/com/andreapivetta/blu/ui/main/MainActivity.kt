@@ -1,19 +1,15 @@
 package com.andreapivetta.blu.ui.main
 
 import android.os.Bundle
-import android.support.design.widget.FloatingActionButton
-import android.support.v7.widget.Toolbar
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.ui.base.ThemedActivity
 import com.andreapivetta.blu.ui.newtweet.NewTweetActivity
 import com.andreapivetta.blu.ui.timeline.TimelineFragment
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : ThemedActivity(), MainMvpView {
 
     private val presenter: MainPresenter = MainPresenter()
-
-    private val toolbar: Toolbar by lazy { findViewById(R.id.toolbar) as Toolbar }
-    private val fab: FloatingActionButton by lazy { findViewById(R.id.fab) as FloatingActionButton }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

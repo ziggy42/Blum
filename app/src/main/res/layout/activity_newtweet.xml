@@ -28,7 +28,7 @@
         android:paddingTop="10dp">
 
         <com.andreapivetta.blu.ui.base.views.EditTextCursorWatcher
-            android:id="@+id/newTweet_editText"
+            android:id="@+id/newTweetEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"

@@ -10,35 +10,26 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.Toolbar
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import com.andreapivetta.blu.R
-import com.andreapivetta.blu.ui.base.views.EditTextCursorWatcher
 import com.mlsdev.rximagepicker.RxImageConverters
 import com.mlsdev.rximagepicker.RxImagePicker
 import com.mlsdev.rximagepicker.Sources
+import kotlinx.android.synthetic.main.activity_newtweet.*
 import java.io.File
 
 class NewTweetActivity : AppCompatActivity(), NewTweetMvpView {
 
     private val presenter: NewTweetPresenter = NewTweetPresenter()
 
-    private val toolbar: Toolbar by lazy { findViewById(R.id.toolbar) as Toolbar }
-    private val newTweetEditText: EditTextCursorWatcher by lazy {
-        findViewById(R.id.newTweet_editText) as EditTextCursorWatcher
-    }
     private val photosRecyclerView: RecyclerView by lazy {
         findViewById(R.id.photosRecyclerView) as RecyclerView
     }
-    private val photoImageButton: ImageButton by lazy { findViewById(R.id.photoImageButton) as ImageButton }
-    private val imageImageButton: ImageButton by lazy { findViewById(R.id.imageImageButton) as ImageButton }
-    private val locationImageButton: ImageButton by lazy { findViewById(R.id.locationImageButton) as ImageButton }
 
     private val adapter: DeletableImageAdapter by lazy { DeletableImageAdapter(applicationContext, mutableListOf()) }
 
@@ -180,4 +171,5 @@ class NewTweetActivity : AppCompatActivity(), NewTweetMvpView {
                     adapter.notifyDataSetChanged()
                 }
     }
+
 }
