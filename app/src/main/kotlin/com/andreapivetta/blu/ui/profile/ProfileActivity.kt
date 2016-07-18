@@ -79,7 +79,7 @@ class ProfileActivity : AppCompatActivity() {
 
         override fun getCount() = this@ProfileActivity.resources.getStringArray(R.array.user_profile_tabs).size
 
-        override fun getPageTitle(position: Int) =
+        override fun getPageTitle(position: Int): String =
                 this@ProfileActivity.resources.getStringArray(R.array.user_profile_tabs)[position]
     }
 }

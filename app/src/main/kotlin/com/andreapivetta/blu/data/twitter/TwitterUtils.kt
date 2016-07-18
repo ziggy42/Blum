@@ -4,6 +4,7 @@ import android.content.Context
 import android.preference.PreferenceManager
 import com.andreapivetta.blu.BuildConfig
 import com.andreapivetta.blu.R
+import twitter4j.Twitter
 import twitter4j.TwitterFactory
 import twitter4j.auth.AccessToken
 import twitter4j.conf.ConfigurationBuilder
@@ -24,7 +25,7 @@ object TwitterUtils {
         return factory as TwitterFactory
     }
 
-    fun getTwitter() = getFactory().getInstance(accessToken)
+    fun getTwitter(): Twitter = getFactory().getInstance(accessToken)
 
     fun nullTwitter() {
         factory = null

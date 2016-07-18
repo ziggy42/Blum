@@ -17,7 +17,7 @@ import java.util.regex.Pattern
 class NewTweetPresenter : BasePresenter<NewTweetMvpView>() {
 
     companion object {
-        private val MAX_URL_LENGTH = 23; // it will change
+        private val MAX_URL_LENGTH = 23 // it will change
     }
 
     private var charsLeft: Int = 140

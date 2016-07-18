@@ -134,7 +134,7 @@ open class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
     }
 
     override fun showSnackBar(message: String) {
-        Snackbar.make(view!!, message, Snackbar.LENGTH_SHORT);
+        Snackbar.make(view!!, message, Snackbar.LENGTH_SHORT)
     }
 
     override fun showLoading() {

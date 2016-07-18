@@ -21,7 +21,7 @@ class EditedViewPager : ViewPager {
             err.printStackTrace()
         }
 
-        return false;
+        return false
     }
 
     override fun onInterceptTouchEvent(ev: MotionEvent?): Boolean {

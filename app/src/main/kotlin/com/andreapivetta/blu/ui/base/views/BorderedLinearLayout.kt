@@ -37,6 +37,7 @@ class BorderedLinearLayout : LinearLayout {
         strokePaint!!.style = Paint.Style.STROKE
         strokePaint!!.color = a.getColor(R.styleable.BorderedLinearLayout_borderColor, Color.BLACK)
         strokePaint!!.strokeWidth = 2f
+        a.recycle()
     }
 
     override fun onDraw(canvas: Canvas) {

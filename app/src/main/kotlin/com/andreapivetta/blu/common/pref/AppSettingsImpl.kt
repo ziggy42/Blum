@@ -8,9 +8,8 @@ import com.andreapivetta.blu.R
 /**
  * Created by andrea on 15/05/16.
  */
-class AppSettingsImpl(context: Context) : AppSettings {
+class AppSettingsImpl(val context: Context) : AppSettings {
 
-    val context = context
     val pref: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
     override fun isUserLoggedIn() =

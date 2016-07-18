@@ -21,7 +21,7 @@ class DeletableImageAdapter(val context: Context, val imageFiles: MutableList<Fi
 
     override fun onBindViewHolder(holder: DeletableImageViewHolder?, position: Int) {
         val thumbImage = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(imageFiles[position].absolutePath),
-                Common.dpToPx(context, 200), Common.dpToPx(context, 200));
+                Common.dpToPx(context, 200), Common.dpToPx(context, 200))
         holder?.photoImageView?.setImageBitmap(thumbImage)
     }
 

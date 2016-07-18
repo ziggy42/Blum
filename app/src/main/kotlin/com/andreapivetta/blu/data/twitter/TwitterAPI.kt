@@ -16,32 +16,33 @@ import java.util.concurrent.TimeUnit
  */
 object TwitterAPI {
 
-    fun getHomeTimeline(paging: Paging) = Single.from(object : Future<MutableList<Status>> {
-        override fun get() =
-                try {
-                    TwitterUtils.getTwitter().getHomeTimeline(paging)
-                } catch(err: Exception) {
-                    null
+    fun getHomeTimeline(paging: Paging): Single<MutableList<Status>> =
+            Single.from(object : Future<MutableList<Status>> {
+                override fun get() =
+                        try {
+                            TwitterUtils.getTwitter().getHomeTimeline(paging)
+                        } catch(err: Exception) {
+                            null
+                        }
+
+                override fun get(timeout: Long, unit: TimeUnit?): MutableList<Status>? {
+                    throw UnsupportedOperationException()
                 }
 
-        override fun get(timeout: Long, unit: TimeUnit?): MutableList<Status>? {
-            throw UnsupportedOperationException()
-        }
+                override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
+                    throw UnsupportedOperationException()
+                }
 
-        override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
-            throw UnsupportedOperationException()
-        }
+                override fun isDone(): Boolean {
+                    throw UnsupportedOperationException()
+                }
 
-        override fun isDone(): Boolean {
-            throw UnsupportedOperationException()
-        }
+                override fun isCancelled(): Boolean {
+                    throw UnsupportedOperationException()
+                }
+            })
 
-        override fun isCancelled(): Boolean {
-            throw UnsupportedOperationException()
-        }
-    })
-
-    fun getUserTimeline(userId: Long, paging: Paging) =
+    fun getUserTimeline(userId: Long, paging: Paging): Observable<MutableList<Status>> =
             Observable.from(object : Future<MutableList<Status>> {
                 override fun get() =
                         try {
@@ -67,116 +68,127 @@ object TwitterAPI {
                 }
             })
 
-    fun refreshTimeLine(paging: Paging) = getHomeTimeline(paging)
+    fun refreshTimeLine(paging: Paging): Single<MutableList<Status>> = getHomeTimeline(paging)
 
-    fun refreshUserTimeLine(userId: Long, paging: Paging) = getUserTimeline(userId, paging)
+    fun refreshUserTimeLine(userId: Long, paging: Paging): Observable<MutableList<Status>> =
+            getUserTimeline(userId, paging)
 
-    fun updateTwitterStatus(tweet: String?) = Single.from(object : Future<Status> {
-        override fun isDone(): Boolean {
-            throw UnsupportedOperationException()
-        }
+    fun updateTwitterStatus(tweet: String?): Single<Status> =
+            Single.from(object : Future<Status> {
+                override fun isDone(): Boolean {
+                    throw UnsupportedOperationException()
+                }
 
-        override fun isCancelled(): Boolean {
-            throw UnsupportedOperationException()
-        }
+                override fun isCancelled(): Boolean {
+                    throw UnsupportedOperationException()
+                }
 
-        override fun get() = try {
-            TwitterUtils.getTwitter().updateStatus(tweet)
-        } catch (err: Exception) {
-            null
-        }
+                override fun get() = try {
+                    TwitterUtils.getTwitter().updateStatus(tweet)
+                } catch (err: Exception) {
+                    null
+                }
 
-        override fun get(timeout: Long, unit: TimeUnit?): Status? {
-            throw UnsupportedOperationException()
-        }
+                override fun get(timeout: Long, unit: TimeUnit?): Status? {
+                    throw UnsupportedOperationException()
+                }
 
-        override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
-            throw UnsupportedOperationException()
-        }
-    })
+                override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
+                    throw UnsupportedOperationException()
+                }
+            })
 
-    fun updateTwitterStatus(tweet: String?, images: List<File>) = Single.from(object : Future<Status> {
-        override fun isDone(): Boolean {
-            throw UnsupportedOperationException()
-        }
+    fun updateTwitterStatus(tweet: String?, images: List<File>): Single<Status> =
+            Single.from(object : Future<Status> {
+                override fun isDone(): Boolean {
+                    throw UnsupportedOperationException()
+                }
 
-        override fun isCancelled(): Boolean {
-            throw UnsupportedOperationException()
-        }
+                override fun isCancelled(): Boolean {
+                    throw UnsupportedOperationException()
+                }
 
-        override fun get() = try {
-            val status = StatusUpdate(tweet)
-            val mediaIds = LongArray(images.size)
-            images.forEachIndexed { i, file -> mediaIds[i] = TwitterUtils.getTwitter().uploadMedia(images[i]).mediaId }
-            status.setMediaIds(mediaIds)
-            TwitterUtils.getTwitter().updateStatus(status)
-        } catch (err: Exception) {
-            null
-        }
+                override fun get() = try {
+                    val status = StatusUpdate(tweet)
+                    val mediaIds = LongArray(images.size)
+                    images.forEachIndexed { i, file ->
+                        mediaIds[i] = TwitterUtils.getTwitter()
+                                .uploadMedia(images[i]).mediaId
+                    }
+                    status.setMediaIds(mediaIds)
+                    TwitterUtils.getTwitter().updateStatus(status)
+                } catch (err: Exception) {
+                    null
+                }
 
-        override fun get(timeout: Long, unit: TimeUnit?): Status? {
-            throw UnsupportedOperationException()
-        }
+                override fun get(timeout: Long, unit: TimeUnit?): Status? {
+                    throw UnsupportedOperationException()
+                }
 
-        override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
-            throw UnsupportedOperationException()
-        }
-    })
+                override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
+                    throw UnsupportedOperationException()
+                }
+            })
 
-    fun reply(tweet: String?, inReplyToStatusId: Long) = Single.from(object : Future<Status> {
-        override fun get(): Status? {
-            val status = StatusUpdate(tweet)
-            status.inReplyToStatusId = inReplyToStatusId
-            return TwitterUtils.getTwitter().updateStatus(status)
-        }
+    fun reply(tweet: String?, inReplyToStatusId: Long): Single<Status> =
+            Single.from(object : Future<Status> {
+                override fun get(): Status? {
+                    val status = StatusUpdate(tweet)
+                    status.inReplyToStatusId = inReplyToStatusId
+                    return TwitterUtils.getTwitter().updateStatus(status)
+                }
 
-        override fun get(timeout: Long, unit: TimeUnit?): Status? {
-            throw UnsupportedOperationException()
-        }
+                override fun get(timeout: Long, unit: TimeUnit?): Status? {
+                    throw UnsupportedOperationException()
+                }
 
-        override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
-            throw UnsupportedOperationException()
-        }
+                override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
+                    throw UnsupportedOperationException()
+                }
 
-        override fun isCancelled(): Boolean {
-            throw UnsupportedOperationException()
-        }
+                override fun isCancelled(): Boolean {
+                    throw UnsupportedOperationException()
+                }
 
-        override fun isDone(): Boolean {
-            throw UnsupportedOperationException()
-        }
-    })
+                override fun isDone(): Boolean {
+                    throw UnsupportedOperationException()
+                }
+            })
 
-    fun reply(tweet: String?, inReplyToStatusId: Long, images: List<File>) = Single.from(object : Future<Status> {
-        override fun get() = try {
-            val status = StatusUpdate(tweet)
-            val mediaIds = LongArray(images.size)
-            images.forEachIndexed { i, file -> mediaIds[i] = TwitterUtils.getTwitter().uploadMedia(images[i]).mediaId }
-            status.setMediaIds(mediaIds)
-            status.inReplyToStatusId = inReplyToStatusId
-            TwitterUtils.getTwitter().updateStatus(status)
-        } catch (err: Exception) {
-            null
-        }
+    fun reply(tweet: String?, inReplyToStatusId: Long, images: List<File>): Single<Status> =
+            Single.from(object : Future<Status> {
+                override fun get() = try {
+                    val status = StatusUpdate(tweet)
+                    val mediaIds = LongArray(images.size)
+                    images.forEachIndexed { i, file ->
+                        mediaIds[i] = TwitterUtils.getTwitter()
+                                .uploadMedia(images[i]).mediaId
+                    }
+                    status.setMediaIds(mediaIds)
+                    status.inReplyToStatusId = inReplyToStatusId
+                    TwitterUtils.getTwitter().updateStatus(status)
+                } catch (err: Exception) {
+                    null
+                }
 
-        override fun get(timeout: Long, unit: TimeUnit?): Status? {
-            throw UnsupportedOperationException()
-        }
+                override fun get(timeout: Long, unit: TimeUnit?): Status? {
+                    throw UnsupportedOperationException()
+                }
 
-        override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
-            throw UnsupportedOperationException()
-        }
+                override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
+                    throw UnsupportedOperationException()
+                }
 
-        override fun isCancelled(): Boolean {
-            throw UnsupportedOperationException()
-        }
+                override fun isCancelled(): Boolean {
+                    throw UnsupportedOperationException()
+                }
 
-        override fun isDone(): Boolean {
-            throw UnsupportedOperationException()
-        }
-    })
+                override fun isDone(): Boolean {
+                    throw UnsupportedOperationException()
+                }
+            })
 
-    fun favorite(statusId: Long) = Single.from(object : Future<Status> {
+    fun favorite(statusId: Long): Single<Status> = Single.from(object : Future<Status> {
         override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
             throw UnsupportedOperationException()
         }
@@ -196,7 +208,7 @@ object TwitterAPI {
         }
     })
 
-    fun unfavorite(statusId: Long) = Single.from(object : Future<Status> {
+    fun unfavorite(statusId: Long): Single<Status> = Single.from(object : Future<Status> {
         override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
             throw UnsupportedOperationException()
         }
@@ -216,7 +228,7 @@ object TwitterAPI {
         }
     })
 
-    fun retweet(statusId: Long) = Single.from(object : Future<Status> {
+    fun retweet(statusId: Long): Single<Status> = Single.from(object : Future<Status> {
         override fun get(timeout: Long, unit: TimeUnit?): Status? {
             throw UnsupportedOperationException()
         }
@@ -236,49 +248,50 @@ object TwitterAPI {
         }
     })
 
-    fun getConversation(statusId: Long) = Single.from(object : Future<Pair<MutableList<Status>, Int>> {
-        override fun isCancelled(): Boolean {
-            throw UnsupportedOperationException()
-        }
-
-        override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
-            throw UnsupportedOperationException()
-        }
-
-        override fun get(): Pair<MutableList<Status>, Int>? {
-            try {
-                val list = ArrayList<Status>()
-                val status = TwitterUtils.getTwitter().showStatus(statusId)
-                var currentStatus = status
-                var id: Long = currentStatus.inReplyToStatusId
-                while (id != -1L) {
-                    currentStatus = TwitterUtils.getTwitter().showStatus(id)
-                    list.add(currentStatus)
-                    id = currentStatus.inReplyToStatusId
+    fun getConversation(statusId: Long): Single<Pair<MutableList<Status>, Int>> =
+            Single.from(object : Future<Pair<MutableList<Status>, Int>> {
+                override fun isCancelled(): Boolean {
+                    throw UnsupportedOperationException()
                 }
 
-                val targetIndex = list.size
-                list.add(status)
-
-                val result = TwitterUtils.getTwitter().search(Query("to: ${status.user.screenName}"))
-                result.tweets.forEach {
-                    tmpStatus ->
-                    if (status.id == tmpStatus.inReplyToStatusId) list.add(tmpStatus)
+                override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
+                    throw UnsupportedOperationException()
                 }
-                return Pair(list, targetIndex)
-            } catch(err: Exception) {
-                return null
-            }
-        }
 
-        override fun get(timeout: Long, unit: TimeUnit?): Pair<MutableList<Status>, Int>? {
-            throw UnsupportedOperationException()
-        }
+                override fun get(): Pair<MutableList<Status>, Int>? {
+                    try {
+                        val list = ArrayList<Status>()
+                        val status = TwitterUtils.getTwitter().showStatus(statusId)
+                        var currentStatus = status
+                        var id: Long = currentStatus.inReplyToStatusId
+                        while (id != -1L) {
+                            currentStatus = TwitterUtils.getTwitter().showStatus(id)
+                            list.add(currentStatus)
+                            id = currentStatus.inReplyToStatusId
+                        }
 
-        override fun isDone(): Boolean {
-            throw UnsupportedOperationException()
-        }
-    })
+                        val targetIndex = list.size
+                        list.add(status)
+
+                        val result = TwitterUtils.getTwitter().search(Query("to: ${status.user.screenName}"))
+                        result.tweets.forEach {
+                            tmpStatus ->
+                            if (status.id == tmpStatus.inReplyToStatusId) list.add(tmpStatus)
+                        }
+                        return Pair(list, targetIndex)
+                    } catch(err: Exception) {
+                        return null
+                    }
+                }
+
+                override fun get(timeout: Long, unit: TimeUnit?): Pair<MutableList<Status>, Int>? {
+                    throw UnsupportedOperationException()
+                }
+
+                override fun isDone(): Boolean {
+                    throw UnsupportedOperationException()
+                }
+            })
 
 }
 
