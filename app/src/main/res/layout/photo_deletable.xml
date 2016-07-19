@@ -22,7 +22,7 @@
         android:layout_margin="7dp"
         android:background="?circleDrawable"
         android:contentDescription="@string/delete_photo_tweet_contentDescriptor"
-        android:src="@drawable/ic_delete_white_24dp" />
+        android:src="@drawable/ic_delete" />
 
 </RelativeLayout>
 

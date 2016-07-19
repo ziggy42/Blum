@@ -129,7 +129,7 @@
                 android:background="?android:selectableItemBackground"
                 android:contentDescription="@string/favourite_imageButton_contentDescriptor"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_favorite_grey_600_36dp" />
+                android:src="@drawable/ic_favorite" />
 
             <ImageButton
                 android:id="@+id/retweetImageButton"
@@ -140,7 +140,7 @@
                 android:background="?android:selectableItemBackground"
                 android:contentDescription="@string/retweet_imageButton_contentDescriptor"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_repeat_grey600_36dp" />
+                android:src="@drawable/ic_repeat" />
 
             <ImageButton
                 android:id="@+id/quoteImageButton"
@@ -151,7 +151,7 @@
                 android:background="?android:selectableItemBackground"
                 android:contentDescription="@string/respond_imageButton_contentDescriptor"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_format_quote_grey600_36dp" />
+                android:src="@drawable/ic_format_quote" />
 
             <ImageButton
                 android:id="@+id/respondImageButton"
@@ -162,7 +162,7 @@
                 android:background="?android:selectableItemBackground"
                 android:contentDescription="@string/respond_imageButton_contentDescriptor"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_reply_grey600_36dp" />
+                android:src="@drawable/ic_reply" />
 
             <ImageButton
                 android:id="@+id/shareImageButton"
@@ -173,7 +173,7 @@
                 android:background="?android:selectableItemBackground"
                 android:contentDescription="@string/share_imageButton_contentDescriptor"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_share_grey600_36dp" />
+                android:src="@drawable/ic_share" />
 
         </LinearLayout>
 

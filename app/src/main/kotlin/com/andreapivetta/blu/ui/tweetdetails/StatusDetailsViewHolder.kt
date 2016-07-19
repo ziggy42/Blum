@@ -69,14 +69,14 @@ class StatusDetailsViewHolder(container: View, listener: InteractionListener, tw
                 .dontAnimate().placeholder(R.drawable.placeholder).into(userProfilePicImageView)
 
         if (status.isFavorited || tweetInfoProvider.isFavorite(status))
-            favouriteImageButton.setImageResource(R.drawable.ic_favorite_red_a700_36dp)
+            favouriteImageButton.setImageResource(R.drawable.ic_favorite_red)
         else
-            favouriteImageButton.setImageResource(R.drawable.ic_favorite_grey_600_36dp)
+            favouriteImageButton.setImageResource(R.drawable.ic_favorite)
 
         if (status.isRetweeted || tweetInfoProvider.isRetweet(status))
-            retweetImageButton.setImageResource(R.drawable.ic_repeat_green_a700_36dp)
+            retweetImageButton.setImageResource(R.drawable.ic_repeat_green)
         else
-            retweetImageButton.setImageResource(R.drawable.ic_repeat_grey600_36dp)
+            retweetImageButton.setImageResource(R.drawable.ic_repeat)
 
         favouriteImageButton.setOnClickListener {
             if (status.isFavorited || tweetInfoProvider.isFavorite(status))

@@ -43,14 +43,14 @@ open class StatusViewHolder(container: View, listener: InteractionListener, twee
                 .into(userProfilePicImageView)
 
         if (currentStatus.isFavorited || tweetInfoProvider.isFavorite(currentStatus))
-            favouriteImageButton.setImageResource(R.drawable.ic_favorite_red_a700_36dp)
+            favouriteImageButton.setImageResource(R.drawable.ic_favorite_red)
         else
-            favouriteImageButton.setImageResource(R.drawable.ic_favorite_grey_600_36dp)
+            favouriteImageButton.setImageResource(R.drawable.ic_favorite)
 
         if (currentStatus.isRetweeted || tweetInfoProvider.isRetweet(currentStatus))
-            retweetImageButton.setImageResource(R.drawable.ic_repeat_green_a700_36dp)
+            retweetImageButton.setImageResource(R.drawable.ic_repeat_green)
         else
-            retweetImageButton.setImageResource(R.drawable.ic_repeat_grey600_36dp)
+            retweetImageButton.setImageResource(R.drawable.ic_repeat)
 
         favouritesStatsTextView.text = status.favoriteCount.toString()
         retweetsStatsTextView.text = status.retweetCount.toString()

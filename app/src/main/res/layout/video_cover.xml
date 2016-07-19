@@ -18,6 +18,6 @@
         android:layout_gravity="center"
         android:background="?attr/circleButton"
         android:contentDescription="@string/play_video_contentDescription"
-        android:src="@drawable/ic_play_arrow_white_24dp" />
+        android:src="@drawable/ic_play_arrow" />
 
 </FrameLayout>

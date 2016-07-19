@@ -63,7 +63,7 @@ class ProfileActivity : AppCompatActivity() {
 
         if (user != null && user!!.isVerified)
             userNameTextView.setCompoundDrawablesWithIntrinsicBounds(
-                    0, 0, R.drawable.ic_verified_user_light_blue_500_18dp, 0)
+                    0, 0, R.drawable.ic_verified_user, 0)
     }
 
     inner class SimpleAdapter : FragmentPagerAdapter(supportFragmentManager) {

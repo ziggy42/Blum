@@ -31,7 +31,7 @@
             android:contentDescription="@string/retweet_imageButton_contentDescriptor"
             android:padding="2dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_repeat_white_36dp" />
+            android:src="@drawable/ic_repeat_white" />
 
         <ImageButton
             android:id="@+id/favouriteImageButton"
@@ -42,7 +42,7 @@
             android:contentDescription="@string/favourite_imageButton_contentDescriptor"
             android:padding="2dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_heart_white_36dp" />
+            android:src="@drawable/ic_heart_white" />
 
     </LinearLayout>
 

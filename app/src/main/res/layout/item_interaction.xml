@@ -15,7 +15,7 @@
         android:contentDescription="@string/favourite_imageButton_contentDescriptor"
         android:padding="2dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/ic_favorite_grey_600_36dp" />
+        android:src="@drawable/ic_favorite" />
 
     <TextView
         android:id="@+id/favouritesStatsTextView"
@@ -37,7 +37,7 @@
         android:contentDescription="@string/retweet_imageButton_contentDescriptor"
         android:padding="2dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/ic_repeat_grey600_36dp" />
+        android:src="@drawable/ic_repeat" />
 
     <TextView
         android:id="@+id/retweetsStatsTextView"
@@ -56,7 +56,7 @@
         android:contentDescription="@string/respond_imageButton_contentDescriptor"
         android:padding="2dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/ic_reply_grey600_36dp"
+        android:src="@drawable/ic_reply"
         android:textSize="12sp" />
 
 </LinearLayout>

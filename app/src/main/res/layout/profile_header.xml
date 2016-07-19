@@ -65,7 +65,7 @@
             android:layout_gravity="top"
             android:background="?android:selectableItemBackground"
             android:contentDescription="@string/follows_you"
-            android:src="@drawable/ic_account_circle_grey_600_24dp"
+            android:src="@drawable/ic_account_circle"
             android:visibility="gone" />
 
     </LinearLayout>
@@ -96,8 +96,8 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="2dp"
             android:layout_marginRight="2dp"
-            android:drawableLeft="@drawable/ic_place_grey_600_18dp"
-            android:drawableStart="@drawable/ic_place_grey_600_18dp"
+            android:drawableLeft="@drawable/ic_place"
+            android:drawableStart="@drawable/ic_place"
             android:textSize="12sp" />
 
         <TextView
@@ -108,8 +108,8 @@
             android:layout_marginLeft="2dp"
             android:layout_marginRight="2dp"
             android:autoLink="web"
-            android:drawableLeft="@drawable/ic_language_grey_600_18dp"
-            android:drawableStart="@drawable/ic_language_grey_600_18dp"
+            android:drawableLeft="@drawable/ic_language"
+            android:drawableStart="@drawable/ic_language"
             android:textSize="12sp" />
 
     </LinearLayout>
