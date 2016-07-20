@@ -12,11 +12,10 @@ import com.andreapivetta.blu.ui.timeline.InteractionListener
 class StatusMultiplePhotosViewHolder(container: View, listener: InteractionListener) :
         StatusViewHolder(container, listener) {
 
-    private val tweetPhotosRecyclerView: RecyclerView
+    private val tweetPhotosRecyclerView = container.findViewById(R.id.tweetPhotosRecyclerView)
+            as RecyclerView
 
     init {
-        tweetPhotosRecyclerView = container.findViewById(R.id.tweetPhotosRecyclerView)
-                as RecyclerView
         tweetPhotosRecyclerView.addItemDecoration(SpaceLeftItemDecoration(5))
         tweetPhotosRecyclerView.layoutManager =
                 LinearLayoutManager(container.context, LinearLayoutManager.HORIZONTAL, false)

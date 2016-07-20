@@ -12,17 +12,10 @@ import com.bumptech.glide.Glide
 class StatusQuoteViewHolder(container: View, listener: InteractionListener) :
         StatusViewHolder(container, listener) {
 
-    private val quotedUserNameTextView: TextView
-    private val quotedStatusTextView: TextView
-    private val photoImageView: ImageView
-    private val quotedStatusLinearLayout: LinearLayout
-
-    init {
-        quotedUserNameTextView = container.findViewById(R.id.quotedUserNameTextView) as TextView
-        quotedStatusTextView = container.findViewById(R.id.quotedStatusTextView) as TextView
-        photoImageView = container.findViewById(R.id.photoImageView) as ImageView
-        quotedStatusLinearLayout = container.findViewById(R.id.quotedStatus) as LinearLayout
-    }
+    private val quotedUserNameTextView = container.findViewById(R.id.quotedUserNameTextView) as TextView
+    private val quotedStatusTextView = container.findViewById(R.id.quotedStatusTextView) as TextView
+    private val photoImageView = container.findViewById(R.id.photoImageView) as ImageView
+    private val quotedStatusLinearLayout = container.findViewById(R.id.quotedStatus) as LinearLayout
 
     override fun setup(tweet: Tweet) {
         super.setup(tweet)
@@ -49,4 +42,5 @@ class StatusQuoteViewHolder(container: View, listener: InteractionListener) :
             }
         } else quotedStatusLinearLayout.visibility = View.GONE
     }
+
 }

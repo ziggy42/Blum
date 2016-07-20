@@ -12,13 +12,8 @@ import com.bumptech.glide.Glide
 class StatusVideoViewHolder(container: View, listener: InteractionListener) :
         StatusViewHolder(container, listener) {
 
-    private val tweetVideoImageView: ImageView
-    private val playVideoImageButton: ImageButton
-
-    init {
-        tweetVideoImageView = container.findViewById(R.id.tweetVideoImageView) as ImageView
-        playVideoImageButton = container.findViewById(R.id.playVideoImageButton) as ImageButton
-    }
+    private val tweetVideoImageView = container.findViewById(R.id.tweetVideoImageView) as ImageView
+    private val playVideoImageButton = container.findViewById(R.id.playVideoImageButton) as ImageButton
 
     override fun setup(tweet: Tweet) {
         super.setup(tweet)

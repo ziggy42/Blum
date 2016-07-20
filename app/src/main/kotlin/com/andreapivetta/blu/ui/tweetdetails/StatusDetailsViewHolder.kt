@@ -29,13 +29,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 class StatusDetailsViewHolder(container: View, listener: InteractionListener) :
         BaseViewHolder(container, listener) {
 
-    private val mediaViewStub: ViewStub
-    private val quotedStatusViewStub: ViewStub
-
-    init {
-        this.mediaViewStub = container.findViewById(R.id.mediaViewStub) as ViewStub
-        this.quotedStatusViewStub = container.findViewById(R.id.quotedStatusViewStub) as ViewStub
-    }
+    private val mediaViewStub = container.findViewById(R.id.mediaViewStub) as ViewStub
+    private val quotedStatusViewStub = container.findViewById(R.id.quotedStatusViewStub) as ViewStub
 
     private var inflatedMediaView: View? = null
     private var inflatedQuotedView: View? = null

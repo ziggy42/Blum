@@ -10,11 +10,7 @@ import com.bumptech.glide.Glide
 class StatusPhotoViewHolder(container: View, listener: InteractionListener) :
         StatusViewHolder(container, listener) {
 
-    private val tweetPhotoImageView: ImageView
-
-    init {
-        this.tweetPhotoImageView = container.findViewById(R.id.tweetPhotoImageView) as ImageView
-    }
+    private val tweetPhotoImageView = container.findViewById(R.id.tweetPhotoImageView) as ImageView
 
     override fun setup(tweet: Tweet) {
         super.setup(tweet)

@@ -13,11 +13,7 @@ import com.bumptech.glide.Glide
 open class StatusViewHolder(container: View, listener: InteractionListener) :
         BaseViewHolder(container, listener) {
 
-    protected var retweetTextView: TextView
-
-    init {
-        this.retweetTextView = container.findViewById(R.id.retweetTextView) as TextView
-    }
+    protected var retweetTextView = container.findViewById(R.id.retweetTextView) as TextView
 
     @CallSuper
     override fun setup(tweet: Tweet) {
@@ -77,4 +73,5 @@ open class StatusViewHolder(container: View, listener: InteractionListener) :
         respondImageButton.setOnClickListener { listener.reply(currentTweet, currentUser) }
         container.setOnClickListener { listener.openTweet(currentTweet, currentUser) }
     }
+
 }
