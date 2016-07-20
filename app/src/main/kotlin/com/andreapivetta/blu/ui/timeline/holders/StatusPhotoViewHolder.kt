@@ -3,13 +3,12 @@ package com.andreapivetta.blu.ui.timeline.holders
 import android.view.View
 import android.widget.ImageView
 import com.andreapivetta.blu.R
+import com.andreapivetta.blu.data.twitter.model.Tweet
 import com.andreapivetta.blu.ui.timeline.InteractionListener
-import com.andreapivetta.blu.ui.timeline.TweetInfoProvider
 import com.bumptech.glide.Glide
-import twitter4j.Status
 
-class StatusPhotoViewHolder(container: View, listener: InteractionListener, tweetInfoProvider: TweetInfoProvider) :
-        StatusViewHolder(container, listener, tweetInfoProvider) {
+class StatusPhotoViewHolder(container: View, listener: InteractionListener) :
+        StatusViewHolder(container, listener) {
 
     private val tweetPhotoImageView: ImageView
 
@@ -17,18 +16,17 @@ class StatusPhotoViewHolder(container: View, listener: InteractionListener, twee
         this.tweetPhotoImageView = container.findViewById(R.id.tweetPhotoImageView) as ImageView
     }
 
-    override fun setup(status: Status) {
-        super.setup(status)
+    override fun setup(tweet: Tweet) {
+        super.setup(tweet)
 
-        val mediaEntity = status.mediaEntities[0]
-        if (mediaEntity.type == "photo") {
+        if (tweet.hasSingleImage()) {
             Glide.with(container.context)
-                    .load(mediaEntity.mediaURL)
+                    .load(tweet.getImageUrl())
                     .placeholder(R.drawable.placeholder)
                     .centerCrop()
                     .into(tweetPhotoImageView)
 
-            tweetPhotoImageView.setOnClickListener { listener.showImage(mediaEntity.mediaURL) }
+            tweetPhotoImageView.setOnClickListener { listener.showImage(tweet.getImageUrl()) }
         }
     }
 }

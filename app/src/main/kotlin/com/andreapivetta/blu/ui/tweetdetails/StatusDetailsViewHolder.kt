@@ -15,20 +15,19 @@ import android.view.ViewStub
 import android.widget.ImageView
 import android.widget.TextView
 import com.andreapivetta.blu.R
+import com.andreapivetta.blu.data.twitter.model.Tweet
 import com.andreapivetta.blu.ui.base.decorators.SpaceLeftItemDecoration
 import com.andreapivetta.blu.ui.timeline.InteractionListener
-import com.andreapivetta.blu.ui.timeline.TweetInfoProvider
 import com.andreapivetta.blu.ui.timeline.holders.BaseViewHolder
 import com.andreapivetta.blu.ui.timeline.holders.ImagesAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import twitter4j.Status
 
 /**
  * Created by andrea on 26/05/16.
  */
-class StatusDetailsViewHolder(container: View, listener: InteractionListener, tweetInfoProvider: TweetInfoProvider) :
-        BaseViewHolder(container, listener, tweetInfoProvider) {
+class StatusDetailsViewHolder(container: View, listener: InteractionListener) :
+        BaseViewHolder(container, listener) {
 
     private val mediaViewStub: ViewStub
     private val quotedStatusViewStub: ViewStub
@@ -41,24 +40,24 @@ class StatusDetailsViewHolder(container: View, listener: InteractionListener, tw
     private var inflatedMediaView: View? = null
     private var inflatedQuotedView: View? = null
 
-    override fun setup(status: Status) {
-        val currentUser = status.user
+    override fun setup(tweet: Tweet) {
+        val currentUser = tweet.user
 
         userNameTextView.text = currentUser.name
-        timeTextView.text = formatDate(status.createdAt, container.context)
-        statusTextView.text = getHtmlStatusText(status)
+        timeTextView.text = formatDate(tweet.timeStamp, container.context)
+        statusTextView.text = getHtmlStatusText(tweet)
         statusTextView.movementMethod = LinkMovementMethod.getInstance()
 
         userScreenNameTextView.text = "@" + currentUser.screenName
 
-        var amount = status.favoriteCount.toString()
+        var amount = "${tweet.favoriteCount}"
         var b = StyleSpan(Typeface.BOLD)
 
         var sb = SpannableStringBuilder(container.context.getString(R.string.likes, amount))
         sb.setSpan(b, 0, amount.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         favouritesStatsTextView.text = sb
 
-        amount = status.retweetCount.toString()
+        amount = "${tweet.retweetCount}"
         b = StyleSpan(Typeface.BOLD)
 
         sb = SpannableStringBuilder(container.context.getString(R.string.retweets, amount))
@@ -68,46 +67,46 @@ class StatusDetailsViewHolder(container: View, listener: InteractionListener, tw
         Glide.with(container.context).load(currentUser.biggerProfileImageURL)
                 .dontAnimate().placeholder(R.drawable.placeholder).into(userProfilePicImageView)
 
-        if (status.isFavorited || tweetInfoProvider.isFavorite(status))
+        if (tweet.favorited)
             favouriteImageButton.setImageResource(R.drawable.ic_favorite_red)
         else
             favouriteImageButton.setImageResource(R.drawable.ic_favorite)
 
-        if (status.isRetweeted || tweetInfoProvider.isRetweet(status))
+        if (tweet.retweeted)
             retweetImageButton.setImageResource(R.drawable.ic_repeat_green)
         else
             retweetImageButton.setImageResource(R.drawable.ic_repeat)
 
         favouriteImageButton.setOnClickListener {
-            if (status.isFavorited || tweetInfoProvider.isFavorite(status))
-                listener.unfavorite(status)
+            if (tweet.favorited)
+                listener.unfavorite(tweet)
             else
-                listener.favorite(status)
+                listener.favorite(tweet)
         }
 
         retweetImageButton.setOnClickListener {
-            if (status.isRetweeted || tweetInfoProvider.isRetweet(status))
-                listener.unretweet(status)
+            if (tweet.retweeted)
+                listener.unretweet(tweet)
             else
-                listener.retweet(status)
+                listener.retweet(tweet)
         }
 
         userProfilePicImageView.setOnClickListener { listener.showUser(currentUser) }
-        respondImageButton.setOnClickListener { listener.reply(status, currentUser) }
+        respondImageButton.setOnClickListener { listener.reply(tweet, currentUser) }
 
-        if (hasPhoto(status)) {
+        if (tweet.hasSingleImage()) {
             if (inflatedMediaView == null) {
                 mediaViewStub.layoutResource = R.layout.stub_photo
                 inflatedMediaView = mediaViewStub.inflate()
             }
 
-            Glide.with(container.context).load(status.extendedMediaEntities[0].mediaURL)
+            Glide.with(container.context).load(tweet.mediaEntities[0].mediaURL)
                     .asBitmap().dontTransform()
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .placeholder(R.drawable.placeholder)
                     .into(inflatedMediaView as ImageView)
-            inflatedMediaView?.setOnClickListener { listener.showImage(status.extendedMediaEntities[0].mediaURL) }
-        } else if (hasPhotos(status)) {
+            inflatedMediaView?.setOnClickListener { listener.showImage(tweet.mediaEntities[0].mediaURL) }
+        } else if (tweet.hasMultipleMedia()) {
             if (inflatedMediaView == null) {
                 mediaViewStub.layoutResource = R.layout.stub_photos
                 inflatedMediaView = mediaViewStub.inflate()
@@ -116,32 +115,32 @@ class StatusDetailsViewHolder(container: View, listener: InteractionListener, tw
             val recyclerView = inflatedMediaView as RecyclerView
             recyclerView.setHasFixedSize(true)
             recyclerView.addItemDecoration(SpaceLeftItemDecoration(5))
-            recyclerView.adapter = ImagesAdapter(status.extendedMediaEntities, listener)
+            recyclerView.adapter = ImagesAdapter(tweet.mediaEntities, listener)
             recyclerView.layoutManager = LinearLayoutManager(container.context, LinearLayoutManager.HORIZONTAL, false)
-        } else if (hasVideo(status)) {
+        } else if (tweet.hasSingleVideo()) {
             if (inflatedMediaView == null) {
                 mediaViewStub.layoutResource = R.layout.video_cover
                 inflatedMediaView = mediaViewStub.inflate()
             }
 
-            Glide.with(container.context).load(status.extendedMediaEntities[0].mediaURL)
+            Glide.with(container.context).load(tweet.mediaEntities[0].mediaURL)
                     .asBitmap().dontTransform()
                     .placeholder(R.drawable.placeholder)
                     .centerCrop().into(inflatedMediaView?.findViewById(R.id.tweetVideoImageView) as ImageView)
 
             inflatedMediaView?.findViewById(R.id.playVideoImageButton)?.setOnClickListener {
-                listener.showVideo(status.extendedMediaEntities[0].videoVariants[0].url,
-                        status.extendedMediaEntities[0].type)
+                listener.showVideo(tweet.mediaEntities[0].videoVariants[0].url,
+                        tweet.mediaEntities[0].type)
             }
         }
 
-        if (hasQuotedStatus(status)) {
+        if (tweet.quotedStatus) {
             if (inflatedQuotedView == null) {
                 quotedStatusViewStub.layoutResource = R.layout.quoted_tweet
                 inflatedQuotedView = quotedStatusViewStub.inflate()
             }
 
-            val quotedStatus = status.quotedStatus
+            val quotedStatus = tweet.getQuotedTweet()
 
             val photoImageView = inflatedQuotedView!!.findViewById(R.id.photoImageView) as ImageView
             (inflatedQuotedView?.findViewById(R.id.quotedUserNameTextView) as TextView).text =
@@ -165,19 +164,9 @@ class StatusDetailsViewHolder(container: View, listener: InteractionListener, tw
         }
     }
 
-    private fun hasPhoto(status: Status) =
-            status.extendedMediaEntities.size == 1 && status.extendedMediaEntities[0].type == "photo"
-
-    private fun hasPhotos(status: Status): Boolean = status.extendedMediaEntities.size > 1
-
-    private fun hasVideo(status: Status) =
-            status.extendedMediaEntities.size == 1 && status.extendedMediaEntities[0].type != "photo"
-
-    private fun hasQuotedStatus(status: Status) = status.quotedStatusId > 0
-
-    private fun getHtmlStatusText(status: Status): Spanned {
-        val text = status.text
-        status.mediaEntities.forEach { media -> text.replace(media.url, "") }
+    private fun getHtmlStatusText(tweet: Tweet): Spanned {
+        val text = tweet.text
+        tweet.mediaEntities.forEach { media -> text.replace(media.url, "") }
         val htmlBuilder = StringBuilder()
         var endString = String()
         text.split("\\r?\\n".toRegex()).dropLastWhile { it.isEmpty() }.forEach { line ->
@@ -226,4 +215,5 @@ class StatusDetailsViewHolder(container: View, listener: InteractionListener, tw
     }
 
     private fun isSpecialCHar(char: Char) = "|/()=?'^[],;.:-\"\\".contains(char)
+
 }

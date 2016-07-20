@@ -7,13 +7,12 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import com.andreapivetta.blu.R
+import com.andreapivetta.blu.data.twitter.model.Tweet
 import com.andreapivetta.blu.ui.timeline.InteractionListener
-import com.andreapivetta.blu.ui.timeline.TweetInfoProvider
-import twitter4j.Status
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-abstract class BaseViewHolder(val container: View, val listener: InteractionListener, val tweetInfoProvider: TweetInfoProvider) :
+abstract class BaseViewHolder(val container: View, val listener: InteractionListener) :
         RecyclerView.ViewHolder(container) {
 
     protected var userNameTextView: TextView
@@ -28,26 +27,26 @@ abstract class BaseViewHolder(val container: View, val listener: InteractionList
     protected var respondImageButton: ImageButton
 
     init {
-        this.userNameTextView = container.findViewById(R.id.userNameTextView) as TextView
-        this.userScreenNameTextView = container.findViewById(R.id.userScreenName_TextView) as TextView
-        this.statusTextView = container.findViewById(R.id.statusTextView) as TextView
-        this.userProfilePicImageView = container.findViewById(R.id.userProfilePicImageView) as ImageView
-        this.timeTextView = container.findViewById(R.id.timeTextView) as TextView
-        this.retweetsStatsTextView = container.findViewById(R.id.retweetsStatsTextView) as TextView
-        this.favouritesStatsTextView = container.findViewById(R.id.favouritesStatsTextView) as TextView
-        this.favouriteImageButton = container.findViewById(R.id.favouriteImageButton) as ImageButton
-        this.retweetImageButton = container.findViewById(R.id.retweetImageButton) as ImageButton
-        this.respondImageButton = container.findViewById(R.id.respondImageButton) as ImageButton
+        userNameTextView = container.findViewById(R.id.userNameTextView) as TextView
+        userScreenNameTextView = container.findViewById(R.id.userScreenName_TextView) as TextView
+        statusTextView = container.findViewById(R.id.statusTextView) as TextView
+        userProfilePicImageView = container.findViewById(R.id.userProfilePicImageView) as ImageView
+        timeTextView = container.findViewById(R.id.timeTextView) as TextView
+        retweetsStatsTextView = container.findViewById(R.id.retweetsStatsTextView) as TextView
+        favouritesStatsTextView = container.findViewById(R.id.favouritesStatsTextView) as TextView
+        favouriteImageButton = container.findViewById(R.id.favouriteImageButton) as ImageButton
+        retweetImageButton = container.findViewById(R.id.retweetImageButton) as ImageButton
+        respondImageButton = container.findViewById(R.id.respondImageButton) as ImageButton
     }
 
-    abstract fun setup(status: Status)
+    abstract fun setup(tweet: Tweet)
 
-    protected fun formatDate(date: Date, context: Context): String {
+    protected fun formatDate(timeStamp: Long, context: Context): String {
         val c = Calendar.getInstance()
         val c2 = Calendar.getInstance()
-        c2.time = date
+        c2.timeInMillis = timeStamp
 
-        val diff = c.timeInMillis - c2.timeInMillis
+        val diff = c.timeInMillis - timeStamp
         val seconds = TimeUnit.MILLISECONDS.toSeconds(diff)
         if (seconds > 60) {
             val minutes = TimeUnit.MILLISECONDS.toMinutes(diff)
@@ -55,9 +54,9 @@ abstract class BaseViewHolder(val container: View, val listener: InteractionList
                 val hours = TimeUnit.MILLISECONDS.toHours(diff)
                 if (hours > 24) {
                     if (c.get(Calendar.YEAR) == c2.get(Calendar.YEAR))
-                        return java.text.SimpleDateFormat("MMM dd", Locale.getDefault()).format(date)
+                        return java.text.SimpleDateFormat("MMM dd", Locale.getDefault()).format(c2.time)
                     else
-                        return java.text.SimpleDateFormat("MMM dd yyyy", Locale.getDefault()).format(date)
+                        return java.text.SimpleDateFormat("MMM dd yyyy", Locale.getDefault()).format(c2.time)
                 } else
                     return context.getString(R.string.mini_hours, hours.toInt())
             } else

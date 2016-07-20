@@ -1,7 +1,7 @@
 package com.andreapivetta.blu.ui.timeline
 
 import com.andreapivetta.blu.arch.MvpView
-import twitter4j.Status
+import com.andreapivetta.blu.data.twitter.model.Tweet
 import twitter4j.User
 
 /**
@@ -9,11 +9,11 @@ import twitter4j.User
  */
 interface TimelineMvpView : MvpView {
 
-    fun showTweets(tweets: MutableList<Status>)
+    fun showTweets(tweets: MutableList<Tweet>)
 
-    fun showTweet(tweet: Status)
+    fun showTweet(tweet: Tweet)
 
-    fun showMoreTweets(tweets: MutableList<Status>)
+    fun showMoreTweets(tweets: MutableList<Tweet>)
 
     fun getLastTweetId(): Long
 
@@ -29,14 +29,8 @@ interface TimelineMvpView : MvpView {
 
     fun hideLoading()
 
-    fun showNewTweet(status: Status, user: User)
+    fun showNewTweet(tweet: Tweet, user: User)
 
-    fun favoriteAdded(status: Status)
-
-    fun favoriteRemoved(status: Status)
-
-    fun retweetAdded(status: Status)
-
-    fun retweetRemoved(status: Status)
+    fun updateRecyclerViewView()
 
 }

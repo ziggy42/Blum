@@ -6,13 +6,12 @@ import android.text.util.Linkify
 import android.view.View
 import android.widget.TextView
 import com.andreapivetta.blu.R
+import com.andreapivetta.blu.data.twitter.model.Tweet
 import com.andreapivetta.blu.ui.timeline.InteractionListener
-import com.andreapivetta.blu.ui.timeline.TweetInfoProvider
 import com.bumptech.glide.Glide
-import twitter4j.Status
 
-open class StatusViewHolder(container: View, listener: InteractionListener, tweetInfoProvider: TweetInfoProvider) :
-        BaseViewHolder(container, listener, tweetInfoProvider) {
+open class StatusViewHolder(container: View, listener: InteractionListener) :
+        BaseViewHolder(container, listener) {
 
     protected var retweetTextView: TextView
 
@@ -21,64 +20,61 @@ open class StatusViewHolder(container: View, listener: InteractionListener, twee
     }
 
     @CallSuper
-    override fun setup(status: Status) {
-        val currentStatus: Status
+    override fun setup(tweet: Tweet) {
+        val currentTweet: Tweet
 
-        if (status.isRetweet) {
-            currentStatus = status.retweetedStatus
+        if (tweet.retweet) {
+            currentTweet = tweet.getRetweetedTweet()
             retweetTextView.visibility = View.VISIBLE
-            retweetTextView.text = container.context.getString(R.string.retweeted_by, status.user.screenName)
+            retweetTextView.text = container.context.getString(
+                    R.string.retweeted_by, tweet.user.screenName)
         } else {
-            currentStatus = status
+            currentTweet = tweet
             retweetTextView.visibility = View.GONE
         }
 
-        val currentUser = currentStatus.user
+        val currentUser = currentTweet.user
         userNameTextView.text = currentUser.name
         userScreenNameTextView.text = "@${currentUser.screenName}"
-        timeTextView.text = " • ${formatDate(currentStatus.createdAt, container.context)}"
+        timeTextView.text = " • ${formatDate(currentTweet.timeStamp, container.context)}"
 
         Glide.with(container.context).load(currentUser.biggerProfileImageURL)
                 .dontAnimate()
                 .into(userProfilePicImageView)
 
-        if (currentStatus.isFavorited || tweetInfoProvider.isFavorite(currentStatus))
+        if (currentTweet.favorited)
             favouriteImageButton.setImageResource(R.drawable.ic_favorite_red)
         else
             favouriteImageButton.setImageResource(R.drawable.ic_favorite)
 
-        if (currentStatus.isRetweeted || tweetInfoProvider.isRetweet(currentStatus))
+        if (currentTweet.retweeted)
             retweetImageButton.setImageResource(R.drawable.ic_repeat_green)
         else
             retweetImageButton.setImageResource(R.drawable.ic_repeat)
 
-        favouritesStatsTextView.text = status.favoriteCount.toString()
-        retweetsStatsTextView.text = status.retweetCount.toString()
+        favouritesStatsTextView.text = "${tweet.favoriteCount}"
+        retweetsStatsTextView.text = "${tweet.retweetCount}"
 
-        val entities = status.extendedMediaEntities
-        var text = currentStatus.text
-        for (i in entities.indices)
-            text = text.replace(entities[i].url, "")
-        statusTextView.text = text
+        statusTextView.text = currentTweet.getTextWithoutMediaURLs()
         Linkify.addLinks(statusTextView, Linkify.ALL)
 
         userProfilePicImageView.setOnClickListener { listener.showUser(currentUser) }
 
         favouriteImageButton.setOnClickListener {
-            if (currentStatus.isFavorited || tweetInfoProvider.isFavorite(currentStatus))
-                listener.unfavorite(currentStatus)
+            if (currentTweet.favorited)
+                listener.unfavorite(currentTweet)
             else
-                listener.favorite(currentStatus)
+                listener.favorite(currentTweet)
         }
 
         retweetImageButton.setOnClickListener {
-            if (currentStatus.isRetweeted || tweetInfoProvider.isRetweet(currentStatus))
-                listener.unretweet(currentStatus)
+            if (currentTweet.retweeted)
+                listener.unretweet(currentTweet)
             else
-                listener.retweet(currentStatus)
+                listener.retweet(currentTweet)
         }
 
-        respondImageButton.setOnClickListener { listener.reply(currentStatus, currentUser) }
-        container.setOnClickListener { listener.openTweet(currentStatus, currentUser) }
+        respondImageButton.setOnClickListener { listener.reply(currentTweet, currentUser) }
+        container.setOnClickListener { listener.openTweet(currentTweet, currentUser) }
     }
 }

@@ -1,6 +1,6 @@
 package com.andreapivetta.blu.ui.timeline
 
-import twitter4j.Status
+import com.andreapivetta.blu.data.twitter.model.Tweet
 import twitter4j.User
 
 /**
@@ -8,17 +8,17 @@ import twitter4j.User
  */
 interface InteractionListener {
 
-    fun favorite(status: Status)
+    fun favorite(tweet: Tweet)
 
-    fun retweet(status: Status)
+    fun retweet(tweet: Tweet)
 
-    fun unfavorite(status: Status)
+    fun unfavorite(tweet: Tweet)
 
-    fun unretweet(status: Status)
+    fun unretweet(tweet: Tweet)
 
-    fun reply(status: Status, user: User)
+    fun reply(tweet: Tweet, user: User)
 
-    fun openTweet(status: Status, user: User)
+    fun openTweet(tweet: Tweet, user: User)
 
     fun showUser(user: User)
 

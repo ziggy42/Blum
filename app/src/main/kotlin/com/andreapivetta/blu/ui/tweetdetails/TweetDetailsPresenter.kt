@@ -2,6 +2,7 @@ package com.andreapivetta.blu.ui.tweetdetails
 
 import com.andreapivetta.blu.arch.BasePresenter
 import com.andreapivetta.blu.data.twitter.TwitterAPI
+import com.andreapivetta.blu.data.twitter.model.Tweet
 import rx.SingleSubscriber
 import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
@@ -51,7 +52,7 @@ class TweetDetailsPresenter : BasePresenter<TweetDetailsMvpView>() {
                             if (list.isEmpty())
                                 mvpView?.showEmpty()
                             else
-                                mvpView?.showTweets(list)
+                                mvpView?.showTweets(list.map { status -> Tweet(status) }.toMutableList())
                         }
                         isLoading = false
                     }
@@ -62,59 +63,68 @@ class TweetDetailsPresenter : BasePresenter<TweetDetailsMvpView>() {
                 })
     }
 
-    fun favorite(status: Status) {
+    fun favorite(tweet: Tweet) {
         checkViewAttached()
 
-        mFavoriteSubscriber = TwitterAPI.favorite(status.id)
+        mFavoriteSubscriber = TwitterAPI.favorite(tweet.id)
+                .map { status -> Tweet(status) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(object : SingleSubscriber<Status>() {
+                .subscribe(object : SingleSubscriber<Tweet>() {
                     override fun onError(error: Throwable?) {
                         Timber.e(error?.message)
                     }
 
-                    override fun onSuccess(value: Status?) {
-                        mvpView?.favoriteAdded(value!!)
+                    override fun onSuccess(value: Tweet?) {
+                        tweet.favorited = true
+                        tweet.favoriteCount++
+                        mvpView?.updateRecyclerViewView()
                     }
                 })
     }
 
-    fun retweet(status: Status) {
+    fun retweet(tweet: Tweet) {
         checkViewAttached()
 
-        mRetweetSubscriber = TwitterAPI.retweet(status.id)
+        mRetweetSubscriber = TwitterAPI.retweet(tweet.id)
+                .map { status -> Tweet(status) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(object : SingleSubscriber<Status>() {
+                .subscribe(object : SingleSubscriber<Tweet>() {
                     override fun onError(error: Throwable?) {
                         Timber.e(error?.message)
                     }
 
-                    override fun onSuccess(value: Status?) {
-                        mvpView?.retweetAdded(value!!)
+                    override fun onSuccess(value: Tweet?) {
+                        tweet.retweeted = true
+                        tweet.retweetCount++
+                        mvpView?.updateRecyclerViewView()
                     }
                 })
     }
 
-    fun unfavorite(status: Status) {
+    fun unfavorite(tweet: Tweet) {
         checkViewAttached()
 
-        mUnfavoriteSubscriber = TwitterAPI.unfavorite(status.id)
+        mUnfavoriteSubscriber = TwitterAPI.unfavorite(tweet.id)
+                .map { status -> Tweet(status) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(object : SingleSubscriber<Status>() {
+                .subscribe(object : SingleSubscriber<Tweet>() {
                     override fun onError(error: Throwable?) {
                         Timber.e(error?.message)
                     }
 
-                    override fun onSuccess(value: Status?) {
-                        mvpView?.favoriteRemoved(value!!)
+                    override fun onSuccess(value: Tweet?) {
+                        tweet.favorited = false
+                        tweet.favoriteCount--
+                        mvpView?.updateRecyclerViewView()
                     }
                 })
     }
 
-    fun reply(status: Status, user: User) {
-        mvpView?.showNewTweet(status, user)
+    fun reply(tweet: Tweet, user: User) {
+        mvpView?.showNewTweet(tweet, user)
     }
 
 }

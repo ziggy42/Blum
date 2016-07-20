@@ -5,37 +5,34 @@ import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
 import com.andreapivetta.blu.R
+import com.andreapivetta.blu.data.twitter.model.Tweet
 import com.andreapivetta.blu.ui.timeline.InteractionListener
-import com.andreapivetta.blu.ui.timeline.TweetInfoProvider
 import com.bumptech.glide.Glide
-import twitter4j.Status
 
-class StatusVideoViewHolder(container: View, listener: InteractionListener, tweetInfoProvider: TweetInfoProvider) :
-        StatusViewHolder(container, listener, tweetInfoProvider) {
+class StatusVideoViewHolder(container: View, listener: InteractionListener) :
+        StatusViewHolder(container, listener) {
 
     private val tweetVideoImageView: ImageView
     private val playVideoImageButton: ImageButton
 
     init {
-        this.tweetVideoImageView = container.findViewById(R.id.tweetVideoImageView) as ImageView
-        this.playVideoImageButton = container.findViewById(R.id.playVideoImageButton) as ImageButton
+        tweetVideoImageView = container.findViewById(R.id.tweetVideoImageView) as ImageView
+        playVideoImageButton = container.findViewById(R.id.playVideoImageButton) as ImageButton
     }
 
-    override fun setup(status: Status) {
-        super.setup(status)
-
-        val mediaEntity = status.extendedMediaEntities[0]
+    override fun setup(tweet: Tweet) {
+        super.setup(tweet)
 
         Glide.with(container.context)
-                .load(mediaEntity.mediaURL)
+                .load(tweet.getVideoCoverUrl())
                 .placeholder(R.drawable.placeholder)
                 .centerCrop()
                 .into(tweetVideoImageView)
 
         playVideoImageButton.setOnClickListener {
-            listener.showVideo(mediaEntity.videoVariants[0].url, mediaEntity.type)
+            val pair = tweet.getVideoUrlType()
+            listener.showVideo(pair.first, pair.second)
         }
     }
-
 
 }

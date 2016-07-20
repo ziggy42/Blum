@@ -1,6 +1,7 @@
 package com.andreapivetta.blu.ui.usertimeline
 
 import com.andreapivetta.blu.data.twitter.TwitterAPI
+import com.andreapivetta.blu.data.twitter.model.Tweet
 import com.andreapivetta.blu.ui.timeline.TimelinePresenter
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
@@ -35,7 +36,7 @@ class UserTimelinePresenter(val userId: Long) : TimelinePresenter() {
                             list == null -> mvpView?.showError()
                             list.isEmpty() -> mvpView?.showEmpty()
                             else -> {
-                                mvpView?.showTweets(list)
+                                mvpView?.showTweets(list.map { status -> Tweet(status) }.toMutableList())
                                 page++
                             }
                         }
@@ -71,7 +72,7 @@ class UserTimelinePresenter(val userId: Long) : TimelinePresenter() {
                     override fun onNext(list: MutableList<Status>?) {
                         if (list != null) {
                             if (list.isNotEmpty())
-                                mvpView?.showMoreTweets(list)
+                                mvpView?.showMoreTweets(list.map { status -> Tweet(status) }.toMutableList())
                             page++
                         }
                         isLoading = false
@@ -101,7 +102,7 @@ class UserTimelinePresenter(val userId: Long) : TimelinePresenter() {
 
                     override fun onNext(list: MutableList<Status>?) {
                         mvpView?.stopRefresh()
-                        list?.reversed()?.forEach { status -> mvpView?.showTweet(status) }
+                        list?.reversed()?.forEach { status -> mvpView?.showTweet(Tweet(status)) }
                     }
 
                     override fun onError(error: Throwable?) {

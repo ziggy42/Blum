@@ -5,13 +5,12 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.andreapivetta.blu.R
+import com.andreapivetta.blu.data.twitter.model.Tweet
 import com.andreapivetta.blu.ui.timeline.InteractionListener
-import com.andreapivetta.blu.ui.timeline.TweetInfoProvider
 import com.bumptech.glide.Glide
-import twitter4j.Status
 
-class StatusQuoteViewHolder(container: View, listener: InteractionListener, tweetInfoProvider: TweetInfoProvider) :
-        StatusViewHolder(container, listener, tweetInfoProvider) {
+class StatusQuoteViewHolder(container: View, listener: InteractionListener) :
+        StatusViewHolder(container, listener) {
 
     private val quotedUserNameTextView: TextView
     private val quotedStatusTextView: TextView
@@ -19,17 +18,17 @@ class StatusQuoteViewHolder(container: View, listener: InteractionListener, twee
     private val quotedStatusLinearLayout: LinearLayout
 
     init {
-        this.quotedUserNameTextView = container.findViewById(R.id.quotedUserNameTextView) as TextView
-        this.quotedStatusTextView = container.findViewById(R.id.quotedStatusTextView) as TextView
-        this.photoImageView = container.findViewById(R.id.photoImageView) as ImageView
-        this.quotedStatusLinearLayout = container.findViewById(R.id.quotedStatus) as LinearLayout
+        quotedUserNameTextView = container.findViewById(R.id.quotedUserNameTextView) as TextView
+        quotedStatusTextView = container.findViewById(R.id.quotedStatusTextView) as TextView
+        photoImageView = container.findViewById(R.id.photoImageView) as ImageView
+        quotedStatusLinearLayout = container.findViewById(R.id.quotedStatus) as LinearLayout
     }
 
-    override fun setup(status: Status) {
-        super.setup(status)
+    override fun setup(tweet: Tweet) {
+        super.setup(tweet)
 
-        val quotedStatus = status.quotedStatus
-        if (quotedStatus != null) {
+        if (tweet.quotedStatus) {
+            val quotedStatus = tweet.getQuotedTweet()
             quotedUserNameTextView.text = quotedStatus.user.name
 
             if (quotedStatus.mediaEntities.size > 0) {
@@ -39,13 +38,15 @@ class StatusQuoteViewHolder(container: View, listener: InteractionListener, twee
                         .placeholder(R.drawable.placeholder)
                         .into(photoImageView)
 
-                quotedStatusTextView.text = quotedStatus.text.replace(quotedStatus.mediaEntities[0].url, "")
+                quotedStatusTextView.text = quotedStatus.getTextWithoutMediaURLs()
             } else {
                 photoImageView.visibility = View.GONE
                 quotedStatusTextView.text = quotedStatus.text
             }
 
-            quotedStatusLinearLayout.setOnClickListener { listener.openTweet(quotedStatus, quotedStatus.user) }
+            quotedStatusLinearLayout.setOnClickListener {
+                listener.openTweet(quotedStatus, quotedStatus.user)
+            }
         } else quotedStatusLinearLayout.visibility = View.GONE
     }
 }

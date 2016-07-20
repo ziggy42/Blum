@@ -14,11 +14,11 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.Common
+import com.andreapivetta.blu.data.twitter.model.Tweet
 import com.andreapivetta.blu.ui.base.decorators.SpaceTopItemDecoration
 import com.andreapivetta.blu.ui.image.ImageActivity
 import com.andreapivetta.blu.ui.newtweet.NewTweetActivity
 import com.andreapivetta.blu.ui.timeline.InteractionListener
-import twitter4j.Status
 import twitter4j.User
 
 /**
@@ -71,17 +71,17 @@ class TweetDetailsFragment : Fragment(), TweetDetailsMvpView, InteractionListene
         return rootView
     }
 
-    override fun showTweets(tweets: MutableList<Status>) {
+    override fun showTweets(tweets: MutableList<Tweet>) {
         adapter.mDataSet = tweets
         adapter.notifyDataSetChanged()
         recyclerView.scrollToPosition(adapter.currentIndex)
     }
 
-    override fun showTweet(tweet: Status) {
+    override fun showTweet(tweet: Tweet) {
         throw UnsupportedOperationException()
     }
 
-    override fun showMoreTweets(tweets: MutableList<Status>) {
+    override fun showMoreTweets(tweets: MutableList<Tweet>) {
         throw UnsupportedOperationException()
     }
 
@@ -113,27 +113,11 @@ class TweetDetailsFragment : Fragment(), TweetDetailsMvpView, InteractionListene
         loadingProgressBar.visibility = View.GONE
     }
 
-    override fun showNewTweet(status: Status, user: User) {
-        NewTweetActivity.launch(context, "@" + user.screenName, status.id)
+    override fun showNewTweet(tweet: Tweet, user: User) {
+        NewTweetActivity.launch(context, "@${user.screenName}", tweet.id)
     }
 
-    override fun favoriteAdded(status: Status) {
-        adapter.setFavorite(status.id)
-        adapter.notifyDataSetChanged()
-    }
-
-    override fun favoriteRemoved(status: Status) {
-        adapter.removeFavorite(status.id)
-        adapter.notifyDataSetChanged()
-    }
-
-    override fun retweetAdded(status: Status) {
-        adapter.setRetweet(status.retweetedStatus.id)
-        adapter.notifyDataSetChanged()
-    }
-
-    override fun retweetRemoved(status: Status) {
-        adapter.removeRetweet(status.id)
+    override fun updateRecyclerViewView() {
         adapter.notifyDataSetChanged()
     }
 
@@ -143,33 +127,33 @@ class TweetDetailsFragment : Fragment(), TweetDetailsMvpView, InteractionListene
 
     // InteractionListener
 
-    override fun favorite(status: Status) {
-        presenter.favorite(status)
+    override fun favorite(tweet: Tweet) {
+        presenter.favorite(tweet)
     }
 
-    override fun retweet(status: Status) {
+    override fun retweet(tweet: Tweet) {
         AlertDialog.Builder(context)
                 .setTitle(context.getString(R.string.retweet_title))
                 .setPositiveButton(context.getString(R.string.retweet),
-                        { dialogInterface, i -> presenter.retweet(status) })
+                        { dialogInterface, i -> presenter.retweet(tweet) })
                 .setNegativeButton(R.string.cancel, null)
                 .create().show()
     }
 
-    override fun unfavorite(status: Status) {
-        presenter.unfavorite(status)
+    override fun unfavorite(tweet: Tweet) {
+        presenter.unfavorite(tweet)
     }
 
-    override fun unretweet(status: Status) {
+    override fun unretweet(tweet: Tweet) {
         Toast.makeText(context, "Not yet implemented", Toast.LENGTH_SHORT).show()
     }
 
-    override fun reply(status: Status, user: User) {
-        presenter.reply(status, user)
+    override fun reply(tweet: Tweet, user: User) {
+        presenter.reply(tweet, user)
     }
 
-    override fun openTweet(status: Status, user: User) {
-        TweetDetailsActivity.launch(context, status.id, user.screenName)
+    override fun openTweet(tweet: Tweet, user: User) {
+        TweetDetailsActivity.launch(context, tweet.id, user.screenName)
     }
 
     override fun showUser(user: User) {
@@ -191,4 +175,5 @@ class TweetDetailsFragment : Fragment(), TweetDetailsMvpView, InteractionListene
     override fun showVideo(videoUrl: String, videoType: String) {
         // TODO
     }
+
 }

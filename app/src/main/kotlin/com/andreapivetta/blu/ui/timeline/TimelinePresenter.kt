@@ -2,6 +2,7 @@ package com.andreapivetta.blu.ui.timeline
 
 import com.andreapivetta.blu.arch.BasePresenter
 import com.andreapivetta.blu.data.twitter.TwitterAPI
+import com.andreapivetta.blu.data.twitter.model.Tweet
 import rx.SingleSubscriber
 import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
@@ -51,7 +52,7 @@ open class TimelinePresenter : BasePresenter<TimelineMvpView>() {
                             list == null -> mvpView?.showError()
                             list.isEmpty() -> mvpView?.showEmpty()
                             else -> {
-                                mvpView?.showTweets(list)
+                                mvpView?.showTweets(list.map { status -> Tweet(status) }.toMutableList())
                                 page++
                             }
                         }
@@ -82,7 +83,7 @@ open class TimelinePresenter : BasePresenter<TimelineMvpView>() {
                     override fun onSuccess(list: MutableList<Status>?) {
                         if (list != null) {
                             if (list.isNotEmpty())
-                                mvpView?.showMoreTweets(list)
+                                mvpView?.showMoreTweets(list.map { status -> Tweet(status) }.toMutableList())
                             page++
                         }
                         isLoading = false
@@ -107,7 +108,7 @@ open class TimelinePresenter : BasePresenter<TimelineMvpView>() {
                 .subscribe(object : SingleSubscriber<MutableList<Status>>() {
                     override fun onSuccess(list: MutableList<Status>?) {
                         mvpView?.stopRefresh()
-                        list?.reversed()?.forEach { status -> mvpView?.showTweet(status) }
+                        list?.reversed()?.forEach { status -> mvpView?.showTweet(Tweet(status)) }
                     }
 
                     override fun onError(error: Throwable?) {
@@ -117,59 +118,68 @@ open class TimelinePresenter : BasePresenter<TimelineMvpView>() {
                 })
     }
 
-    fun favorite(status: Status) {
+    fun favorite(tweet: Tweet) {
         checkViewAttached()
 
-        mFavoriteSubscriber = TwitterAPI.favorite(status.id)
+        mFavoriteSubscriber = TwitterAPI.favorite(tweet.id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(object : SingleSubscriber<Status>() {
+                .map { status -> Tweet(status) }
+                .subscribe(object : SingleSubscriber<Tweet>() {
                     override fun onError(error: Throwable?) {
                         Timber.e(error?.message)
                     }
 
-                    override fun onSuccess(value: Status?) {
-                        mvpView?.favoriteAdded(value!!)
+                    override fun onSuccess(tweetResult: Tweet?) {
+                        tweet.favorited = true
+                        tweet.favoriteCount++
+                        mvpView?.updateRecyclerViewView()
                     }
                 })
     }
 
-    fun retweet(status: Status) {
+    fun retweet(tweet: Tweet) {
         checkViewAttached()
 
-        mRetweetSubscriber = TwitterAPI.retweet(status.id)
+        mRetweetSubscriber = TwitterAPI.retweet(tweet.id)
+                .map { status -> Tweet(status) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(object : SingleSubscriber<Status>() {
+                .subscribe(object : SingleSubscriber<Tweet>() {
                     override fun onError(error: Throwable?) {
                         Timber.e(error?.message)
                     }
 
-                    override fun onSuccess(value: Status?) {
-                        mvpView?.retweetAdded(value!!)
+                    override fun onSuccess(value: Tweet?) {
+                        tweet.retweeted = true
+                        tweet.retweetCount++
+                        mvpView?.updateRecyclerViewView()
                     }
                 })
     }
 
-    fun unfavorite(status: Status) {
+    fun unfavorite(tweet: Tweet) {
         checkViewAttached()
 
-        mUnfavoriteSubscriber = TwitterAPI.unfavorite(status.id)
+        mUnfavoriteSubscriber = TwitterAPI.unfavorite(tweet.id)
+                .map { status -> Tweet(status) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(object : SingleSubscriber<Status>() {
+                .subscribe(object : SingleSubscriber<Tweet>() {
                     override fun onError(error: Throwable?) {
                         Timber.e(error?.message)
                     }
 
-                    override fun onSuccess(value: Status?) {
-                        mvpView?.favoriteRemoved(value!!)
+                    override fun onSuccess(value: Tweet?) {
+                        tweet.favorited = false
+                        tweet.favoriteCount--
+                        mvpView?.updateRecyclerViewView()
                     }
                 })
     }
 
-    fun reply(status: Status, user: User) {
-        mvpView?.showNewTweet(status, user)
+    fun reply(tweet: Tweet, user: User) {
+        mvpView?.showNewTweet(tweet, user)
     }
 
 }
