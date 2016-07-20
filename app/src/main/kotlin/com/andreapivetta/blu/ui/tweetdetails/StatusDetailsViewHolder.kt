@@ -6,10 +6,8 @@ import android.support.v7.widget.RecyclerView
 import android.text.Html
 import android.text.Spannable
 import android.text.SpannableStringBuilder
-import android.text.Spanned
 import android.text.method.LinkMovementMethod
 import android.text.style.StyleSpan
-import android.util.Patterns
 import android.view.View
 import android.view.ViewStub
 import android.widget.ImageView
@@ -40,10 +38,10 @@ class StatusDetailsViewHolder(container: View, listener: InteractionListener) :
 
         userNameTextView.text = currentUser.name
         timeTextView.text = formatDate(tweet.timeStamp, container.context)
-        statusTextView.text = getHtmlStatusText(tweet)
+        statusTextView.text = Html.fromHtml(tweet.getTextAsHtmlString())
         statusTextView.movementMethod = LinkMovementMethod.getInstance()
 
-        userScreenNameTextView.text = "@" + currentUser.screenName
+        userScreenNameTextView.text = "@${currentUser.screenName}"
 
         var amount = "${tweet.favoriteCount}"
         var b = StyleSpan(Typeface.BOLD)
@@ -95,12 +93,12 @@ class StatusDetailsViewHolder(container: View, listener: InteractionListener) :
                 inflatedMediaView = mediaViewStub.inflate()
             }
 
-            Glide.with(container.context).load(tweet.mediaEntities[0].mediaURL)
+            Glide.with(container.context).load(tweet.getImageUrl())
                     .asBitmap().dontTransform()
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .placeholder(R.drawable.placeholder)
                     .into(inflatedMediaView as ImageView)
-            inflatedMediaView?.setOnClickListener { listener.showImage(tweet.mediaEntities[0].mediaURL) }
+            inflatedMediaView?.setOnClickListener { listener.showImage(tweet.getImageUrl()) }
         } else if (tweet.hasMultipleMedia()) {
             if (inflatedMediaView == null) {
                 mediaViewStub.layoutResource = R.layout.stub_photos
@@ -111,21 +109,23 @@ class StatusDetailsViewHolder(container: View, listener: InteractionListener) :
             recyclerView.setHasFixedSize(true)
             recyclerView.addItemDecoration(SpaceLeftItemDecoration(5))
             recyclerView.adapter = ImagesAdapter(tweet.mediaEntities, listener)
-            recyclerView.layoutManager = LinearLayoutManager(container.context, LinearLayoutManager.HORIZONTAL, false)
+            recyclerView.layoutManager = LinearLayoutManager(container.context,
+                    LinearLayoutManager.HORIZONTAL, false)
         } else if (tweet.hasSingleVideo()) {
             if (inflatedMediaView == null) {
                 mediaViewStub.layoutResource = R.layout.video_cover
                 inflatedMediaView = mediaViewStub.inflate()
             }
 
-            Glide.with(container.context).load(tweet.mediaEntities[0].mediaURL)
+            Glide.with(container.context).load(tweet.getVideoCoverUrl())
                     .asBitmap().dontTransform()
                     .placeholder(R.drawable.placeholder)
-                    .centerCrop().into(inflatedMediaView?.findViewById(R.id.tweetVideoImageView) as ImageView)
+                    .centerCrop()
+                    .into(inflatedMediaView?.findViewById(R.id.tweetVideoImageView) as ImageView)
 
             inflatedMediaView?.findViewById(R.id.playVideoImageButton)?.setOnClickListener {
-                listener.showVideo(tweet.mediaEntities[0].videoVariants[0].url,
-                        tweet.mediaEntities[0].type)
+                val pair = tweet.getVideoUrlType()
+                listener.showVideo(pair.first, pair.second)
             }
         }
 
@@ -141,74 +141,25 @@ class StatusDetailsViewHolder(container: View, listener: InteractionListener) :
             (inflatedQuotedView?.findViewById(R.id.quotedUserNameTextView) as TextView).text =
                     quotedStatus.user.name
 
-            if (quotedStatus.mediaEntities.size > 0) {
+            // TODO other medias
+            if (quotedStatus.hasSingleImage()) {
                 photoImageView.visibility = View.VISIBLE
-                Glide.with(container.context).load(quotedStatus.mediaEntities[0].mediaURL)
+                Glide.with(container.context).load(quotedStatus.getImageUrl())
                         .asBitmap().dontTransform()
                         .placeholder(R.drawable.placeholder).into(photoImageView)
 
                 (inflatedQuotedView?.findViewById(R.id.quotedStatusTextView) as TextView).text =
-                        quotedStatus.text.replace(quotedStatus.mediaEntities[0].url, "")
+                        quotedStatus.getTextWithoutMediaURLs()
             } else {
                 inflatedQuotedView?.visibility = View.GONE
                 (inflatedQuotedView!!.findViewById(R.id.quotedStatusTextView) as TextView).text =
                         quotedStatus.text
             }
 
-            inflatedQuotedView?.setOnClickListener { listener.openTweet(quotedStatus, quotedStatus.user) }
-        }
-    }
-
-    private fun getHtmlStatusText(tweet: Tweet): Spanned {
-        val text = tweet.text
-        tweet.mediaEntities.forEach { media -> text.replace(media.url, "") }
-        val htmlBuilder = StringBuilder()
-        var endString = String()
-        text.split("\\r?\\n".toRegex()).dropLastWhile { it.isEmpty() }.forEach { line ->
-            if (htmlBuilder.isNotEmpty()) htmlBuilder.append("<br>")
-            line.split(" ").dropLastWhile { it.isEmpty() }.forEach { word ->
-                if (Patterns.WEB_URL.matcher(word).matches())
-                    htmlBuilder.append("<a href=\"").append(word).append("\">").append(word).append("</a>")
-                else if (word.isNotEmpty()) {
-                    if (word[0] == '@' || word[0] == '.' && word[1] == '@') {
-                        val index = word.indexOf('@')
-                        var i = index + 1
-                        while (i < word.length) {
-                            if (isSpecialCHar(word[i])) {
-                                endString = word.substring(i)
-                                break
-                            }
-                            i++
-                        }
-
-                        val word2 = word.substring(index, i)
-                        htmlBuilder.append(if (index == 0) "" else ".")
-                                .append("<a href=\"com.andreapivetta.blu.user://")
-                                .append(word2.substring(1))
-                                .append("\">").append(word2).append("</a>")
-                                .append(endString)
-                    } else if (word[0] == '#') {
-                        var word2 = word
-                        for (i in 1..word.length - 1)
-                            if (isSpecialCHar(word[i])) {
-                                endString = word.substring(i)
-                                word2 = word.substring(0, i)
-                                break
-                            }
-
-                        htmlBuilder.append("<a href=\"com.andreapivetta.blu.hashtag://")
-                                .append(word2.substring(1)).append("\">")
-                                .append(word2)
-                                .append("</a>").append(endString)
-                    } else htmlBuilder.append(word)
-                } else htmlBuilder.append(word)
-                htmlBuilder.append(" ")
+            inflatedQuotedView?.setOnClickListener {
+                listener.openTweet(quotedStatus, quotedStatus.user)
             }
         }
-
-        return Html.fromHtml(htmlBuilder.toString())
     }
-
-    private fun isSpecialCHar(char: Char) = "|/()=?'^[],;.:-\"\\".contains(char)
 
 }

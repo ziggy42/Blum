@@ -1,5 +1,6 @@
 package com.andreapivetta.blu.data.twitter.model
 
+import android.util.Patterns
 import twitter4j.ExtendedMediaEntity
 import twitter4j.Status
 import twitter4j.User
@@ -68,5 +69,56 @@ data class Tweet(val status: Status) : Serializable {
             noUrlText = text.replace(mediaEntities[i].url, "")
         return noUrlText
     }
+
+    fun getTextAsHtmlString(): String {
+        val text = getTextWithoutMediaURLs()
+        val htmlBuilder = StringBuilder()
+        var endString = String()
+        text.split("\\r?\\n".toRegex()).dropLastWhile { it.isEmpty() }.forEach { line ->
+            if (htmlBuilder.isNotEmpty()) htmlBuilder.append("<br>")
+            line.split(" ").dropLastWhile { it.isEmpty() }.forEach { word ->
+                if (Patterns.WEB_URL.matcher(word).matches())
+                    htmlBuilder.append("<a href=\"").append(word).append("\">").append(word).append("</a>")
+                else if (word.isNotEmpty()) {
+                    if (word[0] == '@' || word[0] == '.' && word[1] == '@') {
+                        val index = word.indexOf('@')
+                        var i = index + 1
+                        while (i < word.length) {
+                            if (isSpecialChar(word[i])) {
+                                endString = word.substring(i)
+                                break
+                            }
+                            i++
+                        }
+
+                        val word2 = word.substring(index, i)
+                        htmlBuilder.append(if (index == 0) "" else ".")
+                                .append("<a href=\"com.andreapivetta.blu.user://")
+                                .append(word2.substring(1))
+                                .append("\">").append(word2).append("</a>")
+                                .append(endString)
+                    } else if (word[0] == '#') {
+                        var word2 = word
+                        for (i in 1..word.length - 1)
+                            if (isSpecialChar(word[i])) {
+                                endString = word.substring(i)
+                                word2 = word.substring(0, i)
+                                break
+                            }
+
+                        htmlBuilder.append("<a href=\"com.andreapivetta.blu.hashtag://")
+                                .append(word2.substring(1)).append("\">")
+                                .append(word2)
+                                .append("</a>").append(endString)
+                    } else htmlBuilder.append(word)
+                } else htmlBuilder.append(word)
+                htmlBuilder.append(" ")
+            }
+        }
+
+        return htmlBuilder.toString()
+    }
+
+    private fun isSpecialChar(char: Char) = "|/()=?'^[],;.:-\"\\".contains(char)
 
 }
