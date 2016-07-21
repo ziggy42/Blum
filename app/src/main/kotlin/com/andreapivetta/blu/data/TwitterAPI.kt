@@ -1,4 +1,4 @@
-package com.andreapivetta.blu.data.twitter
+package com.andreapivetta.blu.data
 
 import rx.Observable
 import rx.Single

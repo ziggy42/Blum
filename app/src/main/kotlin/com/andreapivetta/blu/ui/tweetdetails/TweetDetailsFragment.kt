@@ -14,7 +14,7 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.Common
-import com.andreapivetta.blu.data.twitter.model.Tweet
+import com.andreapivetta.blu.data.model.Tweet
 import com.andreapivetta.blu.ui.base.decorators.SpaceTopItemDecoration
 import com.andreapivetta.blu.ui.image.ImageActivity
 import com.andreapivetta.blu.ui.newtweet.NewTweetActivity

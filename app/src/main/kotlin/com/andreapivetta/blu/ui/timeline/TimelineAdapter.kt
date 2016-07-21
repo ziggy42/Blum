@@ -4,7 +4,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.andreapivetta.blu.R
-import com.andreapivetta.blu.data.twitter.model.Tweet
+import com.andreapivetta.blu.data.model.Tweet
 import com.andreapivetta.blu.ui.timeline.holders.*
 import java.util.*
 

@@ -1,7 +1,7 @@
 package com.andreapivetta.blu.ui.newtweet
 
 import com.andreapivetta.blu.arch.BasePresenter
-import com.andreapivetta.blu.data.twitter.TwitterAPI
+import com.andreapivetta.blu.data.TwitterAPI
 import rx.SingleSubscriber
 import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers

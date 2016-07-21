@@ -7,7 +7,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import com.andreapivetta.blu.R
-import com.andreapivetta.blu.data.twitter.model.Tweet
+import com.andreapivetta.blu.data.model.Tweet
 import com.andreapivetta.blu.ui.timeline.InteractionListener
 import java.util.*
 import java.util.concurrent.TimeUnit

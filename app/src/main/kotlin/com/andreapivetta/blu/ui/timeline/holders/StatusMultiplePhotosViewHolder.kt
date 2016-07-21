@@ -5,7 +5,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.andreapivetta.blu.R
-import com.andreapivetta.blu.data.twitter.model.Tweet
+import com.andreapivetta.blu.data.model.Tweet
 import com.andreapivetta.blu.ui.base.decorators.SpaceLeftItemDecoration
 import com.andreapivetta.blu.ui.timeline.InteractionListener
 

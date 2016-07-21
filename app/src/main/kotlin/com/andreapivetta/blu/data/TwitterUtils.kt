@@ -1,4 +1,4 @@
-package com.andreapivetta.blu.data.twitter
+package com.andreapivetta.blu.data
 
 import android.content.Context
 import android.preference.PreferenceManager

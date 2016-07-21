@@ -1,7 +1,7 @@
 package com.andreapivetta.blu.ui.mediatimeline
 
 import com.andreapivetta.blu.arch.BasePresenter
-import com.andreapivetta.blu.data.twitter.TwitterAPI
+import com.andreapivetta.blu.data.TwitterAPI
 import com.andreapivetta.blu.ui.mediatimeline.model.Media
 import rx.Observable
 import rx.SingleSubscriber

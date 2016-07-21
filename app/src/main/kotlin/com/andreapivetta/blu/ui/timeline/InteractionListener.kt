@@ -1,6 +1,6 @@
 package com.andreapivetta.blu.ui.timeline
 
-import com.andreapivetta.blu.data.twitter.model.Tweet
+import com.andreapivetta.blu.data.model.Tweet
 import twitter4j.User
 
 /**

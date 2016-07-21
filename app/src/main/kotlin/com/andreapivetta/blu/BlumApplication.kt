@@ -1,7 +1,7 @@
 package com.andreapivetta.blu
 
 import android.app.Application
-import com.andreapivetta.blu.data.twitter.TwitterUtils
+import com.andreapivetta.blu.data.TwitterUtils
 
 /**
  * Created by andrea on 18/05/16.

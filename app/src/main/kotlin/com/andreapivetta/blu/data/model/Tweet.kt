@@ -1,4 +1,4 @@
-package com.andreapivetta.blu.data.twitter.model
+package com.andreapivetta.blu.data.model
 
 import android.util.Patterns
 import twitter4j.ExtendedMediaEntity

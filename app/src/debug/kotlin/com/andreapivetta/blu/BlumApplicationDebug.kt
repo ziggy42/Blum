@@ -1,7 +1,7 @@
 package com.andreapivetta.blu
 
 import android.app.Application
-import com.andreapivetta.blu.data.twitter.TwitterUtils
+import com.andreapivetta.blu.data.TwitterUtils
 import com.facebook.stetho.Stetho
 import com.squareup.leakcanary.LeakCanary
 import timber.log.Timber
