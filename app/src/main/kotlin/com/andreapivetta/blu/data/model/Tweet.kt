@@ -1,6 +1,6 @@
 package com.andreapivetta.blu.data.model
 
-import android.util.Patterns
+import com.andreapivetta.blu.common.Utils.Patterns
 import twitter4j.ExtendedMediaEntity
 import twitter4j.Status
 import twitter4j.User
@@ -78,7 +78,8 @@ data class Tweet(val status: Status) : Serializable {
             if (htmlBuilder.isNotEmpty()) htmlBuilder.append("<br>")
             line.split(" ").dropLastWhile { it.isEmpty() }.forEach { word ->
                 if (Patterns.WEB_URL.matcher(word).matches())
-                    htmlBuilder.append("<a href=\"").append(word).append("\">").append(word).append("</a>")
+                    htmlBuilder.append("<a href=\"").append(word).append("\">")
+                            .append(word).append("</a>")
                 else if (word.isNotEmpty()) {
                     if (word[0] == '@' || word[0] == '.' && word[1] == '@') {
                         val index = word.indexOf('@')
@@ -116,9 +117,9 @@ data class Tweet(val status: Status) : Serializable {
             }
         }
 
-        return htmlBuilder.toString()
+        return htmlBuilder.toString().trim()
     }
 
-    private fun isSpecialChar(char: Char) = "|/()=?'^[],;.:-\"\\".contains(char)
+    private fun isSpecialChar(char: Char) = "#|/()=?'^[],;.:-\"\\".contains(char)
 
 }
