@@ -1,4 +1,4 @@
-package com.andreapivetta.blu.ui.base
+package com.andreapivetta.blu.ui.base.custom
 
 import android.content.Context
 import android.support.design.widget.CoordinatorLayout

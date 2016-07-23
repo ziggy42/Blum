@@ -12,7 +12,7 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.Common
-import com.andreapivetta.blu.ui.base.decorators.SpaceTopItemDecoration
+import com.andreapivetta.blu.ui.base.custom.decorators.SpaceTopItemDecoration
 import com.andreapivetta.blu.ui.mediatimeline.model.Media
 import com.andreapivetta.blu.ui.timeline.TimelineFragment
 import java.io.Serializable

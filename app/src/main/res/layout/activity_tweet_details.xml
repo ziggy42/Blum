@@ -35,6 +35,6 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:src="@drawable/ic_create"
-        app:layout_behavior="com.andreapivetta.blu.ui.base.ScrollAwareFABBehavior" />
+        app:layout_behavior="com.andreapivetta.blu.ui.base.custom.ScrollAwareFABBehavior" />
 
 </android.support.design.widget.CoordinatorLayout>

@@ -5,8 +5,6 @@ package com.andreapivetta.blu.common.pref
  */
 interface AppSettings {
 
-    fun isUserLoggedIn() : Boolean
-
-    fun setUserLoggedIn(logged: Boolean)
+    fun isUserLoggedIn(): Boolean
 
 }

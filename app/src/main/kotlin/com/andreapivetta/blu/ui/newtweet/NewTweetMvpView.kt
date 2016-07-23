@@ -1,6 +1,6 @@
 package com.andreapivetta.blu.ui.newtweet
 
-import com.andreapivetta.blu.arch.MvpView
+import com.andreapivetta.blu.ui.base.MvpView
 
 /**
  * Created by andrea on 20/05/16.

@@ -14,7 +14,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.data.model.Tweet
-import com.andreapivetta.blu.ui.base.decorators.SpaceLeftItemDecoration
+import com.andreapivetta.blu.ui.base.custom.decorators.SpaceLeftItemDecoration
 import com.andreapivetta.blu.ui.timeline.InteractionListener
 import com.andreapivetta.blu.ui.timeline.holders.BaseViewHolder
 import com.andreapivetta.blu.ui.timeline.holders.ImagesAdapter

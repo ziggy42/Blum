@@ -34,7 +34,6 @@
     <!-- General Colors -->
     <color name="background">#DCDCDC</color>
     <color name="white">#ffff</color>
-    <color name="grey">#707070</color><!-- TODO Ahem -->
     <color name="lightGrey">#A9A9A9</color>
     <color name="red">#c62828</color>
     <color name="lightGreen">#DCEDC8</color>

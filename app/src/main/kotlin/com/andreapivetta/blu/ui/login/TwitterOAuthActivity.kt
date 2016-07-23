@@ -40,7 +40,7 @@ class TwitterOAuthActivity : Activity(), TwitterLoginListener {
     }
 
     override fun onSuccess(accessToken: AccessToken) {
-        PreferenceManager.getDefaultSharedPreferences(this@TwitterOAuthActivity).edit()
+        PreferenceManager.getDefaultSharedPreferences(this).edit()
                 .putString(getString(R.string.pref_oauth_token), accessToken.token)
                 .putString(getString(R.string.pref_oauth_token_secret), accessToken.tokenSecret)
                 .putBoolean(getString(R.string.pref_key_login), true)
@@ -56,10 +56,9 @@ class TwitterOAuthActivity : Activity(), TwitterLoginListener {
     }
 
     override fun onFailure(resultCode: Int) {
-        if (resultCode == TwitterLoginView.CANCELLATION)
-            showMessage(getString(R.string.failed_due, getString(R.string.cancellation)))
-        else
-            showMessage(getString(R.string.failed_due, getString(R.string.error)))
+        showMessage(getString(R.string.failed_due, getString(
+                if (resultCode == TwitterLoginView.CANCELLATION) R.string.cancellation
+                else R.string.error)))
     }
 
     private fun showMessage(message: String) {

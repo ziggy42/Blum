@@ -1,6 +1,6 @@
 package com.andreapivetta.blu.ui.login
 
-import com.andreapivetta.blu.arch.MvpView
+import com.andreapivetta.blu.ui.base.MvpView
 
 /**
  * Created by andrea on 15/05/16.

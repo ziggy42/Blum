@@ -1,4 +1,4 @@
-package com.andreapivetta.blu.ui.base.decorators
+package com.andreapivetta.blu.ui.base.custom.decorators
 
 import android.graphics.Rect
 import android.support.v7.widget.RecyclerView

@@ -1,7 +1,7 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.andreapivetta.blu.ui.base.views.EditedViewPager
+    <com.andreapivetta.blu.ui.base.custom.EditedViewPager
         android:id="@+id/photosViewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

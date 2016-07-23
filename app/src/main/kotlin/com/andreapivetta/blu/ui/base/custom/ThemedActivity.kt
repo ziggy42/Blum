@@ -1,4 +1,4 @@
-package com.andreapivetta.blu.ui.base
+package com.andreapivetta.blu.ui.base.custom
 
 import android.os.Bundle
 import android.preference.PreferenceManager

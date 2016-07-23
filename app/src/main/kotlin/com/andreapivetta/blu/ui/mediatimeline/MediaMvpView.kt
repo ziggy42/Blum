@@ -1,6 +1,6 @@
 package com.andreapivetta.blu.ui.mediatimeline
 
-import com.andreapivetta.blu.arch.MvpView
+import com.andreapivetta.blu.ui.base.MvpView
 import com.andreapivetta.blu.ui.mediatimeline.model.Media
 
 /**

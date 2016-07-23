@@ -2,7 +2,7 @@ package com.andreapivetta.blu.ui.main
 
 import android.os.Bundle
 import com.andreapivetta.blu.R
-import com.andreapivetta.blu.ui.base.ThemedActivity
+import com.andreapivetta.blu.ui.base.custom.ThemedActivity
 import com.andreapivetta.blu.ui.newtweet.NewTweetActivity
 import com.andreapivetta.blu.ui.timeline.TimelineFragment
 import kotlinx.android.synthetic.main.activity_main.*

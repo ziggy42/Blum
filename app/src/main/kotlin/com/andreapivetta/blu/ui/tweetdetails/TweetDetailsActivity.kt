@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import com.andreapivetta.blu.R
-import com.andreapivetta.blu.ui.base.ThemedActivity
+import com.andreapivetta.blu.ui.base.custom.ThemedActivity
 import kotlinx.android.synthetic.main.activity_tweet_details.*
 
 class TweetDetailsActivity : ThemedActivity() {

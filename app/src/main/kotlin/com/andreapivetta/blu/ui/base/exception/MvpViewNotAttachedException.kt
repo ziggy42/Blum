@@ -1,4 +1,4 @@
-package com.andreapivetta.blu.arch.exception
+package com.andreapivetta.blu.ui.base.exception
 
 /**
  * Created by andrea on 15/05/16.

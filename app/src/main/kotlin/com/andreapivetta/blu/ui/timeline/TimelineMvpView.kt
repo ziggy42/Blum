@@ -1,7 +1,7 @@
 package com.andreapivetta.blu.ui.timeline
 
-import com.andreapivetta.blu.arch.MvpView
 import com.andreapivetta.blu.data.model.Tweet
+import com.andreapivetta.blu.ui.base.MvpView
 import twitter4j.User
 
 /**

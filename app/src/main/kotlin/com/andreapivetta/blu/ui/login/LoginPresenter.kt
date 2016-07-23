@@ -1,7 +1,7 @@
 package com.andreapivetta.blu.ui.login
 
-import com.andreapivetta.blu.arch.BasePresenter
 import com.andreapivetta.blu.common.pref.AppSettings
+import com.andreapivetta.blu.ui.base.BasePresenter
 
 /**
  * Created by andrea on 15/05/16.

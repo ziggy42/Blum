@@ -1,4 +1,4 @@
-<com.andreapivetta.blu.ui.base.views.BorderedLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.andreapivetta.blu.ui.base.custom.BorderedLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/quotedStatusLinearLayout"
     android:layout_width="match_parent"
@@ -34,4 +34,4 @@
         android:scaleType="fitCenter"
         android:visibility="gone" />
 
-</com.andreapivetta.blu.ui.base.views.BorderedLinearLayout>
+</com.andreapivetta.blu.ui.base.custom.BorderedLinearLayout>
