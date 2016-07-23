@@ -18,6 +18,7 @@ import com.andreapivetta.blu.ui.base.decorators.SpaceTopItemDecoration
 import com.andreapivetta.blu.ui.image.ImageActivity
 import com.andreapivetta.blu.ui.newtweet.NewTweetActivity
 import com.andreapivetta.blu.ui.timeline.InteractionListener
+import com.andreapivetta.blu.ui.video.VideoActivity
 import twitter4j.User
 
 /**
@@ -172,7 +173,7 @@ class TweetDetailsFragment : Fragment(), TweetDetailsMvpView, InteractionListene
     }
 
     override fun showVideo(videoUrl: String, videoType: String) {
-        // TODO
+        VideoActivity.launch(context, videoUrl, videoType)
     }
 
 }

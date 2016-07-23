@@ -9,7 +9,6 @@ import android.support.v4.view.MenuItemCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.Menu
@@ -26,10 +25,6 @@ import java.io.File
 class NewTweetActivity : AppCompatActivity(), NewTweetMvpView {
 
     private val presenter: NewTweetPresenter = NewTweetPresenter()
-
-    private val photosRecyclerView: RecyclerView by lazy {
-        findViewById(R.id.photosRecyclerView) as RecyclerView
-    }
 
     private val adapter: DeletableImageAdapter by lazy { DeletableImageAdapter(applicationContext, mutableListOf()) }
 
@@ -59,7 +54,8 @@ class NewTweetActivity : AppCompatActivity(), NewTweetMvpView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_newtweet)
         setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true) // TODO change me to X
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close)
         toolbar.setNavigationOnClickListener { finish() }
         presenter.attachView(this)
 
