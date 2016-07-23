@@ -1,7 +1,9 @@
 package com.andreapivetta.blu.ui.newtweet
 
 import com.andreapivetta.blu.arch.BasePresenter
+import com.andreapivetta.blu.common.utils.Patterns
 import com.andreapivetta.blu.data.TwitterAPI
+import com.andreapivetta.blu.data.model.Tweet
 import rx.SingleSubscriber
 import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
@@ -9,7 +11,6 @@ import rx.schedulers.Schedulers
 import timber.log.Timber
 import twitter4j.Status
 import java.io.File
-import java.util.regex.Pattern
 
 /**
  * Created by andrea on 20/05/16.
@@ -22,7 +23,6 @@ class NewTweetPresenter : BasePresenter<NewTweetMvpView>() {
 
     private var charsLeft: Int = 140
     private var mSubscriber: Subscription? = null
-    private val urlPattern = Pattern.compile("^((https?|ftp)://|(www|ftp)\\.)?[a-z0-9-]+(\\.[a-z0-9-]+)+([/?].*)?$")
 
     fun charsLeft() = charsLeft
 
@@ -38,6 +38,14 @@ class NewTweetPresenter : BasePresenter<NewTweetMvpView>() {
             charsLeft < 0 -> mvpView?.showTooManyCharsError()
             imageFiles.size == 0 -> sendTweet(mvpView?.getTweet())
             else -> sendTweet(mvpView?.getTweet(), imageFiles)
+        }
+    }
+
+    fun sendTweet(quotedTweet: Tweet) {
+        when {
+            charsLeft < 0 -> mvpView?.showTooManyCharsError()
+            else -> sendTweet("${mvpView?.getTweet()} https://twitter.com/" +
+                    "${quotedTweet.user.screenName}/status/${quotedTweet.id}")
         }
     }
 
@@ -67,12 +75,13 @@ class NewTweetPresenter : BasePresenter<NewTweetMvpView>() {
         var wordsLength = 0
         var urls = 0
 
-        text.split(" ").forEach { entry -> if (isUrl(entry)) urls++ else wordsLength += entry.length }
+        text.split(" ")
+                .forEach { entry -> if (isUrl(entry)) urls++ else wordsLength += entry.length }
         charsLeft = 140 - text.count { c -> c == ' ' } - wordsLength - (urls * MAX_URL_LENGTH)
         mvpView?.refreshToolbar()
     }
 
-    private fun isUrl(text: String) = urlPattern.matcher(text).find()
+    private fun isUrl(text: String) = Patterns.WEB_URL.matcher(text).matches()
 
     private fun sendTweet(status: String?) {
         mSubscriber = TwitterAPI.updateTwitterStatus(status)
@@ -137,4 +146,5 @@ class NewTweetPresenter : BasePresenter<NewTweetMvpView>() {
                     }
                 })
     }
+
 }

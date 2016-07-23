@@ -76,31 +76,30 @@ object TwitterAPI {
     fun refreshUserTimeLine(userId: Long, paging: Paging): Observable<MutableList<Status>> =
             getUserTimeline(userId, paging)
 
-    fun updateTwitterStatus(tweet: String?): Single<Status> =
-            Single.from(object : Future<Status> {
-                override fun isDone(): Boolean {
-                    throw UnsupportedOperationException()
-                }
+    fun updateTwitterStatus(tweet: String?): Single<Status> = Single.from(object : Future<Status> {
+        override fun isDone(): Boolean {
+            throw UnsupportedOperationException()
+        }
 
-                override fun isCancelled(): Boolean {
-                    throw UnsupportedOperationException()
-                }
+        override fun isCancelled(): Boolean {
+            throw UnsupportedOperationException()
+        }
 
-                override fun get() = try {
-                    TwitterUtils.getTwitter().updateStatus(tweet)
-                } catch (err: Exception) {
-                    Timber.e(err, "Error in updateTwitterStatus")
-                    null
-                }
+        override fun get() = try {
+            TwitterUtils.getTwitter().updateStatus(tweet)
+        } catch (err: Exception) {
+            Timber.e(err, "Error in updateTwitterStatus")
+            null
+        }
 
-                override fun get(timeout: Long, unit: TimeUnit?): Status? {
-                    throw UnsupportedOperationException()
-                }
+        override fun get(timeout: Long, unit: TimeUnit?): Status? {
+            throw UnsupportedOperationException()
+        }
 
-                override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
-                    throw UnsupportedOperationException()
-                }
-            })
+        override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
+            throw UnsupportedOperationException()
+        }
+    })
 
     fun updateTwitterStatus(tweet: String?, images: List<File>): Single<Status> =
             Single.from(object : Future<Status> {

@@ -175,6 +175,8 @@ open class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
                 .setTitle(context.getString(R.string.retweet_title))
                 .setPositiveButton(context.getString(R.string.retweet),
                         { dialogInterface, i -> presenter.retweet(tweet) })
+                .setNeutralButton(context.getString(R.string.quote),
+                        { dialogInterface, i -> NewTweetActivity.launch(context, tweet) })
                 .setNegativeButton(R.string.cancel, null)
                 .create().show()
     }

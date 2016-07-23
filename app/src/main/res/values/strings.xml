@@ -264,5 +264,6 @@
     <string name="error_unfavorite">Error removing Tweet from favorites</string>
     <string name="error_retweet">Error retweeting Tweet</string>
     <string name="error_unretweet">Error unretweeting Tweet</string>
+    <string name="quote">Quote</string>
 
 </resources>

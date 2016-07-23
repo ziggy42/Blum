@@ -13,24 +13,32 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import com.andreapivetta.blu.R
+import com.andreapivetta.blu.data.model.Tweet
+import com.bumptech.glide.Glide
 import com.mlsdev.rximagepicker.RxImageConverters
 import com.mlsdev.rximagepicker.RxImagePicker
 import com.mlsdev.rximagepicker.Sources
 import kotlinx.android.synthetic.main.activity_newtweet.*
+import kotlinx.android.synthetic.main.quoted_tweet.*
 import java.io.File
 
 class NewTweetActivity : AppCompatActivity(), NewTweetMvpView {
 
     private val presenter: NewTweetPresenter = NewTweetPresenter()
 
-    private val adapter: DeletableImageAdapter by lazy { DeletableImageAdapter(applicationContext, mutableListOf()) }
+    private val adapter: DeletableImageAdapter
+            by lazy { DeletableImageAdapter(applicationContext, mutableListOf()) }
+
+    private var quotedTweet: Tweet? = null
 
     companion object {
         private val TAG_USER_PREFIX = "userPref"
         private val TAG_REPLY_ID = "replyId"
+        private val TAG_QUOTED_TWEET = "quotedStatus"
 
         fun launch(context: Context) {
             context.startActivity(Intent(context, NewTweetActivity::class.java))
@@ -39,6 +47,12 @@ class NewTweetActivity : AppCompatActivity(), NewTweetMvpView {
         fun launch(context: Context, userPref: String) {
             val intent = Intent(context, NewTweetActivity::class.java)
             intent.putExtra(TAG_USER_PREFIX, userPref)
+            context.startActivity(intent)
+        }
+
+        fun launch(context: Context, tweet: Tweet) {
+            val intent = Intent(context, NewTweetActivity::class.java)
+            intent.putExtra(TAG_QUOTED_TWEET, tweet)
             context.startActivity(intent)
         }
 
@@ -72,17 +86,43 @@ class NewTweetActivity : AppCompatActivity(), NewTweetMvpView {
             }
         })
 
-        photosRecyclerView.layoutManager = GridLayoutManager(applicationContext, 2)
-        photosRecyclerView.adapter = adapter
+        locationImageButton.setOnClickListener { /* TODO */ }
 
-        photoImageButton.setOnClickListener { presenter.takePicture(adapter.itemCount) }
-        imageImageButton.setOnClickListener { presenter.grabImage(adapter.itemCount) }
-        locationImageButton.setOnClickListener { }
+        if (intent.hasExtra(TAG_QUOTED_TWEET))
+            setupQuoted()
+        else
+            setup()
 
         if (intent.hasExtra(TAG_USER_PREFIX)) {
             newTweetEditText.setText(intent.getStringExtra(TAG_USER_PREFIX) + " ")
             newTweetEditText.setSelection(newTweetEditText.text.length)
             presenter.afterTextChanged(newTweetEditText.text.toString())
+        }
+    }
+
+    private fun setup() {
+        photosRecyclerView.layoutManager = GridLayoutManager(applicationContext, 2)
+        photosRecyclerView.adapter = adapter
+
+        photoImageButton.setOnClickListener { presenter.takePicture(adapter.itemCount) }
+        imageImageButton.setOnClickListener { presenter.grabImage(adapter.itemCount) }
+    }
+
+    private fun setupQuoted() {
+        quotedStatusLayout.visibility = View.VISIBLE
+        photosRecyclerView.visibility = View.GONE
+        photoImageButton.visibility = View.GONE
+        imageImageButton.visibility = View.GONE
+
+        quotedTweet = intent.getSerializableExtra(TAG_QUOTED_TWEET) as Tweet
+        quotedUserNameTextView.text = quotedTweet?.user?.name
+        quotedStatusTextView.text = quotedTweet?.text
+        if (quotedTweet != null && quotedTweet!!.hasSingleImage()) {
+            photoImageView.visibility = View.VISIBLE
+            Glide.with(this)
+                    .load(quotedTweet?.getImageUrl())
+                    .placeholder(R.drawable.placeholder)
+                    .into(photoImageView)
         }
     }
 
@@ -107,6 +147,8 @@ class NewTweetActivity : AppCompatActivity(), NewTweetMvpView {
         if (item?.itemId == R.id.action_send)
             if (intent.hasExtra(TAG_REPLY_ID))
                 presenter.reply(intent.getLongExtra(TAG_REPLY_ID, -1), adapter.imageFiles)
+            else if (intent.hasExtra(TAG_QUOTED_TWEET))
+                presenter.sendTweet(quotedTweet!!)
             else
                 presenter.sendTweet(adapter.imageFiles)
         return true
@@ -148,7 +190,8 @@ class NewTweetActivity : AppCompatActivity(), NewTweetMvpView {
         RxImagePicker.with(applicationContext).requestImage(Sources.CAMERA)
                 .flatMap {
                     RxImageConverters.uriToFile(applicationContext, it, File(
-                            getExternalFilesDir(Environment.DIRECTORY_PICTURES), "${System.currentTimeMillis()}_image.jpeg"))
+                            getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+                            "${System.currentTimeMillis()}_image.jpeg"))
                 }
                 .subscribe {
                     adapter.imageFiles.add(it)
@@ -160,7 +203,8 @@ class NewTweetActivity : AppCompatActivity(), NewTweetMvpView {
         RxImagePicker.with(applicationContext).requestImage(Sources.GALLERY)
                 .flatMap {
                     RxImageConverters.uriToFile(applicationContext, it, File(
-                            getExternalFilesDir(Environment.DIRECTORY_PICTURES), "${System.currentTimeMillis()}_image.jpeg"))
+                            getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+                            "${System.currentTimeMillis()}_image.jpeg"))
                 }
                 .subscribe {
                     adapter.imageFiles.add(it)
