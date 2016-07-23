@@ -53,7 +53,6 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'de.hdodenhof:circleimageview:2.0.0'
     compile 'com.uwetrottmann.photoview:library:1.2.4'
-    compile 'jp.wasabeef:recyclerview-animators:2.2.1'
     compile project(path: ':loginView')
 
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
