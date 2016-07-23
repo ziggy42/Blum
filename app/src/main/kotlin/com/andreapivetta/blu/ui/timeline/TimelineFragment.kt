@@ -23,6 +23,7 @@ import com.andreapivetta.blu.ui.image.ImageActivity
 import com.andreapivetta.blu.ui.newtweet.NewTweetActivity
 import com.andreapivetta.blu.ui.profile.ProfileActivity
 import com.andreapivetta.blu.ui.tweetdetails.TweetDetailsActivity
+import com.andreapivetta.blu.ui.video.VideoActivity
 import twitter4j.User
 import java.io.Serializable
 
@@ -208,7 +209,7 @@ open class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
     }
 
     override fun showVideo(videoUrl: String, videoType: String) {
-        // TODO
+        VideoActivity.launch(context, videoUrl, videoType)
     }
 
 }
