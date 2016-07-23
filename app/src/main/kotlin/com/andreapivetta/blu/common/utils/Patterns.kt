@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.andreapivetta.blu.common.Utils
+package com.andreapivetta.blu.common.utils
 
 import java.util.regex.Pattern
 

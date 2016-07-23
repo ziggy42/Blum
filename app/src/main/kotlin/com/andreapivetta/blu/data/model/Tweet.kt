@@ -1,6 +1,6 @@
 package com.andreapivetta.blu.data.model
 
-import com.andreapivetta.blu.common.Utils.Patterns
+import com.andreapivetta.blu.common.utils.Patterns
 import twitter4j.ExtendedMediaEntity
 import twitter4j.Status
 import twitter4j.User
