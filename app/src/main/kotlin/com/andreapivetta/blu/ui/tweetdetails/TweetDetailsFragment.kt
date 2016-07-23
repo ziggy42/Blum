@@ -11,7 +11,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
-import android.widget.Toast
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.Common
 import com.andreapivetta.blu.data.model.Tweet
@@ -145,7 +144,7 @@ class TweetDetailsFragment : Fragment(), TweetDetailsMvpView, InteractionListene
     }
 
     override fun unretweet(tweet: Tweet) {
-        Toast.makeText(context, "Not yet implemented", Toast.LENGTH_SHORT).show()
+        presenter.unretweet(tweet)
     }
 
     override fun reply(tweet: Tweet, user: User) {

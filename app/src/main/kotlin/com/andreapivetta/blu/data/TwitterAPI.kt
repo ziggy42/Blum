@@ -135,6 +135,31 @@ object TwitterAPI {
                 }
             })
 
+    fun destroy(statusId: Long): Single<Status> = Single.from(object : Future<Status> {
+        override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
+            throw UnsupportedOperationException()
+        }
+
+        override fun isCancelled(): Boolean {
+            throw UnsupportedOperationException()
+        }
+
+        override fun get() = try {
+            TwitterUtils.getTwitter().destroyStatus(statusId)
+        } catch (err: Exception) {
+            Timber.e(err, "Error in destroy")
+            null
+        }
+
+        override fun get(timeout: Long, unit: TimeUnit?): Status? {
+            throw UnsupportedOperationException()
+        }
+
+        override fun isDone(): Boolean {
+            throw UnsupportedOperationException()
+        }
+    })
+
     fun reply(tweet: String?, inReplyToStatusId: Long): Single<Status> =
             Single.from(object : Future<Status> {
                 override fun get() = try {
@@ -270,6 +295,8 @@ object TwitterAPI {
             throw UnsupportedOperationException()
         }
     })
+
+    fun unretweet(statusId: Long) = destroy(statusId)
 
     fun getConversation(statusId: Long): Single<Pair<MutableList<Status>, Int>> =
             Single.from(object : Future<Pair<MutableList<Status>, Int>> {

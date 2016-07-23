@@ -263,5 +263,6 @@
     <string name="error_favorite">Error adding Tweet to favorites</string>
     <string name="error_unfavorite">Error removing Tweet from favorites</string>
     <string name="error_retweet">Error retweeting Tweet</string>
+    <string name="error_unretweet">Error unretweeting Tweet</string>
 
 </resources>

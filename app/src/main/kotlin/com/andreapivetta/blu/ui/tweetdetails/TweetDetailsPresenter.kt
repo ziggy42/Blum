@@ -1,5 +1,6 @@
 package com.andreapivetta.blu.ui.tweetdetails
 
+import com.andreapivetta.blu.R
 import com.andreapivetta.blu.arch.BasePresenter
 import com.andreapivetta.blu.data.TwitterAPI
 import com.andreapivetta.blu.data.model.Tweet
@@ -119,6 +120,31 @@ class TweetDetailsPresenter : BasePresenter<TweetDetailsMvpView>() {
                         tweet.favorited = false
                         tweet.favoriteCount--
                         mvpView?.updateRecyclerViewView()
+                    }
+                })
+    }
+
+    fun unretweet(tweet: Tweet) {
+        checkViewAttached()
+
+        mUnfavoriteSubscriber = TwitterAPI.unretweet(tweet.status.currentUserRetweetId)
+                .map { status -> Tweet(status) }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(object : SingleSubscriber<Tweet>() {
+                    override fun onSuccess(value: Tweet?) {
+                        if (value != null) {
+                            tweet.retweeted = false
+                            tweet.retweetCount--
+                            mvpView?.updateRecyclerViewView()
+                        } else {
+                            mvpView?.showSnackBar(R.string.error_unretweet)
+                        }
+                    }
+
+                    override fun onError(error: Throwable?) {
+                        Timber.e(error?.message)
+                        mvpView?.showSnackBar(R.string.error_unretweet)
                     }
                 })
     }

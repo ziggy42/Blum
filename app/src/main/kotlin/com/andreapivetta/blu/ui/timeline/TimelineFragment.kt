@@ -14,7 +14,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ProgressBar
-import android.widget.Toast
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.Common
 import com.andreapivetta.blu.data.model.Tweet
@@ -50,14 +49,15 @@ open class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
 
     protected open fun getTimelinePresenter() = TimelinePresenter()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    @Suppress("UNCHECKED_CAST")
+    override fun onCreate(bundle: Bundle?) {
+        super.onCreate(bundle)
         presenter.attachView(this)
 
         adapter = TimelineAdapter(this)
-        if (savedInstanceState != null) {
-            adapter.mDataSet = savedInstanceState.getSerializable(TAG_TWEET_LIST) as MutableList<Tweet>
-            presenter.page = savedInstanceState.getInt(TAG_PAGE)
+        if (bundle != null) {
+            adapter.mDataSet = bundle.getSerializable(TAG_TWEET_LIST) as MutableList<Tweet>
+            presenter.page = bundle.getInt(TAG_PAGE)
         }
     }
 
@@ -79,8 +79,8 @@ open class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                if (linearLayoutManager.childCount + linearLayoutManager.findFirstVisibleItemPosition() + 1 >
-                        linearLayoutManager.itemCount - 10)
+                if (linearLayoutManager.childCount + linearLayoutManager
+                        .findFirstVisibleItemPosition() + 1 > linearLayoutManager.itemCount - 10)
                     presenter.getMoreTweets()
             }
         })
@@ -184,8 +184,7 @@ open class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
     }
 
     override fun unretweet(tweet: Tweet) {
-        // TODO
-        Toast.makeText(context, "Not yet implemented", Toast.LENGTH_SHORT).show()
+        presenter.unretweet(tweet)
     }
 
     override fun reply(tweet: Tweet, user: User) {
