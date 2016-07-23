@@ -3,10 +3,10 @@ package com.andreapivetta.blu.ui.login
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.widget.Toast
 import com.andreapivetta.blu.BuildConfig
 import com.andreapivetta.blu.R
+import com.andreapivetta.blu.common.pref.AppSettingsImpl
 import com.andreapivetta.blu.data.TwitterUtils
 import com.andreapivetta.twitterloginview.TwitterLoginListener
 import com.andreapivetta.twitterloginview.TwitterLoginView
@@ -40,13 +40,7 @@ class TwitterOAuthActivity : Activity(), TwitterLoginListener {
     }
 
     override fun onSuccess(accessToken: AccessToken) {
-        PreferenceManager.getDefaultSharedPreferences(this).edit()
-                .putString(getString(R.string.pref_oauth_token), accessToken.token)
-                .putString(getString(R.string.pref_oauth_token_secret), accessToken.tokenSecret)
-                .putBoolean(getString(R.string.pref_key_login), true)
-                .putLong(getString(R.string.pref_key_logged_user), accessToken.userId)
-                .apply()
-
+        AppSettingsImpl.saveAccessToken(this, accessToken)
         TwitterUtils.init(applicationContext)
 
         showMessage(getString(R.string.authorized_by, accessToken.screenName))

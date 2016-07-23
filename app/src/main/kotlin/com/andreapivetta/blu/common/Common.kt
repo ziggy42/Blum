@@ -3,10 +3,10 @@ package com.andreapivetta.blu.common
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.preference.PreferenceManager
 import android.support.v4.content.ContextCompat
 import android.util.DisplayMetrics
 import com.andreapivetta.blu.R
+import com.andreapivetta.blu.common.pref.AppSettingsImpl
 import org.json.JSONObject
 import org.jsoup.Jsoup
 import java.io.BufferedReader
@@ -105,7 +105,7 @@ object Common {
             (context.resources.displayMetrics.densityDpi.toDouble() / DisplayMetrics.DENSITY_DEFAULT.toDouble())).toInt()
 
     fun getResourceColorPrimary(context: Context): Int {
-        when (PreferenceManager.getDefaultSharedPreferences(context).getString(context.getString(R.string.pref_key_themes), "B")) {
+        when (AppSettingsImpl.getTheme(context)) {
             "B" -> return ContextCompat.getColor(context, R.color.blueThemeColorPrimary)
             "P" -> return ContextCompat.getColor(context, R.color.pinkThemeColorPrimary)
             "G" -> return ContextCompat.getColor(context, R.color.greenThemeColorPrimary)

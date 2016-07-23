@@ -1,9 +1,9 @@
 package com.andreapivetta.blu.ui.base.custom
 
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.support.v7.app.AppCompatActivity
 import com.andreapivetta.blu.R
+import com.andreapivetta.blu.common.pref.AppSettingsImpl
 
 /**
  * Created by andrea on 15/05/16.
@@ -11,8 +11,7 @@ import com.andreapivetta.blu.R
 open class ThemedActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        when (PreferenceManager.getDefaultSharedPreferences(this)
-                .getString(getString(R.string.pref_key_themes), "B")) {
+        when (AppSettingsImpl.getTheme(this)) {
             "B" -> setTheme(R.style.BlueAppTheme)
             "P" -> setTheme(R.style.PinkAppTheme)
             "G" -> setTheme(R.style.GreenAppTheme)

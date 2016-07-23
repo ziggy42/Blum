@@ -15,4 +15,6 @@ interface LoginMvpView : MvpView {
 
     fun moveOn()
 
+    fun isUserLoggedIn(): Boolean
+
 }

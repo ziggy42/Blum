@@ -1,9 +1,8 @@
 package com.andreapivetta.blu.data
 
 import android.content.Context
-import android.preference.PreferenceManager
 import com.andreapivetta.blu.BuildConfig
-import com.andreapivetta.blu.R
+import com.andreapivetta.blu.common.pref.AppSettingsImpl
 import twitter4j.Twitter
 import twitter4j.TwitterFactory
 import twitter4j.auth.AccessToken
@@ -32,10 +31,8 @@ object TwitterUtils {
         accessToken = null
     }
 
-    fun init(context: Context?) {
-        // TODO Use Settings
-        val mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-        accessToken = AccessToken(mSharedPreferences.getString(context?.getString(R.string.pref_oauth_token), ""),
-                mSharedPreferences.getString(context?.getString(R.string.pref_oauth_token_secret), ""))
+    fun init(context: Context) {
+        accessToken = AppSettingsImpl.getAccessToken(context)
     }
+
 }

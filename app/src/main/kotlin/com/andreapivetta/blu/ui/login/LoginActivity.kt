@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity(), LoginMvpView {
 
-    private val presenter: LoginPresenter by lazy { LoginPresenter(AppSettingsImpl(applicationContext)) }
+    private val presenter = LoginPresenter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,9 +42,10 @@ class LoginActivity : AppCompatActivity(), LoginMvpView {
     }
 
     override fun moveOn() {
-        intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
+        startActivity(Intent(this, MainActivity::class.java))
         finish()
     }
+
+    override fun isUserLoggedIn() = AppSettingsImpl.isUserLoggedIn(this)
 
 }

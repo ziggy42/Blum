@@ -233,25 +233,6 @@
     <string name="video_preview_contentDescription" translatable="false">Video Preview</string>
     <string name="image_transition" translatable="false">imageTransition</string>
 
-    <!-- Prefs -->
-    <string name="pref_key_themes" translatable="false">themes</string>
-    <string name="pref_key_stream_service" translatable="false">stream</string>
-    <string name="pref_key_heads_up_notifications" translatable="false">headsup</string>
-    <string name="pref_key_dms" translatable="false">dms</string>
-    <string name="pref_key_followers" translatable="false">followers</string>
-    <string name="pref_key_mentions" translatable="false">mentions</string>
-    <string name="pref_key_fav_ret" translatable="false">interactions</string>
-    <string name="pref_key_frequencies" translatable="false">freq</string>
-    <string name="pref_key_login" translatable="false">logged</string>
-    <string name="pref_key_logged_user" translatable="false">user</string>
-    <string name="pref_key_db_populated" translatable="false">popdb</string>
-    <string name="pref_key_following_populated" translatable="false">Following</string>
-    <string name="pref_key_mute_notifications" translatable="false">muteNot</string>
-    <string name="pref_key_hide_fab" translatable="false">hideFab</string>
-    <string name="pref_ads_removed" translatable="false">ads_removed</string>
-    <string name="pref_oauth_token" translatable="false">oauth_token</string>
-    <string name="pref_oauth_token_secret" translatable="false">oauth_token_secret</string>
-
     <string name="cancellation">Cancellation</string>
     <string name="error">Error</string>
     <string name="title_activity_main" translatable="false">Blum</string>
