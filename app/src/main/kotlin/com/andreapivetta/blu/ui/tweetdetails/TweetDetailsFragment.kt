@@ -101,8 +101,8 @@ class TweetDetailsFragment : Fragment(), TweetDetailsMvpView, InteractionListene
         // TODO
     }
 
-    override fun showSnackBar(message: String) {
-        Snackbar.make(view!!, message, Snackbar.LENGTH_SHORT)
+    override fun showSnackBar(stringResource: Int) {
+        Snackbar.make(view!!, getString(stringResource), Snackbar.LENGTH_SHORT).show()
     }
 
     override fun showLoading() {

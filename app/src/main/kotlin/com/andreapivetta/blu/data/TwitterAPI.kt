@@ -2,6 +2,7 @@ package com.andreapivetta.blu.data
 
 import rx.Observable
 import rx.Single
+import timber.log.Timber
 import twitter4j.Paging
 import twitter4j.Query
 import twitter4j.Status
@@ -22,6 +23,7 @@ object TwitterAPI {
                         try {
                             TwitterUtils.getTwitter().getHomeTimeline(paging)
                         } catch(err: Exception) {
+                            Timber.e(err, "Error in getHomeTimeline")
                             null
                         }
 
@@ -48,6 +50,7 @@ object TwitterAPI {
                         try {
                             TwitterUtils.getTwitter().getUserTimeline(userId, paging)
                         } catch(err: Exception) {
+                            Timber.e(err, "Error in getUserTimeline")
                             null
                         }
 
@@ -86,6 +89,7 @@ object TwitterAPI {
                 override fun get() = try {
                     TwitterUtils.getTwitter().updateStatus(tweet)
                 } catch (err: Exception) {
+                    Timber.e(err, "Error in updateTwitterStatus")
                     null
                 }
 
@@ -118,6 +122,7 @@ object TwitterAPI {
                     status.setMediaIds(mediaIds)
                     TwitterUtils.getTwitter().updateStatus(status)
                 } catch (err: Exception) {
+                    Timber.e(err, "Error in updateTwitterStatus")
                     null
                 }
 
@@ -132,10 +137,12 @@ object TwitterAPI {
 
     fun reply(tweet: String?, inReplyToStatusId: Long): Single<Status> =
             Single.from(object : Future<Status> {
-                override fun get(): Status? {
+                override fun get() = try {
                     val status = StatusUpdate(tweet)
                     status.inReplyToStatusId = inReplyToStatusId
-                    return TwitterUtils.getTwitter().updateStatus(status)
+                    TwitterUtils.getTwitter().updateStatus(status)
+                } catch (err: Exception) {
+                    null
                 }
 
                 override fun get(timeout: Long, unit: TimeUnit?): Status? {
@@ -168,6 +175,7 @@ object TwitterAPI {
                     status.inReplyToStatusId = inReplyToStatusId
                     TwitterUtils.getTwitter().updateStatus(status)
                 } catch (err: Exception) {
+                    Timber.e(err, "Error in reply")
                     null
                 }
 
@@ -197,7 +205,12 @@ object TwitterAPI {
             throw UnsupportedOperationException()
         }
 
-        override fun get() = TwitterUtils.getTwitter().createFavorite(statusId)
+        override fun get() = try {
+            TwitterUtils.getTwitter().createFavorite(statusId)
+        } catch (err: Exception) {
+            Timber.e(err, "Error in favorite")
+            null
+        }
 
         override fun get(timeout: Long, unit: TimeUnit?): Status? {
             throw UnsupportedOperationException()
@@ -217,7 +230,12 @@ object TwitterAPI {
             throw UnsupportedOperationException()
         }
 
-        override fun get() = TwitterUtils.getTwitter().destroyFavorite(statusId)
+        override fun get() = try {
+            TwitterUtils.getTwitter().destroyFavorite(statusId)
+        } catch (err: Exception) {
+            Timber.e(err, "Error in unfavorite")
+            null
+        }
 
         override fun get(timeout: Long, unit: TimeUnit?): Status? {
             throw UnsupportedOperationException()
@@ -233,7 +251,12 @@ object TwitterAPI {
             throw UnsupportedOperationException()
         }
 
-        override fun get() = TwitterUtils.getTwitter().retweetStatus(statusId)
+        override fun get() = try {
+            TwitterUtils.getTwitter().retweetStatus(statusId)
+        } catch (err: Exception) {
+            Timber.e(err, "Error in retweet")
+            null
+        }
 
         override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
             throw UnsupportedOperationException()
@@ -273,13 +296,15 @@ object TwitterAPI {
                         val targetIndex = list.size
                         list.add(status)
 
-                        val result = TwitterUtils.getTwitter().search(Query("to: ${status.user.screenName}"))
+                        val result = TwitterUtils.getTwitter()
+                                .search(Query("to: ${status.user.screenName}"))
                         result.tweets.forEach {
                             tmpStatus ->
                             if (status.id == tmpStatus.inReplyToStatusId) list.add(tmpStatus)
                         }
                         return Pair(list, targetIndex)
                     } catch(err: Exception) {
+                        Timber.e(err, "Error in getConversation")
                         return null
                     }
                 }

@@ -1,5 +1,6 @@
 package com.andreapivetta.blu.ui.usertimeline
 
+import com.andreapivetta.blu.R
 import com.andreapivetta.blu.data.TwitterAPI
 import com.andreapivetta.blu.data.model.Tweet
 import com.andreapivetta.blu.ui.timeline.TimelinePresenter
@@ -36,7 +37,8 @@ class UserTimelinePresenter(val userId: Long) : TimelinePresenter() {
                             list == null -> mvpView?.showError()
                             list.isEmpty() -> mvpView?.showEmpty()
                             else -> {
-                                mvpView?.showTweets(list.map { status -> Tweet(status) }.toMutableList())
+                                mvpView?.showTweets(list.map { status -> Tweet(status) }
+                                        .toMutableList())
                                 page++
                             }
                         }
@@ -72,7 +74,8 @@ class UserTimelinePresenter(val userId: Long) : TimelinePresenter() {
                     override fun onNext(list: MutableList<Status>?) {
                         if (list != null) {
                             if (list.isNotEmpty())
-                                mvpView?.showMoreTweets(list.map { status -> Tweet(status) }.toMutableList())
+                                mvpView?.showMoreTweets(list.map { status -> Tweet(status) }
+                                        .toMutableList())
                             page++
                         }
                         isLoading = false
@@ -102,12 +105,16 @@ class UserTimelinePresenter(val userId: Long) : TimelinePresenter() {
 
                     override fun onNext(list: MutableList<Status>?) {
                         mvpView?.stopRefresh()
-                        list?.reversed()?.forEach { status -> mvpView?.showTweet(Tweet(status)) }
+                        if (list != null)
+                            list.reversed().forEach { status -> mvpView?.showTweet(Tweet(status)) }
+                        else
+                            mvpView?.showSnackBar(R.string.error_refreshing_timeline)
                     }
 
                     override fun onError(error: Throwable?) {
                         Timber.e(error?.message)
                         mvpView?.stopRefresh()
+                        mvpView?.showSnackBar(R.string.error_refreshing_timeline)
                     }
                 })
     }

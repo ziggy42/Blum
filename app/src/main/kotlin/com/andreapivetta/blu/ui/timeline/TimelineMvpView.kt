@@ -23,7 +23,7 @@ interface TimelineMvpView : MvpView {
 
     fun showError()
 
-    fun showSnackBar(message: String)
+    fun showSnackBar(stringResource: Int)
 
     fun showLoading()
 

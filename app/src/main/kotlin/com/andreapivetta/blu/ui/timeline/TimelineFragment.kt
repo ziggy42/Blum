@@ -12,6 +12,7 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.Toast
 import com.andreapivetta.blu.R
@@ -43,6 +44,8 @@ open class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
     private lateinit var recyclerView: RecyclerView
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var loadingProgressBar: ProgressBar
+    private lateinit var badThingsViewGroup: ViewGroup
+    private lateinit var retryButton: Button
 
     protected open fun getTimelinePresenter() = TimelinePresenter()
 
@@ -64,6 +67,8 @@ open class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
         recyclerView = rootView?.findViewById(R.id.tweetsRecyclerView) as RecyclerView
         swipeRefreshLayout = rootView?.findViewById(R.id.swipeRefreshLayout) as SwipeRefreshLayout
         loadingProgressBar = rootView?.findViewById(R.id.loadingProgressBar) as ProgressBar
+        badThingsViewGroup = rootView?.findViewById(R.id.badThingsViewGroup) as ViewGroup
+        retryButton = rootView?.findViewById(R.id.retryButton) as Button
 
         val linearLayoutManager = LinearLayoutManager(activity)
         recyclerView.layoutManager = linearLayoutManager
@@ -81,6 +86,11 @@ open class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
 
         swipeRefreshLayout.setOnRefreshListener { presenter.onRefresh() }
         swipeRefreshLayout.setColorSchemeColors(getRefreshColor())
+
+        retryButton.setOnClickListener {
+            badThingsViewGroup.visibility = View.GONE
+            presenter.getTweets()
+        }
 
         if (adapter.mDataSet.isEmpty())
             presenter.getTweets()
@@ -126,15 +136,15 @@ open class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
     }
 
     override fun showEmpty() {
-        // TODO
+        badThingsViewGroup.visibility = View.VISIBLE
     }
 
     override fun showError() {
-        // TODO
+        badThingsViewGroup.visibility = View.VISIBLE
     }
 
-    override fun showSnackBar(message: String) {
-        Snackbar.make(view!!, message, Snackbar.LENGTH_SHORT)
+    override fun showSnackBar(stringResource: Int) {
+        Snackbar.make(view!!, getString(stringResource), Snackbar.LENGTH_SHORT).show()
     }
 
     override fun showLoading() {

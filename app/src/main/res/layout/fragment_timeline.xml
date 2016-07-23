@@ -26,4 +26,36 @@
         android:indeterminate="true"
         android:visibility="gone" />
 
+    <LinearLayout
+        android:id="@+id/badThingsViewGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/ic_mood_bad" />
+
+        <TextView
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:text="@string/something_bad_happened"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/retryButton"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/retry" />
+
+    </LinearLayout>
+
 </FrameLayout>
