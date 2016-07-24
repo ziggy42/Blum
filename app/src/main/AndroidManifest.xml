@@ -41,6 +41,9 @@
             android:name=".ui.video.VideoActivity"
             android:label="@string/title_empty"
             android:theme="@style/ImageActivityTheme" />
+        <activity
+            android:name=".ui.settings.SettingsActivity"
+            android:label="@string/title_activity_settings" />
     </application>
 
 </manifest>

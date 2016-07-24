@@ -11,7 +11,8 @@ import com.bumptech.glide.Glide
 import twitter4j.ExtendedMediaEntity
 
 
-class ImagesAdapter(private val mediaEntities: Array<ExtendedMediaEntity>, private val listener: InteractionListener) :
+class ImagesAdapter(private val mediaEntities: Array<ExtendedMediaEntity>,
+                    private val listener: InteractionListener) :
         RecyclerView.Adapter<ImagesAdapter.VHItem>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
@@ -31,10 +32,7 @@ class ImagesAdapter(private val mediaEntities: Array<ExtendedMediaEntity>, priva
     override fun getItemCount() = mediaEntities.size
 
     inner class VHItem(container: View) : RecyclerView.ViewHolder(container) {
-        var tweetPhotoImageView: ImageView
-
-        init {
-            this.tweetPhotoImageView = container.findViewById(R.id.tweetPhotoImageView) as ImageView
-        }
+        var tweetPhotoImageView = container.findViewById(R.id.tweetPhotoImageView) as ImageView
     }
+
 }

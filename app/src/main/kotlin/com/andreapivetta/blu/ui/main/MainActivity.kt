@@ -1,9 +1,12 @@
 package com.andreapivetta.blu.ui.main
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.ui.base.custom.ThemedActivity
 import com.andreapivetta.blu.ui.newtweet.NewTweetActivity
+import com.andreapivetta.blu.ui.settings.SettingsActivity
 import com.andreapivetta.blu.ui.timeline.TimelineFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -24,8 +27,19 @@ class MainActivity : ThemedActivity(), MainMvpView {
                     .replace(R.id.container_frameLayout, TimelineFragment.newInstance()).commit()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if (item?.itemId == R.id.action_settings)
+            openSettings()
+        return super.onOptionsItemSelected(item)
+    }
+
     override fun openSettings() {
-        throw UnsupportedOperationException()
+        SettingsActivity.launch(this)
     }
 
     override fun openNotifications() {

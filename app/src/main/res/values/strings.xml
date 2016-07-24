@@ -246,5 +246,6 @@
     <string name="error_retweet">Error retweeting Tweet</string>
     <string name="error_unretweet">Error unretweeting Tweet</string>
     <string name="quote">Quote</string>
+    <string name="settings_licenses_url">"http://andreapivetta.altervista.org/Blum/licenses2.html"</string>
 
 </resources>

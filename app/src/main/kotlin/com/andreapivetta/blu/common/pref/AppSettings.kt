@@ -18,4 +18,6 @@ interface AppSettings {
 
     fun getTheme(context: Context): String
 
+    fun clear(context: Context)
+
 }

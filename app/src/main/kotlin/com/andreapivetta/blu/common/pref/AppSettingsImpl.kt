@@ -41,4 +41,7 @@ object AppSettingsImpl : AppSettings {
     override fun getTheme(context: Context): String = PreferenceManager
             .getDefaultSharedPreferences(context).getString(KEY_THEMES, "B")
 
+    override fun clear(context: Context) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit().clear().commit()
+    }
 }

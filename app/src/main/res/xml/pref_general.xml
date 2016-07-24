@@ -1,0 +1,22 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/prefcat_others_title">
+
+        <Preference
+            android:key="pref_key_licenses"
+            android:summary="@string/licenses_pref_summary"
+            android:title="@string/licenses_pref_title" />
+
+        <Preference
+            android:key="pref_key_about"
+            android:summary="@string/about_pref_summary"
+            android:title="@string/about_pref_title" />
+
+        <Preference
+            android:key="pref_key_logout"
+            android:summary="@string/logout_pref_summary"
+            android:title="@string/logout_pref_title" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
