@@ -3,10 +3,7 @@ package com.andreapivetta.blu.data
 import rx.Observable
 import rx.Single
 import timber.log.Timber
-import twitter4j.Paging
-import twitter4j.Query
-import twitter4j.Status
-import twitter4j.StatusUpdate
+import twitter4j.*
 import java.io.File
 import java.util.*
 import java.util.concurrent.Future
@@ -68,6 +65,60 @@ object TwitterAPI {
 
                 override fun isCancelled(): Boolean {
                     throw UnsupportedOperationException()
+                }
+            })
+
+    fun searchTweets(query: Query): Single<QueryResult> =
+            Single.from(object : Future<QueryResult> {
+                override fun get(p0: Long, p1: TimeUnit?): QueryResult {
+                    throw UnsupportedOperationException("not implemented")
+                }
+
+                override fun get() =
+                        try {
+                            TwitterUtils.getTwitter().search(query)
+                        } catch (err: Exception) {
+                            Timber.e(err, "Error in searchTweets")
+                            null
+                        }
+
+                override fun isCancelled(): Boolean {
+                    throw UnsupportedOperationException("not implemented")
+                }
+
+                override fun cancel(p0: Boolean): Boolean {
+                    throw UnsupportedOperationException("not implemented")
+                }
+
+                override fun isDone(): Boolean {
+                    throw UnsupportedOperationException("not implemented")
+                }
+            })
+
+    fun searchUsers(query: String, paging: Paging): Single<MutableList<User>> =
+            Single.from(object : Future<MutableList<User>> {
+                override fun cancel(p0: Boolean): Boolean {
+                    throw UnsupportedOperationException("not implemented")
+                }
+
+                override fun get(p0: Long, p1: TimeUnit?): MutableList<User> {
+                    throw UnsupportedOperationException("not implemented")
+                }
+
+                override fun get(): MutableList<User>? =
+                        try {
+                            TwitterUtils.getTwitter().searchUsers(query, paging.page)
+                        } catch (err: Exception) {
+                            Timber.e(err, "Error in searchTweets")
+                            null
+                        }
+
+                override fun isCancelled(): Boolean {
+                    throw UnsupportedOperationException("not implemented")
+                }
+
+                override fun isDone(): Boolean {
+                    throw UnsupportedOperationException("not implemented")
                 }
             })
 

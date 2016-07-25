@@ -53,7 +53,8 @@ open class TimelinePresenter : BasePresenter<TimelineMvpView>() {
                             list == null -> mvpView?.showError()
                             list.isEmpty() -> mvpView?.showEmpty()
                             else -> {
-                                mvpView?.showTweets(list.map { status -> Tweet(status) }.toMutableList())
+                                mvpView?.showTweets(list.map { status -> Tweet(status) }
+                                        .toMutableList())
                                 page++
                             }
                         }
@@ -84,7 +85,8 @@ open class TimelinePresenter : BasePresenter<TimelineMvpView>() {
                     override fun onSuccess(list: MutableList<Status>?) {
                         if (list != null) {
                             if (list.isNotEmpty())
-                                mvpView?.showMoreTweets(list.map { status -> Tweet(status) }.toMutableList())
+                                mvpView?.showMoreTweets(list.map { status -> Tweet(status) }
+                                        .toMutableList())
                             page++
                         }
                         isLoading = false

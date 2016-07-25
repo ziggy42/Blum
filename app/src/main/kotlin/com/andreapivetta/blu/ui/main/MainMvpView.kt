@@ -13,6 +13,8 @@ interface MainMvpView : MvpView {
 
     fun openDirectMessages()
 
+    fun search(string: String)
+
     fun newTweet()
 
 }
