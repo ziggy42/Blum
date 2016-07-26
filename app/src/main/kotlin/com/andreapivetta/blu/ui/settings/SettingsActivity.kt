@@ -13,6 +13,7 @@ import android.view.View
 import android.webkit.WebView
 import android.widget.ImageView
 import android.widget.TextView
+import com.andreapivetta.blu.BuildConfig
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.pref.AppSettingsImpl
 import com.andreapivetta.blu.data.TwitterUtils
@@ -35,7 +36,7 @@ class SettingsActivity : ThemedActivity() {
 
                 findPreference("pref_key_licenses").setOnPreferenceClickListener {
                     val webView = WebView(activity)
-                    webView.loadUrl(getString(R.string.settings_licenses_url))
+                    webView.loadUrl(BuildConfig.LICENSES_URL)
 
                     AlertDialog.Builder(activity).setView(webView)
                             .setTitle(getString(R.string.licenses_pref_title))
