@@ -11,7 +11,7 @@ import com.andreapivetta.blu.common.pref.AppSettingsImpl
 open class ThemedActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        when (AppSettingsImpl.getTheme(this)) {
+        when (AppSettingsImpl.getTheme()) {
             "B" -> setTheme(R.style.BlueAppTheme)
             "P" -> setTheme(R.style.PinkAppTheme)
             "G" -> setTheme(R.style.GreenAppTheme)

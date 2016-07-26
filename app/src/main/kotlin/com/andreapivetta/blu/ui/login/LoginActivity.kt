@@ -46,6 +46,6 @@ class LoginActivity : AppCompatActivity(), LoginMvpView {
         finish()
     }
 
-    override fun isUserLoggedIn() = AppSettingsImpl.isUserLoggedIn(this)
+    override fun isUserLoggedIn() = AppSettingsImpl.isUserLoggedIn()
 
 }

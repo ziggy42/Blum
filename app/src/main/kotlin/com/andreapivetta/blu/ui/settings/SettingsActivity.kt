@@ -16,7 +16,7 @@ import android.widget.TextView
 import com.andreapivetta.blu.BuildConfig
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.pref.AppSettingsImpl
-import com.andreapivetta.blu.data.TwitterUtils
+import com.andreapivetta.blu.data.twitter.TwitterUtils
 import com.andreapivetta.blu.ui.base.custom.ThemedActivity
 import com.andreapivetta.blu.ui.login.LoginActivity
 import kotlinx.android.synthetic.main.activity_settings.*
@@ -73,7 +73,7 @@ class SettingsActivity : ThemedActivity() {
             }
 
             private fun logout() {
-                AppSettingsImpl.clear(activity)
+                AppSettingsImpl.clear()
                 TwitterUtils.nullTwitter()
                 activity.finish()
                 val intent = Intent(activity, LoginActivity::class.java)

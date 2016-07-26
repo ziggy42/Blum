@@ -1,6 +1,5 @@
-package com.andreapivetta.blu.data
+package com.andreapivetta.blu.data.twitter
 
-import android.content.Context
 import com.andreapivetta.blu.BuildConfig
 import com.andreapivetta.blu.common.pref.AppSettingsImpl
 import twitter4j.Twitter
@@ -31,8 +30,8 @@ object TwitterUtils {
         accessToken = null
     }
 
-    fun init(context: Context) {
-        accessToken = AppSettingsImpl.getAccessToken(context)
+    fun init() {
+        accessToken = AppSettingsImpl.getAccessToken()
     }
 
 }

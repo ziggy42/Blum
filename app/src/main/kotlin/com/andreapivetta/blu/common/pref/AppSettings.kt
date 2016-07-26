@@ -1,6 +1,5 @@
 package com.andreapivetta.blu.common.pref
 
-import android.content.Context
 import twitter4j.auth.AccessToken
 
 /**
@@ -8,16 +7,18 @@ import twitter4j.auth.AccessToken
  */
 interface AppSettings {
 
-    fun isUserLoggedIn(context: Context): Boolean
+    fun isUserLoggedIn(): Boolean
 
-    fun saveAccessToken(context: Context, accessToken: AccessToken)
+    fun saveAccessToken(accessToken: AccessToken)
 
-    fun getAccessToken(context: Context): AccessToken
+    fun getAccessToken(): AccessToken
 
-    fun saveTheme(context: Context, theme: String)
+    fun getLoggedUserId(): Long
 
-    fun getTheme(context: Context): String
+    fun saveTheme(theme: String)
 
-    fun clear(context: Context)
+    fun getTheme(): String
+
+    fun clear()
 
 }

@@ -1,6 +1,6 @@
 package com.andreapivetta.blu.ui.search.users
 
-import com.andreapivetta.blu.data.TwitterAPI
+import com.andreapivetta.blu.data.twitter.TwitterAPI
 import com.andreapivetta.blu.ui.base.BasePresenter
 import rx.SingleSubscriber
 import rx.Subscription

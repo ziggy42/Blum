@@ -1,7 +1,7 @@
 package com.andreapivetta.blu.ui.search.tweets
 
-import com.andreapivetta.blu.data.TwitterAPI
 import com.andreapivetta.blu.data.model.Tweet
+import com.andreapivetta.blu.data.twitter.TwitterAPI
 import com.andreapivetta.blu.ui.timeline.TimelinePresenter
 import rx.SingleSubscriber
 import rx.android.schedulers.AndroidSchedulers

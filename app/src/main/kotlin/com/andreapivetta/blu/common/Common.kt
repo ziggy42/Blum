@@ -105,7 +105,7 @@ object Common {
             (context.resources.displayMetrics.densityDpi.toDouble() / DisplayMetrics.DENSITY_DEFAULT.toDouble())).toInt()
 
     fun getResourceColorPrimary(context: Context): Int {
-        when (AppSettingsImpl.getTheme(context)) {
+        when (AppSettingsImpl.getTheme()) {
             "B" -> return ContextCompat.getColor(context, R.color.blueThemeColorPrimary)
             "P" -> return ContextCompat.getColor(context, R.color.pinkThemeColorPrimary)
             "G" -> return ContextCompat.getColor(context, R.color.greenThemeColorPrimary)

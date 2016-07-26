@@ -1,8 +1,8 @@
 package com.andreapivetta.blu.ui.usertimeline
 
 import com.andreapivetta.blu.R
-import com.andreapivetta.blu.data.TwitterAPI
 import com.andreapivetta.blu.data.model.Tweet
+import com.andreapivetta.blu.data.twitter.TwitterAPI
 import com.andreapivetta.blu.ui.timeline.TimelinePresenter
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
