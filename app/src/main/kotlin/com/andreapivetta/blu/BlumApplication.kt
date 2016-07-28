@@ -2,6 +2,7 @@ package com.andreapivetta.blu
 
 import android.app.Application
 import com.andreapivetta.blu.common.pref.AppSettingsImpl
+import com.andreapivetta.blu.data.db.AppStorageImpl
 import com.andreapivetta.blu.data.twitter.TwitterUtils
 
 /**
@@ -13,6 +14,7 @@ open class BlumApplication : Application() {
         super.onCreate()
         AppSettingsImpl.init(applicationContext)
         TwitterUtils.init()
+        AppStorageImpl.init(applicationContext)
     }
 
 }
