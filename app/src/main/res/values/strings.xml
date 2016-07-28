@@ -246,5 +246,7 @@
     <string name="error_retweet">Error retweeting Tweet</string>
     <string name="error_unretweet">Error unretweeting Tweet</string>
     <string name="quote">Quote</string>
+    <string name="home">Home</string>
+    <string name="explore">Explore</string>
 
 </resources>
