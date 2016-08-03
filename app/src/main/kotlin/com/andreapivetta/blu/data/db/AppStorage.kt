@@ -1,9 +1,5 @@
 package com.andreapivetta.blu.data.db
 
-import com.andreapivetta.blu.data.model.Notification
-import com.andreapivetta.blu.data.model.PrivateMessage
-import com.andreapivetta.blu.data.model.UserFollowed
-
 /**
  * Created by andrea on 27/07/16.
  */
@@ -28,6 +24,12 @@ interface AppStorage {
     fun getAllUserFollowed(): List<UserFollowed>
 
     fun saveUserFollowed(userFollowed: UserFollowed, body: (UserFollowed) -> Unit = {})
+
+    fun saveTweetInfo(tweetInfo: TweetInfo, body: (TweetInfo) -> Unit = {})
+
+    fun saveMention(mention: Mention, body: (Mention) -> Unit = {})
+
+    fun saveFollower(follower: Follower, body: (Follower) -> Unit = {})
 
     fun clear()
 

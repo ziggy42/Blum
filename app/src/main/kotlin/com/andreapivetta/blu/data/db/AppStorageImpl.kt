@@ -1,9 +1,6 @@
 package com.andreapivetta.blu.data.db
 
 import android.content.Context
-import com.andreapivetta.blu.data.model.Notification
-import com.andreapivetta.blu.data.model.PrivateMessage
-import com.andreapivetta.blu.data.model.UserFollowed
 import io.realm.Realm
 import io.realm.RealmConfiguration
 
@@ -69,6 +66,27 @@ object AppStorageImpl : AppStorage {
         realm.beginTransaction()
         body.invoke(userFollowed)
         realm.copyToRealm(userFollowed)
+        realm.commitTransaction()
+    }
+
+    override fun saveTweetInfo(tweetInfo: TweetInfo, body: (TweetInfo) -> Unit) {
+        realm.beginTransaction()
+        body.invoke(tweetInfo)
+        realm.copyToRealmOrUpdate(tweetInfo)
+        realm.commitTransaction()
+    }
+
+    override fun saveMention(mention: Mention, body: (Mention) -> Unit) {
+        realm.beginTransaction()
+        body.invoke(mention)
+        realm.copyToRealmOrUpdate(mention)
+        realm.commitTransaction()
+    }
+
+    override fun saveFollower(follower: Follower, body: (Follower) -> Unit) {
+        realm.beginTransaction()
+        body.invoke(follower)
+        realm.copyToRealmOrUpdate(follower)
         realm.commitTransaction()
     }
 
