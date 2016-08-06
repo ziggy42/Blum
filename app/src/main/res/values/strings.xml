@@ -248,5 +248,6 @@
     <string name="quote">Quote</string>
     <string name="home">Home</string>
     <string name="explore">Explore</string>
+    <string name="nothig_here">There\'s nothing here, yet. Come back later!</string>
 
 </resources>
