@@ -45,6 +45,10 @@
             android:name=".ui.settings.SettingsActivity"
             android:label="@string/title_activity_settings" />
         <activity android:name=".ui.search.SearchActivity" />
+
+        <service
+            android:name=".data.jobs.PopulateRealmIntentService"
+            android:exported="false"></service>
     </application>
 
 </manifest>

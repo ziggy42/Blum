@@ -19,6 +19,14 @@ interface AppSettings {
 
     fun getTheme(): String
 
+    fun setRealmPopulated(populated: Boolean)
+
+    fun isRealmPopulated(): Boolean
+
+    fun setUserFollowedAvailable(userFollowedAvailable: Boolean)
+
+    fun isUserFollowedAvailable(): Boolean
+
     fun clear()
 
 }

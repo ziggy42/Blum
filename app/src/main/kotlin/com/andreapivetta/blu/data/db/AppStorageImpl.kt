@@ -79,14 +79,21 @@ object AppStorageImpl : AppStorage {
     override fun saveMention(mention: Mention, body: (Mention) -> Unit) {
         realm.beginTransaction()
         body.invoke(mention)
-        realm.copyToRealmOrUpdate(mention)
+        realm.copyToRealm(mention)
         realm.commitTransaction()
     }
 
     override fun saveFollower(follower: Follower, body: (Follower) -> Unit) {
         realm.beginTransaction()
         body.invoke(follower)
-        realm.copyToRealmOrUpdate(follower)
+        realm.copyToRealm(follower)
+        realm.commitTransaction()
+    }
+
+    override fun saveUserId(userId: UserId, body: (UserId) -> Unit) {
+        realm.beginTransaction()
+        body.invoke(userId)
+        realm.copyToRealmOrUpdate(userId)
         realm.commitTransaction()
     }
 

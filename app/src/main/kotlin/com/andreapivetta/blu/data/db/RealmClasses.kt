@@ -6,6 +6,8 @@ import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 import twitter4j.DirectMessage
+import twitter4j.Status
+import twitter4j.User
 import java.util.*
 
 /**
@@ -14,12 +16,23 @@ import java.util.*
 open class TweetInfo(
         @PrimaryKey
         open var id: Long = 0,
-        open var favoriters: RealmList<Follower>? = RealmList<Follower>(),
-        open var retweeters: RealmList<Follower>? = RealmList<Follower>()
+        open var favoriters: RealmList<UserId>? = RealmList<UserId>(),
+        open var retweeters: RealmList<UserId>? = RealmList<UserId>()
 ) : RealmObject()
 
 open class Mention(
-        open var timestamp: Long = 0,
+        open var tweetId: Long = 0,
+        open var userId: Long = 0,
+        open var timestamp: Long = 0) : RealmObject() {
+
+    companion object {
+        fun valueOf(status: Status) = Mention(status.id, status.user.id, status.createdAt.time)
+    }
+
+}
+
+open class UserId(
+        @PrimaryKey
         open var userId: Long = 0
 ) : RealmObject()
 
@@ -32,8 +45,14 @@ open class UserFollowed(
         @PrimaryKey open var id: Long = 0,
         open var name: String = "",
         open var screenName: String = "",
-        open var profilePicUrl: String = ""
-) : RealmObject()
+        open var profilePicUrl: String = "") : RealmObject() {
+
+    companion object {
+        fun valueOf(user: User) =
+                UserFollowed(user.id, user.name, user.screenName, user.biggerProfileImageURL)
+    }
+
+}
 
 open class Notification(
         @PrimaryKey open var notificationID: Int = 0,

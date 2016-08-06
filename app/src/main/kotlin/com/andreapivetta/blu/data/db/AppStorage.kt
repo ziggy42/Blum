@@ -31,6 +31,8 @@ interface AppStorage {
 
     fun saveFollower(follower: Follower, body: (Follower) -> Unit = {})
 
+    fun saveUserId(userId: UserId, body: (UserId) -> Unit = {})
+
     fun clear()
 
 }

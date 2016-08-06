@@ -16,6 +16,8 @@ object AppSettingsImpl : AppSettings {
     private val KEY_OAUTH_TOKEN = "oauth_token"
     private val KEY_OAUTH_TOKEN_SECRET = "oauth_token_secret"
     private val KEY_THEMES = "themes"
+    private val KEY_REALM_POPULATED = "realm_populated"
+    private val KEY_USER_FOLLOWED_AVAILABLE = "user_followed_available"
 
     fun init(context: Context) {
         this.context = context
@@ -49,6 +51,22 @@ object AppSettingsImpl : AppSettings {
 
     override fun getTheme(): String = PreferenceManager
             .getDefaultSharedPreferences(context).getString(KEY_THEMES, "B")
+
+    override fun setRealmPopulated(populated: Boolean) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit()
+                .putBoolean(KEY_REALM_POPULATED, populated).apply()
+    }
+
+    override fun isRealmPopulated(): Boolean = PreferenceManager.
+            getDefaultSharedPreferences(context).getBoolean(KEY_REALM_POPULATED, false)
+
+    override fun setUserFollowedAvailable(userFollowedAvailable: Boolean) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit()
+                .putBoolean(KEY_USER_FOLLOWED_AVAILABLE, userFollowedAvailable).apply()
+    }
+
+    override fun isUserFollowedAvailable(): Boolean = PreferenceManager.
+            getDefaultSharedPreferences(context).getBoolean(KEY_USER_FOLLOWED_AVAILABLE, false)
 
     override fun clear() {
         PreferenceManager.getDefaultSharedPreferences(context).edit().clear().commit()
