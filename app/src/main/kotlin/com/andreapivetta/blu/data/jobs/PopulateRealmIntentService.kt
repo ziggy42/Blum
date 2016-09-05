@@ -25,6 +25,9 @@ class PopulateRealmIntentService : IntentService("PopulateRealmIntentService") {
         val settings = AppSettingsImpl
 
         try {
+            runOnUiThread { storage.clear() }
+            runOnUiThread { storage.init(this) }
+
             // Retrieving favorites/retweets
             twitter.getUserTimeline(Paging(1, 200)).forEach { tmp ->
                 try {

@@ -48,6 +48,9 @@ object AppStorageImpl : AppStorage {
     override fun getUnreadPrivateMessages(): List<PrivateMessage> = realm
             .where(PrivateMessage::class.java).equalTo("isRead", false).findAll()
 
+    override fun getConversations(): MutableList<PrivateMessage> = realm
+            .where(PrivateMessage::class.java).findAllSorted("timeStamp").distinct("otherId")
+
     override fun getUnreadPrivateMessagesCount(): Long = realm
             .where(PrivateMessage::class.java).equalTo("isRead", false).count()
 

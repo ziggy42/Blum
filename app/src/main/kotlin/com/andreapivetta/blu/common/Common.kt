@@ -10,6 +10,8 @@ import com.andreapivetta.blu.common.pref.AppSettingsImpl
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
+import java.util.*
+import java.util.concurrent.TimeUnit
 
 object Common {
 
@@ -42,6 +44,30 @@ object Common {
             "D" -> return ContextCompat.getColor(context, R.color.darkThemeColorPrimary)
             else -> return ContextCompat.getColor(context, R.color.blueThemeColorPrimary)
         }
+    }
+
+    fun formatDate(timeStamp: Long, context: Context?): String? {
+        val c = Calendar.getInstance()
+        val c2 = Calendar.getInstance()
+        c2.timeInMillis = timeStamp
+
+        val diff = c.timeInMillis - timeStamp
+        val seconds = TimeUnit.MILLISECONDS.toSeconds(diff)
+        if (seconds > 60) {
+            val minutes = TimeUnit.MILLISECONDS.toMinutes(diff)
+            if (minutes > 60) {
+                val hours = TimeUnit.MILLISECONDS.toHours(diff)
+                if (hours > 24) {
+                    if (c.get(Calendar.YEAR) == c2.get(Calendar.YEAR))
+                        return java.text.SimpleDateFormat("MMM dd", Locale.getDefault()).format(c2.time)
+                    else
+                        return java.text.SimpleDateFormat("MMM dd yyyy", Locale.getDefault()).format(c2.time)
+                } else
+                    return context?.getString(R.string.mini_hours, hours.toInt())
+            } else
+                return context?.getString(R.string.mini_minutes, minutes.toInt())
+        } else
+            return context?.getString(R.string.mini_seconds, seconds.toInt())
     }
 
 }

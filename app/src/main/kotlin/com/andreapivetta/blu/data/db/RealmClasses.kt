@@ -4,10 +4,12 @@ import android.support.annotation.IntDef
 import com.andreapivetta.blu.common.pref.AppSettingsImpl
 import io.realm.RealmList
 import io.realm.RealmObject
+import io.realm.annotations.Index
 import io.realm.annotations.PrimaryKey
 import twitter4j.DirectMessage
 import twitter4j.Status
 import twitter4j.User
+import java.io.Serializable
 import java.util.*
 
 /**
@@ -85,18 +87,20 @@ open class PrivateMessage(
         @PrimaryKey open var id: Long = 0,
         open var senderId: Long = 0,
         open var recipientId: Long = 0,
-        open var otherId: Long = 0,
+        @Index open var otherId: Long = 0,
         open var timeStamp: Long = 0,
         open var text: String = "",
         open var otherUserName: String = "",
         open var otherUserProfilePicUrl: String = "",
         open var isRead: Boolean = false) :
-        RealmObject(), Comparable<PrivateMessage> {
+        RealmObject(), Comparable<PrivateMessage>, Serializable {
 
     companion object {
         fun valueOf(directMessage: DirectMessage): PrivateMessage {
 
             val loggedUserId = AppSettingsImpl.getLoggedUserId()
+            val otherUserId = if (directMessage.recipientId == loggedUserId)
+                directMessage.senderId else directMessage.recipientId
             val otherUsername = if (loggedUserId == directMessage.senderId)
                 directMessage.recipientScreenName else directMessage.senderScreenName
             val otherUserProfilePicUrl: String = if (loggedUserId == directMessage.senderId)
@@ -104,7 +108,7 @@ open class PrivateMessage(
                 directMessage.sender.biggerProfileImageURL
 
             return PrivateMessage(directMessage.id, directMessage.senderId,
-                    directMessage.recipientId, loggedUserId, directMessage.createdAt.time,
+                    directMessage.recipientId, otherUserId, directMessage.createdAt.time,
                     directMessage.text, otherUsername, otherUserProfilePicUrl, false)
         }
     }

@@ -48,7 +48,7 @@
 
         <service
             android:name=".data.jobs.PopulateRealmIntentService"
-            android:exported="false"></service>
+            android:exported="false" />
     </application>
 
 </manifest>

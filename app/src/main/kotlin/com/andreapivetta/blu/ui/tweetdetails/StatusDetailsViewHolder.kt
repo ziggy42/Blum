@@ -13,6 +13,7 @@ import android.view.ViewStub
 import android.widget.ImageView
 import android.widget.TextView
 import com.andreapivetta.blu.R
+import com.andreapivetta.blu.common.Common
 import com.andreapivetta.blu.data.model.Tweet
 import com.andreapivetta.blu.ui.base.custom.decorators.SpaceLeftItemDecoration
 import com.andreapivetta.blu.ui.timeline.InteractionListener
@@ -37,7 +38,7 @@ class StatusDetailsViewHolder(container: View, listener: InteractionListener) :
         val currentUser = tweet.user
 
         userNameTextView.text = currentUser.name
-        timeTextView.text = formatDate(tweet.timeStamp, container.context)
+        timeTextView.text = Common.formatDate(tweet.timeStamp, container.context)
         statusTextView.text = Html.fromHtml(tweet.getTextAsHtmlString())
         statusTextView.movementMethod = LinkMovementMethod.getInstance()
 
