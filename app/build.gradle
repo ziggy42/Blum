@@ -5,7 +5,7 @@ apply plugin: 'realm-android'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "24.0.1"
+    buildToolsVersion "24.0.2"
 
     defaultConfig {
         applicationId "com.andreapivetta.blu"
@@ -41,7 +41,7 @@ android {
 }
 
 dependencies {
-    final SUPPORT_LIBRARY_VERSION = '24.1.1'
+    final SUPPORT_LIBRARY_VERSION = '24.2.0'
 
     compile "com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION"
     compile "com.android.support:recyclerview-v7:$SUPPORT_LIBRARY_VERSION"
@@ -51,20 +51,19 @@ dependencies {
     compile 'org.twitter4j:twitter4j-core:4.0.4'
     compile 'org.twitter4j:twitter4j-stream:4.0.4'
     compile 'io.reactivex:rxandroid:1.2.1'
-    compile 'io.reactivex:rxjava:1.1.7'
-    compile 'com.mlsdev.rximagepicker:library:1.1.9'
-    compile 'com.jakewharton.timber:timber:4.1.2'
+    compile 'io.reactivex:rxjava:1.1.10'
+    compile 'com.mlsdev.rximagepicker:library:1.3.1'
+    compile 'com.jakewharton.timber:timber:4.3.0'
     compile 'org.jsoup:jsoup:1.9.2'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.uwetrottmann.photoview:library:1.2.4'
-    compile 'com.roughike:bottom-bar:1.4.0.1'
-    compile(name:'jobdispatcher-release', ext:'aar')
+    compile 'com.roughike:bottom-bar:2.0.2'
     compile project(path: ':loginView')
 
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
     debugCompile 'com.squareup.haha:haha:2.0.3'
-    debugCompile 'com.facebook.stetho:stetho:1.3.1'
+    debugCompile 'com.facebook.stetho:stetho:1.4.0'
     debugCompile 'com.uphyca:stetho_realm:0.9.0'
 
     testCompile 'junit:junit:4.12'

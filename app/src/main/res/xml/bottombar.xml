@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+    <tab
+        icon="@drawable/ic_home"
+        id="@+id/timeline"
+        title="@string/home" />
+    <tab
+        icon="@drawable/ic_whatshot"
+        id="@+id/explore"
+        title="@string/explore" />
+    <tab
+        icon="@drawable/ic_message"
+        id="@+id/messages"
+        title="@string/messages_notifications" />
+    <tab
+        icon="@drawable/ic_notifications"
+        id="@+id/notifications"
+        title="@string/notifications" />
+</tabs>
