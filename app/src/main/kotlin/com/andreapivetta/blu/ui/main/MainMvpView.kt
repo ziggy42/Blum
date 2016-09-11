@@ -9,10 +9,6 @@ interface MainMvpView : MvpView {
 
     fun openSettings()
 
-    fun openNotifications()
-
-    fun openDirectMessages()
-
     fun search(string: String)
 
     fun newTweet()

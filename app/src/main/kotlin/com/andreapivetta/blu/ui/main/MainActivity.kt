@@ -89,14 +89,6 @@ class MainActivity : ThemedActivity(), MainMvpView {
         SettingsActivity.launch(this)
     }
 
-    override fun openNotifications() {
-        throw UnsupportedOperationException()
-    }
-
-    override fun openDirectMessages() {
-        throw UnsupportedOperationException()
-    }
-
     override fun search(string: String) {
         SearchActivity.launch(this, string)
     }
