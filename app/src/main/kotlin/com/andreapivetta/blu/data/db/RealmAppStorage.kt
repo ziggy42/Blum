@@ -131,6 +131,7 @@ class RealmAppStorage(context: Context, name: String = "blumRealm") : AppStorage
         realm.delete(TweetInfo::class.java)
         realm.delete(UserId::class.java)
         realm.delete(Notification::class.java)
+        realm.delete(PrivateMessage::class.java)
         realm.commitTransaction()
     }
 

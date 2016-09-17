@@ -4,10 +4,7 @@ import com.andreapivetta.blu.data.db.*
 import io.realm.RealmList
 import org.json.JSONObject
 import org.jsoup.Jsoup
-import twitter4j.PagableResponseList
-import twitter4j.Paging
-import twitter4j.Twitter
-import twitter4j.User
+import twitter4j.*
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.URL
@@ -44,12 +41,9 @@ object NotificationsDataProvider {
         return followers
     }
 
-    fun retrievePrivateMessages(twitter: Twitter): MutableList<PrivateMessage> {
-        val directMessages: MutableList<PrivateMessage> = twitter.getDirectMessages(Paging(1, 200))
-                .map { x -> PrivateMessage.valueOf(x) }
-                .toMutableList()
-        directMessages.addAll(twitter.getSentDirectMessages(Paging(1, 200))
-                .map { x -> PrivateMessage.valueOf(x) })
+    fun retrievePrivateMessages(twitter: Twitter): MutableList<DirectMessage> {
+        val directMessages: MutableList<DirectMessage> = twitter.getDirectMessages(Paging(1, 200))
+        directMessages.addAll(twitter.getSentDirectMessages(Paging(1, 200)))
         return directMessages
     }
 

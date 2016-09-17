@@ -1,7 +1,7 @@
 package com.andreapivetta.blu
 
 import android.app.Application
-import com.andreapivetta.blu.common.pref.AppSettingsImpl
+import com.andreapivetta.blu.common.pref.AppSettingsFactory
 import com.andreapivetta.blu.data.jobs.NotificationsJobCreator
 import com.andreapivetta.blu.data.twitter.TwitterUtils
 import com.evernote.android.job.JobManager
@@ -13,8 +13,7 @@ open class BlumApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        AppSettingsImpl.init(applicationContext)
-        TwitterUtils.init()
+        TwitterUtils.init(AppSettingsFactory.getAppSettings(this))
         JobManager.create(this).addJobCreator(NotificationsJobCreator())
     }
 

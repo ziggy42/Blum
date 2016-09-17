@@ -1,7 +1,6 @@
 package com.andreapivetta.blu.data.db
 
 import android.support.annotation.IntDef
-import com.andreapivetta.blu.common.pref.AppSettingsImpl
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.Index
@@ -96,9 +95,8 @@ open class PrivateMessage(
         RealmObject(), Comparable<PrivateMessage>, Serializable {
 
     companion object {
-        fun valueOf(directMessage: DirectMessage): PrivateMessage {
+        fun valueOf(directMessage: DirectMessage, loggedUserId: Long): PrivateMessage {
 
-            val loggedUserId = AppSettingsImpl.getLoggedUserId()
             val otherUserId = if (directMessage.recipientId == loggedUserId)
                 directMessage.senderId else directMessage.recipientId
             val otherUsername = if (loggedUserId == directMessage.senderId)

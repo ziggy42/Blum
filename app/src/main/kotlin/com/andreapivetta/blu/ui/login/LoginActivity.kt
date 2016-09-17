@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 import com.andreapivetta.blu.R
-import com.andreapivetta.blu.common.pref.AppSettingsImpl
+import com.andreapivetta.blu.common.pref.AppSettingsFactory
 import com.andreapivetta.blu.ui.main.MainActivity
 import kotlinx.android.synthetic.main.activity_login.*
 
@@ -46,6 +46,6 @@ class LoginActivity : AppCompatActivity(), LoginMvpView {
         finish()
     }
 
-    override fun isUserLoggedIn() = AppSettingsImpl.isUserLoggedIn()
+    override fun isUserLoggedIn() = AppSettingsFactory.getAppSettings(this).isUserLoggedIn()
 
 }

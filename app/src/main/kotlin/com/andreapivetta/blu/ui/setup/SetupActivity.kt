@@ -9,7 +9,7 @@ import android.support.v4.content.LocalBroadcastManager
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.andreapivetta.blu.R
-import com.andreapivetta.blu.common.pref.AppSettingsImpl
+import com.andreapivetta.blu.common.pref.AppSettingsFactory
 import com.andreapivetta.blu.data.jobs.PopulateDatabaseIntentService
 import kotlinx.android.synthetic.main.activity_setup.*
 import timber.log.Timber
@@ -38,11 +38,12 @@ class SetupActivity : AppCompatActivity() {
         LocalBroadcastManager.getInstance(this).registerReceiver(responseReceiver,
                 IntentFilter(PopulateDatabaseIntentService.BROADCAST_ACTION))
 
+        val settings = AppSettingsFactory.getAppSettings(this)
         startDownloadButton.setOnClickListener {
-            AppSettingsImpl.setNotifyDirectMessages(directMessagesCheckBox.isChecked)
-            AppSettingsImpl.setNotifyFavRet(favRetCheckBox.isChecked)
-            AppSettingsImpl.setNotifyFollowers(followersCheckBox.isChecked)
-            AppSettingsImpl.setNotifyMentions(mentionsCheckBox.isChecked)
+            settings.setNotifyDirectMessages(directMessagesCheckBox.isChecked)
+            settings.setNotifyFavRet(favRetCheckBox.isChecked)
+            settings.setNotifyFollowers(followersCheckBox.isChecked)
+            settings.setNotifyMentions(mentionsCheckBox.isChecked)
 
             PopulateDatabaseIntentService.startService(this)
             updateViewForDownload()
