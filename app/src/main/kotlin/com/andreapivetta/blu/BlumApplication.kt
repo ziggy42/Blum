@@ -1,7 +1,7 @@
 package com.andreapivetta.blu
 
 import android.app.Application
-import com.andreapivetta.blu.common.pref.AppSettingsFactory
+import com.andreapivetta.blu.common.settings.AppSettingsFactory
 import com.andreapivetta.blu.data.jobs.NotificationsJobCreator
 import com.andreapivetta.blu.data.twitter.TwitterUtils
 import com.evernote.android.job.JobManager

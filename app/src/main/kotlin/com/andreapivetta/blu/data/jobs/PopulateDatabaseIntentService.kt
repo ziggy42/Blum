@@ -4,7 +4,7 @@ import android.app.IntentService
 import android.content.Context
 import android.content.Intent
 import android.support.v4.content.LocalBroadcastManager
-import com.andreapivetta.blu.common.pref.AppSettingsFactory
+import com.andreapivetta.blu.common.settings.AppSettingsFactory
 import com.andreapivetta.blu.data.db.AppStorageFactory
 import com.andreapivetta.blu.data.db.PrivateMessage
 import com.andreapivetta.blu.data.db.UserFollowed

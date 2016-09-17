@@ -7,7 +7,7 @@ import android.support.v7.widget.SearchView
 import android.view.Menu
 import android.view.MenuItem
 import com.andreapivetta.blu.R
-import com.andreapivetta.blu.common.pref.AppSettingsFactory
+import com.andreapivetta.blu.common.settings.AppSettingsFactory
 import com.andreapivetta.blu.ui.base.custom.ThemedActivity
 import com.andreapivetta.blu.ui.explore.ExploreFragment
 import com.andreapivetta.blu.ui.newtweet.NewTweetActivity

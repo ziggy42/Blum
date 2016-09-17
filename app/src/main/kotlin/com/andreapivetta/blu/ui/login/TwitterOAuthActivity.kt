@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.widget.Toast
 import com.andreapivetta.blu.BuildConfig
 import com.andreapivetta.blu.R
-import com.andreapivetta.blu.common.pref.AppSettingsFactory
+import com.andreapivetta.blu.common.settings.AppSettingsFactory
 import com.andreapivetta.blu.data.twitter.TwitterUtils
 import com.andreapivetta.twitterloginview.TwitterLoginListener
 import com.andreapivetta.twitterloginview.TwitterLoginView

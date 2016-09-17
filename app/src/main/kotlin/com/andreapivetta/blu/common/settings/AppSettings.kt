@@ -1,4 +1,4 @@
-package com.andreapivetta.blu.common.pref
+package com.andreapivetta.blu.common.settings
 
 import twitter4j.auth.AccessToken
 

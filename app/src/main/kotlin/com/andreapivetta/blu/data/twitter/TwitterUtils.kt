@@ -1,7 +1,7 @@
 package com.andreapivetta.blu.data.twitter
 
 import com.andreapivetta.blu.BuildConfig
-import com.andreapivetta.blu.common.pref.AppSettings
+import com.andreapivetta.blu.common.settings.AppSettings
 import twitter4j.Twitter
 import twitter4j.TwitterFactory
 import twitter4j.auth.AccessToken

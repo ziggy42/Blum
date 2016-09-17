@@ -9,7 +9,7 @@ import android.support.v4.content.LocalBroadcastManager
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.andreapivetta.blu.R
-import com.andreapivetta.blu.common.pref.AppSettingsFactory
+import com.andreapivetta.blu.common.settings.AppSettingsFactory
 import com.andreapivetta.blu.data.jobs.PopulateDatabaseIntentService
 import kotlinx.android.synthetic.main.activity_setup.*
 import timber.log.Timber
