@@ -19,13 +19,29 @@ interface AppSettings {
 
     fun getTheme(): String
 
-    fun setRealmPopulated(populated: Boolean)
+    fun setUserDataDownloaded(downloaded: Boolean)
 
-    fun isRealmPopulated(): Boolean
+    fun isUserDataDownloaded(): Boolean
 
     fun setUserFollowedAvailable(userFollowedAvailable: Boolean)
 
     fun isUserFollowedAvailable(): Boolean
+
+    fun setNotifyFavRet(notify: Boolean)
+
+    fun isNotifyFavRet(): Boolean
+
+    fun setNotifyDirectMessages(notify: Boolean)
+
+    fun isNotifyDirectMessages(): Boolean
+
+    fun setNotifyFollowers(notify: Boolean)
+
+    fun isNotifyFollowers(): Boolean
+
+    fun setNotifyMentions(notify: Boolean)
+
+    fun isNotifyMentions(): Boolean
 
     fun clear()
 

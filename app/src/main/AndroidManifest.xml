@@ -45,6 +45,9 @@
             android:name=".ui.settings.SettingsActivity"
             android:label="@string/title_activity_settings" />
         <activity android:name=".ui.search.SearchActivity" />
+        <activity
+            android:name=".ui.setup.SetupActivity"
+            android:label="@string/title_activity_setup" />
 
         <service
             android:name=".data.jobs.PopulateRealmIntentService"

@@ -7,6 +7,7 @@ import android.support.v7.widget.SearchView
 import android.view.Menu
 import android.view.MenuItem
 import com.andreapivetta.blu.R
+import com.andreapivetta.blu.common.pref.AppSettingsImpl
 import com.andreapivetta.blu.ui.base.custom.ThemedActivity
 import com.andreapivetta.blu.ui.explore.ExploreFragment
 import com.andreapivetta.blu.ui.newtweet.NewTweetActivity
@@ -14,6 +15,7 @@ import com.andreapivetta.blu.ui.notifications.NotificationsFragment
 import com.andreapivetta.blu.ui.privatemessages.PrivateMessagesFragment
 import com.andreapivetta.blu.ui.search.SearchActivity
 import com.andreapivetta.blu.ui.settings.SettingsActivity
+import com.andreapivetta.blu.ui.setup.SetupActivity
 import com.andreapivetta.blu.ui.timeline.TimelineFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -53,6 +55,9 @@ class MainActivity : ThemedActivity(), MainMvpView {
 
         if (savedInstanceState == null)
             pushFragment(TimelineFragment.newInstance())
+
+        if (!AppSettingsImpl.isUserDataDownloaded())
+            SetupActivity.launch(this)
     }
 
     private fun pushFragment(fragment: Fragment) {

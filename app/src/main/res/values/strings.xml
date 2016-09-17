@@ -192,6 +192,7 @@
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_conversations_list">Direct Messages</string>
     <string name="title_activity_edit_profile">Edit Profile</string>
+    <string name="title_activity_setup">Setup</string>
 
     <!-- Preferences Titles and Summaries -->
     <string name="logout_pref_title" translatable="false">Logout</string>
@@ -249,5 +250,15 @@
     <string name="home">Home</string>
     <string name="explore">Explore</string>
     <string name="nothig_here">There\'s nothing here, yet. Come back later!</string>
+    <string name="download_userdata_title">Blum needs to download some stuff from Twitter…</string>
+    <string name="private_messages">Direct Messages</string>
+    <string name="private_messages_setup">Get a notification when you receive a new Direct Message</string>
+    <string name="followers_setup">Get a notification when someone starts following you</string>
+    <string name="mentions">Mentions</string>
+    <string name="mentions_setup">Get a notification for new mentions</string>
+    <string name="favorites_retweeets">Favorites and Retweets</string>
+    <string name="favorites_retweets_setup">Get a notification for new favorites and retweets. PLEASE NOTE: because of how Twitter works, turning on this setting may cause some battery drains. Also, there\'s no true guarantee that you\'ll get all your notifications.</string>
+    <string name="im_done">I\'m done</string>
+    <string name="downloading_please_wait">I\'m downloading some stuff for you, please be patient..</string>
 
 </resources>
