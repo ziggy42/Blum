@@ -59,6 +59,7 @@ dependencies {
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.uwetrottmann.photoview:library:1.2.4'
     compile 'com.roughike:bottom-bar:2.0.2'
+    compile 'com.evernote:android-job:1.0.13'
     compile project(path: ':loginView')
 
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'

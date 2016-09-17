@@ -100,6 +100,12 @@ object AppStorageImpl : AppStorage {
         realm.commitTransaction()
     }
 
+    override fun saveTweetInfoListA(tweetInfoList: List<TweetInfo>) {
+        realm.beginTransaction()
+        realm.copyToRealm(tweetInfoList)
+        realm.commitTransaction()
+    }
+
     override fun savePrivateMessages(privateMessages: List<PrivateMessage>) {
         realm.beginTransaction()
         realm.copyToRealm(privateMessages)

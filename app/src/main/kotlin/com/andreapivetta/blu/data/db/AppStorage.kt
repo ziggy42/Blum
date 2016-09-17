@@ -35,6 +35,8 @@ interface AppStorage {
 
     fun saveUserId(userId: UserId, body: (UserId) -> Unit = {})
 
+    fun saveTweetInfoListA(tweetInfoList: List<TweetInfo>)
+
     fun savePrivateMessages(privateMessages: List<PrivateMessage>)
 
     fun saveUsersFollowed(userFollowed: List<UserFollowed>)

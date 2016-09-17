@@ -1,7 +1,5 @@
 package com.andreapivetta.blu.data.jobs
 
-import com.andreapivetta.blu.common.pref.AppSettingsImpl
-import com.andreapivetta.blu.common.utils.Utils
 import com.andreapivetta.blu.data.db.*
 import io.realm.RealmList
 import org.json.JSONObject
@@ -19,66 +17,54 @@ import javax.net.ssl.HttpsURLConnection
 /**
  * Created by andrea on 17/09/16.
  */
-object PopulateDatabaseProvider {
+object NotificationsDataProvider {
 
     private val USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36"
     private val FAVORITERS_URL = "https://twitter.com/i/activity/favorited_popup?id="
     private val RETWEETERS_URL = "https://twitter.com/i/activity/retweeted_popup?id="
 
-    fun retrieveTweetInfo(twitter: Twitter) {
-        twitter.getUserTimeline(Paging(1, 200))
-                .forEach { x ->
-                    run {
-                        val favs = getFavoriters(x.id)
-                        val retws = getRetweeters(x.id)
-                        Utils.runOnUiThread {
-                            AppStorageImpl.saveTweetInfo(TweetInfo(x.id, favs, retws))
-                        }
+    fun retrieveTweetInfo(twitter: Twitter): MutableList<TweetInfo> =
+            twitter.getUserTimeline(Paging(1, 200))
+                    .map { x ->
+                        TweetInfo(x.id, getFavoriters(x.id), getRetweeters(x.id))
                     }
-                }
-        AppSettingsImpl.setFavRetDownloaded(true)
-    }
+                    .toMutableList()
 
-    fun retrieveMentions(twitter: Twitter) {
-        val mentions = twitter.getMentionsTimeline(Paging(1, 200))
-                .map { x -> Mention.valueOf(x) }
-        Utils.runOnUiThread { AppStorageImpl.saveMentions(mentions) }
-        AppSettingsImpl.setMentionsDownloaded(true)
-    }
+    fun retrieveMentions(twitter: Twitter): MutableList<Mention> =
+            twitter.getMentionsTimeline(Paging(1, 200))
+                    .map { x -> Mention.valueOf(x) }
+                    .toMutableList()
 
-    fun retrieveFollowers(twitter: Twitter) {
+    fun retrieveFollowers(twitter: Twitter): MutableList<Follower> {
+        val followers = ArrayList<Follower>()
         val ids = twitter.getFollowersIDs(-1)
         do {
-            val followers = ids.iDs.map { x -> Follower(x) }
-            Utils.runOnUiThread { AppStorageImpl.saveFollowers(followers) }
+            followers.addAll(ids.iDs.map { x -> Follower(x) })
         } while (ids.hasNext())
-        AppSettingsImpl.setFollowersDownloaded(true)
+        return followers
     }
 
-    fun retrievePrivateMessages(twitter: Twitter) {
+    fun retrievePrivateMessages(twitter: Twitter): MutableList<PrivateMessage> {
         val directMessages: MutableList<PrivateMessage> = twitter.getDirectMessages(Paging(1, 200))
                 .map { x -> PrivateMessage.valueOf(x) }
                 .toMutableList()
         directMessages.addAll(twitter.getSentDirectMessages(Paging(1, 200))
                 .map { x -> PrivateMessage.valueOf(x) })
-        Utils.runOnUiThread { AppStorageImpl.savePrivateMessages(directMessages) }
-        AppSettingsImpl.setDirectMessagesDownloaded(true)
+        return directMessages
     }
 
-    fun safeRetrieveFollowedUsers(twitter: Twitter) {
+    fun safeRetrieveFollowedUsers(twitter: Twitter): MutableList<UserFollowed> {
+        val users = ArrayList<UserFollowed>()
         if (twitter.showUser(twitter.id).friendsCount < 2800) {
             var cursor: Long = -1
             var pagableFollowings: PagableResponseList<User>
             do {
                 pagableFollowings = twitter.getFriendsList(twitter.id, cursor, 200)
-
-                val users = pagableFollowings.map { x -> UserFollowed.valueOf(x) }
-                Utils.runOnUiThread { AppStorageImpl.saveUsersFollowed(users) }
+                users.addAll(pagableFollowings.map { x -> UserFollowed.valueOf(x) })
                 cursor = pagableFollowings.nextCursor
             } while (cursor != 0L)
-
-            AppSettingsImpl.setUserFollowedAvailable(true)
         }
+        return users
     }
 
     @Throws(Exception::class)
