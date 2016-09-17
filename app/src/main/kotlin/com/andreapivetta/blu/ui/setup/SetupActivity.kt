@@ -10,7 +10,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.pref.AppSettingsImpl
-import com.andreapivetta.blu.data.jobs.PopulateRealmIntentService
+import com.andreapivetta.blu.data.jobs.PopulateDatabaseIntentService
 import kotlinx.android.synthetic.main.activity_setup.*
 import timber.log.Timber
 
@@ -28,7 +28,7 @@ class SetupActivity : AppCompatActivity() {
         setSupportActionBar(setupToolbar)
 
         LocalBroadcastManager.getInstance(this).registerReceiver(ResponseReceiver(),
-                IntentFilter(PopulateRealmIntentService.BROADCAST_ACTION))
+                IntentFilter(PopulateDatabaseIntentService.BROADCAST_ACTION))
 
         startDownloadButton.setOnClickListener {
             AppSettingsImpl.setNotifyDirectMessages(directMessagesCheckBox.isChecked)
@@ -36,7 +36,7 @@ class SetupActivity : AppCompatActivity() {
             AppSettingsImpl.setNotifyFollowers(followersCheckBox.isChecked)
             AppSettingsImpl.setNotifyMentions(mentionsCheckBox.isChecked)
 
-            PopulateRealmIntentService.startService(this)
+            PopulateDatabaseIntentService.startService(this)
 
             startDownloadButton.visibility = View.GONE
             loadingViewGroup.visibility = View.VISIBLE
@@ -51,11 +51,11 @@ class SetupActivity : AppCompatActivity() {
         override fun onReceive(context: Context?, intent: Intent?) {
             Timber.i("Broadcast received")
             if (intent != null &&
-                    intent.getBooleanExtra(PopulateRealmIntentService.DATA_STATUS, false)) {
+                    intent.getBooleanExtra(PopulateDatabaseIntentService.DATA_STATUS, false)) {
                 LocalBroadcastManager.getInstance(this@SetupActivity).unregisterReceiver(this)
                 this@SetupActivity.finish()
             } else {
-                PopulateRealmIntentService.startService(this@SetupActivity)
+                PopulateDatabaseIntentService.startService(this@SetupActivity)
             }
         }
     }

@@ -100,6 +100,30 @@ object AppStorageImpl : AppStorage {
         realm.commitTransaction()
     }
 
+    override fun savePrivateMessages(privateMessages: List<PrivateMessage>) {
+        realm.beginTransaction()
+        realm.copyToRealm(privateMessages)
+        realm.commitTransaction()
+    }
+
+    override fun saveUsersFollowed(userFollowed: List<UserFollowed>) {
+        realm.beginTransaction()
+        realm.copyToRealm(userFollowed)
+        realm.commitTransaction()
+    }
+
+    override fun saveMentions(mentions: List<Mention>) {
+        realm.beginTransaction()
+        realm.copyToRealm(mentions)
+        realm.commitTransaction()
+    }
+
+    override fun saveFollowers(followers: List<Follower>) {
+        realm.beginTransaction()
+        realm.copyToRealm(followers)
+        realm.commitTransaction()
+    }
+
     override fun clear() {
         realm.close()
         Realm.deleteRealm(realm.configuration)

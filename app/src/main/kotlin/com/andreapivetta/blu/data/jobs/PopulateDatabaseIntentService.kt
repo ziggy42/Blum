@@ -14,14 +14,14 @@ import twitter4j.PagableResponseList
 import twitter4j.Paging
 import twitter4j.User
 
-class PopulateRealmIntentService : IntentService("PopulateRealmIntentService") {
+class PopulateDatabaseIntentService : IntentService("PopulateDatabaseIntentService") {
 
     companion object {
         val BROADCAST_ACTION = "com.andreapivetta.blu.data.jobs.BROADCAST"
-        val DATA_STATUS = "PopulateRealmIntentService.STATUS"
+        val DATA_STATUS = "PopulateDatabaseIntentService.STATUS"
 
         fun startService(context: Context) {
-            context.startService(Intent(context, PopulateRealmIntentService::class.java))
+            context.startService(Intent(context, PopulateDatabaseIntentService::class.java))
         }
     }
 
@@ -31,7 +31,7 @@ class PopulateRealmIntentService : IntentService("PopulateRealmIntentService") {
         if (intent == null)
             throw RuntimeException("Intent cannot be null")
 
-        Timber.i("Starting PopulateRealmIntentService...")
+        Timber.i("Starting PopulateDatabaseIntentService...")
 
         val twitter = TwitterUtils.getTwitter()
         val storage = AppStorageImpl
@@ -58,9 +58,9 @@ class PopulateRealmIntentService : IntentService("PopulateRealmIntentService") {
             if (settings.isNotifyMentions()) {
                 Timber.i("Retrieving mentions")
                 // Retrieving mentions
-                twitter.getMentionsTimeline(Paging(1, 200))
+                val mentions = twitter.getMentionsTimeline(Paging(1, 200))
                         .map { x -> Mention.valueOf(x) }
-                        .forEach { x -> runOnUiThread { storage.saveMention(x) } }
+                runOnUiThread { storage.saveMentions(mentions) }
             }
 
             if (settings.isNotifyFollowers()) {
@@ -68,26 +68,20 @@ class PopulateRealmIntentService : IntentService("PopulateRealmIntentService") {
                 // Retrieving followers
                 val ids = twitter.getFollowersIDs(-1)
                 do {
-                    ids.iDs.map { x -> Follower(x) }
-                            .forEach { x -> runOnUiThread { storage.saveFollower(x) } }
+                    val followers = ids.iDs.map { x -> Follower(x) }
+                    runOnUiThread { storage.saveFollowers(followers) }
                 } while (ids.hasNext())
             }
 
             if (settings.isNotifyDirectMessages()) {
                 Timber.i("Retrieving private messages")
                 // Retrieving private messages
-                twitter.getDirectMessages(Paging(1, 200))
+                val directMessages: MutableList<PrivateMessage> = twitter.getDirectMessages(Paging(1, 200))
                         .map { x -> PrivateMessage.valueOf(x) }
-                        .forEach { x ->
-                            runOnUiThread { storage.savePrivateMessage(x) }
-                        }
-                twitter.getSentDirectMessages(Paging(1, 200))
-                        .map { x -> PrivateMessage.valueOf(x) }
-                        .forEach { x ->
-                            runOnUiThread {
-                                storage.savePrivateMessage(x)
-                            }
-                        }
+                        .toMutableList()
+                directMessages.addAll(twitter.getSentDirectMessages(Paging(1, 200))
+                        .map { x -> PrivateMessage.valueOf(x) })
+                runOnUiThread { storage.savePrivateMessages(directMessages) }
             }
 
             Timber.i("Retrieving followed users")
@@ -99,12 +93,8 @@ class PopulateRealmIntentService : IntentService("PopulateRealmIntentService") {
                 do {
                     pagableFollowings = twitter.getFriendsList(twitter.id, cursor, 200)
 
-                    pagableFollowings.map { x -> UserFollowed.valueOf(x) }
-                            .forEach { x ->
-                                runOnUiThread {
-                                    storage.saveUserFollowed(x)
-                                }
-                            }
+                    val users = pagableFollowings.map { x -> UserFollowed.valueOf(x) }
+                    runOnUiThread { storage.saveUsersFollowed(users) }
                     cursor = pagableFollowings.nextCursor
                 } while (cursor != 0L)
 
@@ -113,9 +103,9 @@ class PopulateRealmIntentService : IntentService("PopulateRealmIntentService") {
 
             onSuccess()
 
-            Timber.i("PopulateRealmIntentService finished.")
+            Timber.i("PopulateDatabaseIntentService finished.")
         } catch (err: Exception) {
-            Timber.e(err, "Error running PopulateRealmIntentService")
+            Timber.e(err, "Error running PopulateDatabaseIntentService")
             onFailure()
         }
     }

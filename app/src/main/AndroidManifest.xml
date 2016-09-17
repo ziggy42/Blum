@@ -50,7 +50,7 @@
             android:label="@string/title_activity_setup" />
 
         <service
-            android:name=".data.jobs.PopulateRealmIntentService"
+            android:name=".data.jobs.PopulateDatabaseIntentService"
             android:exported="false" />
     </application>
 

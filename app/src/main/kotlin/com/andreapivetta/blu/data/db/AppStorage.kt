@@ -35,6 +35,14 @@ interface AppStorage {
 
     fun saveUserId(userId: UserId, body: (UserId) -> Unit = {})
 
+    fun savePrivateMessages(privateMessages: List<PrivateMessage>)
+
+    fun saveUsersFollowed(userFollowed: List<UserFollowed>)
+
+    fun saveMentions(mentions: List<Mention>)
+
+    fun saveFollowers(followers: List<Follower>)
+
     fun clear()
 
 }
