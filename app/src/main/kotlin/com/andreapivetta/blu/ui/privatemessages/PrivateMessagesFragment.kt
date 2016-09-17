@@ -8,7 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.andreapivetta.blu.R
-import com.andreapivetta.blu.common.Common
+import com.andreapivetta.blu.common.utils.Utils
 import com.andreapivetta.blu.data.db.AppStorageImpl
 import com.andreapivetta.blu.data.db.PrivateMessage
 import com.andreapivetta.blu.ui.base.custom.decorators.SpaceTopItemDecoration
@@ -44,7 +44,7 @@ class PrivateMessagesFragment : Fragment(), PrivateMessagesMvpView {
         val linearLayoutManager = LinearLayoutManager(activity)
         recyclerView.layoutManager = linearLayoutManager
         recyclerView.setHasFixedSize(true)
-        recyclerView.addItemDecoration(SpaceTopItemDecoration(Common.dpToPx(activity, 10)))
+        recyclerView.addItemDecoration(SpaceTopItemDecoration(Utils.dpToPx(activity, 10)))
         recyclerView.adapter = adapter
 
         presenter.getConversations()

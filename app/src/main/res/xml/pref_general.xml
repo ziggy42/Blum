@@ -1,5 +1,29 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <PreferenceCategory android:title="@string/notifications">
+
+        <CheckBoxPreference
+            android:key="dms"
+            android:summary="@string/private_messages_setup"
+            android:title="@string/private_messages" />
+
+        <CheckBoxPreference
+            android:key="followers"
+            android:summary="@string/followers_setup"
+            android:title="@string/followers" />
+
+        <CheckBoxPreference
+            android:key="mentions"
+            android:summary="@string/mentions_setup"
+            android:title="@string/mentions" />
+
+        <CheckBoxPreference
+            android:key="fav_ret"
+            android:summary="@string/favorites_retweets_setup"
+            android:title="@string/favorites_retweeets" />
+
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/prefcat_others_title">
 
         <Preference

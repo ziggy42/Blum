@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.andreapivetta.blu.R
-import com.andreapivetta.blu.common.Common
+import com.andreapivetta.blu.common.utils.Utils
 import com.andreapivetta.blu.data.db.PrivateMessage
 import com.bumptech.glide.Glide
 import java.util.*
@@ -40,7 +40,7 @@ class ConversationsAdapter() :
 
         holder?.userNameTextView?.text = message.otherUserName
         holder?.messageTextView?.text = message.text
-        holder?.timeTextView?.text = Common.formatDate(message.timeStamp, holder?.rootView?.context)
+        holder?.timeTextView?.text = Utils.formatDate(message.timeStamp, holder?.rootView?.context)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int) = ConversationViewHolder(

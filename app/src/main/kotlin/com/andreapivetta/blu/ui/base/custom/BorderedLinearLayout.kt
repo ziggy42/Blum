@@ -5,7 +5,7 @@ import android.graphics.*
 import android.util.AttributeSet
 import android.widget.LinearLayout
 import com.andreapivetta.blu.R
-import com.andreapivetta.blu.common.Common
+import com.andreapivetta.blu.common.utils.Utils
 
 
 class BorderedLinearLayout : LinearLayout {
@@ -13,7 +13,7 @@ class BorderedLinearLayout : LinearLayout {
     private var strokePaint: Paint? = null
     private val r = Rect()
     private val outline = RectF()
-    private val radius = Common.dpToPx(context, 3).toFloat()
+    private val radius = Utils.dpToPx(context, 3).toFloat()
 
     constructor(context: Context) : super(context) {
         setWillNotDraw(false)

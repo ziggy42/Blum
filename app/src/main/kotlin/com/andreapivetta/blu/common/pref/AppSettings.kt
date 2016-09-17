@@ -43,6 +43,22 @@ interface AppSettings {
 
     fun isNotifyMentions(): Boolean
 
+    fun setDirectMessagesDownloaded(boolean: Boolean)
+
+    fun isDirectMessagesDownloaded(): Boolean
+
+    fun setFollowersDownloaded(boolean: Boolean)
+
+    fun isFollowersDownloaded(): Boolean
+
+    fun setMentionsDownloaded(boolean: Boolean)
+
+    fun isMentionsDownloaded(): Boolean
+
+    fun setFavRetDownloaded(boolean: Boolean)
+
+    fun isFavRetDownloaded(): Boolean
+
     fun clear()
 
 }

@@ -22,6 +22,10 @@ object AppSettingsImpl : AppSettings {
     private val KEY_NOTIFY_DIRECT_MESSAGES = "dms"
     private val KEY_NOTIFY_FOLLOWERS = "followers"
     private val KEY_NOTIFY_MENTIONS = "mentions"
+    private val KEY_DOWNLOADED_FAV_RET = "downloaded_fav_ret"
+    private val KEY_DOWNLOADED_DIRECT_MESSAGES = "downloaded_dms"
+    private val KEY_DOWNLOADED_FOLLOWERS = "downloaded_followers"
+    private val KEY_DOWNLOADED_MENTIONS = "downloaded_mentions"
 
     fun init(context: Context) {
         this.context = context
@@ -103,6 +107,38 @@ object AppSettingsImpl : AppSettings {
 
     override fun isNotifyMentions(): Boolean = PreferenceManager.
             getDefaultSharedPreferences(context).getBoolean(KEY_NOTIFY_MENTIONS, false)
+
+    override fun setDirectMessagesDownloaded(boolean: Boolean) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit()
+                .putBoolean(KEY_DOWNLOADED_DIRECT_MESSAGES, boolean).apply()
+    }
+
+    override fun isDirectMessagesDownloaded(): Boolean = PreferenceManager.
+            getDefaultSharedPreferences(context).getBoolean(KEY_DOWNLOADED_DIRECT_MESSAGES, false)
+
+    override fun setFollowersDownloaded(boolean: Boolean) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit()
+                .putBoolean(KEY_DOWNLOADED_FOLLOWERS, boolean).apply()
+    }
+
+    override fun isFollowersDownloaded(): Boolean = PreferenceManager.
+            getDefaultSharedPreferences(context).getBoolean(KEY_DOWNLOADED_FOLLOWERS, false)
+
+    override fun setMentionsDownloaded(boolean: Boolean) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit()
+                .putBoolean(KEY_DOWNLOADED_MENTIONS, boolean).apply()
+    }
+
+    override fun isMentionsDownloaded(): Boolean = PreferenceManager.
+            getDefaultSharedPreferences(context).getBoolean(KEY_DOWNLOADED_MENTIONS, false)
+
+    override fun setFavRetDownloaded(boolean: Boolean) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit()
+                .putBoolean(KEY_DOWNLOADED_FAV_RET, boolean).apply()
+    }
+
+    override fun isFavRetDownloaded(): Boolean = PreferenceManager.
+            getDefaultSharedPreferences(context).getBoolean(KEY_DOWNLOADED_FAV_RET, false)
 
     override fun clear() {
         PreferenceManager.getDefaultSharedPreferences(context).edit().clear().commit()

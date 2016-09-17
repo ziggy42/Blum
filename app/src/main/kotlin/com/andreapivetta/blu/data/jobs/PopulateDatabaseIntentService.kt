@@ -3,16 +3,12 @@ package com.andreapivetta.blu.data.jobs
 import android.app.IntentService
 import android.content.Context
 import android.content.Intent
-import android.os.Handler
-import android.os.Looper
 import android.support.v4.content.LocalBroadcastManager
 import com.andreapivetta.blu.common.pref.AppSettingsImpl
-import com.andreapivetta.blu.data.db.*
+import com.andreapivetta.blu.common.utils.Utils
+import com.andreapivetta.blu.data.db.AppStorageImpl
 import com.andreapivetta.blu.data.twitter.TwitterUtils
 import timber.log.Timber
-import twitter4j.PagableResponseList
-import twitter4j.Paging
-import twitter4j.User
 
 class PopulateDatabaseIntentService : IntentService("PopulateDatabaseIntentService") {
 
@@ -34,95 +30,46 @@ class PopulateDatabaseIntentService : IntentService("PopulateDatabaseIntentServi
         Timber.i("Starting PopulateDatabaseIntentService...")
 
         val twitter = TwitterUtils.getTwitter()
-        val storage = AppStorageImpl
 
         try {
-            runOnUiThread { storage.clear() }
-            runOnUiThread { storage.init(this) }
+            Utils.runOnUiThread { AppStorageImpl.clear() }
+            Utils.runOnUiThread { AppStorageImpl.init(this) }
 
             if (settings.isNotifyFavRet()) {
                 Timber.i("Retrieving favorites/retweets")
-                // Retrieving favorites/retweets
-                twitter.getUserTimeline(Paging(1, 200)).forEach { tmp ->
-                    try {
-                        val favs = Utils.getFavoriters(tmp.id)
-                        val retws = Utils.getRetweeters(tmp.id)
-                        runOnUiThread { storage.saveTweetInfo(TweetInfo(tmp.id, favs, retws)) }
-                    } catch (e: KotlinNullPointerException) {
-                        Timber.e(e, "Error getting tweet info for tweet ${tmp.id}")
-                        onFailure()
-                    }
-                }
+                PopulateDatabaseProvider.retrieveTweetInfo(twitter)
             }
 
             if (settings.isNotifyMentions()) {
                 Timber.i("Retrieving mentions")
-                // Retrieving mentions
-                val mentions = twitter.getMentionsTimeline(Paging(1, 200))
-                        .map { x -> Mention.valueOf(x) }
-                runOnUiThread { storage.saveMentions(mentions) }
+                PopulateDatabaseProvider.retrieveMentions(twitter)
             }
 
             if (settings.isNotifyFollowers()) {
                 Timber.i("Retrieving followers")
-                // Retrieving followers
-                val ids = twitter.getFollowersIDs(-1)
-                do {
-                    val followers = ids.iDs.map { x -> Follower(x) }
-                    runOnUiThread { storage.saveFollowers(followers) }
-                } while (ids.hasNext())
+                PopulateDatabaseProvider.retrieveFollowers(twitter)
             }
 
             if (settings.isNotifyDirectMessages()) {
                 Timber.i("Retrieving private messages")
-                // Retrieving private messages
-                val directMessages: MutableList<PrivateMessage> = twitter.getDirectMessages(Paging(1, 200))
-                        .map { x -> PrivateMessage.valueOf(x) }
-                        .toMutableList()
-                directMessages.addAll(twitter.getSentDirectMessages(Paging(1, 200))
-                        .map { x -> PrivateMessage.valueOf(x) })
-                runOnUiThread { storage.savePrivateMessages(directMessages) }
+                PopulateDatabaseProvider.retrievePrivateMessages(twitter)
             }
 
             Timber.i("Retrieving followed users")
             // If the user doesn't follow too many users (so we don't hit Twitter API limits),
             // retrieves all of them
-            if (twitter.showUser(twitter.id).friendsCount < 2800) {
-                var cursor: Long = -1
-                var pagableFollowings: PagableResponseList<User>
-                do {
-                    pagableFollowings = twitter.getFriendsList(twitter.id, cursor, 200)
+            PopulateDatabaseProvider.safeRetrieveFollowedUsers(twitter)
 
-                    val users = pagableFollowings.map { x -> UserFollowed.valueOf(x) }
-                    runOnUiThread { storage.saveUsersFollowed(users) }
-                    cursor = pagableFollowings.nextCursor
-                } while (cursor != 0L)
-
-                settings.setUserFollowedAvailable(true)
-            }
-
-            onSuccess()
+            settings.setUserDataDownloaded(true)
+            LocalBroadcastManager.getInstance(this)
+                    .sendBroadcast(Intent(BROADCAST_ACTION).putExtra(DATA_STATUS, true))
 
             Timber.i("PopulateDatabaseIntentService finished.")
         } catch (err: Exception) {
             Timber.e(err, "Error running PopulateDatabaseIntentService")
-            onFailure()
+            LocalBroadcastManager.getInstance(this)
+                    .sendBroadcast(Intent(BROADCAST_ACTION).putExtra(DATA_STATUS, false))
         }
-    }
-
-    private fun onSuccess() {
-        settings.setUserDataDownloaded(true)
-        LocalBroadcastManager.getInstance(this)
-                .sendBroadcast(Intent(BROADCAST_ACTION).putExtra(DATA_STATUS, true))
-    }
-
-    private fun onFailure() {
-        LocalBroadcastManager.getInstance(this)
-                .sendBroadcast(Intent(BROADCAST_ACTION).putExtra(DATA_STATUS, false))
-    }
-
-    private fun runOnUiThread(body: () -> Unit) {
-        Handler(Looper.getMainLooper()).post { body.invoke() }
     }
 
 }

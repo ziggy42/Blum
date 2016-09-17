@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import com.andreapivetta.blu.R
-import com.andreapivetta.blu.common.Common
+import com.andreapivetta.blu.common.utils.Utils
 import java.io.File
 
 /**
@@ -21,7 +21,7 @@ class DeletableImageAdapter(val context: Context, val imageFiles: MutableList<Fi
 
     override fun onBindViewHolder(holder: DeletableImageViewHolder?, position: Int) {
         val thumbImage = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(imageFiles[position].absolutePath),
-                Common.dpToPx(context, 200), Common.dpToPx(context, 200))
+                Utils.dpToPx(context, 200), Utils.dpToPx(context, 200))
         holder?.photoImageView?.setImageBitmap(thumbImage)
     }
 

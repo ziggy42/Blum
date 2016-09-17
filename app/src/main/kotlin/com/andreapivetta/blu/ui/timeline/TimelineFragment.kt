@@ -15,7 +15,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ProgressBar
 import com.andreapivetta.blu.R
-import com.andreapivetta.blu.common.Common
+import com.andreapivetta.blu.common.utils.Utils
 import com.andreapivetta.blu.data.model.Tweet
 import com.andreapivetta.blu.ui.base.custom.decorators.SpaceTopItemDecoration
 import com.andreapivetta.blu.ui.image.ImageActivity
@@ -74,7 +74,7 @@ open class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
         val linearLayoutManager = LinearLayoutManager(activity)
         recyclerView.layoutManager = linearLayoutManager
         recyclerView.setHasFixedSize(true)
-        recyclerView.addItemDecoration(SpaceTopItemDecoration(Common.dpToPx(activity, 10)))
+        recyclerView.addItemDecoration(SpaceTopItemDecoration(Utils.dpToPx(activity, 10)))
         recyclerView.adapter = adapter
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {

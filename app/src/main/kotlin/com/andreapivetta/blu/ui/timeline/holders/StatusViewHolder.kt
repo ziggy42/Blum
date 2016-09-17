@@ -6,7 +6,7 @@ import android.text.util.Linkify
 import android.view.View
 import android.widget.TextView
 import com.andreapivetta.blu.R
-import com.andreapivetta.blu.common.Common
+import com.andreapivetta.blu.common.utils.Utils
 import com.andreapivetta.blu.data.model.Tweet
 import com.andreapivetta.blu.ui.timeline.InteractionListener
 import com.bumptech.glide.Glide
@@ -33,7 +33,7 @@ open class StatusViewHolder(container: View, listener: InteractionListener) :
         val currentUser = currentTweet.user
         userNameTextView.text = currentUser.name
         userScreenNameTextView.text = "@${currentUser.screenName}"
-        timeTextView.text = " • ${Common.formatDate(currentTweet.timeStamp, container.context)}"
+        timeTextView.text = " • ${Utils.formatDate(currentTweet.timeStamp, container.context)}"
 
         Glide.with(container.context).load(currentUser.biggerProfileImageURL)
                 .dontAnimate()
