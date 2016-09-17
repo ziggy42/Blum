@@ -5,8 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.support.v4.content.LocalBroadcastManager
 import com.andreapivetta.blu.common.pref.AppSettingsImpl
-import com.andreapivetta.blu.common.utils.Utils
-import com.andreapivetta.blu.data.db.AppStorageImpl
+import com.andreapivetta.blu.data.db.AppStorageFactory
 import com.andreapivetta.blu.data.db.UserFollowed
 import com.andreapivetta.blu.data.twitter.TwitterUtils
 import timber.log.Timber
@@ -31,36 +30,32 @@ class PopulateDatabaseIntentService : IntentService("PopulateDatabaseIntentServi
         Timber.i("Starting PopulateDatabaseIntentService...")
 
         val twitter = TwitterUtils.getTwitter()
+        val storage = AppStorageFactory.getAppStorage(this)
+        storage.clear()
 
         try {
-            Utils.runOnUiThread { AppStorageImpl.clear() }
-            Utils.runOnUiThread { AppStorageImpl.init(this) }
-
             if (settings.isNotifyFavRet()) {
                 Timber.i("Retrieving favorites/retweets")
-                val infoList = NotificationsDataProvider.retrieveTweetInfo(twitter)
-                Utils.runOnUiThread { AppStorageImpl.saveTweetInfoListA(infoList) }
+                storage.saveTweetInfoList(NotificationsDataProvider.retrieveTweetInfo(twitter))
                 AppSettingsImpl.setFavRetDownloaded(true)
             }
 
             if (settings.isNotifyMentions()) {
                 Timber.i("Retrieving mentions")
-                val mentions = NotificationsDataProvider.retrieveMentions(twitter)
-                Utils.runOnUiThread { AppStorageImpl.saveMentions(mentions) }
+                storage.saveMentions(NotificationsDataProvider.retrieveMentions(twitter))
                 AppSettingsImpl.setMentionsDownloaded(true)
             }
 
             if (settings.isNotifyFollowers()) {
                 Timber.i("Retrieving followers")
-                val followers = NotificationsDataProvider.retrieveFollowers(twitter)
-                Utils.runOnUiThread { AppStorageImpl.saveFollowers(followers) }
+                storage.saveFollowers(NotificationsDataProvider.retrieveFollowers(twitter))
                 AppSettingsImpl.setFollowersDownloaded(true)
             }
 
             if (settings.isNotifyDirectMessages()) {
                 Timber.i("Retrieving private messages")
-                val directMessages = NotificationsDataProvider.retrievePrivateMessages(twitter)
-                Utils.runOnUiThread { AppStorageImpl.savePrivateMessages(directMessages) }
+                storage.savePrivateMessages(NotificationsDataProvider
+                        .retrievePrivateMessages(twitter))
                 AppSettingsImpl.setDirectMessagesDownloaded(true)
             }
 
@@ -70,7 +65,7 @@ class PopulateDatabaseIntentService : IntentService("PopulateDatabaseIntentServi
             val users: List<UserFollowed> = NotificationsDataProvider
                     .safeRetrieveFollowedUsers(twitter)
             if (users.size > 0) {
-                Utils.runOnUiThread { AppStorageImpl.saveUsersFollowed(users) }
+                storage.saveUsersFollowed(users)
                 AppSettingsImpl.setUserFollowedAvailable(true)
             }
 

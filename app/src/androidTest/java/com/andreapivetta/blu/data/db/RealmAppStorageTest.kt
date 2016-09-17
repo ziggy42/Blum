@@ -4,7 +4,6 @@ import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
 import org.junit.After
 import org.junit.Assert.assertEquals
-import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.util.*
@@ -13,16 +12,13 @@ import java.util.*
  * Created by andrea on 27/07/16.
  */
 @RunWith(AndroidJUnit4::class)
-class AppStorageImplTest {
+class RealmAppStorageTest {
 
-    @Before
-    fun setUp() {
-        AppStorageImpl.testInit(InstrumentationRegistry.getTargetContext())
-    }
+    private val realmAppStorage = RealmAppStorage(InstrumentationRegistry.getTargetContext(), "test")
 
     @After
-    fun clean() {
-        AppStorageImpl.clear()
+    fun clear() {
+        realmAppStorage.clear()
     }
 
     @Test
@@ -38,22 +34,21 @@ class AppStorageImplTest {
         val notification5 = Notification(5, Notification.RETWEET_MENTIONED, "username5", 5, 5,
                 "status5", "profilepic5", false, Calendar.getInstance().timeInMillis)
 
-        AppStorageImpl.saveNotification(notification1)
-        AppStorageImpl.saveNotification(notification2)
-        AppStorageImpl.saveNotification(notification3)
-        AppStorageImpl.saveNotification(notification4)
-        AppStorageImpl.saveNotification(notification5)
-        assertEquals(5, AppStorageImpl.getAllNotifications().size)
-        assertEquals(2, AppStorageImpl.getUnreadNotificationsCount())
-        assertEquals(2, AppStorageImpl.getUnreadNotifications().size)
+        realmAppStorage.saveNotification(notification1)
+        realmAppStorage.saveNotification(notification2)
+        realmAppStorage.saveNotification(notification3)
+        realmAppStorage.saveNotification(notification4)
+        realmAppStorage.saveNotification(notification5)
+        assertEquals(5, realmAppStorage.getAllNotifications().size)
+        assertEquals(2, realmAppStorage.getUnreadNotificationsCount())
+        assertEquals(2, realmAppStorage.getUnreadNotifications().size)
 
         val editableNotification = Notification(6, Notification.FAVOURITE, "username6", 6, 6,
                 "status6", "profilepic6", false, Calendar.getInstance().timeInMillis)
-        AppStorageImpl.saveNotification(editableNotification, {
-            notification ->
-            notification.userName = "Another Username"
+        realmAppStorage.saveNotification(editableNotification, { x ->
+            x.userName = "Another Username"
         })
-        val savedNotification = AppStorageImpl.getAllNotifications().last()
+        val savedNotification = realmAppStorage.getAllNotifications().last()
         assertEquals("Another Username", savedNotification.userName)
     }
 
@@ -63,12 +58,12 @@ class AppStorageImplTest {
         val privateMessage2 = PrivateMessage(2)
         val privateMessage3 = PrivateMessage(3)
 
-        AppStorageImpl.savePrivateMessage(privateMessage1)
-        AppStorageImpl.savePrivateMessage(privateMessage2)
-        AppStorageImpl.savePrivateMessage(privateMessage3, { message -> message.isRead = true })
-        assertEquals(3, AppStorageImpl.getAllPrivateMessages().size)
-        assertEquals(2, AppStorageImpl.getUnreadPrivateMessages().size)
-        assertEquals(2, AppStorageImpl.getUnreadPrivateMessagesCount())
+        realmAppStorage.savePrivateMessage(privateMessage1)
+        realmAppStorage.savePrivateMessage(privateMessage2)
+        realmAppStorage.savePrivateMessage(privateMessage3, { message -> message.isRead = true })
+        assertEquals(3, realmAppStorage.getAllPrivateMessages().size)
+        assertEquals(2, realmAppStorage.getUnreadPrivateMessages().size)
+        assertEquals(2, realmAppStorage.getUnreadPrivateMessagesCount())
     }
 
     @Test
@@ -77,10 +72,10 @@ class AppStorageImplTest {
         val userFollowed2 = UserFollowed(2)
         val userFollowed3 = UserFollowed(3)
 
-        AppStorageImpl.saveUserFollowed(userFollowed1)
-        AppStorageImpl.saveUserFollowed(userFollowed2)
-        AppStorageImpl.saveUserFollowed(userFollowed3)
-        assertEquals(3, AppStorageImpl.getAllUserFollowed().size)
+        realmAppStorage.saveUserFollowed(userFollowed1)
+        realmAppStorage.saveUserFollowed(userFollowed2)
+        realmAppStorage.saveUserFollowed(userFollowed3)
+        assertEquals(3, realmAppStorage.getAllUserFollowed().size)
     }
 
 }

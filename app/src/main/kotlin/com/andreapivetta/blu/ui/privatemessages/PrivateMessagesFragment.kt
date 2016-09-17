@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.utils.Utils
-import com.andreapivetta.blu.data.db.AppStorageImpl
+import com.andreapivetta.blu.data.db.AppStorageFactory
 import com.andreapivetta.blu.data.db.PrivateMessage
 import com.andreapivetta.blu.ui.base.custom.decorators.SpaceTopItemDecoration
 
@@ -22,7 +22,7 @@ class PrivateMessagesFragment : Fragment(), PrivateMessagesMvpView {
         fun newInstance() = PrivateMessagesFragment()
     }
 
-    private val presenter = PrivateMessagesPresenter(AppStorageImpl)
+    private val presenter by lazy { PrivateMessagesPresenter(AppStorageFactory.getAppStorage(context)) }
 
     private lateinit var adapter: ConversationsAdapter
     private lateinit var recyclerView: RecyclerView

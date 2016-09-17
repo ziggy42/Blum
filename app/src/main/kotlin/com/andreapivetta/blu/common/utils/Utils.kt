@@ -1,8 +1,6 @@
 package com.andreapivetta.blu.common.utils
 
 import android.content.Context
-import android.os.Handler
-import android.os.Looper
 import android.util.DisplayMetrics
 import com.andreapivetta.blu.R
 import java.text.SimpleDateFormat
@@ -36,10 +34,6 @@ object Utils {
                 return context?.getString(R.string.mini_minutes, minutes.toInt())
         } else
             return context?.getString(R.string.mini_seconds, seconds.toInt())
-    }
-
-    fun runOnUiThread(body: () -> Unit) {
-        Handler(Looper.getMainLooper()).post { body.invoke() }
     }
 
 }

@@ -7,21 +7,14 @@ import io.realm.RealmConfiguration
 /**
  * Created by andrea on 27/07/16.
  */
-object AppStorageImpl : AppStorage {
+class RealmAppStorage(context: Context, name: String = "blumRealm") : AppStorage {
 
     private val SCHEMA_VERSION = 0L
-    private lateinit var realm: Realm
+    private val realm: Realm
 
-    fun init(context: Context) {
+    init {
         Realm.setDefaultConfiguration(RealmConfiguration.Builder(context)
-                .schemaVersion(SCHEMA_VERSION).build())
-        realm = Realm.getDefaultInstance()
-    }
-
-    // Should be called only in tests
-    fun testInit(context: Context) {
-        Realm.setDefaultConfiguration(RealmConfiguration.Builder(context)
-                .name("test")
+                .name(name)
                 .schemaVersion(SCHEMA_VERSION).build())
         realm = Realm.getDefaultInstance()
     }
@@ -100,7 +93,7 @@ object AppStorageImpl : AppStorage {
         realm.commitTransaction()
     }
 
-    override fun saveTweetInfoListA(tweetInfoList: List<TweetInfo>) {
+    override fun saveTweetInfoList(tweetInfoList: List<TweetInfo>) {
         realm.beginTransaction()
         realm.copyToRealm(tweetInfoList)
         realm.commitTransaction()
@@ -131,8 +124,14 @@ object AppStorageImpl : AppStorage {
     }
 
     override fun clear() {
-        realm.close()
-        Realm.deleteRealm(realm.configuration)
+        realm.beginTransaction()
+        realm.delete(Follower::class.java)
+        realm.delete(Mention::class.java)
+        realm.delete(UserFollowed::class.java)
+        realm.delete(TweetInfo::class.java)
+        realm.delete(UserId::class.java)
+        realm.delete(Notification::class.java)
+        realm.commitTransaction()
     }
 
 }
