@@ -17,17 +17,25 @@ import timber.log.Timber
 class SetupActivity : AppCompatActivity() {
 
     companion object {
+        private val ARG_DOWNLOAD = "download"
+
         fun launch(context: Context) {
             context.startActivity(Intent(context, SetupActivity::class.java))
         }
     }
+
+    private var downloadStarted = false
+    private val responseReceiver = ResponseReceiver()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setup)
         setSupportActionBar(setupToolbar)
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(ResponseReceiver(),
+        if (savedInstanceState != null && savedInstanceState.getBoolean(ARG_DOWNLOAD, false))
+            updateViewForDownload()
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(responseReceiver,
                 IntentFilter(PopulateDatabaseIntentService.BROADCAST_ACTION))
 
         startDownloadButton.setOnClickListener {
@@ -37,9 +45,7 @@ class SetupActivity : AppCompatActivity() {
             AppSettingsImpl.setNotifyMentions(mentionsCheckBox.isChecked)
 
             PopulateDatabaseIntentService.startService(this)
-
-            startDownloadButton.visibility = View.GONE
-            loadingViewGroup.visibility = View.VISIBLE
+            updateViewForDownload()
         }
     }
 
@@ -47,12 +53,27 @@ class SetupActivity : AppCompatActivity() {
         moveTaskToBack(true)
     }
 
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        outState?.putBoolean(ARG_DOWNLOAD, downloadStarted)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        LocalBroadcastManager.getInstance(this@SetupActivity).unregisterReceiver(responseReceiver)
+    }
+
+    private fun updateViewForDownload() {
+        downloadStarted = true
+        setupViewGroup.visibility = View.GONE
+        loadingViewGroup.visibility = View.VISIBLE
+    }
+
     private inner class ResponseReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             Timber.i("Broadcast received")
             if (intent != null &&
                     intent.getBooleanExtra(PopulateDatabaseIntentService.DATA_STATUS, false)) {
-                LocalBroadcastManager.getInstance(this@SetupActivity).unregisterReceiver(this)
                 this@SetupActivity.finish()
             } else {
                 PopulateDatabaseIntentService.startService(this@SetupActivity)
