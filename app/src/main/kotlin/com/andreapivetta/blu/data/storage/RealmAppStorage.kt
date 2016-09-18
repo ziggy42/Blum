@@ -4,6 +4,7 @@ import android.content.Context
 import com.andreapivetta.blu.data.model.*
 import io.realm.Realm
 import io.realm.RealmConfiguration
+import io.realm.Sort
 
 /**
  * Created by andrea on 27/07/16.
@@ -43,7 +44,8 @@ class RealmAppStorage(context: Context, name: String = "blumRealm") : AppStorage
             .where(PrivateMessage::class.java).equalTo("isRead", false).findAll()
 
     override fun getConversations(): MutableList<PrivateMessage> = realm
-            .where(PrivateMessage::class.java).findAllSorted("timeStamp").distinct("otherId")
+            .where(PrivateMessage::class.java)
+            .findAllSorted("timeStamp", Sort.DESCENDING).distinct("otherId")
 
     override fun getUnreadPrivateMessagesCount(): Long = realm
             .where(PrivateMessage::class.java).equalTo("isRead", false).count()
