@@ -1,6 +1,6 @@
 package com.andreapivetta.blu.ui.privatemessages
 
-import com.andreapivetta.blu.data.db.AppStorage
+import com.andreapivetta.blu.data.storage.AppStorage
 import com.andreapivetta.blu.ui.base.BasePresenter
 
 /**

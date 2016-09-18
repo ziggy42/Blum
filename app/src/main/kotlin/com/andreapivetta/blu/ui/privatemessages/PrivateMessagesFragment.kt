@@ -9,8 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.utils.Utils
-import com.andreapivetta.blu.data.db.AppStorageFactory
-import com.andreapivetta.blu.data.db.PrivateMessage
+import com.andreapivetta.blu.data.model.PrivateMessage
+import com.andreapivetta.blu.data.storage.AppStorageFactory
 import com.andreapivetta.blu.ui.base.custom.decorators.SpaceTopItemDecoration
 
 /**

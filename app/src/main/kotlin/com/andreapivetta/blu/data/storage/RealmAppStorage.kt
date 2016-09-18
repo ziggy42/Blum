@@ -1,6 +1,7 @@
-package com.andreapivetta.blu.data.db
+package com.andreapivetta.blu.data.storage
 
 import android.content.Context
+import com.andreapivetta.blu.data.model.*
 import io.realm.Realm
 import io.realm.RealmConfiguration
 
@@ -86,6 +87,8 @@ class RealmAppStorage(context: Context, name: String = "blumRealm") : AppStorage
         realm.commitTransaction()
     }
 
+    override fun getAllFollowers(): List<Follower> = realm.where(Follower::class.java).findAll()
+
     override fun saveUserId(userId: UserId, body: (UserId) -> Unit) {
         realm.beginTransaction()
         body.invoke(userId)
@@ -98,6 +101,8 @@ class RealmAppStorage(context: Context, name: String = "blumRealm") : AppStorage
         realm.copyToRealm(tweetInfoList)
         realm.commitTransaction()
     }
+
+    override fun getAllTweetInfo(): List<TweetInfo> = realm.where(TweetInfo::class.java).findAll()
 
     override fun savePrivateMessages(privateMessages: List<PrivateMessage>) {
         realm.beginTransaction()
@@ -117,6 +122,8 @@ class RealmAppStorage(context: Context, name: String = "blumRealm") : AppStorage
         realm.commitTransaction()
     }
 
+    override fun getAllMentions(): List<Mention> = realm.where(Mention::class.java).findAll()
+
     override fun saveFollowers(followers: List<Follower>) {
         realm.beginTransaction()
         realm.copyToRealm(followers)
@@ -135,4 +142,7 @@ class RealmAppStorage(context: Context, name: String = "blumRealm") : AppStorage
         realm.commitTransaction()
     }
 
+    override fun close() {
+        realm.close()
+    }
 }

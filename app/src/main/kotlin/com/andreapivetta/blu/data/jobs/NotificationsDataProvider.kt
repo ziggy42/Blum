@@ -1,6 +1,6 @@
 package com.andreapivetta.blu.data.jobs
 
-import com.andreapivetta.blu.data.db.*
+import com.andreapivetta.blu.data.model.*
 import io.realm.RealmList
 import org.json.JSONObject
 import org.jsoup.Jsoup
@@ -21,10 +21,8 @@ object NotificationsDataProvider {
     private val RETWEETERS_URL = "https://twitter.com/i/activity/retweeted_popup?id="
 
     fun retrieveTweetInfo(twitter: Twitter): MutableList<TweetInfo> =
-            twitter.getUserTimeline(Paging(1, 200))
-                    .map { x ->
-                        TweetInfo(x.id, getFavoriters(x.id), getRetweeters(x.id))
-                    }
+            twitter.getUserTimeline(Paging(1, 100))
+                    .map { x -> TweetInfo(x.id, getFavoriters(x.id), getRetweeters(x.id)) }
                     .toMutableList()
 
     fun retrieveMentions(twitter: Twitter): MutableList<Mention> =
@@ -41,7 +39,7 @@ object NotificationsDataProvider {
         return followers
     }
 
-    fun retrievePrivateMessages(twitter: Twitter): MutableList<DirectMessage> {
+    fun retrieveDirectMessages(twitter: Twitter): MutableList<DirectMessage> {
         val directMessages: MutableList<DirectMessage> = twitter.getDirectMessages(Paging(1, 200))
         directMessages.addAll(twitter.getSentDirectMessages(Paging(1, 200)))
         return directMessages

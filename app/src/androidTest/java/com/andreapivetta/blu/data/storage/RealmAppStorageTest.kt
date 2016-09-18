@@ -1,7 +1,10 @@
-package com.andreapivetta.blu.data.db
+package com.andreapivetta.blu.data.storage
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
+import com.andreapivetta.blu.data.model.Notification
+import com.andreapivetta.blu.data.model.PrivateMessage
+import com.andreapivetta.blu.data.model.UserFollowed
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test

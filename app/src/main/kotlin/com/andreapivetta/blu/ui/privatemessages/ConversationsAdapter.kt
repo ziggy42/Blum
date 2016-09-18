@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.utils.Utils
-import com.andreapivetta.blu.data.db.PrivateMessage
+import com.andreapivetta.blu.data.model.PrivateMessage
 import com.bumptech.glide.Glide
 import java.util.*
 

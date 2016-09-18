@@ -1,4 +1,4 @@
-package com.andreapivetta.blu.data.db
+package com.andreapivetta.blu.data.storage
 
 import android.content.Context
 

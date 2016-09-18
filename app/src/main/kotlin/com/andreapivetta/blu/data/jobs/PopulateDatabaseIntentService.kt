@@ -5,9 +5,9 @@ import android.content.Context
 import android.content.Intent
 import android.support.v4.content.LocalBroadcastManager
 import com.andreapivetta.blu.common.settings.AppSettingsFactory
-import com.andreapivetta.blu.data.db.AppStorageFactory
-import com.andreapivetta.blu.data.db.PrivateMessage
-import com.andreapivetta.blu.data.db.UserFollowed
+import com.andreapivetta.blu.data.model.PrivateMessage
+import com.andreapivetta.blu.data.model.UserFollowed
+import com.andreapivetta.blu.data.storage.AppStorageFactory
 import com.andreapivetta.blu.data.twitter.TwitterUtils
 import timber.log.Timber
 
@@ -55,7 +55,7 @@ class PopulateDatabaseIntentService : IntentService("PopulateDatabaseIntentServi
             if (settings.isNotifyDirectMessages()) {
                 Timber.i("Retrieving private messages")
                 storage.savePrivateMessages(NotificationsDataProvider
-                        .retrievePrivateMessages(twitter)
+                        .retrieveDirectMessages(twitter)
                         .map { x -> PrivateMessage.valueOf(x, settings.getLoggedUserId()) })
                 settings.setDirectMessagesDownloaded(true)
             }
