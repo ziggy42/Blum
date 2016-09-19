@@ -24,6 +24,9 @@ class RealmAppStorage(context: Context, name: String = "blumRealm") : AppStorage
     override fun getAllNotifications(): List<Notification> =
             realm.where(Notification::class.java).findAll()
 
+    override fun getLastNotificationId(): Long? =
+            realm.where(Notification::class.java).max("id")?.toLong()
+
     override fun getUnreadNotifications(): List<Notification> = realm
             .where(Notification::class.java).equalTo("isRead", true).findAll()
 

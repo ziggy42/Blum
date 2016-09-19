@@ -19,6 +19,10 @@ open class PrivateMessage(
         RealmObject(), Comparable<PrivateMessage>, Serializable {
 
     companion object {
+
+        val NEW_PRIVATE_MESSAGE_INTENT =
+                "com.andreapivetta.blu.data.model.NEW_PRIVATE_MESSAGE_INTENT"
+
         fun valueOf(directMessage: DirectMessage, loggedUserId: Long): PrivateMessage {
 
             val otherUserId = if (directMessage.recipientId == loggedUserId)

@@ -9,6 +9,8 @@ interface AppStorage {
 
     fun getAllNotifications(): List<Notification>
 
+    fun getLastNotificationId(): Long?
+
     fun getUnreadNotifications(): List<Notification>
 
     fun getUnreadNotificationsCount(): Long

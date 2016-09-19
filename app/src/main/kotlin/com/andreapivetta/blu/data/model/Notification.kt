@@ -6,7 +6,7 @@ import io.realm.annotations.PrimaryKey
 import java.util.*
 
 open class Notification(
-        @PrimaryKey open var notificationID: Int = 0,
+        @PrimaryKey open var id: Long = 0,
         @NotificationType var type: Long = FOLLOW,
         var userName: String = "",
         var userId: Long = 0,
@@ -19,7 +19,9 @@ open class Notification(
 
     companion object {
 
-        @IntDef(FOLLOW, MENTION, FAVOURITE, RETWEET, RETWEET_MENTIONED)
+        val NEW_NOTIFICATION_INTENT = "com.andreapivetta.blu.data.model.NEW_NOTIFICATION_INTENT"
+
+        @IntDef(FOLLOW, MENTION, FAVOURITE, RETWEET)
         @Retention(AnnotationRetention.SOURCE)
         annotation class NotificationType
 
@@ -27,7 +29,6 @@ open class Notification(
         const val MENTION = 1L
         const val FAVOURITE = 2L
         const val RETWEET = 3L
-        const val RETWEET_MENTIONED = 4L
     }
 
 }

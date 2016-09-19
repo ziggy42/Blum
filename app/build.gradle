@@ -22,11 +22,13 @@ android {
         release {
             buildConfigField 'String', 'TWITTER_CONSUMER_KEY', ConsumerKey
             buildConfigField 'String', 'TWITTER_CONSUMER_SECRET', ConsumerSecret
+            buildConfigField 'long', 'INTERVAL', '60'
         }
 
         debug {
             buildConfigField 'String', 'TWITTER_CONSUMER_KEY', DebugConsumerKey
             buildConfigField 'String', 'TWITTER_CONSUMER_SECRET', DebugConsumerSecret
+            buildConfigField 'long', 'INTERVAL', '10'
         }
     }
 

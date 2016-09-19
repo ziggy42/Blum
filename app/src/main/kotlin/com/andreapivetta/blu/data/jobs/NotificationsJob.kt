@@ -1,5 +1,6 @@
 package com.andreapivetta.blu.data.jobs
 
+import com.andreapivetta.blu.BuildConfig
 import com.andreapivetta.blu.common.settings.AppSettingsFactory
 import com.andreapivetta.blu.data.model.PrivateMessage
 import com.andreapivetta.blu.data.storage.AppStorageFactory
@@ -14,12 +15,14 @@ import java.util.concurrent.TimeUnit
  */
 class NotificationsJob : Job() {
 
+    // TODO performance
+
     companion object {
         val TAG = "notifications_job"
 
         fun scheduleJob() {
             JobRequest.Builder(TAG)
-                    .setPeriodic(TimeUnit.MINUTES.toMillis(60))
+                    .setPeriodic(TimeUnit.MINUTES.toMillis(BuildConfig.INTERVAL))
                     .setPersisted(true)
                     .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
                     .build()
@@ -31,7 +34,7 @@ class NotificationsJob : Job() {
         val settings = AppSettingsFactory.getAppSettings(context)
         val storage = AppStorageFactory.getAppStorage(context)
         val twitter = TwitterUtils.getTwitter()
-        val dispatcher = NotificationDispatcher(context)
+        val dispatcher = NotificationDispatcher(context, storage)
 
         if (settings.isNotifyFavRet()) {
             if (settings.isFavRetDownloaded()) {
@@ -43,7 +46,7 @@ class NotificationsJob : Job() {
                 newTweetInfoList.filterNot { x -> tweetInfoListIds.contains(x.id) }
                         .forEach { x ->
                             run {
-                                Timber.d("New tweet discovered %l", x.id)
+                                Timber.d("New tweet discovered %d", x.id)
                                 storage.saveTweetInfo(x)
                                 if (x.favoriters!!.size > 0 || x.retweeters!!.size > 0) {
                                     val status = twitter.showStatus(x.id)
@@ -113,9 +116,9 @@ class NotificationsJob : Job() {
             if (settings.isMentionsDownloaded()) {
                 Timber.d("Checking for new mentions...")
                 val newMentions = NotificationsDataProvider.retrieveMentions(twitter)
-                val savedMentions = storage.getAllMentions()
+                val savedMentions = storage.getAllMentions().map { x -> x.tweetId }
 
-                newMentions.filter { x -> savedMentions.contains(x) }
+                newMentions.filterNot { x -> savedMentions.contains(x.tweetId) }
                         .forEach { x ->
                             run {
                                 storage.saveMention(x)
@@ -134,9 +137,9 @@ class NotificationsJob : Job() {
             if (settings.isFollowersDownloaded()) {
                 Timber.d("Checking for new followers...")
                 val newFollowers = NotificationsDataProvider.retrieveFollowers(twitter)
-                val savedFollowers = storage.getAllFollowers()
+                val savedFollowers = storage.getAllFollowers().map { x -> x.userId }
 
-                newFollowers.filter { x -> savedFollowers.contains(x) }
+                newFollowers.filterNot { x -> savedFollowers.contains(x.userId) }
                         .forEach { x ->
                             run {
                                 storage.saveFollower(x)
@@ -155,9 +158,9 @@ class NotificationsJob : Job() {
                 Timber.d("Checking for new private messages...")
                 val newPrivateMessages = NotificationsDataProvider.retrieveDirectMessages(twitter)
                         .map { x -> PrivateMessage.valueOf(x, settings.getLoggedUserId()) }
-                val savedPrivateMessages = storage.getAllPrivateMessages()
+                val savedPrivateMessages = storage.getAllPrivateMessages().map { x -> x.id }
 
-                newPrivateMessages.filter { x -> savedPrivateMessages.contains(x) }
+                newPrivateMessages.filterNot { x -> savedPrivateMessages.contains(x.id) }
                         .forEach { x ->
                             run {
                                 storage.savePrivateMessage(x)
