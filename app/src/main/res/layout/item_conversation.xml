@@ -29,7 +29,7 @@
         android:layout_toRightOf="@+id/userProfilePicImageView"
         android:layout_toStartOf="@+id/timeTextView"
         android:fontFamily="sans-serif-bold"
-        android:singleLine="true"
+        android:maxLines="1"
         android:textSize="18sp" />
 
     <TextView

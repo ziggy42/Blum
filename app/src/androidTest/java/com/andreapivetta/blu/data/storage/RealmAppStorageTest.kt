@@ -34,14 +34,11 @@ class RealmAppStorageTest {
                 "profilepic3", false, Calendar.getInstance().timeInMillis)
         val notification4 = Notification(4, Notification.RETWEET, "username4", 4, 4, "status4",
                 "profilepic4", true, Calendar.getInstance().timeInMillis)
-        val notification5 = Notification(5, Notification.RETWEET_MENTIONED, "username5", 5, 5,
-                "status5", "profilepic5", false, Calendar.getInstance().timeInMillis)
 
         realmAppStorage.saveNotification(notification1)
         realmAppStorage.saveNotification(notification2)
         realmAppStorage.saveNotification(notification3)
         realmAppStorage.saveNotification(notification4)
-        realmAppStorage.saveNotification(notification5)
         assertEquals(5, realmAppStorage.getAllNotifications().size)
         assertEquals(2, realmAppStorage.getUnreadNotificationsCount())
         assertEquals(2, realmAppStorage.getUnreadNotifications().size)

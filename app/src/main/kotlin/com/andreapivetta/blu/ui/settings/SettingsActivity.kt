@@ -74,7 +74,7 @@ class SettingsActivity : ThemedActivity() {
             }
 
             private fun logout() {
-                AppSettingsFactory.getAppSettings(context).clear()
+                AppSettingsFactory.getAppSettings(activity).clear()
                 AppStorageFactory.getAppStorage(activity).clear()
                 TwitterUtils.nullTwitter()
                 activity.finish()

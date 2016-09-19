@@ -31,7 +31,7 @@ object Patterns {
      */
     val GOOD_IRI_CHAR = "a-zA-Z0-9\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF"
 
-    val IP_ADDRESS = Pattern.compile(
+    val IP_ADDRESS: Pattern = Pattern.compile(
             "((25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9])\\.(25[0-5]|2[0-4]"
                     + "[0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1]"
                     + "[0-9]{2}|[1-9][0-9]|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}"
@@ -46,14 +46,14 @@ object Patterns {
     private val GTLD = "[$GOOD_GTLD_CHAR]{2,63}"
     private val HOST_NAME = "($IRI\\.)+$GTLD"
 
-    val DOMAIN_NAME = Pattern.compile("($HOST_NAME|$IP_ADDRESS)")
+    val DOMAIN_NAME: Pattern = Pattern.compile("($HOST_NAME|$IP_ADDRESS)")
 
     /**
      * Regular expression pattern to match most part of RFC 3987
      * Internationalized URLs, aka IRIs.  Commonly used Unicode characters are
      * added.
      */
-    val WEB_URL = Pattern.compile(
+    val WEB_URL: Pattern = Pattern.compile(
             "((?:(http|https|Http|Https|rtsp|Rtsp):\\/\\/(?:(?:[a-zA-Z0-9\\$\\-\\_\\.\\+\\!\\*\\'\\(\\)"
                     + "\\,\\;\\?\\&\\=]|(?:\\%[a-fA-F0-9]{2})){1,64}(?:\\:(?:[a-zA-Z0-9\\$\\-\\_"
                     + "\\.\\+\\!\\*\\'\\(\\)\\,\\;\\?\\&\\=]|(?:\\%[a-fA-F0-9]{2})){1,25})?\\@)?)?"
