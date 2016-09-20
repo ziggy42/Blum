@@ -39,7 +39,8 @@ class ConversationsAdapter() :
                 .dontAnimate().into(holder?.userProfilePicImageView)
 
         holder?.userNameTextView?.text = message.otherUserName
-        holder?.messageTextView?.text = message.text
+        holder?.messageTextView?.text = if (message.senderId == message.otherId) message.text else
+            holder?.itemView?.context?.getString(R.string.you_message, message.text)
         holder?.timeTextView?.text = Utils.formatDate(message.timeStamp, holder?.rootView?.context)
 
         holder?.rootView?.setOnClickListener { }
