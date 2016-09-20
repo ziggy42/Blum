@@ -41,6 +41,8 @@ class ConversationsAdapter() :
         holder?.userNameTextView?.text = message.otherUserName
         holder?.messageTextView?.text = message.text
         holder?.timeTextView?.text = Utils.formatDate(message.timeStamp, holder?.rootView?.context)
+
+        holder?.rootView?.setOnClickListener { }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int) = ConversationViewHolder(

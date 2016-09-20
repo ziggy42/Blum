@@ -43,14 +43,6 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
     }
 
-    splits {
-        abi {
-            enable true
-            reset()
-            include 'x86', 'armeabi', 'armeabi-v7a', 'mips'
-            universalApk false
-        }
-    }
 }
 
 dependencies {
