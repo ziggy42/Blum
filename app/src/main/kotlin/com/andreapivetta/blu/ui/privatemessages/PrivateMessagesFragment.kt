@@ -22,14 +22,14 @@ class PrivateMessagesFragment : Fragment(), PrivateMessagesMvpView {
 
     private val presenter by lazy { PrivateMessagesPresenter(AppStorageFactory.getAppStorage(context)) }
 
-    private lateinit var adapter: ConversationsAdapter
+    private lateinit var adapterPrivateMessages: PrivateMessagesConversationsAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var emptyViewGroup: ViewGroup
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         presenter.attachView(this)
-        adapter = ConversationsAdapter()
+        adapterPrivateMessages = PrivateMessagesConversationsAdapter()
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
@@ -42,15 +42,15 @@ class PrivateMessagesFragment : Fragment(), PrivateMessagesMvpView {
         val linearLayoutManager = LinearLayoutManager(activity)
         recyclerView.layoutManager = linearLayoutManager
         recyclerView.setHasFixedSize(true)
-        recyclerView.adapter = adapter
+        recyclerView.adapter = adapterPrivateMessages
 
         presenter.getConversations()
         return rootView
     }
 
     override fun showConversations(conversations: MutableList<PrivateMessage>) {
-        adapter.dataSet = conversations
-        adapter.notifyDataSetChanged()
+        adapterPrivateMessages.dataSet = conversations
+        adapterPrivateMessages.notifyDataSetChanged()
     }
 
     override fun showError() {

@@ -395,5 +395,56 @@ object TwitterAPI {
                 }
             })
 
+    fun showUser(userId: Long): Single<User> =
+            Single.from(object : Future<User> {
+                override fun isDone(): Boolean {
+                    throw UnsupportedOperationException("not implemented")
+                }
+
+                override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
+                    throw UnsupportedOperationException("not implemented")
+                }
+
+                override fun isCancelled(): Boolean {
+                    throw UnsupportedOperationException("not implemented")
+                }
+
+                override fun get(): User? = try {
+                    TwitterUtils.getTwitter().showUser(userId)
+                } catch (err: Exception) {
+                    Timber.e(err, "Error in getting a User")
+                    null
+                }
+
+                override fun get(timeout: Long, unit: TimeUnit?): User {
+                    throw UnsupportedOperationException("not implemented")
+                }
+            })
+
+    fun sendPrivateMessage(text: String, userId: Long): Single<DirectMessage> =
+            Single.from(object : Future<DirectMessage> {
+                override fun get(timeout: Long, unit: TimeUnit?): DirectMessage {
+                    throw UnsupportedOperationException("not implemented")
+                }
+
+                override fun get(): DirectMessage? = try {
+                    TwitterUtils.getTwitter().sendDirectMessage(userId, text)
+                } catch (err: Exception) {
+                    Timber.e(err, "Error in getting a User")
+                    null
+                }
+
+                override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
+                    throw UnsupportedOperationException("not implemented")
+                }
+
+                override fun isDone(): Boolean {
+                    throw UnsupportedOperationException("not implemented")
+                }
+
+                override fun isCancelled(): Boolean {
+                    throw UnsupportedOperationException("not implemented")
+                }
+            })
 }
 

@@ -9,14 +9,15 @@ import android.widget.TextView
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.utils.Utils
 import com.andreapivetta.blu.data.model.PrivateMessage
+import com.andreapivetta.blu.ui.conversation.ConversationActivity
 import com.bumptech.glide.Glide
 import java.util.*
 
 /**
  * Created by andrea on 06/08/16.
  */
-class ConversationsAdapter() :
-        RecyclerView.Adapter<ConversationsAdapter.Companion.ConversationViewHolder>() {
+class PrivateMessagesConversationsAdapter() :
+        RecyclerView.Adapter<PrivateMessagesConversationsAdapter.Companion.ConversationViewHolder>() {
 
     companion object {
 
@@ -34,16 +35,19 @@ class ConversationsAdapter() :
 
     override fun onBindViewHolder(holder: ConversationViewHolder?, position: Int) {
         val message = dataSet[position]
+        val context = holder?.itemView?.context
 
         Glide.with(holder?.rootView?.context).load(message.otherUserProfilePicUrl)
                 .dontAnimate().into(holder?.userProfilePicImageView)
 
         holder?.userNameTextView?.text = message.otherUserName
         holder?.messageTextView?.text = if (message.senderId == message.otherId) message.text else
-            holder?.itemView?.context?.getString(R.string.you_message, message.text)
+            context?.getString(R.string.you_message, message.text)
         holder?.timeTextView?.text = Utils.formatDate(message.timeStamp, holder?.rootView?.context)
 
-        holder?.rootView?.setOnClickListener { }
+        holder?.rootView?.setOnClickListener {
+            ConversationActivity.launch(context!!, message.otherId)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int) = ConversationViewHolder(

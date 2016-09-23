@@ -60,8 +60,8 @@
     <string name="all_fields_needed">All fields are mandatory.</string>
     <string name="provide_valid_email">Please enter a valid email.</string>
     <string name="message_sent">Message successfully sent!</string>
-    <string name="sending_message_error">There was some error in sending message.
-        Please try again after some time.</string>
+    <string name="sending_message_error">There was some error while sending your message.
+        Please try again later.</string>
     <string name="authorized_by">Authorized by %1$s</string>
     <string name="failed_due">Failed due to %1$s</string>
     <string name="like_removed">Like removed</string>

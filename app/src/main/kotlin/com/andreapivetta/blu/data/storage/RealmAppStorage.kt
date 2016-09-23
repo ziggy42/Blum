@@ -50,6 +50,11 @@ class RealmAppStorage(context: Context, name: String = "blumRealm") : AppStorage
             .where(PrivateMessage::class.java)
             .findAllSorted("timeStamp", Sort.DESCENDING).distinct("otherId")
 
+    override fun getConversation(otherUserId: Long): MutableList<PrivateMessage> = realm
+            .where(PrivateMessage::class.java)
+            .equalTo("otherId", otherUserId)
+            .findAllSorted("timeStamp")
+
     override fun getUnreadPrivateMessagesCount(): Long = realm
             .where(PrivateMessage::class.java).equalTo("isRead", false).count()
 

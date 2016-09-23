@@ -25,6 +25,8 @@ interface AppStorage {
 
     fun getConversations(): MutableList<PrivateMessage>
 
+    fun getConversation(otherUserId: Long): MutableList<PrivateMessage>
+
     fun savePrivateMessage(privateMessage: PrivateMessage, body: (PrivateMessage) -> Unit = {})
 
     fun savePrivateMessages(privateMessages: List<PrivateMessage>)

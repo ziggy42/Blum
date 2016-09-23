@@ -49,10 +49,14 @@
         <activity
             android:name=".ui.setup.SetupActivity"
             android:label="@string/title_activity_setup" />
+        <activity
+            android:name=".ui.conversation.ConversationActivity"
+            android:windowSoftInputMode="adjustResize" />
 
         <service
             android:name=".data.jobs.PopulateDatabaseIntentService"
             android:exported="false" />
+
     </application>
 
 </manifest>
