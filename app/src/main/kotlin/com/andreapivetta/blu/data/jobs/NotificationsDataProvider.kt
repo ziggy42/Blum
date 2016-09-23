@@ -34,7 +34,7 @@ object NotificationsDataProvider {
         val followers = ArrayList<Follower>()
         val ids = twitter.getFollowersIDs(-1)
         do {
-            followers.addAll(ids.iDs.map { x -> Follower(x) })
+            followers.addAll(ids.iDs.map(::Follower))
         } while (ids.hasNext())
         return followers
     }
@@ -83,7 +83,7 @@ object NotificationsDataProvider {
             }
 
             val realmList = RealmList<UserId>()
-            realmList.addAll(usersIDs.map { item -> UserId(item) })
+            realmList.addAll(usersIDs.map(::UserId))
             return realmList
         }
 

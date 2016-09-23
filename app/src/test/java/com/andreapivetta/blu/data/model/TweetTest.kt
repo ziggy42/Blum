@@ -73,7 +73,7 @@ class TweetTest {
     fun testGetTextWithoutMediaURLs() {
         assertTrue(tweet1!!.getTextWithoutMediaURLs().isEmpty())
         assertFalse(tweet2!!.getTextWithoutMediaURLs().isEmpty())
-        assertTrue("Hello, World! ".equals(tweet2!!.getTextWithoutMediaURLs()))
+        assertTrue("Hello, World! " == tweet2!!.getTextWithoutMediaURLs())
     }
 
     @Test

@@ -36,7 +36,7 @@ class SearchTweetPresenter(textQuery: String) : TimelinePresenter() {
                             list == null -> mvpView?.showError()
                             list.isEmpty() -> mvpView?.showEmpty()
                             else -> {
-                                mvpView?.showTweets(list.map { status -> Tweet(status) }
+                                mvpView?.showTweets(list.map(::Tweet)
                                         .toMutableList())
                                 page++
                             }
@@ -66,7 +66,7 @@ class SearchTweetPresenter(textQuery: String) : TimelinePresenter() {
                             val list = result?.tweets
                             if (list != null)
                                 mvpView?.showMoreTweets(list
-                                        .map { status -> Tweet(status) }.toMutableList())
+                                        .map(::Tweet).toMutableList())
                         }
 
                         override fun onError(error: Throwable?) {

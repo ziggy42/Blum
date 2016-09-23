@@ -39,9 +39,9 @@ data class Tweet(val status: Status) : Serializable {
         throw RuntimeException("This Tweet does not contain a quoted Tweet")
     }
 
-    fun hasSingleImage() = mediaEntities.size == 1 && "photo".equals(mediaEntities[0].type)
+    fun hasSingleImage() = mediaEntities.size == 1 && "photo" == mediaEntities[0].type
 
-    fun hasSingleVideo() = mediaEntities.size == 1 && !"photo".equals(mediaEntities[0].type)
+    fun hasSingleVideo() = mediaEntities.size == 1 && "photo" != mediaEntities[0].type
 
     fun hasMultipleMedia() = mediaEntities.size > 1
 
@@ -74,9 +74,9 @@ data class Tweet(val status: Status) : Serializable {
         val text = getTextWithoutMediaURLs()
         val htmlBuilder = StringBuilder()
         var endString = String()
-        text.split("\\r?\\n".toRegex()).dropLastWhile { it.isEmpty() }.forEach { line ->
+        text.split("\\r?\\n".toRegex()).dropLastWhile(String::isEmpty).forEach { line ->
             if (htmlBuilder.isNotEmpty()) htmlBuilder.append("<br>")
-            line.split(" ").dropLastWhile { it.isEmpty() }.forEach { word ->
+            line.split(" ").dropLastWhile(String::isEmpty).forEach { word ->
                 if (Patterns.WEB_URL.matcher(word).matches())
                     htmlBuilder.append("<a href=\"").append(word).append("\">")
                             .append(word).append("</a>")

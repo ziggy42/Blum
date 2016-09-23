@@ -53,7 +53,7 @@ class TweetDetailsPresenter : BasePresenter<TweetDetailsMvpView>() {
                             if (list.isEmpty())
                                 mvpView?.showEmpty()
                             else
-                                mvpView?.showTweets(list.map { status -> Tweet(status) }.toMutableList())
+                                mvpView?.showTweets(list.map(::Tweet).toMutableList())
                         }
                         isLoading = false
                     }
@@ -68,7 +68,7 @@ class TweetDetailsPresenter : BasePresenter<TweetDetailsMvpView>() {
         checkViewAttached()
 
         mFavoriteSubscriber = TwitterAPI.favorite(tweet.id)
-                .map { status -> Tweet(status) }
+                .map(::Tweet)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(object : SingleSubscriber<Tweet>() {
@@ -88,7 +88,7 @@ class TweetDetailsPresenter : BasePresenter<TweetDetailsMvpView>() {
         checkViewAttached()
 
         mRetweetSubscriber = TwitterAPI.retweet(tweet.id)
-                .map { status -> Tweet(status) }
+                .map(::Tweet)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(object : SingleSubscriber<Tweet>() {
@@ -108,7 +108,7 @@ class TweetDetailsPresenter : BasePresenter<TweetDetailsMvpView>() {
         checkViewAttached()
 
         mUnfavoriteSubscriber = TwitterAPI.unfavorite(tweet.id)
-                .map { status -> Tweet(status) }
+                .map(::Tweet)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(object : SingleSubscriber<Tweet>() {
@@ -128,7 +128,7 @@ class TweetDetailsPresenter : BasePresenter<TweetDetailsMvpView>() {
         checkViewAttached()
 
         mUnfavoriteSubscriber = TwitterAPI.unretweet(tweet.status.currentUserRetweetId)
-                .map { status -> Tweet(status) }
+                .map(::Tweet)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(object : SingleSubscriber<Tweet>() {

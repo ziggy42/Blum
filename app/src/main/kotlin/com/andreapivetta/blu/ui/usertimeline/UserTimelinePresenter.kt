@@ -37,7 +37,7 @@ class UserTimelinePresenter(val userId: Long) : TimelinePresenter() {
                             list == null -> mvpView?.showError()
                             list.isEmpty() -> mvpView?.showEmpty()
                             else -> {
-                                mvpView?.showTweets(list.map { status -> Tweet(status) }
+                                mvpView?.showTweets(list.map(::Tweet)
                                         .toMutableList())
                                 page++
                             }
@@ -74,7 +74,7 @@ class UserTimelinePresenter(val userId: Long) : TimelinePresenter() {
                     override fun onNext(list: MutableList<Status>?) {
                         if (list != null) {
                             if (list.isNotEmpty())
-                                mvpView?.showMoreTweets(list.map { status -> Tweet(status) }
+                                mvpView?.showMoreTweets(list.map(::Tweet)
                                         .toMutableList())
                             page++
                         }

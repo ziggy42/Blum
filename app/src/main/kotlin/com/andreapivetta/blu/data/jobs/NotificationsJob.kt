@@ -2,6 +2,8 @@ package com.andreapivetta.blu.data.jobs
 
 import com.andreapivetta.blu.BuildConfig
 import com.andreapivetta.blu.common.settings.AppSettingsFactory
+import com.andreapivetta.blu.data.model.Follower
+import com.andreapivetta.blu.data.model.Mention
 import com.andreapivetta.blu.data.model.PrivateMessage
 import com.andreapivetta.blu.data.storage.AppStorageFactory
 import com.andreapivetta.blu.data.twitter.TwitterUtils
@@ -67,7 +69,7 @@ class NotificationsJob : Job() {
                 newTweetInfoList.filter { x -> tweetInfoListIds.contains(x.id) }
                         .forEach { x ->
                             run {
-                                val savedInfo = tweetInfoList.find { y -> y.equals(x) }
+                                val savedInfo = tweetInfoList.find { y -> y == x }
 
                                 if (x.favoriters != null) {
                                     val newFav = if (savedInfo != null)
@@ -116,7 +118,7 @@ class NotificationsJob : Job() {
             if (settings.isMentionsDownloaded()) {
                 Timber.d("Checking for new mentions...")
                 val newMentions = NotificationsDataProvider.retrieveMentions(twitter)
-                val savedMentions = storage.getAllMentions().map { x -> x.tweetId }
+                val savedMentions = storage.getAllMentions().map(Mention::tweetId)
 
                 newMentions.filterNot { x -> savedMentions.contains(x.tweetId) }
                         .forEach { x ->
@@ -137,7 +139,7 @@ class NotificationsJob : Job() {
             if (settings.isFollowersDownloaded()) {
                 Timber.d("Checking for new followers...")
                 val newFollowers = NotificationsDataProvider.retrieveFollowers(twitter)
-                val savedFollowers = storage.getAllFollowers().map { x -> x.userId }
+                val savedFollowers = storage.getAllFollowers().map(Follower::userId)
 
                 newFollowers.filterNot { x -> savedFollowers.contains(x.userId) }
                         .forEach { x ->

@@ -53,7 +53,7 @@ open class TimelinePresenter : BasePresenter<TimelineMvpView>() {
                             list == null -> mvpView?.showError()
                             list.isEmpty() -> mvpView?.showEmpty()
                             else -> {
-                                mvpView?.showTweets(list.map { status -> Tweet(status) }
+                                mvpView?.showTweets(list.map(::Tweet)
                                         .toMutableList())
                                 page++
                             }
@@ -85,8 +85,7 @@ open class TimelinePresenter : BasePresenter<TimelineMvpView>() {
                     override fun onSuccess(list: MutableList<Status>?) {
                         if (list != null) {
                             if (list.isNotEmpty())
-                                mvpView?.showMoreTweets(list.map { status -> Tweet(status) }
-                                        .toMutableList())
+                                mvpView?.showMoreTweets(list.map(::Tweet).toMutableList())
                             page++
                         }
                         isLoading = false
@@ -133,7 +132,7 @@ open class TimelinePresenter : BasePresenter<TimelineMvpView>() {
         mFavoriteSubscriber = TwitterAPI.favorite(tweet.id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .map { status -> Tweet(status) }
+                .map(::Tweet)
                 .subscribe(object : SingleSubscriber<Tweet>() {
                     override fun onSuccess(tweetResult: Tweet?) {
                         if (tweetResult != null) {
@@ -156,7 +155,7 @@ open class TimelinePresenter : BasePresenter<TimelineMvpView>() {
         checkViewAttached()
 
         mRetweetSubscriber = TwitterAPI.retweet(tweet.id)
-                .map { status -> Tweet(status) }
+                .map(::Tweet)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(object : SingleSubscriber<Tweet>() {
@@ -181,7 +180,7 @@ open class TimelinePresenter : BasePresenter<TimelineMvpView>() {
         checkViewAttached()
 
         mUnfavoriteSubscriber = TwitterAPI.unfavorite(tweet.id)
-                .map { status -> Tweet(status) }
+                .map(::Tweet)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(object : SingleSubscriber<Tweet>() {
@@ -206,7 +205,7 @@ open class TimelinePresenter : BasePresenter<TimelineMvpView>() {
         checkViewAttached()
 
         mUnfavoriteSubscriber = TwitterAPI.unretweet(tweet.status.currentUserRetweetId)
-                .map { status -> Tweet(status) }
+                .map(::Tweet)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(object : SingleSubscriber<Tweet>() {
