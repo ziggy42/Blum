@@ -11,7 +11,7 @@ open class PrivateMessage(
         open var senderId: Long = 0,
         open var recipientId: Long = 0,
         @Index open var otherId: Long = 0,
-        open var timeStamp: Long = 0,
+        open var timeStamp: Long = System.currentTimeMillis(),
         open var text: String = "",
         open var otherUserName: String = "",
         open var otherUserProfilePicUrl: String = "",

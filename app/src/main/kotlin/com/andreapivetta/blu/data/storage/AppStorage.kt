@@ -19,8 +19,6 @@ interface AppStorage {
 
     fun getAllPrivateMessages(): List<PrivateMessage>
 
-    fun getUnreadPrivateMessages(): List<PrivateMessage>
-
     fun getUnreadPrivateMessagesCount(): Long
 
     fun getConversations(): MutableList<PrivateMessage>
@@ -54,8 +52,6 @@ interface AppStorage {
     fun saveFollowers(followers: List<Follower>)
 
     fun getAllFollowers(): List<Follower>
-
-    fun saveUserId(userId: UserId, body: (UserId) -> Unit = {})
 
     fun clear()
 

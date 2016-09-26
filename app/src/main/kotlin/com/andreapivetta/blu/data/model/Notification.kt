@@ -3,7 +3,6 @@ package com.andreapivetta.blu.data.model
 import android.support.annotation.IntDef
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
-import java.util.*
 
 open class Notification(
         @PrimaryKey open var id: Long = 0,
@@ -14,7 +13,7 @@ open class Notification(
         var status: String = "",
         var profilePicURL: String = "",
         var isRead: Boolean = false,
-        var timestamp: Long = Calendar.getInstance().timeInMillis) :
+        var timestamp: Long = System.currentTimeMillis()) :
         RealmObject() {
 
     companion object {
