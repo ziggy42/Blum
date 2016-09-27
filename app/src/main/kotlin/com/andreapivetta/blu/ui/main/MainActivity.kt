@@ -32,18 +32,22 @@ class MainActivity : ThemedActivity(), MainMvpView {
         bottomBar.setOnTabSelectListener { menuItemId ->
             when (menuItemId) {
                 R.id.timeline -> {
+                    setTitle(R.string.home)
                     fab.show()
                     pushFragment(TimelineFragment.newInstance())
                 }
                 R.id.explore -> {
+                    setTitle(R.string.explore)
                     fab.hide()
                     pushFragment(ExploreFragment.newInstance())
                 }
                 R.id.messages -> {
+                    setTitle(R.string.messages)
                     fab.hide()
                     pushFragment(PrivateMessagesFragment.newInstance())
                 }
                 R.id.notifications -> {
+                    setTitle(R.string.notifications)
                     fab.hide()
                     pushFragment(NotificationsFragment.newInstance())
                 }
