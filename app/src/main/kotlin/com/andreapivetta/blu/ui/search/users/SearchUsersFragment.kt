@@ -13,6 +13,7 @@ import android.widget.Button
 import android.widget.ProgressBar
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.utils.Utils
+import com.andreapivetta.blu.common.utils.show
 import com.andreapivetta.blu.ui.base.custom.decorators.SpaceTopItemDecoration
 import com.andreapivetta.blu.ui.timeline.TimelineFragment
 import twitter4j.User
@@ -107,11 +108,11 @@ class SearchUsersFragment : Fragment(), SearchUsersMvpView {
     }
 
     override fun showEmpty() {
-        badThingsViewGroup.visibility = View.VISIBLE
+        badThingsViewGroup.show()
     }
 
     override fun showError() {
-        badThingsViewGroup.visibility = View.VISIBLE
+        badThingsViewGroup.show()
     }
 
     override fun showSnackBar(stringResource: Int) {
@@ -119,11 +120,11 @@ class SearchUsersFragment : Fragment(), SearchUsersMvpView {
     }
 
     override fun showLoading() {
-        loadingProgressBar.visibility = View.VISIBLE
+        loadingProgressBar.show()
     }
 
     override fun hideLoading() {
-        loadingProgressBar.visibility = View.GONE
+        loadingProgressBar.show()
     }
 
     override fun updateRecyclerViewView() {

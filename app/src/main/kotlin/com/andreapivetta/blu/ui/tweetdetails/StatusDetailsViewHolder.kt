@@ -14,6 +14,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.utils.Utils
+import com.andreapivetta.blu.common.utils.show
 import com.andreapivetta.blu.data.model.Tweet
 import com.andreapivetta.blu.ui.base.custom.decorators.SpaceLeftItemDecoration
 import com.andreapivetta.blu.ui.timeline.InteractionListener
@@ -144,7 +145,7 @@ class StatusDetailsViewHolder(container: View, listener: InteractionListener) :
 
             // TODO other medias
             if (quotedStatus.hasSingleImage()) {
-                photoImageView.visibility = View.VISIBLE
+                photoImageView.show()
                 Glide.with(container.context).load(quotedStatus.getImageUrl())
                         .asBitmap().dontTransform()
                         .placeholder(R.drawable.placeholder).into(photoImageView)
@@ -152,7 +153,7 @@ class StatusDetailsViewHolder(container: View, listener: InteractionListener) :
                 (inflatedQuotedView?.findViewById(R.id.quotedStatusTextView) as TextView).text =
                         quotedStatus.getTextWithoutMediaURLs()
             } else {
-                inflatedQuotedView?.visibility = View.GONE
+                (inflatedQuotedView as View).show(false)
                 (inflatedQuotedView!!.findViewById(R.id.quotedStatusTextView) as TextView).text =
                         quotedStatus.text
             }

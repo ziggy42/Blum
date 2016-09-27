@@ -7,8 +7,8 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v7.app.AppCompatActivity
 import android.text.util.Linkify
-import android.view.View
 import com.andreapivetta.blu.R
+import com.andreapivetta.blu.common.utils.show
 import com.andreapivetta.blu.ui.mediatimeline.MediaFragment
 import com.andreapivetta.blu.ui.usertimeline.UserTimelineFragment
 import com.bumptech.glide.Glide
@@ -56,10 +56,10 @@ class ProfileActivity : AppCompatActivity() {
         Linkify.addLinks(descriptionTextView, Linkify.ALL)
 
         if (user?.location != null) userLocationTextView.text = user?.location
-        else userLocationTextView.visibility = View.GONE
+        else userLocationTextView.show(false)
 
         if (user?.url != null) userWebsiteTextView.text = user?.url
-        else userWebsiteTextView.visibility = View.GONE
+        else userWebsiteTextView.show(false)
 
         if (user != null && user!!.isVerified)
             userNameTextView.setCompoundDrawablesWithIntrinsicBounds(

@@ -5,9 +5,9 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.view.View
 import android.widget.MediaController
 import com.andreapivetta.blu.R
+import com.andreapivetta.blu.common.utils.show
 import kotlinx.android.synthetic.main.activity_video.*
 
 class VideoActivity : AppCompatActivity() {
@@ -32,7 +32,7 @@ class VideoActivity : AppCompatActivity() {
         mc.setAnchorView(videoView)
         mc.setMediaPlayer(videoView)
 
-        videoView.setOnPreparedListener { loadingProgressBar.visibility = View.GONE }
+        videoView.setOnPreparedListener { loadingProgressBar.show(false) }
         if ("animated_gif" == intent.getStringExtra(TAG_TYPE))
             videoView.setOnCompletionListener { videoView.start() }
 

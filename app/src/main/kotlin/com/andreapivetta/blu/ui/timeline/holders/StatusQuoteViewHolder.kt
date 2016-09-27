@@ -5,6 +5,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.andreapivetta.blu.R
+import com.andreapivetta.blu.common.utils.show
 import com.andreapivetta.blu.data.model.Tweet
 import com.andreapivetta.blu.ui.timeline.InteractionListener
 import com.bumptech.glide.Glide
@@ -25,7 +26,7 @@ class StatusQuoteViewHolder(container: View, listener: InteractionListener) :
             quotedUserNameTextView.text = quotedStatus.user.name
 
             if (quotedStatus.mediaEntities.size > 0) {
-                photoImageView.visibility = View.VISIBLE
+                photoImageView.show()
                 Glide.with(container.context)
                         .load(quotedStatus.mediaEntities[0].mediaURL)
                         .placeholder(R.drawable.placeholder)
@@ -33,14 +34,14 @@ class StatusQuoteViewHolder(container: View, listener: InteractionListener) :
 
                 quotedStatusTextView.text = quotedStatus.getTextWithoutMediaURLs()
             } else {
-                photoImageView.visibility = View.GONE
+                photoImageView.show(false)
                 quotedStatusTextView.text = quotedStatus.text
             }
 
             quotedStatusLinearLayout.setOnClickListener {
                 listener.openTweet(quotedStatus, quotedStatus.user)
             }
-        } else quotedStatusLinearLayout.visibility = View.GONE
+        } else quotedStatusLinearLayout.show(false)
     }
 
 }

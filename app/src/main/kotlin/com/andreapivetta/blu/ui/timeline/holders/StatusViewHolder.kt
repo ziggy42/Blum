@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.TextView
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.utils.Utils
+import com.andreapivetta.blu.common.utils.show
 import com.andreapivetta.blu.data.model.Tweet
 import com.andreapivetta.blu.ui.timeline.InteractionListener
 import com.bumptech.glide.Glide
@@ -22,12 +23,12 @@ open class StatusViewHolder(container: View, listener: InteractionListener) :
 
         if (tweet.retweet) {
             currentTweet = tweet.getRetweetedTweet()
-            retweetTextView.visibility = View.VISIBLE
+            retweetTextView.show()
             retweetTextView.text = container.context.getString(
                     R.string.retweeted_by, tweet.user.screenName)
         } else {
             currentTweet = tweet
-            retweetTextView.visibility = View.GONE
+            retweetTextView.show(false)
         }
 
         val currentUser = currentTweet.user

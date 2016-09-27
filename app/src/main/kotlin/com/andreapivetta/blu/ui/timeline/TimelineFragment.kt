@@ -16,6 +16,7 @@ import android.widget.Button
 import android.widget.ProgressBar
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.utils.Utils
+import com.andreapivetta.blu.common.utils.show
 import com.andreapivetta.blu.data.model.Tweet
 import com.andreapivetta.blu.ui.base.custom.decorators.SpaceTopItemDecoration
 import com.andreapivetta.blu.ui.image.ImageActivity
@@ -89,7 +90,7 @@ open class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
         swipeRefreshLayout.setColorSchemeColors(getRefreshColor())
 
         retryButton.setOnClickListener {
-            badThingsViewGroup.visibility = View.GONE
+            badThingsViewGroup.show(false)
             presenter.getTweets()
         }
 
@@ -137,11 +138,11 @@ open class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
     }
 
     override fun showEmpty() {
-        badThingsViewGroup.visibility = View.VISIBLE
+        badThingsViewGroup.show()
     }
 
     override fun showError() {
-        badThingsViewGroup.visibility = View.VISIBLE
+        badThingsViewGroup.show()
     }
 
     override fun showSnackBar(stringResource: Int) {
@@ -149,11 +150,11 @@ open class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
     }
 
     override fun showLoading() {
-        loadingProgressBar.visibility = View.VISIBLE
+        loadingProgressBar.show()
     }
 
     override fun hideLoading() {
-        loadingProgressBar.visibility = View.GONE
+        loadingProgressBar.show(false)
     }
 
     override fun showNewTweet(tweet: Tweet, user: User) {
