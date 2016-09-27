@@ -33,8 +33,6 @@ import java.io.Serializable
 open class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
 
     companion object {
-        fun newInstance() = TimelineFragment()
-
         val TAG_TWEET_LIST = "tweet_list"
         val TAG_PAGE = "page"
     }

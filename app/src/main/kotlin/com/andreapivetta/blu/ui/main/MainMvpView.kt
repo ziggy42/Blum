@@ -7,10 +7,6 @@ import com.andreapivetta.blu.ui.base.MvpView
  */
 interface MainMvpView : MvpView {
 
-    fun openSettings()
-
-    fun search(string: String)
-
     fun newTweet()
 
 }
