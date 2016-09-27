@@ -11,7 +11,7 @@
     <tab
         icon="@drawable/ic_message"
         id="@+id/messages"
-        title="@string/messages_notifications" />
+        title="@string/messages" />
     <tab
         icon="@drawable/ic_notifications"
         id="@+id/notifications"

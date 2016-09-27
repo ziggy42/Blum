@@ -70,7 +70,7 @@
     <string name="following_removed">You\'re not following this user</string>
     <string name="status_retweeted">Status retweeted!</string>
     <string name="tweet_sent_message">Tweet Sent!</string>
-    <string name="messages_notifications">Messages Notifications</string>
+    <string name="messages">Messages</string>
     <string name="hint_message">Message</string>
     <string name="you_message">You: %1$s</string>
     <string name="message_not_title">%1$s sent you a Message!</string>
