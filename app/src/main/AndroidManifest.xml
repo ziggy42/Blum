@@ -23,7 +23,7 @@
         <activity android:name=".ui.login.TwitterOAuthActivity" />
         <activity
             android:name=".ui.main.MainActivity"
-            android:label="@string/title_activity_main" />
+            android:label="@string/title_empty" />
         <activity
             android:name=".ui.newtweet.NewTweetActivity"
             android:label="@string/title_activity_new_tweet" />
@@ -51,6 +51,7 @@
             android:label="@string/title_activity_setup" />
         <activity
             android:name=".ui.conversation.ConversationActivity"
+            android:label="@string/title_empty"
             android:windowSoftInputMode="adjustResize" />
 
         <service
