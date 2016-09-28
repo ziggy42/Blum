@@ -13,7 +13,7 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.utils.Utils
-import com.andreapivetta.blu.common.utils.show
+import com.andreapivetta.blu.common.utils.visible
 import com.andreapivetta.blu.data.model.Tweet
 import com.andreapivetta.blu.ui.base.custom.decorators.SpaceTopItemDecoration
 import com.andreapivetta.blu.ui.image.ImageActivity
@@ -107,11 +107,11 @@ class TweetDetailsFragment : Fragment(), TweetDetailsMvpView, InteractionListene
     }
 
     override fun showLoading() {
-        loadingProgressBar.show()
+        loadingProgressBar.visible()
     }
 
     override fun hideLoading() {
-        loadingProgressBar.show(false)
+        loadingProgressBar.visible(false)
     }
 
     override fun showNewTweet(tweet: Tweet, user: User) {

@@ -75,7 +75,7 @@ class SearchUsersPresenter(val textQuery: String) : BasePresenter<SearchUsersMvp
                     override fun onError(error: Throwable?) {
                         Timber.e(error?.message)
                         isLoading = false
-                        // don't show anything to the user
+                        // don't visible anything to the user
                     }
                 })
     }

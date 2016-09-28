@@ -12,7 +12,7 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.utils.Utils
-import com.andreapivetta.blu.common.utils.show
+import com.andreapivetta.blu.common.utils.visible
 import com.andreapivetta.blu.ui.base.custom.decorators.SpaceTopItemDecoration
 import com.andreapivetta.blu.ui.mediatimeline.model.Media
 import com.andreapivetta.blu.ui.timeline.TimelineFragment
@@ -92,11 +92,11 @@ class MediaFragment : Fragment(), MediaMvpView, MediaAdapter.MediaListener {
     }
 
     override fun showLoading() {
-        loadingProgressBar.show()
+        loadingProgressBar.visible()
     }
 
     override fun hideLoading() {
-        loadingProgressBar.show(false)
+        loadingProgressBar.visible(false)
     }
 
     override fun onNewInteraction() {

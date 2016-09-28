@@ -9,7 +9,7 @@ import android.support.v4.content.LocalBroadcastManager
 import android.support.v7.app.AppCompatActivity
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.settings.AppSettingsFactory
-import com.andreapivetta.blu.common.utils.show
+import com.andreapivetta.blu.common.utils.visible
 import com.andreapivetta.blu.data.jobs.PopulateDatabaseIntentService
 import kotlinx.android.synthetic.main.activity_setup.*
 import timber.log.Timber
@@ -66,8 +66,8 @@ class SetupActivity : AppCompatActivity() {
 
     private fun updateViewForDownload() {
         downloadStarted = true
-        setupViewGroup.show(false)
-        loadingViewGroup.show()
+        setupViewGroup.visible(false)
+        loadingViewGroup.visible()
     }
 
     private inner class ResponseReceiver : BroadcastReceiver() {

@@ -9,4 +9,5 @@ interface MainMvpView : MvpView {
 
     fun newTweet()
 
+    fun newConversation()
 }

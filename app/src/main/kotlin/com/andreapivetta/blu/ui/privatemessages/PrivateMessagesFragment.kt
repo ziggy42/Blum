@@ -8,7 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.andreapivetta.blu.R
-import com.andreapivetta.blu.common.utils.show
+import com.andreapivetta.blu.common.utils.visible
 import com.andreapivetta.blu.data.model.PrivateMessage
 import com.andreapivetta.blu.data.storage.AppStorageFactory
 
@@ -55,11 +55,11 @@ class PrivateMessagesFragment : Fragment(), PrivateMessagesMvpView {
     }
 
     override fun showError() {
-        emptyViewGroup.show()
+        emptyViewGroup.visible()
     }
 
     override fun showEmpty() {
-        emptyViewGroup.show()
+        emptyViewGroup.visible()
     }
 
 }

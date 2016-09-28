@@ -38,6 +38,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginTop="16dp"
         android:src="@drawable/ic_create"
+        android:tint="@color/white"
         app:layout_behavior="com.andreapivetta.blu.ui.base.custom.ScrollAwareFABBehavior" />
 
     <com.roughike.bottombar.BottomBar

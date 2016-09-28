@@ -94,7 +94,7 @@ open class TimelinePresenter : BasePresenter<TimelineMvpView>() {
                     override fun onError(error: Throwable?) {
                         Timber.e(error?.message)
                         isLoading = false
-                        // don't show anything to the user
+                        // don't visible anything to the user
                     }
                 })
     }

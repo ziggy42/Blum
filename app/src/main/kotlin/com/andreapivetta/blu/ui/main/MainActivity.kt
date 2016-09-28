@@ -1,9 +1,11 @@
 package com.andreapivetta.blu.ui.main
 
 import android.os.Bundle
+import android.support.annotation.DrawableRes
 import android.support.v4.app.Fragment
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.settings.AppSettingsFactory
+import com.andreapivetta.blu.common.utils.visible
 import com.andreapivetta.blu.ui.base.custom.ThemedActivity
 import com.andreapivetta.blu.ui.explore.ExploreFragment
 import com.andreapivetta.blu.ui.home.HomeFragment
@@ -12,44 +14,42 @@ import com.andreapivetta.blu.ui.notifications.NotificationsFragment
 import com.andreapivetta.blu.ui.privatemessages.PrivateMessagesFragment
 import com.andreapivetta.blu.ui.setup.SetupActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import timber.log.Timber
 
 class MainActivity : ThemedActivity(), MainMvpView {
-
-    private val presenter: MainPresenter = MainPresenter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-        presenter.attachView(this)
 
         bottomBar.setOnTabSelectListener { menuItemId ->
             when (menuItemId) {
                 R.id.timeline -> {
                     setTitle(R.string.home)
-                    fab.show()
+                    showFab(R.drawable.ic_create)
+                    fab.setOnClickListener { newTweet() }
                     pushFragment(HomeFragment.newInstance())
                 }
                 R.id.explore -> {
                     setTitle(R.string.explore)
-                    fab.hide()
+                    hideFab()
                     pushFragment(ExploreFragment.newInstance())
                 }
                 R.id.messages -> {
                     setTitle(R.string.messages)
-                    fab.hide()
+                    showFab(R.drawable.ic_message)
+                    fab.setOnClickListener { newConversation() }
                     pushFragment(PrivateMessagesFragment.newInstance())
                 }
                 R.id.notifications -> {
                     setTitle(R.string.notifications)
-                    fab.hide()
+                    hideFab()
                     pushFragment(NotificationsFragment.newInstance())
                 }
                 else -> throw RuntimeException("Item not found")
             }
         }
-
-        fab.setOnClickListener { presenter.fabClicked() }
 
         if (savedInstanceState == null)
             pushFragment(HomeFragment.newInstance())
@@ -63,7 +63,22 @@ class MainActivity : ThemedActivity(), MainMvpView {
                 .replace(R.id.container_frameLayout, fragment).commit()
     }
 
+    private fun showFab(@DrawableRes icon: Int) {
+        fab.setImageResource(icon)
+        fab.visible()
+        fab.show()
+    }
+
+    private fun hideFab() {
+        fab.visible(false)
+    }
+
     override fun newTweet() {
         NewTweetActivity.launch(this)
+    }
+
+    override fun newConversation() {
+        // TODO
+        Timber.i("New conversation")
     }
 }

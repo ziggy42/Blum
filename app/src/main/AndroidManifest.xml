@@ -56,7 +56,6 @@
         <service
             android:name=".data.jobs.PopulateDatabaseIntentService"
             android:exported="false" />
-
     </application>
 
 </manifest>

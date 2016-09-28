@@ -17,7 +17,7 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import com.andreapivetta.blu.R
-import com.andreapivetta.blu.common.utils.show
+import com.andreapivetta.blu.common.utils.visible
 import com.andreapivetta.blu.data.model.Tweet
 import com.bumptech.glide.Glide
 import com.mlsdev.rximagepicker.RxImageConverters
@@ -110,10 +110,10 @@ class NewTweetActivity : AppCompatActivity(), NewTweetMvpView {
     }
 
     private fun setupQuoted() {
-        quotedStatusLayout.show()
-        photosRecyclerView.show(false)
-        photoImageButton.show(false)
-        imageImageButton.show(false)
+        quotedStatusLayout.visible()
+        photosRecyclerView.visible(false)
+        photoImageButton.visible(false)
+        imageImageButton.visible(false)
 
         quotedTweet = intent.getSerializableExtra(TAG_QUOTED_TWEET) as Tweet
         quotedUserNameTextView.text = quotedTweet?.user?.name

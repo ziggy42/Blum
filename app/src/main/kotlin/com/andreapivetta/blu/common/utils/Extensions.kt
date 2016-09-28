@@ -5,6 +5,6 @@ import android.view.View
 /**
  * Created by andrea on 27/09/16.
  */
-fun View.show(show: Boolean = true) {
+fun View.visible(show: Boolean = true) {
     this.visibility = if (show) View.VISIBLE else View.GONE
 }

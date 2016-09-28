@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.widget.Toast
 import com.andreapivetta.blu.R
-import com.andreapivetta.blu.common.utils.show
+import com.andreapivetta.blu.common.utils.visible
 import com.andreapivetta.blu.data.model.PrivateMessage
 import com.andreapivetta.blu.data.storage.AppStorageFactory
 import com.andreapivetta.blu.data.twitter.TwitterUtils
@@ -56,13 +56,13 @@ class ConversationActivity : AppCompatActivity(), ConversationMvpView {
     }
 
     override fun showLoading() {
-        loadingProgressBar.show()
-        conversationRecyclerView.show(false)
+        loadingProgressBar.visible()
+        conversationRecyclerView.visible(false)
     }
 
     override fun hideLoading() {
-        loadingProgressBar.show(false)
-        conversationRecyclerView.show(true)
+        loadingProgressBar.visible(false)
+        conversationRecyclerView.visible(true)
     }
 
     override fun showError() {
