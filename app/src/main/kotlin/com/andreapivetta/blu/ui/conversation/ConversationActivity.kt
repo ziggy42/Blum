@@ -27,7 +27,7 @@ class ConversationActivity : AppCompatActivity(), ConversationMvpView {
     }
 
     private val presenter: ConversationPresenter by lazy {
-        ConversationPresenter(TwitterUtils.getTwitter(), AppStorageFactory.getAppStorage(this),
+        ConversationPresenter(TwitterUtils.getTwitter(), AppStorageFactory.getAppStorage(),
                 intent.getLongExtra(ARG_OTHER_ID, -1L))
     }
 

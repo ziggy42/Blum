@@ -34,7 +34,7 @@ class NotificationsJob : Job() {
 
     override fun onRunJob(params: Params?): Result {
         val settings = AppSettingsFactory.getAppSettings(context)
-        val storage = AppStorageFactory.getAppStorage(context)
+        val storage = AppStorageFactory.getAppStorage()
         val twitter = TwitterUtils.getTwitter()
         val dispatcher = NotificationDispatcher(context, storage)
 

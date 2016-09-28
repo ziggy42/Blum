@@ -29,7 +29,7 @@ class PopulateDatabaseIntentService : IntentService("PopulateDatabaseIntentServi
         Timber.i("Starting PopulateDatabaseIntentService...")
 
         val twitter = TwitterUtils.getTwitter()
-        val storage = AppStorageFactory.getAppStorage(this)
+        val storage = AppStorageFactory.getAppStorage()
         val settings = AppSettingsFactory.getAppSettings(this)
         storage.clear()
 

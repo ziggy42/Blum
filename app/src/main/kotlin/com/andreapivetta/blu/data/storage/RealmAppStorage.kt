@@ -1,6 +1,5 @@
 package com.andreapivetta.blu.data.storage
 
-import android.content.Context
 import com.andreapivetta.blu.data.model.*
 import io.realm.Realm
 import io.realm.RealmConfiguration
@@ -9,13 +8,13 @@ import io.realm.Sort
 /**
  * Created by andrea on 27/07/16.
  */
-class RealmAppStorage(context: Context, name: String = "blumRealm") : AppStorage {
+class RealmAppStorage(name: String = "blumRealm") : AppStorage {
 
     private val SCHEMA_VERSION = 0L
     private val realm: Realm
 
     init {
-        Realm.setDefaultConfiguration(RealmConfiguration.Builder(context)
+        Realm.setDefaultConfiguration(RealmConfiguration.Builder()
                 .name(name)
                 .schemaVersion(SCHEMA_VERSION).build())
         realm = Realm.getDefaultInstance()

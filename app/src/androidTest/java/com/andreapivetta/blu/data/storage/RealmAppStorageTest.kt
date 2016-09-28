@@ -3,6 +3,7 @@ package com.andreapivetta.blu.data.storage
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
 import com.andreapivetta.blu.data.model.*
+import io.realm.Realm
 import io.realm.RealmList
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -17,7 +18,11 @@ import java.util.*
 @RunWith(AndroidJUnit4::class)
 class RealmAppStorageTest {
 
-    private val storage = RealmAppStorage(InstrumentationRegistry.getTargetContext(), "test")
+    init {
+        Realm.init(InstrumentationRegistry.getTargetContext())
+    }
+
+    private val storage = RealmAppStorage("test")
     private val currentUserId = 10L
 
     @Before

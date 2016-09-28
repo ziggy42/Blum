@@ -21,7 +21,7 @@ class PrivateMessagesFragment : Fragment(), PrivateMessagesMvpView {
         fun newInstance() = PrivateMessagesFragment()
     }
 
-    private val presenter by lazy { PrivateMessagesPresenter(AppStorageFactory.getAppStorage(context)) }
+    private val presenter by lazy { PrivateMessagesPresenter(AppStorageFactory.getAppStorage()) }
 
     private lateinit var adapterPrivateMessages: PrivateMessagesConversationsAdapter
     private lateinit var recyclerView: RecyclerView
