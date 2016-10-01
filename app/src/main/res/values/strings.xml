@@ -31,14 +31,14 @@
     <string name="notifications">Notifications</string>
     <string name="nothing_to_show">Nothing to show here :(</string>
     <string name="is_following_not">%1$s is now following you</string>
-    <string name="mentioned_not">%1$s mentioned you:</string>
+    <string name="mentioned_not">%1$s mentioned you: %2$s</string>
     <string name="action_clear_db">Delete All Notifications</string>
     <string name="clear_database">Delete all notifications?</string>
     <string name="action_search">Search</string>
     <string name="search_hint">Search Tweet or User</string>
     <string name="logout_done">Log Out Done.</string>
-    <string name="like_not_title">%1$s liked your Tweet</string>
-    <string name="retw_not_title">%1$s retweeted you</string>
+    <string name="like_not_title">%1$s liked your Tweet: %2$s</string>
+    <string name="retw_not_title">%1$s retweeted you: %2$s</string>
     <string name="follow_not_title">%1$s is now following you</string>
     <string name="reply_not_title">%1$s tweeted</string>
     <string name="retw_ment_not_title">%1$s retweeted a Tweet you were mentioned in</string>

@@ -30,7 +30,7 @@ android {
         debug {
             buildConfigField 'String', 'TWITTER_CONSUMER_KEY', DebugConsumerKey
             buildConfigField 'String', 'TWITTER_CONSUMER_SECRET', DebugConsumerSecret
-            buildConfigField 'long', 'INTERVAL', '10'
+            buildConfigField 'long', 'INTERVAL', '20'
         }
     }
 
