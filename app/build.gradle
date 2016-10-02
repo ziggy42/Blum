@@ -63,7 +63,6 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.uwetrottmann.photoview:library:1.2.4'
-    compile 'com.roughike:bottom-bar:2.0.2'
     compile 'com.evernote:android-job:1.1.0'
     compile project(path: ':loginView')
 

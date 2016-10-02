@@ -1,20 +1,20 @@
 package com.andreapivetta.blu.ui.main
 
 import android.os.Bundle
-import android.support.annotation.DrawableRes
 import android.support.v4.app.Fragment
+import android.support.v4.view.MenuItemCompat
+import android.support.v7.widget.SearchView
+import android.view.Menu
+import android.view.MenuItem
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.settings.AppSettingsFactory
-import com.andreapivetta.blu.common.utils.visible
 import com.andreapivetta.blu.ui.base.custom.ThemedActivity
-import com.andreapivetta.blu.ui.explore.ExploreFragment
-import com.andreapivetta.blu.ui.home.HomeFragment
 import com.andreapivetta.blu.ui.newtweet.NewTweetActivity
-import com.andreapivetta.blu.ui.notifications.NotificationsFragment
-import com.andreapivetta.blu.ui.privatemessages.PrivateMessagesFragment
+import com.andreapivetta.blu.ui.search.SearchActivity
+import com.andreapivetta.blu.ui.settings.SettingsActivity
 import com.andreapivetta.blu.ui.setup.SetupActivity
+import com.andreapivetta.blu.ui.timeline.TimelineFragment
 import kotlinx.android.synthetic.main.activity_main.*
-import timber.log.Timber
 
 class MainActivity : ThemedActivity(), MainMvpView {
 
@@ -23,36 +23,10 @@ class MainActivity : ThemedActivity(), MainMvpView {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        bottomBar.setOnTabSelectListener { menuItemId ->
-            when (menuItemId) {
-                R.id.timeline -> {
-                    setTitle(R.string.home)
-                    showFab(R.drawable.ic_create)
-                    fab.setOnClickListener { newTweet() }
-                    pushFragment(HomeFragment.newInstance())
-                }
-                R.id.explore -> {
-                    setTitle(R.string.explore)
-                    hideFab()
-                    pushFragment(ExploreFragment.newInstance())
-                }
-                R.id.messages -> {
-                    setTitle(R.string.messages)
-                    showFab(R.drawable.ic_message)
-                    fab.setOnClickListener { newConversation() }
-                    pushFragment(PrivateMessagesFragment.newInstance())
-                }
-                R.id.notifications -> {
-                    setTitle(R.string.notifications)
-                    hideFab()
-                    pushFragment(NotificationsFragment.newInstance())
-                }
-                else -> throw RuntimeException("Item not found")
-            }
-        }
+        fab.setOnClickListener { newTweet() }
 
         if (savedInstanceState == null)
-            pushFragment(HomeFragment.newInstance())
+            pushFragment(TimelineFragment.newInstance())
 
         if (!AppSettingsFactory.getAppSettings(this).isUserDataDownloaded())
             SetupActivity.launch(this)
@@ -63,22 +37,41 @@ class MainActivity : ThemedActivity(), MainMvpView {
                 .replace(R.id.container_frameLayout, fragment).commit()
     }
 
-    private fun showFab(@DrawableRes icon: Int) {
-        fab.setImageResource(icon)
-        fab.visible()
-        fab.show()
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+
+        val searchView = MenuItemCompat.
+                getActionView(menu?.findItem(R.id.action_search)) as SearchView
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(s: String): Boolean {
+                search(searchView.query.toString())
+                return true
+            }
+
+            override fun onQueryTextChange(s: String) = false
+        })
+
+        return true
     }
 
-    private fun hideFab() {
-        fab.visible(false)
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.action_settings -> openSettings()
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun search(string: String) {
+        SearchActivity.launch(this, string)
+    }
+
+    override fun openSettings() {
+        SettingsActivity.launch(this)
     }
 
     override fun newTweet() {
         NewTweetActivity.launch(this)
     }
 
-    override fun newConversation() {
-        // TODO
-        Timber.i("New conversation")
-    }
 }

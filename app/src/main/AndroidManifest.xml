@@ -21,9 +21,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.login.TwitterOAuthActivity" />
-        <activity
-            android:name=".ui.main.MainActivity"
-            android:label="@string/title_empty" />
+        <activity android:name=".ui.main.MainActivity" />
         <activity
             android:name=".ui.newtweet.NewTweetActivity"
             android:label="@string/title_activity_new_tweet" />

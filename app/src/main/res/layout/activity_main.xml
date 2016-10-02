@@ -33,23 +33,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_marginBottom="65dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_margin="16dp"
         android:src="@drawable/ic_create"
         android:tint="@color/white"
         app:layout_behavior="com.andreapivetta.blu.ui.base.custom.ScrollAwareFABBehavior" />
-
-    <com.roughike.bottombar.BottomBar
-        android:id="@+id/bottomBar"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_gravity="bottom|end"
-        android:background="@color/darkThemesBackground"
-        app:bb_activeTabColor="@color/white"
-        app:bb_behavior="shy"
-        app:bb_inActiveTabColor="@color/inactiveTabIconColor"
-        app:bb_tabXmlResource="@xml/bottombar" />
 
 </android.support.design.widget.CoordinatorLayout>

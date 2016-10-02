@@ -35,6 +35,8 @@ open class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
     companion object {
         val TAG_TWEET_LIST = "tweet_list"
         val TAG_PAGE = "page"
+
+        fun newInstance() = TimelineFragment()
     }
 
     private val presenter: TimelinePresenter by lazy { getTimelinePresenter() }
