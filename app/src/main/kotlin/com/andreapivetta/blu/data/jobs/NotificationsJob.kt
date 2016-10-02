@@ -1,5 +1,6 @@
 package com.andreapivetta.blu.data.jobs
 
+import android.content.Context
 import com.andreapivetta.blu.BuildConfig
 import com.andreapivetta.blu.common.settings.AppSettingsFactory
 import com.andreapivetta.blu.data.model.Follower
@@ -32,7 +33,10 @@ class NotificationsJob : Job() {
         }
     }
 
-    override fun onRunJob(params: Params?): Result {
+    override fun onRunJob(params: Params?) = checkNotifications(context)
+
+    // In this way we can test this method easier
+    fun checkNotifications(context: Context): Job.Result {
         val settings = AppSettingsFactory.getAppSettings(context)
         val storage = AppStorageFactory.getAppStorage()
         val twitter = TwitterUtils.getTwitter()

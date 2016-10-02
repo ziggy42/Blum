@@ -10,9 +10,11 @@ import android.support.v4.view.MenuItemCompat
 import android.support.v7.widget.SearchView
 import android.view.Menu
 import android.view.MenuItem
+import com.andreapivetta.blu.BuildConfig
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.settings.AppSettingsFactory
 import com.andreapivetta.blu.common.utils.visible
+import com.andreapivetta.blu.data.jobs.NotificationsJob
 import com.andreapivetta.blu.data.model.Notification
 import com.andreapivetta.blu.data.model.PrivateMessage
 import com.andreapivetta.blu.ui.base.custom.ThemedActivity
@@ -29,7 +31,7 @@ class MainActivity : ThemedActivity(), MainMvpView {
 
     private var notificationsCount = 0
     private var messagesCount = 0
-    private val receiver: NotificationUpdatedsReceiver? by lazy { NotificationUpdatedsReceiver() }
+    private val receiver: NotificationUpdatesReceiver? by lazy { NotificationUpdatesReceiver() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,7 +77,7 @@ class MainActivity : ThemedActivity(), MainMvpView {
         if (notificationsCount > 0) {
             val notificationsCountTextView = view.notificationCountTextView
             notificationsCountTextView.visible()
-            notificationsCountTextView.setText(notificationsCount)
+            notificationsCountTextView.text = "${notificationsCount}"
         }
 
         item = menu?.findItem(R.id.action_messages)
@@ -87,7 +89,7 @@ class MainActivity : ThemedActivity(), MainMvpView {
         if (messagesCount > 0) {
             val messagesCountTextView = view.messagesCountTextView
             messagesCountTextView.visible()
-            messagesCountTextView.setText(messagesCount)
+            messagesCountTextView.text = "${messagesCount}"
         }
 
         val searchView = MenuItemCompat.
@@ -109,6 +111,9 @@ class MainActivity : ThemedActivity(), MainMvpView {
             R.id.action_settings -> openSettings()
             R.id.action_profile -> openProfile()
         }
+
+        if (BuildConfig.DEBUG && R.id.action_check_notifications == item?.itemId)
+            Thread() { NotificationsJob().checkNotifications(this) }.start()
 
         return super.onOptionsItemSelected(item)
     }
@@ -137,7 +142,7 @@ class MainActivity : ThemedActivity(), MainMvpView {
         NewTweetActivity.launch(this)
     }
 
-    inner class NotificationUpdatedsReceiver() : BroadcastReceiver() {
+    inner class NotificationUpdatesReceiver() : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             when (intent?.action) {
                 Notification.NEW_NOTIFICATION_INTENT -> {
