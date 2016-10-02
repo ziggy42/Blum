@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.view.MenuItemCompat
 import android.support.v7.widget.SearchView
-import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import com.andreapivetta.blu.BuildConfig
@@ -21,6 +20,7 @@ import com.andreapivetta.blu.data.model.PrivateMessage
 import com.andreapivetta.blu.data.storage.AppStorageFactory
 import com.andreapivetta.blu.ui.base.custom.ThemedActivity
 import com.andreapivetta.blu.ui.newtweet.NewTweetActivity
+import com.andreapivetta.blu.ui.notifications.NotificationsActivity
 import com.andreapivetta.blu.ui.privatemessages.PrivateMessagesActivity
 import com.andreapivetta.blu.ui.search.SearchActivity
 import com.andreapivetta.blu.ui.settings.SettingsActivity
@@ -139,7 +139,7 @@ class MainActivity : ThemedActivity(), MainMvpView {
     }
 
     override fun openNotifications() {
-        drawer.openDrawer(Gravity.END)
+        NotificationsActivity.launch(this)
     }
 
     override fun openMessages() {

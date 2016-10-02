@@ -54,6 +54,9 @@
         <activity
             android:name=".ui.privatemessages.PrivateMessagesActivity"
             android:label="@string/title_activity_conversations_list" />
+        <activity
+            android:name=".ui.notifications.NotificationsActivity"
+            android:label="@string/notifications" />
 
         <service
             android:name=".data.jobs.PopulateDatabaseIntentService"
