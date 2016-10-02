@@ -10,10 +10,29 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/action_profile"
+        android:orderInCategory="100"
+        android:title="@string/action_profile"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_messages"
+        android:title="@string/messages"
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction" />
+
+    <item
+        android:id="@+id/action_notifications"
+        android:title="@string/notifications"
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction" />
+
+    <item
         android:id="@+id/action_search"
         android:icon="@drawable/ic_search"
         android:title="@string/action_search"
         app:actionViewClass="android.support.v7.widget.SearchView"
-        app:showAsAction="always" />
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction" />
 
 </menu>

@@ -13,4 +13,10 @@ interface MainMvpView : MvpView {
 
     fun openSettings()
 
+    fun openNotifications()
+
+    fun openMessages()
+
+    fun openProfile()
+
 }

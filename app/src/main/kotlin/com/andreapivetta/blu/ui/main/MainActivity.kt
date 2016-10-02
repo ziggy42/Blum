@@ -1,5 +1,9 @@
 package com.andreapivetta.blu.ui.main
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.view.MenuItemCompat
@@ -8,6 +12,9 @@ import android.view.Menu
 import android.view.MenuItem
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.settings.AppSettingsFactory
+import com.andreapivetta.blu.common.utils.visible
+import com.andreapivetta.blu.data.model.Notification
+import com.andreapivetta.blu.data.model.PrivateMessage
 import com.andreapivetta.blu.ui.base.custom.ThemedActivity
 import com.andreapivetta.blu.ui.newtweet.NewTweetActivity
 import com.andreapivetta.blu.ui.search.SearchActivity
@@ -15,13 +22,22 @@ import com.andreapivetta.blu.ui.settings.SettingsActivity
 import com.andreapivetta.blu.ui.setup.SetupActivity
 import com.andreapivetta.blu.ui.timeline.TimelineFragment
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.menu_messages.view.*
+import kotlinx.android.synthetic.main.menu_notifications.view.*
 
 class MainActivity : ThemedActivity(), MainMvpView {
+
+    private var notificationsCount = 0
+    private var messagesCount = 0
+    private val receiver: NotificationUpdatedsReceiver? by lazy { NotificationUpdatedsReceiver() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+
+        registerReceiver(receiver, IntentFilter(Notification.NEW_NOTIFICATION_INTENT))
+        registerReceiver(receiver, IntentFilter(PrivateMessage.NEW_PRIVATE_MESSAGE_INTENT))
 
         fab.setOnClickListener { newTweet() }
 
@@ -32,13 +48,47 @@ class MainActivity : ThemedActivity(), MainMvpView {
             SetupActivity.launch(this)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(receiver)
+    }
+
     private fun pushFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
                 .replace(R.id.container_frameLayout, fragment).commit()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menu?.clear()
         menuInflater.inflate(R.menu.menu_main, menu)
+
+        var item = menu?.findItem(R.id.action_notifications)
+        MenuItemCompat.setActionView(item, R.layout.menu_notifications)
+        var view = MenuItemCompat.getActionView(item)
+        val notificationImageButton = view.findViewById(R.id.notificationImageButton)
+        notificationImageButton.setOnClickListener {
+            notificationsCount = 0
+            invalidateOptionsMenu()
+            openNotifications()
+        }
+
+        if (notificationsCount > 0) {
+            val notificationsCountTextView = view.notificationCountTextView
+            notificationsCountTextView.visible()
+            notificationsCountTextView.setText(notificationsCount)
+        }
+
+        item = menu?.findItem(R.id.action_messages)
+        MenuItemCompat.setActionView(item, R.layout.menu_messages)
+        view = MenuItemCompat.getActionView(item)
+        val messagesImageButton = view.findViewById(R.id.messagesImageButton)
+        messagesImageButton.setOnClickListener { openMessages() }
+
+        if (messagesCount > 0) {
+            val messagesCountTextView = view.messagesCountTextView
+            messagesCountTextView.visible()
+            messagesCountTextView.setText(messagesCount)
+        }
 
         val searchView = MenuItemCompat.
                 getActionView(menu?.findItem(R.id.action_search)) as SearchView
@@ -57,6 +107,7 @@ class MainActivity : ThemedActivity(), MainMvpView {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.action_settings -> openSettings()
+            R.id.action_profile -> openProfile()
         }
 
         return super.onOptionsItemSelected(item)
@@ -70,8 +121,35 @@ class MainActivity : ThemedActivity(), MainMvpView {
         SettingsActivity.launch(this)
     }
 
+    override fun openNotifications() {
+        // TODO
+    }
+
+    override fun openMessages() {
+        // TODO
+    }
+
+    override fun openProfile() {
+        // TODO
+    }
+
     override fun newTweet() {
         NewTweetActivity.launch(this)
+    }
+
+    inner class NotificationUpdatedsReceiver() : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            when (intent?.action) {
+                Notification.NEW_NOTIFICATION_INTENT -> {
+                    notificationsCount++
+                    invalidateOptionsMenu()
+                }
+                PrivateMessage.NEW_PRIVATE_MESSAGE_INTENT -> {
+                    messagesCount++
+                    invalidateOptionsMenu()
+                }
+            }
+        }
     }
 
 }
