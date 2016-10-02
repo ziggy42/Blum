@@ -51,6 +51,9 @@
             android:name=".ui.conversation.ConversationActivity"
             android:label="@string/title_empty"
             android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.privatemessages.PrivateMessagesActivity"
+            android:label="@string/title_activity_conversations_list" />
 
         <service
             android:name=".data.jobs.PopulateDatabaseIntentService"

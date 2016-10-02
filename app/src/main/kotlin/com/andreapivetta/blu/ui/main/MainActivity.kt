@@ -20,6 +20,7 @@ import com.andreapivetta.blu.data.model.PrivateMessage
 import com.andreapivetta.blu.data.storage.AppStorageFactory
 import com.andreapivetta.blu.ui.base.custom.ThemedActivity
 import com.andreapivetta.blu.ui.newtweet.NewTweetActivity
+import com.andreapivetta.blu.ui.privatemessages.PrivateMessagesActivity
 import com.andreapivetta.blu.ui.search.SearchActivity
 import com.andreapivetta.blu.ui.settings.SettingsActivity
 import com.andreapivetta.blu.ui.setup.SetupActivity
@@ -141,7 +142,7 @@ class MainActivity : ThemedActivity(), MainMvpView {
     }
 
     override fun openMessages() {
-        // TODO
+        PrivateMessagesActivity.launch(this)
     }
 
     override fun openProfile() {
