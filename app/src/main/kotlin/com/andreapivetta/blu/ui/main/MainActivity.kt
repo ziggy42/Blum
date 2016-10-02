@@ -17,6 +17,7 @@ import com.andreapivetta.blu.common.utils.visible
 import com.andreapivetta.blu.data.jobs.NotificationsJob
 import com.andreapivetta.blu.data.model.Notification
 import com.andreapivetta.blu.data.model.PrivateMessage
+import com.andreapivetta.blu.data.storage.AppStorageFactory
 import com.andreapivetta.blu.ui.base.custom.ThemedActivity
 import com.andreapivetta.blu.ui.newtweet.NewTweetActivity
 import com.andreapivetta.blu.ui.search.SearchActivity
@@ -29,17 +30,26 @@ import kotlinx.android.synthetic.main.menu_notifications.view.*
 
 class MainActivity : ThemedActivity(), MainMvpView {
 
-    private var notificationsCount = 0
-    private var messagesCount = 0
+    private var notificationsCount = 0L
+    private var messagesCount = 0L
     private val receiver: NotificationUpdatesReceiver? by lazy { NotificationUpdatesReceiver() }
+
+    override fun onResume() {
+        super.onResume()
+        registerReceiver(receiver, IntentFilter(Notification.NEW_NOTIFICATION_INTENT))
+        registerReceiver(receiver, IntentFilter(PrivateMessage.NEW_PRIVATE_MESSAGE_INTENT))
+
+        val storage = AppStorageFactory.getAppStorage()
+        messagesCount = storage.getUnreadPrivateMessagesCount()
+        notificationsCount = storage.getUnreadNotificationsCount()
+
+        invalidateOptionsMenu()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-
-        registerReceiver(receiver, IntentFilter(Notification.NEW_NOTIFICATION_INTENT))
-        registerReceiver(receiver, IntentFilter(PrivateMessage.NEW_PRIVATE_MESSAGE_INTENT))
 
         fab.setOnClickListener { newTweet() }
 
