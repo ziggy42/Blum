@@ -56,7 +56,13 @@ class PopulateDatabaseIntentService : IntentService("PopulateDatabaseIntentServi
                 Timber.i("Retrieving private messages")
                 storage.savePrivateMessages(NotificationsDataProvider
                         .retrieveDirectMessages(twitter)
-                        .map { x -> PrivateMessage.valueOf(x, settings.getLoggedUserId()) })
+                        .map { x ->
+                            run {
+                                val pm = PrivateMessage.valueOf(x, settings.getLoggedUserId())
+                                pm.isRead = true
+                                pm
+                            }
+                        })
                 settings.setDirectMessagesDownloaded(true)
             }
 
