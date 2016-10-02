@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.view.MenuItemCompat
 import android.support.v7.widget.SearchView
+import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import com.andreapivetta.blu.BuildConfig
@@ -138,7 +139,7 @@ class MainActivity : ThemedActivity(), MainMvpView {
     }
 
     override fun openNotifications() {
-        // TODO
+        drawer.openDrawer(Gravity.END)
     }
 
     override fun openMessages() {
