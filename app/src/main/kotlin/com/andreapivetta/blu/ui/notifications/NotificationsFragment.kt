@@ -8,9 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.andreapivetta.blu.R
+import com.andreapivetta.blu.common.utils.Utils
 import com.andreapivetta.blu.common.utils.visible
 import com.andreapivetta.blu.data.model.Notification
 import com.andreapivetta.blu.data.storage.AppStorageFactory
+import com.andreapivetta.blu.ui.base.custom.decorators.SpaceTopItemDecoration
 
 /**
  * Created by andrea on 28/07/16.
@@ -34,11 +36,11 @@ class NotificationsFragment : Fragment(), NotificationsMvpView {
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val rootView = inflater?.inflate(R.layout.fragment_notifications, container, false)
-        val notificationsRecyclerView =
-                rootView?.findViewById(R.id.notificationsRecyclerView) as RecyclerView
-        notificationsRecyclerView.layoutManager = LinearLayoutManager(context)
-        notificationsRecyclerView.setHasFixedSize(true)
-        notificationsRecyclerView.adapter = adapter
+        val recyclerView = rootView?.findViewById(R.id.notificationsRecyclerView) as RecyclerView
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.setHasFixedSize(true)
+        recyclerView.addItemDecoration(SpaceTopItemDecoration(Utils.dpToPx(context, 10)))
+        recyclerView.adapter = adapter
 
         emptyView = rootView?.findViewById(R.id.emptyLinearLayout) as ViewGroup
 
@@ -47,8 +49,10 @@ class NotificationsFragment : Fragment(), NotificationsMvpView {
         return rootView
     }
 
-    override fun showNotifications(notifications: List<Notification>) {
-        adapter.dataSet = notifications
+    override fun showNotifications(readNotifications: List<Notification>,
+                                   unreadNotifications: List<Notification>) {
+        adapter.unreadNotifications = unreadNotifications
+        adapter.readNotifications = readNotifications
         adapter.notifyDataSetChanged()
     }
 

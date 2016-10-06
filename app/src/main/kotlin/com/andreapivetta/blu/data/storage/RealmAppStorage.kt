@@ -26,6 +26,10 @@ class RealmAppStorage(name: String = "blumRealm") : AppStorage {
     override fun getLastNotificationId(): Long? =
             realm.where(Notification::class.java).max("id")?.toLong()
 
+    override fun getReadNotifications(): List<Notification> = realm
+            .where(Notification::class.java).equalTo("isRead", true)
+            .findAllSorted("timestamp", Sort.DESCENDING)
+
     override fun getUnreadNotifications(): List<Notification> = realm
             .where(Notification::class.java).equalTo("isRead", false)
             .findAllSorted("timestamp", Sort.DESCENDING)
@@ -37,6 +41,13 @@ class RealmAppStorage(name: String = "blumRealm") : AppStorage {
         realm.executeTransaction {
             body.invoke(notification)
             realm.copyToRealm(notification)
+        }
+    }
+
+    override fun markAllNotificationsAsRead() {
+        realm.executeTransaction {
+            realm.where(Notification::class.java).equalTo("isRead", false).findAll()
+                    .forEach { x -> x.isRead = true }
         }
     }
 

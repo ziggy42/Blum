@@ -101,6 +101,11 @@ class RealmAppStorageTest {
     }
 
     @Test
+    fun markAllNotificationsAsRead() {
+        // TODO
+    }
+
+    @Test
     fun getAllPrivateMessages() {
         val privateMessages = storage.getAllPrivateMessages()
         assertEquals(4, privateMessages.size)

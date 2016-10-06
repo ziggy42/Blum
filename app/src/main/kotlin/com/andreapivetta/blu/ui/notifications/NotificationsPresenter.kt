@@ -9,10 +9,17 @@ import com.andreapivetta.blu.ui.base.BasePresenter
 class NotificationsPresenter(val storage: AppStorage) : BasePresenter<NotificationsMvpView>() {
 
     fun getNotifications() {
-        val notifications = storage.getAllNotifications()
-        if (notifications.size > 0) {
-            mvpView?.showNotifications(notifications)
+        val readNotifications = storage.getReadNotifications()
+        val unreadNotifications = storage.getUnreadNotifications()
+
+        if (readNotifications.size > 0 || unreadNotifications.size > 0) {
+            mvpView?.showNotifications(readNotifications, unreadNotifications)
             mvpView?.hideEmptyMessage()
         }
+    }
+
+    override fun detachView() {
+        super.detachView()
+        storage.markAllNotificationsAsRead()
     }
 }

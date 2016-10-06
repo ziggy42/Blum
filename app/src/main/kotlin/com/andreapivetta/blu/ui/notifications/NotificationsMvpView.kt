@@ -10,6 +10,7 @@ interface NotificationsMvpView : MvpView {
 
     fun hideEmptyMessage()
 
-    fun showNotifications(notifications: List<Notification>)
+    fun showNotifications(readNotifications: List<Notification>,
+                          unreadNotifications: List<Notification>)
 
 }

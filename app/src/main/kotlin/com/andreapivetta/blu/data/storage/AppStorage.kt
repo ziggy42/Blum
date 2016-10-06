@@ -11,11 +11,15 @@ interface AppStorage {
 
     fun getLastNotificationId(): Long?
 
+    fun getReadNotifications(): List<Notification>
+
     fun getUnreadNotifications(): List<Notification>
 
     fun getUnreadNotificationsCount(): Long
 
     fun saveNotification(notification: Notification, body: (Notification) -> Unit = {})
+
+    fun markAllNotificationsAsRead()
 
     fun getAllPrivateMessages(): List<PrivateMessage>
 

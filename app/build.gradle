@@ -68,7 +68,7 @@ dependencies {
 
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     debugCompile 'com.facebook.stetho:stetho:1.4.1'
-    debugCompile 'com.uphyca:stetho_realm:0.9.0'
+    debugCompile 'com.uphyca:stetho_realm:2.0.0'
 
     testCompile 'junit:junit:4.12'
     androidTestCompile "com.android.support:support-annotations:$SUPPORT_LIBRARY_VERSION"

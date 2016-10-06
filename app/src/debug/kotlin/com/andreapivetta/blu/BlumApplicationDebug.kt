@@ -6,6 +6,7 @@ import com.facebook.stetho.Stetho
 import com.squareup.leakcanary.LeakCanary
 import timber.log.Timber
 import com.uphyca.stetho_realm.RealmInspectorModulesProvider
+import java.util.regex.Pattern
 
 /**
  * Created by andrea on 18/05/16.
@@ -19,7 +20,9 @@ class BlumApplicationDebug : BlumApplication() {
         LeakCanary.install(this)
         Stetho.initialize(Stetho.newInitializerBuilder(this)
                 .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
-                .enableWebKitInspector(RealmInspectorModulesProvider.builder(this).build())
+                .enableWebKitInspector(RealmInspectorModulesProvider.builder(this)
+                        .databaseNamePattern(Pattern.compile("blumRealm"))
+                        .build())
                 .build())
     }
 
