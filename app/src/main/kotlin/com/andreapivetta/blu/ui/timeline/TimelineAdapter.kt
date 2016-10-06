@@ -20,6 +20,7 @@ open class TimelineAdapter(val listener: InteractionListener) :
         private val TYPE_ITEM_QUOTE = 3
         private val TYPE_ITEM_MULTIPLE_PHOTOS = 4
         private val TYPE_ITEM_VIDEO = 5
+        private val TYPE_ITEM_LINK = 6
     }
 
     var mDataSet: MutableList<Tweet> = ArrayList()
@@ -37,6 +38,8 @@ open class TimelineAdapter(val listener: InteractionListener) :
                             R.layout.tweet_multiplephotos, parent, false), listener)
             TYPE_ITEM_VIDEO -> return StatusVideoViewHolder(LayoutInflater.from(parent?.context)
                     .inflate(R.layout.tweet_video, parent, false), listener)
+            TYPE_ITEM_LINK -> return StatusLinkViewHolder(LayoutInflater.from(parent?.context)
+                    .inflate(R.layout.tweet_link, parent, false), listener)
             else -> throw UnsupportedOperationException("No Type found")
         }
     }
@@ -54,6 +57,7 @@ open class TimelineAdapter(val listener: InteractionListener) :
             tweet.hasSingleVideo() -> return TYPE_ITEM_VIDEO
             tweet.hasMultipleMedia() -> return TYPE_ITEM_MULTIPLE_PHOTOS
             tweet.quotedStatus -> return TYPE_ITEM_QUOTE
+            tweet.hasLinks() -> return TYPE_ITEM_LINK
             else -> return TYPE_ITEM
         }
     }

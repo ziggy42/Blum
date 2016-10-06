@@ -26,6 +26,8 @@ data class Tweet(val status: Status) : Serializable {
     var retweetCount: Int = status.retweetCount
     var favorited: Boolean = status.isFavorited
     var favoriteCount: Int = status.favoriteCount
+    var links: List<String> = status.urlEntities.map { x -> x.expandedURL }
+    var metaData: MetaData? = null
 
     fun getRetweetedTweet(): Tweet {
         if (retweet)
@@ -44,6 +46,8 @@ data class Tweet(val status: Status) : Serializable {
     fun hasSingleVideo() = mediaEntities.size == 1 && "photo" != mediaEntities[0].type
 
     fun hasMultipleMedia() = mediaEntities.size > 1
+
+    fun hasLinks() = links.size > 0
 
     fun getImageUrl(): String {
         if (hasSingleImage() || hasMultipleMedia())
@@ -69,6 +73,8 @@ data class Tweet(val status: Status) : Serializable {
             noUrlText = text.replace(mediaEntities[i].url, "")
         return noUrlText
     }
+
+    fun getLink() = links[0]
 
     fun getTextAsHtmlString(): String {
         val text = getTextWithoutMediaURLs()
