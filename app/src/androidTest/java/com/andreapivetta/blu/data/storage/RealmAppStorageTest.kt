@@ -7,6 +7,7 @@ import io.realm.Realm
 import io.realm.RealmList
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -102,7 +103,8 @@ class RealmAppStorageTest {
 
     @Test
     fun markAllNotificationsAsRead() {
-        // TODO
+        storage.markAllNotificationsAsRead()
+        assertTrue(storage.getUnreadNotifications().isEmpty())
     }
 
     @Test
