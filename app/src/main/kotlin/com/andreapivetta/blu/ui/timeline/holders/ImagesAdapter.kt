@@ -4,10 +4,10 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.utils.loadUrl
 import com.andreapivetta.blu.ui.timeline.InteractionListener
+import kotlinx.android.synthetic.main.photo_deletable.view.*
 import twitter4j.ExtendedMediaEntity
 
 
@@ -28,7 +28,7 @@ class ImagesAdapter(private val mediaEntities: Array<ExtendedMediaEntity>,
     override fun getItemCount() = mediaEntities.size
 
     inner class VHItem(container: View) : RecyclerView.ViewHolder(container) {
-        var tweetPhotoImageView = container.findViewById(R.id.tweetPhotoImageView) as ImageView
+        var tweetPhotoImageView = container.tweetPhotoImageView
     }
 
 }

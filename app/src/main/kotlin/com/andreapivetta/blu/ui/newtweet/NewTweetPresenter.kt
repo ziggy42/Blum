@@ -30,9 +30,6 @@ class NewTweetPresenter : BasePresenter<NewTweetMvpView>() {
         checkLength(text)
     }
 
-    fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-    }
-
     fun sendTweet(imageFiles: List<File>) {
         when {
             charsLeft < 0 -> mvpView?.showTooManyCharsError()

@@ -6,14 +6,12 @@ import android.os.Bundle
 import android.os.Environment
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.MenuItemCompat
-import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import com.andreapivetta.blu.R
@@ -83,7 +81,6 @@ class NewTweetActivity : AppCompatActivity(), NewTweetMvpView {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                presenter.onTextChanged(s, start, before, count)
             }
         })
 
@@ -119,7 +116,7 @@ class NewTweetActivity : AppCompatActivity(), NewTweetMvpView {
         quotedUserNameTextView.text = quotedTweet?.user?.name
         quotedStatusTextView.text = quotedTweet?.text
         if (quotedTweet != null && quotedTweet!!.hasSingleImage()) {
-            photoImageView.visibility = View.VISIBLE
+            photoImageView.visible()
             photoImageView.loadUrl(quotedTweet!!.getImageUrl())
         }
     }
@@ -155,25 +152,15 @@ class NewTweetActivity : AppCompatActivity(), NewTweetMvpView {
     override fun getTweet() = newTweetEditText.text.toString()
 
     override fun showTooManyCharsError() {
-        AlertDialog.Builder(this)
-                .setTitle(R.string.error)
-                .setMessage(R.string.too_many_characters)
-                .setPositiveButton(R.string.ok, null)
-                .create()
-                .show()
+        Toast.makeText(this, R.string.too_many_characters, Toast.LENGTH_SHORT).show()
     }
 
     override fun showTooManyImagesError() {
-        AlertDialog.Builder(this)
-                .setTitle(R.string.error)
-                .setMessage(R.string.too_many_images)
-                .setPositiveButton(R.string.ok, null)
-                .create()
-                .show()
+        Toast.makeText(this, R.string.too_many_images, Toast.LENGTH_SHORT).show()
     }
 
     override fun showSendTweetError() {
-        Toast.makeText(this, getString(R.string.sending_message_error), Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, R.string.sending_message_error, Toast.LENGTH_SHORT).show()
     }
 
     override fun refreshToolbar() {
