@@ -34,6 +34,11 @@ class StatusLinkViewHolder(container: View, listener: InteractionListener) :
     override fun setup(tweet: Tweet) {
         super.setup(tweet)
 
+        urlPreviewImageView.setImageDrawable(
+                ContextCompat.getDrawable(container.context, R.drawable.placeholder))
+        urlTitleTextView.text = ""
+        urlTextDescriptionView.text = ""
+
         if (tweet.metaData == null) {
             subscriber?.unsubscribe()
             subscriber = RxUnfurl.generatePreview(tweet.getLink())
