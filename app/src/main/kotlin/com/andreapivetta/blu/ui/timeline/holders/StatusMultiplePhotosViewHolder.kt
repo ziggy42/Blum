@@ -2,18 +2,16 @@ package com.andreapivetta.blu.ui.timeline.holders
 
 
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.View
-import com.andreapivetta.blu.R
 import com.andreapivetta.blu.data.model.Tweet
 import com.andreapivetta.blu.ui.base.custom.decorators.SpaceLeftItemDecoration
 import com.andreapivetta.blu.ui.timeline.InteractionListener
+import kotlinx.android.synthetic.main.tweet_multiplephotos.view.*
 
 class StatusMultiplePhotosViewHolder(container: View, listener: InteractionListener) :
         StatusViewHolder(container, listener) {
 
-    private val tweetPhotosRecyclerView = container.findViewById(R.id.tweetPhotosRecyclerView)
-            as RecyclerView
+    private val tweetPhotosRecyclerView = container.tweetPhotosRecyclerView
 
     init {
         tweetPhotosRecyclerView.addItemDecoration(SpaceLeftItemDecoration(5))

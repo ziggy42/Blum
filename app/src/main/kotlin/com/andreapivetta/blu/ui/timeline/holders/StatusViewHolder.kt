@@ -3,18 +3,18 @@ package com.andreapivetta.blu.ui.timeline.holders
 
 import android.support.annotation.CallSuper
 import android.view.View
-import android.widget.TextView
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.utils.Utils
 import com.andreapivetta.blu.common.utils.visible
 import com.andreapivetta.blu.data.model.Tweet
 import com.andreapivetta.blu.ui.timeline.InteractionListener
 import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.tweet_basic.view.*
 
 open class StatusViewHolder(container: View, listener: InteractionListener) :
         BaseViewHolder(container, listener) {
 
-    protected var retweetTextView = container.findViewById(R.id.retweetTextView) as TextView
+    protected var retweetTextView = container.retweetTextView
 
     @CallSuper
     override fun setup(tweet: Tweet) {

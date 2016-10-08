@@ -1,22 +1,21 @@
 package com.andreapivetta.blu.ui.timeline.holders
 
 import android.view.View
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.utils.visible
 import com.andreapivetta.blu.data.model.Tweet
 import com.andreapivetta.blu.ui.timeline.InteractionListener
 import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.quoted_tweet.view.*
+import kotlinx.android.synthetic.main.tweet_quote.view.*
 
 class StatusQuoteViewHolder(container: View, listener: InteractionListener) :
         StatusViewHolder(container, listener) {
 
-    private val quotedUserNameTextView = container.findViewById(R.id.quotedUserNameTextView) as TextView
-    private val quotedStatusTextView = container.findViewById(R.id.quotedStatusTextView) as TextView
-    private val photoImageView = container.findViewById(R.id.photoImageView) as ImageView
-    private val quotedStatusLinearLayout = container.findViewById(R.id.quotedStatus) as LinearLayout
+    private val quotedUserNameTextView = container.quotedUserNameTextView
+    private val quotedStatusTextView = container.quotedStatusTextView
+    private val photoImageView = container.photoImageView
+    private val quotedStatusLinearLayout = container.quotedStatus
 
     override fun setup(tweet: Tweet) {
         super.setup(tweet)

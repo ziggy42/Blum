@@ -13,7 +13,7 @@ abstract class BaseViewHolder(val container: View, val listener: InteractionList
         RecyclerView.ViewHolder(container) {
 
     protected var userNameTextView = container.findViewById(R.id.userNameTextView) as TextView
-    protected var userScreenNameTextView = container.findViewById(R.id.userScreenName_TextView) as TextView
+    protected var userScreenNameTextView = container.findViewById(R.id.userScreenNameTextView) as TextView
     protected var statusTextView = container.findViewById(R.id.statusTextView) as TextView
     protected var timeTextView = container.findViewById(R.id.timeTextView) as TextView
     protected val retweetsStatsTextView = container.findViewById(R.id.retweetsStatsTextView) as TextView
