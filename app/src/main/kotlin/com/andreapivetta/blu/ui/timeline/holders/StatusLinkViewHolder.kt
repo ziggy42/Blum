@@ -13,6 +13,7 @@ import com.andreapivetta.blu.data.model.MetaData
 import com.andreapivetta.blu.data.model.Tweet
 import com.andreapivetta.blu.ui.timeline.InteractionListener
 import com.schinizer.rxunfurl.RxUnfurl
+import kotlinx.android.synthetic.main.tweet_link.view.*
 import kotlinx.android.synthetic.main.url_preview.view.*
 import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
@@ -28,6 +29,7 @@ class StatusLinkViewHolder(container: View, listener: InteractionListener) :
     private val urlPreviewImageView: ImageView = container.urlPreviewImageView
     private val urlTitleTextView: TextView = container.urlTitleTextView
     private val urlTextDescriptionView: TextView = container.urlDescriptionTextView
+    private val urlPreviewLayout: View = container.urlPreviewLayout
 
     private var subscriber: Subscription? = null
 
@@ -58,7 +60,7 @@ class StatusLinkViewHolder(container: View, listener: InteractionListener) :
         urlPreviewImageView.loadUrl(metaData.imageUrl)
         urlTitleTextView.text = metaData.title
         urlTextDescriptionView.text = metaData.imageUrl
-        container.setOnClickListener {
+        urlPreviewLayout.setOnClickListener {
             CustomTabsIntent.Builder()
                     .setToolbarColor(ContextCompat
                             .getColor(container.context, R.color.blueThemeColorPrimary))
