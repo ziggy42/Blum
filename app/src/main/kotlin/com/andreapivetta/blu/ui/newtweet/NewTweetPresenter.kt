@@ -72,9 +72,8 @@ class NewTweetPresenter : BasePresenter<NewTweetMvpView>() {
         var wordsLength = 0
         var urls = 0
 
-        text.split(" ")
-                .forEach { entry -> if (isUrl(entry)) urls++ else wordsLength += entry.length }
-        charsLeft = 140 - text.count { c -> c == ' ' } - wordsLength - (urls * MAX_URL_LENGTH)
+        text.split(" ").forEach { x -> if (isUrl(x)) urls++ else wordsLength += x.length }
+        charsLeft = 140 - text.count { x -> x == ' ' } - wordsLength - (urls * MAX_URL_LENGTH)
         mvpView?.refreshToolbar()
     }
 
