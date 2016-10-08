@@ -42,6 +42,7 @@ class StatusLinkViewHolder(container: View, listener: InteractionListener) :
         urlTextDescriptionView.text = ""
 
         if (tweet.metaData == null) {
+            urlPreviewLayout.setOnClickListener { }
             subscriber?.unsubscribe()
             subscriber = RxUnfurl.generatePreview(tweet.getLink())
                     .subscribeOn(Schedulers.io())
