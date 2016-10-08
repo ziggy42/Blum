@@ -91,16 +91,6 @@
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_insert_photo" />
 
-            <ImageButton
-                android:id="@+id/locationImageButton"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_margin="5dp"
-                android:background="?selectableItemBackgroundBorderless"
-                android:padding="2dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_room" />
-
         </LinearLayout>
 
     </android.support.v7.widget.CardView>

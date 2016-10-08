@@ -84,15 +84,13 @@ class NewTweetActivity : AppCompatActivity(), NewTweetMvpView {
             }
         })
 
-        locationImageButton.setOnClickListener { /* TODO */ }
-
         if (intent.hasExtra(TAG_QUOTED_TWEET))
             setupQuoted()
         else
             setup()
 
         if (intent.hasExtra(TAG_USER_PREFIX)) {
-            newTweetEditText.setText(intent.getStringExtra(TAG_USER_PREFIX) + " ")
+            newTweetEditText.setText("${intent.getStringExtra(TAG_USER_PREFIX)} ")
             newTweetEditText.setSelection(newTweetEditText.text.length)
             presenter.afterTextChanged(newTweetEditText.text.toString())
         }
