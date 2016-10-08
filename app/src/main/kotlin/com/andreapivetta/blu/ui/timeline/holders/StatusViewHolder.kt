@@ -2,7 +2,6 @@ package com.andreapivetta.blu.ui.timeline.holders
 
 
 import android.support.annotation.CallSuper
-import android.text.util.Linkify
 import android.view.View
 import android.widget.TextView
 import com.andreapivetta.blu.R
@@ -52,9 +51,7 @@ open class StatusViewHolder(container: View, listener: InteractionListener) :
 
         favouritesStatsTextView.text = "${tweet.favoriteCount}"
         retweetsStatsTextView.text = "${tweet.retweetCount}"
-
         statusTextView.text = currentTweet.getTextWithoutMediaURLs()
-        Linkify.addLinks(statusTextView, Linkify.ALL)
 
         userProfilePicImageView.setOnClickListener { listener.showUser(currentUser) }
 
