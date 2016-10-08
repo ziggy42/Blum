@@ -13,8 +13,7 @@ import android.view.ViewStub
 import android.widget.ImageView
 import android.widget.TextView
 import com.andreapivetta.blu.R
-import com.andreapivetta.blu.common.utils.Utils
-import com.andreapivetta.blu.common.utils.visible
+import com.andreapivetta.blu.common.utils.*
 import com.andreapivetta.blu.data.model.Tweet
 import com.andreapivetta.blu.ui.base.custom.decorators.SpaceLeftItemDecoration
 import com.andreapivetta.blu.ui.timeline.InteractionListener
@@ -59,8 +58,7 @@ class StatusDetailsViewHolder(container: View, listener: InteractionListener) :
         sb.setSpan(b, 0, amount.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         retweetsStatsTextView.text = sb
 
-        Glide.with(container.context).load(currentUser.biggerProfileImageURL)
-                .dontAnimate().placeholder(R.drawable.placeholder).into(userProfilePicImageView)
+        userProfilePicImageView.loadAvatar(currentUser.biggerProfileImageURL)
 
         if (tweet.favorited)
             favouriteImageButton.setImageResource(R.drawable.ic_favorite_red)
@@ -119,11 +117,8 @@ class StatusDetailsViewHolder(container: View, listener: InteractionListener) :
                 inflatedMediaView = mediaViewStub.inflate()
             }
 
-            Glide.with(container.context).load(tweet.getVideoCoverUrl())
-                    .asBitmap().dontTransform()
-                    .placeholder(R.drawable.placeholder)
-                    .centerCrop()
-                    .into(inflatedMediaView?.findViewById(R.id.tweetVideoImageView) as ImageView)
+            (inflatedMediaView?.findViewById(R.id.tweetVideoImageView) as ImageView)
+                    .loadUrlCenterCrop(tweet.getVideoCoverUrl())
 
             inflatedMediaView?.findViewById(R.id.playVideoImageButton)?.setOnClickListener {
                 val pair = tweet.getVideoUrlType()
@@ -146,9 +141,7 @@ class StatusDetailsViewHolder(container: View, listener: InteractionListener) :
             // TODO other medias
             if (quotedStatus.hasSingleImage()) {
                 photoImageView.visible()
-                Glide.with(container.context).load(quotedStatus.getImageUrl())
-                        .asBitmap().dontTransform()
-                        .placeholder(R.drawable.placeholder).into(photoImageView)
+                photoImageView.loadUrl(quotedStatus.getImageUrl())
 
                 (inflatedQuotedView?.findViewById(R.id.quotedStatusTextView) as TextView).text =
                         quotedStatus.getTextWithoutMediaURLs()

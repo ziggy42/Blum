@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.andreapivetta.blu.R
+import com.andreapivetta.blu.common.utils.loadUrl
 import com.andreapivetta.blu.ui.timeline.InteractionListener
-import com.bumptech.glide.Glide
 import twitter4j.ExtendedMediaEntity
 
 
@@ -19,11 +19,7 @@ class ImagesAdapter(private val mediaEntities: Array<ExtendedMediaEntity>,
             VHItem(LayoutInflater.from(parent.context).inflate(R.layout.photo, parent, false))
 
     override fun onBindViewHolder(holder: VHItem, position: Int) {
-        Glide.with(holder.itemView.context)
-                .load(mediaEntities[position].mediaURL)
-                .placeholder(R.drawable.placeholder)
-                .into(holder.tweetPhotoImageView)
-
+        holder.tweetPhotoImageView.loadUrl(mediaEntities[position].mediaURL)
         holder.tweetPhotoImageView.setOnClickListener {
             listener.showImages(mediaEntities.map { mediaEntity -> mediaEntity.mediaURL }, position)
         }

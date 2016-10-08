@@ -8,9 +8,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.utils.Utils
+import com.andreapivetta.blu.common.utils.loadUrl
 import com.andreapivetta.blu.data.model.PrivateMessage
 import com.andreapivetta.blu.ui.conversation.ConversationActivity
-import com.bumptech.glide.Glide
 import java.util.*
 
 /**
@@ -37,9 +37,7 @@ class PrivateMessagesConversationsAdapter() :
         val message = dataSet[position]
         val context = holder?.itemView?.context
 
-        Glide.with(holder?.rootView?.context).load(message.otherUserProfilePicUrl)
-                .dontAnimate().into(holder?.userProfilePicImageView)
-
+        holder?.userProfilePicImageView?.loadUrl(message.otherUserProfilePicUrl)
         holder?.userNameTextView?.text = message.otherUserName
         holder?.messageTextView?.text = if (message.senderId == message.otherId) message.text else
             context?.getString(R.string.you_message, message.text)

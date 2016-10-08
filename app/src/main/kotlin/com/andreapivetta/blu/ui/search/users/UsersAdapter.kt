@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.andreapivetta.blu.R
+import com.andreapivetta.blu.common.utils.loadUrl
 import com.andreapivetta.blu.ui.profile.ProfileActivity
-import com.bumptech.glide.Glide
 import twitter4j.User
 import java.util.*
 
@@ -27,11 +27,7 @@ class UsersAdapter : RecyclerView.Adapter<UsersAdapter.UserViewHolder>() {
     override fun onBindViewHolder(holder: UserViewHolder?, position: Int) {
         val user = mDataSet[position]
 
-        Glide.with(holder?.container?.context)
-                .load(user.originalProfileImageURL)
-                .placeholder(R.drawable.placeholder)
-                .into(holder?.profilePicImageView)
-
+        holder?.profilePicImageView?.loadUrl(user.originalProfileImageURL)
         holder?.userNameTextView?.text = user.name
         holder?.screenNameTextView?.text = "@${user.screenName}"
         holder?.descriptionTextView?.text = user.description

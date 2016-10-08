@@ -5,9 +5,9 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.andreapivetta.blu.R
+import com.andreapivetta.blu.common.utils.loadUrl
 import com.andreapivetta.blu.ui.mediatimeline.holders.MediaViewHolder
 import com.andreapivetta.blu.ui.mediatimeline.model.Media
-import com.bumptech.glide.Glide
 import java.util.*
 
 /**
@@ -30,9 +30,7 @@ class MediaAdapter(val listener: MediaListener) : RecyclerView.Adapter<MediaView
     override fun onBindViewHolder(holder: MediaViewHolder?, position: Int) {
         val media = mDataSet[position]
 
-        Glide.with(holder?.container?.context).load(media.mediaUrl)
-                .placeholder(R.drawable.placeholder).into(holder?.mediaImageView)
-
+        holder?.mediaImageView?.loadUrl(media.mediaUrl)
         holder?.retweetImageButton?.setColorFilter(ContextCompat.getColor(holder.container.context,
                 if (media.retweet) R.color.greenThemeColorPrimary else R.color.white))
 

@@ -17,9 +17,9 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import com.andreapivetta.blu.R
+import com.andreapivetta.blu.common.utils.loadUrl
 import com.andreapivetta.blu.common.utils.visible
 import com.andreapivetta.blu.data.model.Tweet
-import com.bumptech.glide.Glide
 import com.mlsdev.rximagepicker.RxImageConverters
 import com.mlsdev.rximagepicker.RxImagePicker
 import com.mlsdev.rximagepicker.Sources
@@ -120,10 +120,7 @@ class NewTweetActivity : AppCompatActivity(), NewTweetMvpView {
         quotedStatusTextView.text = quotedTweet?.text
         if (quotedTweet != null && quotedTweet!!.hasSingleImage()) {
             photoImageView.visibility = View.VISIBLE
-            Glide.with(this)
-                    .load(quotedTweet?.getImageUrl())
-                    .placeholder(R.drawable.placeholder)
-                    .into(photoImageView)
+            photoImageView.loadUrl(quotedTweet!!.getImageUrl())
         }
     }
 

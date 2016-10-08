@@ -5,10 +5,10 @@ import android.support.annotation.CallSuper
 import android.view.View
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.utils.Utils
+import com.andreapivetta.blu.common.utils.loadAvatar
 import com.andreapivetta.blu.common.utils.visible
 import com.andreapivetta.blu.data.model.Tweet
 import com.andreapivetta.blu.ui.timeline.InteractionListener
-import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.tweet_basic.view.*
 
 open class StatusViewHolder(container: View, listener: InteractionListener) :
@@ -34,10 +34,7 @@ open class StatusViewHolder(container: View, listener: InteractionListener) :
         userNameTextView.text = currentUser.name
         userScreenNameTextView.text = "@${currentUser.screenName}"
         timeTextView.text = " • ${Utils.formatDate(currentTweet.timeStamp, container.context)}"
-
-        Glide.with(container.context).load(currentUser.biggerProfileImageURL)
-                .dontAnimate()
-                .into(userProfilePicImageView)
+        userProfilePicImageView.loadAvatar(currentUser.biggerProfileImageURL)
 
         if (currentTweet.favorited)
             favouriteImageButton.setImageResource(R.drawable.ic_favorite_red)

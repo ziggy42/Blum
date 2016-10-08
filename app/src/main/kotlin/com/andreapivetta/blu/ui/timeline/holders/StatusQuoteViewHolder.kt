@@ -1,11 +1,10 @@
 package com.andreapivetta.blu.ui.timeline.holders
 
 import android.view.View
-import com.andreapivetta.blu.R
+import com.andreapivetta.blu.common.utils.loadUrl
 import com.andreapivetta.blu.common.utils.visible
 import com.andreapivetta.blu.data.model.Tweet
 import com.andreapivetta.blu.ui.timeline.InteractionListener
-import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.quoted_tweet.view.*
 import kotlinx.android.synthetic.main.tweet_quote.view.*
 
@@ -26,10 +25,7 @@ class StatusQuoteViewHolder(container: View, listener: InteractionListener) :
 
             if (quotedStatus.mediaEntities.size > 0) {
                 photoImageView.visible()
-                Glide.with(container.context)
-                        .load(quotedStatus.mediaEntities[0].mediaURL)
-                        .placeholder(R.drawable.placeholder)
-                        .into(photoImageView)
+                photoImageView.loadUrl(quotedStatus.mediaEntities[0].mediaURL)
 
                 quotedStatusTextView.text = quotedStatus.getTextWithoutMediaURLs()
             } else {

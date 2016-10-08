@@ -8,10 +8,10 @@ import android.support.v4.app.FragmentPagerAdapter
 import android.support.v7.app.AppCompatActivity
 import android.text.util.Linkify
 import com.andreapivetta.blu.R
+import com.andreapivetta.blu.common.utils.loadUrl
 import com.andreapivetta.blu.common.utils.visible
 import com.andreapivetta.blu.ui.mediatimeline.MediaFragment
 import com.andreapivetta.blu.ui.usertimeline.UserTimelineFragment
-import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.profile_header.*
 import twitter4j.User
@@ -44,9 +44,8 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun setupView() {
-        Glide.with(this).load(user?.profileBackgroundImageUrlHttps).into(header)
-        Glide.with(this).load(user?.profileImageURLHttps).into(userProfilePicImageView)
-
+        header.loadUrl(user!!.profileBackgroundImageUrlHttps)
+        userProfilePicImageView.loadUrl(user!!.profileImageURLHttps)
         userNameTextView.text = user?.name
         userNickTextView.text = "@${user?.screenName}"
         statsTextView.text = "${user?.friendsCount.toString()} followings " +
