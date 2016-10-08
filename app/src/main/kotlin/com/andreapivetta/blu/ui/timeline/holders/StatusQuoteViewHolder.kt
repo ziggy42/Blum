@@ -12,6 +12,7 @@ class StatusQuoteViewHolder(container: View, listener: InteractionListener) :
         StatusViewHolder(container, listener) {
 
     private val quotedUserNameTextView = container.quotedUserNameTextView
+    private val quotedUserScreenNameTextView = container.quotedUserScreenNameTextView
     private val quotedStatusTextView = container.quotedStatusTextView
     private val photoImageView = container.photoImageView
     private val quotedStatusLinearLayout = container.quotedStatus
@@ -22,6 +23,7 @@ class StatusQuoteViewHolder(container: View, listener: InteractionListener) :
         if (tweet.quotedStatus) {
             val quotedStatus = tweet.getQuotedTweet()
             quotedUserNameTextView.text = quotedStatus.user.name
+            quotedUserScreenNameTextView.text = "@${quotedStatus.user.screenName}"
 
             if (quotedStatus.mediaEntities.size > 0) {
                 photoImageView.visible()
