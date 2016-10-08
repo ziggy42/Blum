@@ -3,6 +3,7 @@ package com.andreapivetta.blu.ui.timeline.holders
 
 import android.support.annotation.CallSuper
 import android.view.View
+import android.widget.TextView
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.utils.Utils
 import com.andreapivetta.blu.common.utils.loadAvatar
@@ -14,7 +15,7 @@ import kotlinx.android.synthetic.main.tweet_basic.view.*
 open class StatusViewHolder(container: View, listener: InteractionListener) :
         BaseViewHolder(container, listener) {
 
-    protected var retweetTextView = container.retweetTextView
+    protected var retweetTextView: TextView = container.retweetTextView
 
     @CallSuper
     override fun setup(tweet: Tweet) {
