@@ -24,7 +24,23 @@
         <activity android:name=".ui.main.MainActivity" />
         <activity
             android:name=".ui.newtweet.NewTweetActivity"
-            android:label="@string/title_activity_new_tweet" />
+            android:label="@string/title_activity_new_tweet">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="image/*" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND_MULTIPLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="image/*" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ui.tweetdetails.TweetDetailsActivity"
             android:label="@string/title_activity_tweet" />

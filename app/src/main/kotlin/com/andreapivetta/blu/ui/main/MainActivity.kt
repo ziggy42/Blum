@@ -10,11 +10,9 @@ import android.support.v4.view.MenuItemCompat
 import android.support.v7.widget.SearchView
 import android.view.Menu
 import android.view.MenuItem
-import com.andreapivetta.blu.BuildConfig
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.settings.AppSettingsFactory
 import com.andreapivetta.blu.common.utils.visible
-import com.andreapivetta.blu.data.jobs.NotificationsJob
 import com.andreapivetta.blu.data.model.Notification
 import com.andreapivetta.blu.data.model.PrivateMessage
 import com.andreapivetta.blu.data.storage.AppStorageFactory
@@ -123,9 +121,6 @@ class MainActivity : ThemedActivity(), MainMvpView {
             R.id.action_settings -> openSettings()
             R.id.action_profile -> openProfile()
         }
-
-        if (BuildConfig.DEBUG && R.id.action_check_notifications == item?.itemId)
-            Thread() { NotificationsJob().checkNotifications(this) }.start()
 
         return super.onOptionsItemSelected(item)
     }

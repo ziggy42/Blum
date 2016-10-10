@@ -2,6 +2,7 @@ package com.andreapivetta.blu.ui.newtweet
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.support.v4.content.ContextCompat
@@ -15,6 +16,7 @@ import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
 import com.andreapivetta.blu.R
+import com.andreapivetta.blu.common.utils.FileUtils
 import com.andreapivetta.blu.common.utils.loadUrl
 import com.andreapivetta.blu.common.utils.visible
 import com.andreapivetta.blu.data.model.Tweet
@@ -29,8 +31,7 @@ class NewTweetActivity : AppCompatActivity(), NewTweetMvpView {
 
     private val presenter: NewTweetPresenter = NewTweetPresenter()
 
-    private val adapter: DeletableImageAdapter
-            by lazy { DeletableImageAdapter(applicationContext, mutableListOf()) }
+    private val adapter: DeletableImageAdapter by lazy { DeletableImageAdapter(mutableListOf()) }
 
     private var quotedTweet: Tweet? = null
 
@@ -93,6 +94,36 @@ class NewTweetActivity : AppCompatActivity(), NewTweetMvpView {
             newTweetEditText.setText("${intent.getStringExtra(TAG_USER_PREFIX)} ")
             newTweetEditText.setSelection(newTweetEditText.text.length)
             presenter.afterTextChanged(newTweetEditText.text.toString())
+        }
+
+        if (Intent.ACTION_SEND == intent.action && intent.type != null) {
+            if ("text/plain" == intent.type) {
+                newTweetEditText.setText(intent.getStringExtra(Intent.EXTRA_TEXT))
+                newTweetEditText.setSelection(newTweetEditText.text.length)
+                presenter.afterTextChanged(newTweetEditText.text.toString())
+            } else if (intent.type.startsWith("image/")) {
+                val selectedImageUri = intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)
+                adapter.imageFiles.add(File(FileUtils.getPath(this, selectedImageUri)))
+                photosRecyclerView.visible()
+                adapter.notifyDataSetChanged()
+                presenter.afterTextChanged(newTweetEditText.text.toString())
+            }
+        } else if (Intent.ACTION_SEND_MULTIPLE == intent.action && intent.type != null) {
+            if (intent.type.startsWith("image/")) {
+                val imageUris = intent.getParcelableArrayListExtra<Uri>(Intent.EXTRA_STREAM)
+                if (imageUris != null) {
+                    photosRecyclerView.visible()
+                    for (i in imageUris.indices) {
+                        if (i >= 4) {
+                            showTooManyImagesError()
+                            break
+                        }
+                        adapter.imageFiles.add(File(FileUtils.getPath(this, imageUris[i])))
+                    }
+                    adapter.notifyDataSetChanged()
+                    presenter.afterTextChanged(newTweetEditText.text.toString())
+                }
+            }
         }
     }
 
