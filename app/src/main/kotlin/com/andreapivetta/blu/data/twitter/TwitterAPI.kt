@@ -169,7 +169,7 @@ object TwitterAPI {
                         mediaIds[i] = TwitterUtils.getTwitter()
                                 .uploadMedia(images[i]).mediaId
                     }
-                    status.setMediaIds(mediaIds)
+                    status.setMediaIds(*mediaIds)
                     TwitterUtils.getTwitter().updateStatus(status)
                 } catch (err: Exception) {
                     Timber.e(err, "Error in updateTwitterStatus")
@@ -246,7 +246,7 @@ object TwitterAPI {
                         mediaIds[i] = TwitterUtils.getTwitter()
                                 .uploadMedia(images[i]).mediaId
                     }
-                    status.setMediaIds(mediaIds)
+                    status.setMediaIds(*mediaIds)
                     status.inReplyToStatusId = inReplyToStatusId
                     TwitterUtils.getTwitter().updateStatus(status)
                 } catch (err: Exception) {
