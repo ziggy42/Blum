@@ -1,5 +1,1 @@
-<manifest package="com.andreapivetta.twitterloginview">
-
-    <application />
-
-</manifest>
+<manifest package="com.andreapivetta.twitterloginview" />

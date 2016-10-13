@@ -127,7 +127,7 @@ object TwitterAPI {
     fun refreshUserTimeLine(userId: Long, paging: Paging): Observable<MutableList<Status>> =
             getUserTimeline(userId, paging)
 
-    fun updateTwitterStatus(tweet: String?): Single<Status> = Single.from(object : Future<Status> {
+    fun updateStatus(tweet: String?): Single<Status> = Single.from(object : Future<Status> {
         override fun isDone(): Boolean {
             throw UnsupportedOperationException()
         }
@@ -139,7 +139,7 @@ object TwitterAPI {
         override fun get() = try {
             TwitterUtils.getTwitter().updateStatus(tweet)
         } catch (err: Exception) {
-            Timber.e(err, "Error in updateTwitterStatus")
+            Timber.e(err, "Error in updateStatus")
             null
         }
 
@@ -152,7 +152,7 @@ object TwitterAPI {
         }
     })
 
-    fun updateTwitterStatus(tweet: String?, images: List<File>): Single<Status> =
+    fun updateStatus(tweet: String?, images: List<File>): Single<Status> =
             Single.from(object : Future<Status> {
                 override fun isDone(): Boolean {
                     throw UnsupportedOperationException()
@@ -172,7 +172,7 @@ object TwitterAPI {
                     status.setMediaIds(*mediaIds)
                     TwitterUtils.getTwitter().updateStatus(status)
                 } catch (err: Exception) {
-                    Timber.e(err, "Error in updateTwitterStatus")
+                    Timber.e(err, "Error in updateStatus")
                     null
                 }
 
@@ -184,6 +184,20 @@ object TwitterAPI {
                     throw UnsupportedOperationException()
                 }
             })
+
+    // TODO bleah
+    fun updateStatus(statusUpdate: TweetsQueue.StatusUpdate): Single<Status> {
+        if (statusUpdate.reply > 0)
+            if (statusUpdate.files.isEmpty())
+                return reply(statusUpdate.text, statusUpdate.reply)
+            else
+                return reply(statusUpdate.text, statusUpdate.reply, statusUpdate.files)
+        else
+            if (statusUpdate.files.isEmpty())
+                return updateStatus(statusUpdate.text)
+            else
+                return updateStatus(statusUpdate.text, statusUpdate.files)
+    }
 
     fun destroy(statusId: Long): Single<Status> = Single.from(object : Future<Status> {
         override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
@@ -447,4 +461,3 @@ object TwitterAPI {
                 }
             })
 }
-

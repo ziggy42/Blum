@@ -2,14 +2,8 @@ package com.andreapivetta.blu.ui.newtweet
 
 import com.andreapivetta.blu.common.utils.Patterns
 import com.andreapivetta.blu.data.model.Tweet
-import com.andreapivetta.blu.data.twitter.TwitterAPI
+import com.andreapivetta.blu.data.twitter.TweetsQueue
 import com.andreapivetta.blu.ui.base.BasePresenter
-import rx.SingleSubscriber
-import rx.Subscription
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
-import timber.log.Timber
-import twitter4j.Status
 import java.io.File
 
 /**
@@ -17,12 +11,9 @@ import java.io.File
  */
 class NewTweetPresenter : BasePresenter<NewTweetMvpView>() {
 
-    companion object {
-        private val MAX_URL_LENGTH = 23 // it will change
-    }
+    private val MAX_URL_LENGTH = 23 // it will change
 
     private var charsLeft: Int = 140
-    private var mSubscriber: Subscription? = null
 
     fun charsLeft() = charsLeft
 
@@ -80,67 +71,27 @@ class NewTweetPresenter : BasePresenter<NewTweetMvpView>() {
     private fun isUrl(text: String) = Patterns.WEB_URL.matcher(text).matches()
 
     private fun sendTweet(status: String?) {
-        mSubscriber = TwitterAPI.updateTwitterStatus(status)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(object : SingleSubscriber<Status>() {
-                    override fun onSuccess(value: Status?) {
-                        mvpView?.close()
-                    }
-
-                    override fun onError(error: Throwable?) {
-                        Timber.e(error?.message)
-                        mvpView?.showSendTweetError()
-                    }
-                })
+        if (status != null)
+            TweetsQueue.add(TweetsQueue.StatusUpdate.valueOf(status))
+        mvpView?.close()
     }
 
     private fun sendTweet(status: String?, imageFiles: List<File>) {
-        mSubscriber = TwitterAPI.updateTwitterStatus(status, imageFiles)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(object : SingleSubscriber<Status>() {
-                    override fun onSuccess(value: Status?) {
-                        mvpView?.close()
-                    }
-
-                    override fun onError(error: Throwable?) {
-                        Timber.e(error?.message)
-                        mvpView?.showSendTweetError()
-                    }
-                })
+        if (status != null)
+            TweetsQueue.add(TweetsQueue.StatusUpdate.valueOf(status, imageFiles))
+        mvpView?.close()
     }
 
     private fun sendTweet(status: String?, inReplyToStatusId: Long) {
-        mSubscriber = TwitterAPI.reply(status, inReplyToStatusId)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(object : SingleSubscriber<Status>() {
-                    override fun onSuccess(value: Status?) {
-                        mvpView?.close()
-                    }
-
-                    override fun onError(error: Throwable?) {
-                        Timber.e(error?.message)
-                        mvpView?.showSendTweetError()
-                    }
-                })
+        if (status != null)
+            TweetsQueue.add(TweetsQueue.StatusUpdate.valueOf(status, inReplyToStatusId))
+        mvpView?.close()
     }
 
     private fun sendTweet(status: String?, imageFiles: List<File>, inReplyToStatusId: Long) {
-        mSubscriber = TwitterAPI.reply(status, inReplyToStatusId, imageFiles)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(object : SingleSubscriber<Status>() {
-                    override fun onSuccess(value: Status?) {
-                        mvpView?.close()
-                    }
-
-                    override fun onError(error: Throwable?) {
-                        Timber.e(error?.message)
-                        mvpView?.showSendTweetError()
-                    }
-                })
+        if (status != null)
+            TweetsQueue.add(TweetsQueue.StatusUpdate.valueOf(status, imageFiles, inReplyToStatusId))
+        mvpView?.close()
     }
 
 }

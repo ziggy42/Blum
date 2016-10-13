@@ -29,8 +29,7 @@ import java.io.File
 
 class NewTweetActivity : AppCompatActivity(), NewTweetMvpView {
 
-    private val presenter: NewTweetPresenter = NewTweetPresenter()
-
+    private val presenter: NewTweetPresenter by lazy { NewTweetPresenter() }
     private val adapter: DeletableImageAdapter by lazy { DeletableImageAdapter(mutableListOf()) }
 
     private var quotedTweet: Tweet? = null
