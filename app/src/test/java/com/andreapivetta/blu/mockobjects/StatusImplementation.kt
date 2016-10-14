@@ -37,7 +37,7 @@ class StatusImplementation : Status {
     var mockUserMentionEntities: Array<out UserMentionEntity>? = null
     var mockSymbolEntities: Array<out SymbolEntity>? = null
     var mockMediaEntities: Array<out MediaEntity>? = null
-    var mockUrlEntities: Array<out URLEntity>? = null
+    var mockUrlEntities: Array<out URLEntity>? = arrayOf()
     var mockExtendedMediaEntities: Array<out ExtendedMediaEntity>? = null
     var mockHashtagEntities: Array<out HashtagEntity>? = null
     var mockAccessLevel: Int = 0

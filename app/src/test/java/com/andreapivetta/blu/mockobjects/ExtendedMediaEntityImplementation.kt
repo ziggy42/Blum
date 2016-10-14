@@ -54,4 +54,7 @@ class ExtendedMediaEntityImplementation : ExtendedMediaEntity {
 
     override fun getMediaURL() = mockMediaURL
 
+    override fun getExtAltText(): String {
+        throw UnsupportedOperationException("not implemented")
+    }
 }

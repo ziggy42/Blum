@@ -226,4 +226,8 @@ class UserImplementation : User {
     override fun compareTo(other: User?): Int {
         throw UnsupportedOperationException("not implemented")
     }
+
+    override fun getEmail(): String {
+        throw UnsupportedOperationException("not implemented")
+    }
 }
