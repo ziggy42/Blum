@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.utils.loadUrl
+import com.andreapivetta.blu.common.utils.visible
 import com.andreapivetta.blu.data.model.MetaData
 import com.andreapivetta.blu.data.model.Tweet
 import com.andreapivetta.blu.ui.timeline.InteractionListener
@@ -30,17 +31,13 @@ class StatusLinkViewHolder(container: View, listener: InteractionListener) :
     private val urlTitleTextView: TextView = container.urlTitleTextView
     private val urlTextDescriptionView: TextView = container.urlDescriptionTextView
     private val urlPreviewLayout: View = container.urlPreviewLayout
-
+    private val loadingProgressBar: View = container.loadingProgressBar
     private var subscriber: Subscription? = null
 
     override fun setup(tweet: Tweet) {
         super.setup(tweet)
 
-        urlPreviewImageView.setImageDrawable(
-                ContextCompat.getDrawable(container.context, R.drawable.placeholder))
-        urlTitleTextView.text = ""
-        urlTextDescriptionView.text = ""
-
+        setLoading(true)
         if (tweet.metaData == null) {
             urlPreviewLayout.setOnClickListener { }
             subscriber?.unsubscribe()
@@ -49,16 +46,29 @@ class StatusLinkViewHolder(container: View, listener: InteractionListener) :
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ x ->
                         run {
-                            tweet.metaData = MetaData(x.images[0].source, x.title,
-                                    x.description, tweet.getLink())
+                            tweet.metaData =
+                                    MetaData(if (x.images.isNotEmpty()) x.images[0].source
+                                    else null, x.title, x.description, tweet.getLink())
                             loadPreview(tweet.metaData as MetaData)
                         }
                     }, { e -> Timber.e(e, "Error loading url preview") })
         } else loadPreview(tweet.metaData as MetaData)
     }
 
+    private fun setLoading(isLoading: Boolean) {
+        Timber.i("Loading: $isLoading")
+        loadingProgressBar.visible(isLoading)
+        urlPreviewImageView.visible(!isLoading)
+        urlTitleTextView.visible(!isLoading)
+        urlTextDescriptionView.visible(!isLoading)
+    }
+
     private fun loadPreview(metaData: MetaData) {
-        urlPreviewImageView.loadUrl(metaData.imageUrl)
+        setLoading(false)
+        if (metaData.imageUrl != null)
+            urlPreviewImageView.loadUrl(metaData.imageUrl)
+        else
+            urlPreviewImageView.visibility = View.GONE
         urlTitleTextView.text = metaData.title
         urlTextDescriptionView.text = metaData.imageUrl
         urlPreviewLayout.setOnClickListener {
