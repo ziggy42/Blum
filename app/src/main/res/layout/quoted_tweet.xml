@@ -55,7 +55,7 @@
         android:adjustViewBounds="true"
         android:contentDescription="@string/tweet_photo_contentDescriptor"
         android:maxHeight="@dimen/picHeight"
-        android:scaleType="fitCenter"
+        android:scaleType="centerCrop"
         android:visibility="gone" />
 
 </com.andreapivetta.blu.ui.base.custom.BorderedLinearLayout>
