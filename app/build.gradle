@@ -58,6 +58,7 @@ android {
 
 dependencies {
     final SUPPORT_LIBRARY_VERSION = '24.2.1'
+    final FIREBASE_VERSION = '9.6.1'
     final RX_JAVA_VERSION = '1.2.0'
 
     compile "com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION"
@@ -85,6 +86,7 @@ dependencies {
     debugCompile 'com.uphyca:stetho_realm:2.0.0'
 
     releaseCompile "com.artemzin.rxjava:proguard-rules:$RX_JAVA_VERSION.0"
+    releaseCompile "com.google.firebase:firebase-crash:$FIREBASE_VERSION"
 
     testCompile 'junit:junit:4.12'
     androidTestCompile "com.android.support:support-annotations:$SUPPORT_LIBRARY_VERSION"
@@ -103,3 +105,5 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
+
+apply plugin: 'com.google.gms.google-services'
