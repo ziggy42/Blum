@@ -9,6 +9,10 @@ interface NewTweetMvpView : MvpView {
 
     fun getTweet() : String
 
+    fun setText(text: String?, selection: Int)
+
+    fun getSelectionStart(): Int
+
     fun showTooManyCharsError()
 
     fun showTooManyImagesError()
@@ -16,6 +20,12 @@ interface NewTweetMvpView : MvpView {
     fun showSendTweetError()
 
     fun refreshToolbar()
+
+    fun filterUsers(prefix: String)
+
+    fun showSuggestions()
+
+    fun hideSuggestions()
 
     fun close()
 

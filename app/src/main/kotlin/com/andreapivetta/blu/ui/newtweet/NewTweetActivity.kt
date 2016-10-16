@@ -9,6 +9,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v4.view.MenuItemCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.Menu
@@ -16,10 +17,14 @@ import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
 import com.andreapivetta.blu.R
+import com.andreapivetta.blu.common.settings.AppSettings
+import com.andreapivetta.blu.common.settings.AppSettingsFactory
 import com.andreapivetta.blu.common.utils.FileUtils
 import com.andreapivetta.blu.common.utils.loadUrl
 import com.andreapivetta.blu.common.utils.visible
 import com.andreapivetta.blu.data.model.Tweet
+import com.andreapivetta.blu.data.storage.AppStorage
+import com.andreapivetta.blu.data.storage.AppStorageFactory
 import com.mlsdev.rximagepicker.RxImageConverters
 import com.mlsdev.rximagepicker.RxImagePicker
 import com.mlsdev.rximagepicker.Sources
@@ -27,10 +32,14 @@ import kotlinx.android.synthetic.main.activity_newtweet.*
 import kotlinx.android.synthetic.main.quoted_tweet.*
 import java.io.File
 
-class NewTweetActivity : AppCompatActivity(), NewTweetMvpView {
+class NewTweetActivity : AppCompatActivity(), NewTweetMvpView, OnUserClickListener {
 
     private val presenter: NewTweetPresenter by lazy { NewTweetPresenter() }
-    private val adapter: DeletableImageAdapter by lazy { DeletableImageAdapter(mutableListOf()) }
+    private val imageAdapter: DeletableImageAdapter by lazy { DeletableImageAdapter() }
+    private val usersAdapter: UsersAdapter by lazy { UsersAdapter(this) }
+
+    private val settings: AppSettings by lazy { AppSettingsFactory.getAppSettings(this) }
+    private val storage: AppStorage by lazy { AppStorageFactory.getAppStorage() }
 
     private var quotedTweet: Tweet? = null
 
@@ -81,6 +90,7 @@ class NewTweetActivity : AppCompatActivity(), NewTweetMvpView {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                presenter.onTextChanged(s.toString(), start, count)
             }
         })
 
@@ -88,6 +98,7 @@ class NewTweetActivity : AppCompatActivity(), NewTweetMvpView {
             setupQuoted()
         else
             setup()
+        setupUsersSuggestions()
 
         if (intent.hasExtra(TAG_USER_PREFIX)) {
             newTweetEditText.setText("${intent.getStringExtra(TAG_USER_PREFIX)} ")
@@ -102,9 +113,9 @@ class NewTweetActivity : AppCompatActivity(), NewTweetMvpView {
                 presenter.afterTextChanged(newTweetEditText.text.toString())
             } else if (intent.type.startsWith("image/")) {
                 val selectedImageUri = intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)
-                adapter.imageFiles.add(File(FileUtils.getPath(this, selectedImageUri)))
+                imageAdapter.imageFiles.add(File(FileUtils.getPath(this, selectedImageUri)))
                 photosRecyclerView.visible()
-                adapter.notifyDataSetChanged()
+                imageAdapter.notifyDataSetChanged()
                 presenter.afterTextChanged(newTweetEditText.text.toString())
             }
         } else if (Intent.ACTION_SEND_MULTIPLE == intent.action && intent.type != null) {
@@ -117,21 +128,30 @@ class NewTweetActivity : AppCompatActivity(), NewTweetMvpView {
                             showTooManyImagesError()
                             break
                         }
-                        adapter.imageFiles.add(File(FileUtils.getPath(this, imageUris[i])))
+                        imageAdapter.imageFiles.add(File(FileUtils.getPath(this, imageUris[i])))
                     }
-                    adapter.notifyDataSetChanged()
+                    imageAdapter.notifyDataSetChanged()
                     presenter.afterTextChanged(newTweetEditText.text.toString())
                 }
             }
         }
     }
 
+    private fun setupUsersSuggestions() {
+        if (settings.isUserDataDownloaded()) {
+            usersRecyclerView.layoutManager =
+                    LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+            usersRecyclerView.adapter = usersAdapter
+            usersAdapter.users = storage.getAllUserFollowed()
+        }
+    }
+
     private fun setup() {
         photosRecyclerView.layoutManager = GridLayoutManager(applicationContext, 2)
-        photosRecyclerView.adapter = adapter
+        photosRecyclerView.adapter = imageAdapter
 
-        photoImageButton.setOnClickListener { presenter.takePicture(adapter.itemCount) }
-        imageImageButton.setOnClickListener { presenter.grabImage(adapter.itemCount) }
+        photoImageButton.setOnClickListener { presenter.takePicture(imageAdapter.itemCount) }
+        imageImageButton.setOnClickListener { presenter.grabImage(imageAdapter.itemCount) }
     }
 
     private fun setupQuoted() {
@@ -169,15 +189,22 @@ class NewTweetActivity : AppCompatActivity(), NewTweetMvpView {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (item?.itemId == R.id.action_send)
             if (intent.hasExtra(TAG_REPLY_ID))
-                presenter.reply(intent.getLongExtra(TAG_REPLY_ID, -1), adapter.imageFiles)
+                presenter.reply(intent.getLongExtra(TAG_REPLY_ID, -1), imageAdapter.imageFiles)
             else if (intent.hasExtra(TAG_QUOTED_TWEET))
                 presenter.sendTweet(quotedTweet!!)
             else
-                presenter.sendTweet(adapter.imageFiles)
+                presenter.sendTweet(imageAdapter.imageFiles)
         return true
     }
 
     override fun getTweet() = newTweetEditText.text.toString()
+
+    override fun setText(text: String?, selection: Int) {
+        newTweetEditText.setText(text, TextView.BufferType.EDITABLE)
+        newTweetEditText.setSelection(selection)
+    }
+
+    override fun getSelectionStart() = newTweetEditText.selectionStart
 
     override fun showTooManyCharsError() {
         Toast.makeText(this, R.string.too_many_characters, Toast.LENGTH_SHORT).show()
@@ -195,6 +222,19 @@ class NewTweetActivity : AppCompatActivity(), NewTweetMvpView {
         invalidateOptionsMenu()
     }
 
+    override fun filterUsers(prefix: String) {
+        if (settings.isUserDataDownloaded())
+            usersAdapter.filter(prefix)
+    }
+
+    override fun showSuggestions() {
+        usersRecyclerView.visible()
+    }
+
+    override fun hideSuggestions() {
+        usersRecyclerView.visible(false)
+    }
+
     override fun close() {
         finish()
     }
@@ -207,8 +247,8 @@ class NewTweetActivity : AppCompatActivity(), NewTweetMvpView {
                             "${System.currentTimeMillis()}_image.jpeg"))
                 }
                 .subscribe {
-                    adapter.imageFiles.add(it)
-                    adapter.notifyDataSetChanged()
+                    imageAdapter.imageFiles.add(it)
+                    imageAdapter.notifyDataSetChanged()
                 }
     }
 
@@ -220,9 +260,12 @@ class NewTweetActivity : AppCompatActivity(), NewTweetMvpView {
                             "${System.currentTimeMillis()}_image.jpeg"))
                 }
                 .subscribe {
-                    adapter.imageFiles.add(it)
-                    adapter.notifyDataSetChanged()
+                    imageAdapter.imageFiles.add(it)
+                    imageAdapter.notifyDataSetChanged()
                 }
     }
 
+    override fun onUserClicked(screenName: String) {
+        presenter.onUserSelected(screenName)
+    }
 }

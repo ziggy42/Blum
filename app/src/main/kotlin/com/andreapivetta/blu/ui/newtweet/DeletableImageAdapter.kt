@@ -14,7 +14,7 @@ import java.io.File
 /**
  * Created by andrea on 29/05/16.
  */
-class DeletableImageAdapter(val imageFiles: MutableList<File>) :
+class DeletableImageAdapter() :
         RecyclerView.Adapter<DeletableImageAdapter.Companion.DeletableImageViewHolder>() {
 
     companion object {
@@ -23,6 +23,8 @@ class DeletableImageAdapter(val imageFiles: MutableList<File>) :
             val deleteButton: ImageButton = root.deleteButton
         }
     }
+
+    val imageFiles: MutableList<File> = mutableListOf()
 
     override fun onBindViewHolder(holder: DeletableImageViewHolder, position: Int) {
         Glide.with(holder.itemView.context)

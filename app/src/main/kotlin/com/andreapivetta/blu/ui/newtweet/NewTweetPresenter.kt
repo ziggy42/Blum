@@ -14,11 +14,55 @@ class NewTweetPresenter : BasePresenter<NewTweetMvpView>() {
     private val MAX_URL_LENGTH = 23 // it will change
 
     private var charsLeft: Int = 140
+    private var lastAtIndex: Int = -1
 
     fun charsLeft() = charsLeft
 
     fun afterTextChanged(text: String) {
         checkLength(text)
+    }
+
+    fun onTextChanged(text: String, start: Int, count: Int) {
+        var query: String? = null
+        val selectedText = text.substring(start, start + count)
+        if (selectedText.length > 1) {
+            if (start > 0 && text[(start - 1)] == '@') {
+                query = selectedText
+                lastAtIndex = start - 1
+            } else if (selectedText.startsWith("@")) {
+                query = selectedText.substring(1)
+                lastAtIndex = start
+            }
+        } else if (text.length > 0) {
+            val buffer = StringBuilder()
+            var i = mvpView!!.getSelectionStart() - 1
+            var c = text[i]
+            while (c != '@' && c != ' ' && i > 0) {
+                buffer.append(c)
+                i--
+                c = text[i]
+            }
+
+            if (c == '@') {
+                query = buffer.reverse().toString()
+                lastAtIndex = i
+            }
+        }
+
+        if (query != null) {
+            mvpView?.showSuggestions()
+            mvpView?.filterUsers(query)
+        } else {
+            mvpView?.hideSuggestions()
+        }
+    }
+
+    fun onUserSelected(screenName: String) {
+        val text = mvpView?.getTweet()
+        val selectionStart = mvpView?.getSelectionStart()
+        mvpView?.setText(text?.substring(0, lastAtIndex + 1) + screenName +
+                text?.substring(selectionStart!!, text.length), lastAtIndex + screenName.length + 1)
+        mvpView?.hideSuggestions()
     }
 
     fun sendTweet(imageFiles: List<File>) {
