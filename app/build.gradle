@@ -4,13 +4,13 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'realm-android'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.3"
+    compileSdkVersion 25
+    buildToolsVersion "25.0.0"
 
     defaultConfig {
         applicationId "com.andreapivetta.blu"
         minSdkVersion 16
-        targetSdkVersion 24
+        targetSdkVersion 25
         versionCode 45
         versionName "5.0"
 
@@ -57,7 +57,7 @@ android {
 }
 
 dependencies {
-    final SUPPORT_LIBRARY_VERSION = '24.2.1'
+    final SUPPORT_LIBRARY_VERSION = '25.0.0'
     final FIREBASE_VERSION = '9.6.1'
     final RX_JAVA_VERSION = '1.2.0'
 
