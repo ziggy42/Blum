@@ -65,6 +65,17 @@ class RealmAppStorage(name: String = "blumRealm") : AppStorage {
             .equalTo("otherId", otherUserId)
             .findAllSorted("timeStamp")
 
+    override fun setMessagesAsRead(messages: List<PrivateMessage>) {
+        realm.executeTransaction {
+            messages.forEach { x ->
+                run {
+                    x.isRead = true
+                    realm.copyToRealmOrUpdate(x)
+                }
+            }
+        }
+    }
+
     override fun getUnreadPrivateMessagesCount(): Long = realm
             .where(PrivateMessage::class.java).equalTo("isRead", false).count()
 

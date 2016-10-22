@@ -23,6 +23,8 @@ class ConversationPresenter(val twitter: Twitter, val storage: AppStorage, val o
     private var loadUserSubscriber: Subscription? = null
     private var sendPrivateMessageSubscriber: Subscription? = null
 
+    private var messages: MutableList<PrivateMessage>? = null
+
     override fun attachView(mvpView: ConversationMvpView) {
         super.attachView(mvpView)
         loadUser(otherId)
@@ -31,6 +33,8 @@ class ConversationPresenter(val twitter: Twitter, val storage: AppStorage, val o
     override fun detachView() {
         super.detachView()
         loadUserSubscriber?.unsubscribe()
+        if (messages != null)
+            storage.setMessagesAsRead(messages!!.toList())
     }
 
     fun sendPrivateMessage(text: String) {
@@ -74,7 +78,8 @@ class ConversationPresenter(val twitter: Twitter, val storage: AppStorage, val o
                             onError(Exception("User not found"))
                         else {
                             mvpView?.showUserData(user)
-                            mvpView?.showConversation(storage.getConversation(userId))
+                            messages = storage.getConversation(userId)
+                            mvpView?.showConversation(messages!!)
                         }
                     }
 

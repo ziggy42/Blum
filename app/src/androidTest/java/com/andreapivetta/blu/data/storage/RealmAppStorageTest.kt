@@ -131,6 +131,13 @@ class RealmAppStorageTest {
     }
 
     @Test
+    fun setMessagesAsRead() {
+        val privateMessages = storage.getConversation(3)
+        storage.setMessagesAsRead(privateMessages)
+        assertEquals(0, storage.getConversation(3).count { x -> !x.isRead })
+    }
+
+    @Test
     fun getUnreadPrivateMessagesCount() {
         assertEquals(3, storage.getUnreadPrivateMessagesCount())
     }
