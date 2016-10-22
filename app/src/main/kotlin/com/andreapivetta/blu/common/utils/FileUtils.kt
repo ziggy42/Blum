@@ -15,21 +15,17 @@ import android.provider.MediaStore
  */
 object FileUtils {
 
-    private fun isExternalStorageDocument(uri: Uri): Boolean {
-        return "com.android.externalstorage.documents" == uri.authority
-    }
+    private fun isExternalStorageDocument(uri: Uri) =
+            "com.android.externalstorage.documents" == uri.authority
 
-    private fun isDownloadsDocument(uri: Uri): Boolean {
-        return "com.android.providers.downloads.documents" == uri.authority
-    }
+    private fun isDownloadsDocument(uri: Uri) =
+            "com.android.providers.downloads.documents" == uri.authority
 
-    private fun isMediaDocument(uri: Uri): Boolean {
-        return "com.android.providers.media.documents" == uri.authority
-    }
+    private fun isMediaDocument(uri: Uri) =
+            "com.android.providers.media.documents" == uri.authority
 
-    private fun isGooglePhotosUri(uri: Uri): Boolean {
-        return "com.google.android.apps.photos.contentprovider" == uri.authority
-    }
+    private fun isGooglePhotosUri(uri: Uri) =
+            "com.google.android.apps.photos.contentprovider" == uri.authority
 
     private fun getDataColumn(context: Context, uri: Uri, selection: String?,
                               selectionArgs: Array<String>?): String? {
