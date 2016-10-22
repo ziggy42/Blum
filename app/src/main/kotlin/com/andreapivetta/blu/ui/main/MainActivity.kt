@@ -87,7 +87,8 @@ class MainActivity : ThemedActivity(), MainMvpView {
         if (notificationsCount > 0) {
             val notificationsCountTextView = view.notificationCountTextView
             notificationsCountTextView.visible()
-            notificationsCountTextView.text = "$notificationsCount"
+            notificationsCountTextView.text =
+                    if (notificationsCount < 100) "$notificationsCount" else "99"
         }
 
         item = menu?.findItem(R.id.action_messages)
@@ -99,7 +100,7 @@ class MainActivity : ThemedActivity(), MainMvpView {
         if (messagesCount > 0) {
             val messagesCountTextView = view.messagesCountTextView
             messagesCountTextView.visible()
-            messagesCountTextView.text = "$messagesCount"
+            messagesCountTextView.text = if (messagesCount < 100) "$messagesCount" else "99"
         }
 
         val searchView = MenuItemCompat.
