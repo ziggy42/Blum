@@ -55,10 +55,11 @@ class RealmAppStorage(name: String = "blumRealm") : AppStorage {
     override fun getAllPrivateMessages(): List<PrivateMessage> =
             realm.where(PrivateMessage::class.java).findAll()
 
-    override fun getConversations(): MutableList<PrivateMessage> =
-            realm.where(PrivateMessage::class.java)
-                    .findAllSorted("timeStamp", Sort.ASCENDING)
-                    .distinct("otherId")
+    // Workaround https://github.com/realm/realm-java/issues/3503
+    override fun getConversations(): MutableList<PrivateMessage> = realm
+            .where(PrivateMessage::class.java)
+            .findAllSorted("timeStamp", Sort.DESCENDING)
+            .distinctBy { x -> x.otherId }.toMutableList()
 
     override fun getConversation(otherUserId: Long): MutableList<PrivateMessage> = realm
             .where(PrivateMessage::class.java)

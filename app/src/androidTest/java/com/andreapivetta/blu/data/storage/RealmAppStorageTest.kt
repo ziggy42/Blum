@@ -127,7 +127,7 @@ class RealmAppStorageTest {
     fun getConversation() {
         val privateMessages = storage.getConversation(3)
         assertEquals(3, privateMessages.size)
-        assertEquals("ok", privateMessages[0].text)
+        assertEquals("ciao", privateMessages[0].text)
     }
 
     @Test
