@@ -1,14 +1,9 @@
 package com.andreapivetta.blu.data.jobs
 
-import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
-import android.support.annotation.DrawableRes
-import android.support.v4.app.NotificationCompat
 import com.andreapivetta.blu.R
-import com.andreapivetta.blu.common.utils.Utils
+import com.andreapivetta.blu.common.notifications.AppNotificationsFactory
 import com.andreapivetta.blu.data.model.Notification
 import com.andreapivetta.blu.data.model.PrivateMessage
 import com.andreapivetta.blu.data.storage.AppStorage
@@ -22,18 +17,16 @@ import twitter4j.User
  */
 class NotificationDispatcher(val context: Context, val storage: AppStorage) {
 
+    private val notifications = AppNotificationsFactory.getAppNotifications(context)
+
     fun sendFavoriteNotification(status: Status, user: User) {
         storage.saveNotification(Notification(NotificationPrimaryKeyGenerator.getNextKey(),
                 Notification.FAVOURITE, user.name, user.id, status.id, status.text,
                 user.biggerProfileImageURL, false))
 
-        context.sendBroadcast(Intent(Notification.NEW_NOTIFICATION_INTENT))
-
-        val pendingIntent = PendingIntent.getActivity(context, 0,
-                Intent(context, MainActivity::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
-        sendNotification((System.currentTimeMillis().toInt()) * 2,
-                context.getString(R.string.like_not_title, user.name), status.text,
-                R.drawable.ic_favorite, user.biggerProfileImageURL, pendingIntent)
+        sendBroadcast(Notification.NEW_NOTIFICATION_INTENT)
+        notifications.send(context.getString(R.string.like_not_title, user.name), status.text,
+                R.drawable.ic_favorite, user.biggerProfileImageURL, MainActivity::class.java)
     }
 
     fun sendRetweetNotification(status: Status, user: User) {
@@ -41,13 +34,9 @@ class NotificationDispatcher(val context: Context, val storage: AppStorage) {
                 Notification.RETWEET, user.name, user.id, status.id, status.text,
                 user.biggerProfileImageURL, false))
 
-        context.sendBroadcast(Intent(Notification.NEW_NOTIFICATION_INTENT))
-
-        val pendingIntent = PendingIntent.getActivity(context, 0,
-                Intent(context, MainActivity::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
-        sendNotification((System.currentTimeMillis().toInt()) * 2,
-                context.getString(R.string.retw_not_title, user.name), status.text,
-                R.drawable.ic_repeat, user.biggerProfileImageURL, pendingIntent)
+        sendBroadcast(Notification.NEW_NOTIFICATION_INTENT)
+        notifications.send(context.getString(R.string.retw_not_title, user.name), status.text,
+                R.drawable.ic_repeat, user.biggerProfileImageURL, MainActivity::class.java)
     }
 
     fun sendMentionNotification(status: Status, user: User) {
@@ -55,12 +44,9 @@ class NotificationDispatcher(val context: Context, val storage: AppStorage) {
                 Notification.MENTION, user.name, user.id, status.id, status.text,
                 user.biggerProfileImageURL, false))
 
-        context.sendBroadcast(Intent(Notification.NEW_NOTIFICATION_INTENT))
-
-        val pendingIntent = PendingIntent.getActivity(context, 0,
-                Intent(context, MainActivity::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
-        sendNotification(status.id.toInt(), context.getString(R.string.reply_not_title, user.name),
-                status.text, R.drawable.ic_reply, user.biggerProfileImageURL, pendingIntent)
+        sendBroadcast(Notification.NEW_NOTIFICATION_INTENT)
+        notifications.send(context.getString(R.string.reply_not_title, user.name), status.text,
+                R.drawable.ic_reply, user.biggerProfileImageURL, MainActivity::class.java)
     }
 
     fun sendFollowerNotification(user: User) {
@@ -68,41 +54,20 @@ class NotificationDispatcher(val context: Context, val storage: AppStorage) {
                 Notification.FAVOURITE, user.name, user.id, 0, "", user.biggerProfileImageURL,
                 false))
 
-        context.sendBroadcast(Intent(Notification.NEW_NOTIFICATION_INTENT))
-
-        val pendingIntent = PendingIntent.getActivity(context, 0,
-                Intent(context, MainActivity::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
-        sendNotification(user.id.toInt(), user.name, context.getString(R.string.follow_not_title,
-                user.name), R.drawable.ic_person_outline, user.biggerProfileImageURL, pendingIntent)
+        sendBroadcast(Notification.NEW_NOTIFICATION_INTENT)
+        notifications.send(user.name, context.getString(R.string.follow_not_title, user.name),
+                R.drawable.ic_person_outline, user.biggerProfileImageURL, MainActivity::class.java)
     }
 
     fun sendPrivateMessageNotification(privateMessage: PrivateMessage) {
-        context.sendBroadcast(Intent(PrivateMessage.NEW_PRIVATE_MESSAGE_INTENT))
-
-        val pendingIntent = PendingIntent.getActivity(context, 0,
-                Intent(context, MainActivity::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
-        sendNotification(privateMessage.id.toInt(), context.getString(R.string.message_not_title,
+        sendBroadcast(PrivateMessage.NEW_PRIVATE_MESSAGE_INTENT)
+        notifications.send(context.getString(R.string.message_not_title,
                 privateMessage.otherUserName), privateMessage.text, R.drawable.ic_message,
-                privateMessage.otherUserProfilePicUrl, pendingIntent)
+                privateMessage.otherUserProfilePicUrl, MainActivity::class.java)
     }
 
-    private fun sendNotification(id: Int, title: String, text: String, @DrawableRes icon: Int,
-                                 largeIconUrl: String, pendingIntent: PendingIntent) {
-        val notification = NotificationCompat.Builder(context)
-                .setDefaults(android.app.Notification.DEFAULT_SOUND)
-                .setAutoCancel(true)
-                .setColor(Utils.getResourceColorPrimary(context))
-                .setLargeIcon(Utils.getBitmapFromURL(largeIconUrl))
-                .setLights(Color.BLUE, 500, 1000)
-                .setStyle(NotificationCompat.BigTextStyle().bigText(text))
-                .setContentTitle(title)
-                .setContentText(text)
-                .setSmallIcon(icon)
-                .setContentIntent(pendingIntent)
-                .build()
-
-        (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager)
-                .notify(id, notification)
+    private fun sendBroadcast(intentString: String) {
+        context.sendBroadcast(Intent(intentString))
     }
 
 }

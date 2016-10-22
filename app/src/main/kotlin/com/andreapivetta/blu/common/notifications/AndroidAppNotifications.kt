@@ -3,6 +3,7 @@ package com.andreapivetta.blu.common.notifications
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.support.annotation.DrawableRes
 import android.support.v4.app.NotificationCompat
@@ -16,8 +17,8 @@ class AndroidAppNotifications(val context: Context) : AppNotifications {
     private val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE)
             as NotificationManager
 
-    override fun send(title: String, text: String, icon: Int, largeIconUrl: String,
-                      pendingIntent: PendingIntent): Int {
+    override fun <T> send(title: String, text: String, @DrawableRes icon: Int, largeIconUrl: String,
+                          clazz: Class<T>): Int {
         val id = getId()
         notificationManager.notify(id, NotificationCompat.Builder(context)
                 .setDefaults(android.app.Notification.DEFAULT_SOUND)
@@ -29,7 +30,7 @@ class AndroidAppNotifications(val context: Context) : AppNotifications {
                 .setContentTitle(title)
                 .setContentText(text)
                 .setSmallIcon(icon)
-                .setContentIntent(pendingIntent)
+                .setContentIntent(getPendingIntent(context, clazz))
                 .build())
         return id
     }
@@ -43,13 +44,15 @@ class AndroidAppNotifications(val context: Context) : AppNotifications {
                 .setSmallIcon(icon)
                 .setProgress(0, 0, true)
                 .build())
-
         return id
     }
 
     override fun stopLongRunning(id: Int) {
         notificationManager.cancel(id)
     }
+
+    private fun <T> getPendingIntent(context: Context, clazz: Class<T>) = PendingIntent
+            .getActivity(context, 0, Intent(context, clazz), PendingIntent.FLAG_UPDATE_CURRENT)
 
     private fun getId() = (System.currentTimeMillis() % Int.MAX_VALUE).toInt()
 }
