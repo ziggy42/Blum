@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.utils.Utils
-import com.andreapivetta.blu.common.utils.loadUrl
+import com.andreapivetta.blu.common.utils.loadAvatar
 import com.andreapivetta.blu.data.model.PrivateMessage
 import com.andreapivetta.blu.ui.conversation.ConversationActivity
 import java.util.*
@@ -20,7 +20,6 @@ class PrivateMessagesConversationsAdapter() :
         RecyclerView.Adapter<PrivateMessagesConversationsAdapter.Companion.ConversationViewHolder>() {
 
     companion object {
-
         class ConversationViewHolder(val rootView: View) : RecyclerView.ViewHolder(rootView) {
             val userProfilePicImageView =
                     rootView.findViewById(R.id.userProfilePicImageView) as ImageView
@@ -28,7 +27,6 @@ class PrivateMessagesConversationsAdapter() :
             val messageTextView = rootView.findViewById(R.id.messageTextView) as TextView
             val timeTextView = rootView.findViewById(R.id.timeTextView) as TextView
         }
-
     }
 
     var dataSet: MutableList<PrivateMessage> = ArrayList()
@@ -37,7 +35,7 @@ class PrivateMessagesConversationsAdapter() :
         val message = dataSet[position]
         val context = holder?.itemView?.context
 
-        holder?.userProfilePicImageView?.loadUrl(message.otherUserProfilePicUrl)
+        holder?.userProfilePicImageView?.loadAvatar(message.otherUserProfilePicUrl)
         holder?.userNameTextView?.text = message.otherUserName
         holder?.messageTextView?.text = if (message.senderId == message.otherId) message.text else
             context?.getString(R.string.you_message, message.text)
