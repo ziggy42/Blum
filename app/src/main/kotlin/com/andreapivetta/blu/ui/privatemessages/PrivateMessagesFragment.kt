@@ -24,7 +24,6 @@ class PrivateMessagesFragment : Fragment(), PrivateMessagesMvpView {
     private val presenter by lazy { PrivateMessagesPresenter(AppStorageFactory.getAppStorage()) }
 
     private lateinit var adapterPrivateMessages: PrivateMessagesConversationsAdapter
-    private lateinit var recyclerView: RecyclerView
     private lateinit var emptyViewGroup: ViewGroup
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,7 +36,7 @@ class PrivateMessagesFragment : Fragment(), PrivateMessagesMvpView {
                               savedInstanceState: Bundle?): View? {
         val rootView = inflater?.inflate(R.layout.fragment_privatemessages, container, false)
 
-        recyclerView = rootView?.findViewById(R.id.tweetsRecyclerView) as RecyclerView
+        val recyclerView = rootView?.findViewById(R.id.tweetsRecyclerView) as RecyclerView
         emptyViewGroup = rootView?.findViewById(R.id.emptyLinearLayout) as ViewGroup
 
         val linearLayoutManager = LinearLayoutManager(activity)
@@ -45,8 +44,12 @@ class PrivateMessagesFragment : Fragment(), PrivateMessagesMvpView {
         recyclerView.setHasFixedSize(true)
         recyclerView.adapter = adapterPrivateMessages
 
-        presenter.getConversations()
         return rootView
+    }
+
+    override fun onResume() {
+        super.onResume()
+        presenter.getConversations()
     }
 
     override fun showConversations(conversations: MutableList<PrivateMessage>) {

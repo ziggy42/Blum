@@ -33,8 +33,6 @@ class ConversationPresenter(val twitter: Twitter, val storage: AppStorage, val o
     override fun detachView() {
         super.detachView()
         loadUserSubscriber?.unsubscribe()
-        if (messages != null)
-            storage.setMessagesAsRead(messages!!.toList())
     }
 
     fun sendPrivateMessage(text: String) {
@@ -79,6 +77,7 @@ class ConversationPresenter(val twitter: Twitter, val storage: AppStorage, val o
                         else {
                             mvpView?.showUserData(user)
                             messages = storage.getConversation(userId)
+                            storage.setMessagesAsRead(messages!!.toList())
                             mvpView?.showConversation(messages!!)
                         }
                     }

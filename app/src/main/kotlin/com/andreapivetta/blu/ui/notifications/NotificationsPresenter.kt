@@ -15,11 +15,8 @@ class NotificationsPresenter(val storage: AppStorage) : BasePresenter<Notificati
         if (readNotifications.size > 0 || unreadNotifications.size > 0) {
             mvpView?.showNotifications(readNotifications, unreadNotifications)
             mvpView?.hideEmptyMessage()
+            storage.markAllNotificationsAsRead()
         }
     }
 
-    override fun detachView() {
-        super.detachView()
-        storage.markAllNotificationsAsRead()
-    }
 }

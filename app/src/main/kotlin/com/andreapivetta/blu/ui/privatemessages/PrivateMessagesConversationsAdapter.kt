@@ -1,5 +1,6 @@
 package com.andreapivetta.blu.ui.privatemessages
 
+import android.graphics.Typeface
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -44,6 +45,9 @@ class PrivateMessagesConversationsAdapter() :
         holder?.rootView?.setOnClickListener {
             ConversationActivity.launch(context!!, message.otherId)
         }
+
+        holder?.messageTextView?.
+                setTypeface(null, if (message.isRead) Typeface.NORMAL else Typeface.BOLD)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int) = ConversationViewHolder(
