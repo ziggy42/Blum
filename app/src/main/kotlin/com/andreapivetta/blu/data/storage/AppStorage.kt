@@ -17,7 +17,7 @@ interface AppStorage {
 
     fun getUnreadNotificationsCount(): Long
 
-    fun saveNotification(notification: Notification, body: (Notification) -> Unit = {})
+    fun saveNotification(notification: Notification)
 
     fun markAllNotificationsAsRead()
 
@@ -29,13 +29,13 @@ interface AppStorage {
 
     fun getConversation(otherUserId: Long): MutableList<PrivateMessage>
 
-    fun savePrivateMessage(privateMessage: PrivateMessage, body: (PrivateMessage) -> Unit = {})
+    fun savePrivateMessage(privateMessage: PrivateMessage)
 
     fun savePrivateMessages(privateMessages: List<PrivateMessage>)
 
     fun getAllUserFollowed(): List<UserFollowed>
 
-    fun saveUserFollowed(userFollowed: UserFollowed, body: (UserFollowed) -> Unit = {})
+    fun saveUserFollowed(userFollowed: UserFollowed)
 
     fun saveUsersFollowed(userFollowed: List<UserFollowed>)
 
@@ -45,13 +45,13 @@ interface AppStorage {
 
     fun getAllTweetInfo(): List<TweetInfo>
 
-    fun saveMention(mention: Mention, body: (Mention) -> Unit = {})
+    fun saveMention(mention: Mention)
 
     fun saveMentions(mentions: List<Mention>)
 
     fun getAllMentions(): List<Mention>
 
-    fun saveFollower(follower: Follower, body: (Follower) -> Unit = {})
+    fun saveFollower(follower: Follower)
 
     fun saveFollowers(followers: List<Follower>)
 

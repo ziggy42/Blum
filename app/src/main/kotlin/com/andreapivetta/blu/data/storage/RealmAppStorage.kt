@@ -37,9 +37,8 @@ class RealmAppStorage(name: String = "blumRealm") : AppStorage {
     override fun getUnreadNotificationsCount(): Long = realm.where(Notification::class.java)
             .equalTo("isRead", false).count()
 
-    override fun saveNotification(notification: Notification, body: (Notification) -> Unit) {
+    override fun saveNotification(notification: Notification) {
         realm.executeTransaction {
-            body.invoke(notification)
             realm.copyToRealm(notification)
         }
     }
@@ -69,10 +68,8 @@ class RealmAppStorage(name: String = "blumRealm") : AppStorage {
     override fun getUnreadPrivateMessagesCount(): Long = realm
             .where(PrivateMessage::class.java).equalTo("isRead", false).count()
 
-    override fun savePrivateMessage(privateMessage: PrivateMessage,
-                                    body: (PrivateMessage) -> Unit) {
+    override fun savePrivateMessage(privateMessage: PrivateMessage) {
         realm.executeTransaction {
-            body.invoke(privateMessage)
             realm.copyToRealm(privateMessage)
         }
     }
@@ -80,9 +77,8 @@ class RealmAppStorage(name: String = "blumRealm") : AppStorage {
     override fun getAllUserFollowed(): List<UserFollowed> = realm
             .where(UserFollowed::class.java).findAllSorted("name")
 
-    override fun saveUserFollowed(userFollowed: UserFollowed, body: (UserFollowed) -> Unit) {
+    override fun saveUserFollowed(userFollowed: UserFollowed) {
         realm.executeTransaction {
-            body.invoke(userFollowed)
             realm.copyToRealm(userFollowed)
         }
     }
@@ -94,16 +90,14 @@ class RealmAppStorage(name: String = "blumRealm") : AppStorage {
         }
     }
 
-    override fun saveMention(mention: Mention, body: (Mention) -> Unit) {
+    override fun saveMention(mention: Mention) {
         realm.executeTransaction {
-            body.invoke(mention)
             realm.copyToRealm(mention)
         }
     }
 
-    override fun saveFollower(follower: Follower, body: (Follower) -> Unit) {
+    override fun saveFollower(follower: Follower) {
         realm.executeTransaction {
-            body.invoke(follower)
             realm.copyToRealm(follower)
         }
     }
