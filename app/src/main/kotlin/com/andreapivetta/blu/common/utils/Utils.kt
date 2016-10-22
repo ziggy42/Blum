@@ -1,11 +1,13 @@
 package com.andreapivetta.blu.common.utils
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.support.v4.content.ContextCompat
 import android.util.DisplayMetrics
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.settings.AppSettingsFactory
+import timber.log.Timber
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
@@ -27,16 +29,15 @@ object Utils {
                 else -> throw RuntimeException("Unsupported theme")
             }
 
-    fun getBitmapFromURL(strURL: String) =
-            try {
-                val connection = URL(strURL).openConnection() as HttpURLConnection
-                connection.doInput = true
-                connection.connect()
-                BitmapFactory.decodeStream(connection.inputStream)
-            } catch (e: IOException) {
-                e.printStackTrace()
-                null
-            }
+    fun getBitmapFromURL(strURL: String): Bitmap? = try {
+        val connection = URL(strURL).openConnection() as HttpURLConnection
+        connection.doInput = true
+        connection.connect()
+        BitmapFactory.decodeStream(connection.inputStream)
+    } catch (e: IOException) {
+        Timber.e(e)
+        null
+    }
 
     fun formatDate(timeStamp: Long, context: Context?): String? {
         val c = Calendar.getInstance()

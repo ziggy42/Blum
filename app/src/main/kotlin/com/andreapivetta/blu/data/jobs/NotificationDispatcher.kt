@@ -3,6 +3,7 @@ package com.andreapivetta.blu.data.jobs
 import android.content.Context
 import android.content.Intent
 import com.andreapivetta.blu.R
+import com.andreapivetta.blu.common.notifications.AppNotifications
 import com.andreapivetta.blu.common.notifications.AppNotificationsFactory
 import com.andreapivetta.blu.data.model.Notification
 import com.andreapivetta.blu.data.model.PrivateMessage
@@ -17,7 +18,8 @@ import twitter4j.User
  */
 class NotificationDispatcher(val context: Context, val storage: AppStorage) {
 
-    private val notifications = AppNotificationsFactory.getAppNotifications(context)
+    private val notifications: AppNotifications = AppNotificationsFactory
+            .getAppNotifications(context)
 
     fun sendFavoriteNotification(status: Status, user: User) {
         storage.saveNotification(Notification(NotificationPrimaryKeyGenerator.getNextKey(),

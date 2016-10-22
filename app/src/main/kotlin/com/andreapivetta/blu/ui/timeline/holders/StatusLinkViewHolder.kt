@@ -56,7 +56,6 @@ class StatusLinkViewHolder(container: View, listener: InteractionListener) :
     }
 
     private fun setLoading(isLoading: Boolean) {
-        Timber.i("Loading: $isLoading")
         loadingProgressBar.visible(isLoading)
         urlPreviewImageView.visible(!isLoading)
         urlTitleTextView.visible(!isLoading)
@@ -79,6 +78,4 @@ class StatusLinkViewHolder(container: View, listener: InteractionListener) :
                     .launchUrl(container.context as Activity, Uri.parse(metaData.link))
         }
     }
-
-
 }
