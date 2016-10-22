@@ -99,6 +99,11 @@ open class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
         return rootView
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.detachView()
+    }
+
     override fun onSaveInstanceState(outState: Bundle?) {
         outState?.putSerializable(TAG_TWEET_LIST, adapter.mDataSet as Serializable)
         outState?.putInt(TAG_PAGE, presenter.page)

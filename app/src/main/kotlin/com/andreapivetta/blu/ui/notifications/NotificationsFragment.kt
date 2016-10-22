@@ -49,6 +49,11 @@ class NotificationsFragment : Fragment(), NotificationsMvpView {
         return rootView
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.detachView()
+    }
+
     override fun showNotifications(readNotifications: List<Notification>,
                                    unreadNotifications: List<Notification>) {
         adapter.unreadNotifications = unreadNotifications

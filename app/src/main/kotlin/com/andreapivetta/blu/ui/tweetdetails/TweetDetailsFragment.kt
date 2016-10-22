@@ -72,6 +72,11 @@ class TweetDetailsFragment : Fragment(), TweetDetailsMvpView, InteractionListene
         return rootView
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.detachView()
+    }
+
     override fun showTweets(tweets: MutableList<Tweet>) {
         adapter.mDataSet = tweets
         adapter.notifyDataSetChanged()

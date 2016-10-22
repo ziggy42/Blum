@@ -55,6 +55,11 @@ class ConversationActivity : AppCompatActivity(), ConversationMvpView {
         presenter.attachView(this)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.detachView()
+    }
+
     override fun showLoading() {
         loadingProgressBar.visible()
         conversationRecyclerView.visible(false)

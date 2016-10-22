@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.utils.Utils
-import com.andreapivetta.blu.common.utils.loadUrl
+import com.andreapivetta.blu.common.utils.loadAvatar
 import com.andreapivetta.blu.data.model.Notification
 import kotlinx.android.synthetic.main.notification_item.view.*
 import kotlinx.android.synthetic.main.notification_item_header.view.*
@@ -27,7 +27,7 @@ class NotificationsAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         class NotificationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
             fun setup(notification: Notification) {
-                itemView.userProfilePicImageView.loadUrl(notification.profilePicURL)
+                itemView.userProfilePicImageView.loadAvatar(notification.profilePicURL)
                 itemView.notificationTypeImageView.setImageDrawable(
                         NotificationAssetsSelector.getIcon(notification, itemView.context))
 

@@ -80,6 +80,11 @@ class MediaFragment : Fragment(), MediaMvpView, MediaAdapter.MediaListener {
         return rootView
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.detachView()
+    }
+
     override fun onSaveInstanceState(outState: Bundle?) {
         outState?.putSerializable(TimelineFragment.TAG_TWEET_LIST, adapter.mDataSet as Serializable)
         outState?.putInt(TimelineFragment.TAG_PAGE, presenter.page)
