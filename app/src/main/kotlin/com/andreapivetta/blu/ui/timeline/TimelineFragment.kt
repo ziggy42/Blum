@@ -213,7 +213,7 @@ open class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
     }
 
     override fun showImages(imageUrls: List<String>, index: Int) {
-        ImageActivity.launch(context, imageUrls.toTypedArray())
+        ImageActivity.launch(context, imageUrls.toTypedArray(), index)
     }
 
     override fun showVideo(videoUrl: String, videoType: String) {

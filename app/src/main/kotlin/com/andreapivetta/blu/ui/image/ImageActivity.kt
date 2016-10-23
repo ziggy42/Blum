@@ -24,6 +24,13 @@ class ImageActivity : AppCompatActivity() {
             intent.putExtra(ImageActivity.TAG_IMAGES, imageUrls)
             context.startActivity(intent)
         }
+
+        fun launch(context: Context, imageUrls: Array<String>, index: Int) {
+            val intent = Intent(context, ImageActivity::class.java)
+            intent.putExtra(ImageActivity.TAG_IMAGES, imageUrls)
+                    .putExtra(ImageActivity.TAG_CURRENT_ITEM, index)
+            context.startActivity(intent)
+        }
     }
 
     private lateinit var images: List<String>
