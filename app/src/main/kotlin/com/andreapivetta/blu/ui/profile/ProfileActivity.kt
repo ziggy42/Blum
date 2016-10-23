@@ -67,16 +67,14 @@ class ProfileActivity : AppCompatActivity() {
 
     inner class SimpleAdapter : FragmentPagerAdapter(supportFragmentManager) {
 
-        override fun getItem(position: Int): Fragment {
-            when (position) {
-                0 -> return UserTimelineFragment.newInstance(user!!.id)
-                1 -> return MediaFragment.newInstance(user!!.id)
-            }
-
-            throw UnsupportedOperationException()
+        override fun getItem(position: Int): Fragment = when (position) {
+            0 -> UserTimelineFragment.newInstance(user!!.id)
+            1 -> MediaFragment.newInstance(user!!.id)
+            else -> throw UnsupportedOperationException()
         }
 
-        override fun getCount() = this@ProfileActivity.resources.getStringArray(R.array.user_profile_tabs).size
+        override fun getCount() = this@ProfileActivity.resources
+                .getStringArray(R.array.user_profile_tabs).size
 
         override fun getPageTitle(position: Int): String =
                 this@ProfileActivity.resources.getStringArray(R.array.user_profile_tabs)[position]

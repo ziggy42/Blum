@@ -85,8 +85,9 @@ class ConversationActivity : AppCompatActivity(), ConversationMvpView {
     }
 
     override fun showNewPrivateMessage(message: PrivateMessage) {
-        adapter.messages.add(adapter.messages.size - 1, message)
-        adapter.notifyDataSetChanged()
+        adapter.messages.add(message)
+        adapter.notifyItemInserted(adapter.messages.size - 1)
+        conversationRecyclerView.scrollToPosition(adapter.messages.size - 1)
     }
 
     override fun showSendFailed() {

@@ -47,6 +47,7 @@ class ConversationPresenter(val twitter: Twitter, val storage: AppStorage, val o
                             onError(Exception("DirectMessage can't be null"))
                         } else {
                             val message = PrivateMessage.valueOf(directMessage, otherId, true)
+                            message.isRead = true
                             storage.savePrivateMessage(message)
                             mvpView?.showNewPrivateMessage(message)
                         }
