@@ -124,19 +124,20 @@ open class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
     }
 
     override fun showTweet(tweet: Tweet) {
+        val removedPosition = adapter.mDataSet.size - 1
+        adapter.mDataSet.removeAt(removedPosition)
+        adapter.notifyItemRemoved(removedPosition)
+
         adapter.mDataSet.add(0, tweet)
-        adapter.mDataSet.removeAt(adapter.mDataSet.size - 1)
-        recyclerView.scrollToPosition(0)
         adapter.notifyItemInserted(0)
+        recyclerView.scrollToPosition(0)
     }
 
     override fun showMoreTweets(tweets: MutableList<Tweet>) {
         adapter.mDataSet.addAll(tweets)
     }
 
-    override fun getLastTweetId(): Long {
-        return adapter.mDataSet[0].id
-    }
+    override fun getLastTweetId(): Long = adapter.mDataSet[0].id
 
     override fun stopRefresh() {
         swipeRefreshLayout.isRefreshing = false
