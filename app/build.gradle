@@ -58,7 +58,7 @@ android {
 
 dependencies {
     final SUPPORT_LIBRARY_VERSION = '25.0.0'
-    final FIREBASE_VERSION = '9.8.00'
+    final FIREBASE_VERSION = '9.8.0'
     final RX_JAVA_VERSION = '1.2.0'
 
     compile "com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION"
