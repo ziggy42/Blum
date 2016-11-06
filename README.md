@@ -1,3 +1,4 @@
 ## Blum
-A Twitter client written in Kotlin  
-This project is the evolution of [this one](https://github.com/ziggy42/Blum).
+A simple Twitter client written in Kotlin.  
+
+![Screenshot](screenshots/screenshot_1.png)
