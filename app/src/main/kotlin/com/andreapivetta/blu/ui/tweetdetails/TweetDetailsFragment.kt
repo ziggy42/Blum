@@ -17,6 +17,7 @@ import com.andreapivetta.blu.data.model.Tweet
 import com.andreapivetta.blu.ui.base.custom.decorators.SpaceTopItemDecoration
 import com.andreapivetta.blu.ui.image.ImageActivity
 import com.andreapivetta.blu.ui.newtweet.NewTweetActivity
+import com.andreapivetta.blu.ui.profile.ProfileActivity
 import com.andreapivetta.blu.ui.timeline.InteractionListener
 import com.andreapivetta.blu.ui.video.VideoActivity
 import twitter4j.User
@@ -162,7 +163,7 @@ class TweetDetailsFragment : Fragment(), TweetDetailsMvpView, InteractionListene
     }
 
     override fun showUser(user: User) {
-        // TODO
+        ProfileActivity.launch(context, user)
     }
 
     override fun showImage(imageUrl: String) {
