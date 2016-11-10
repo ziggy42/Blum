@@ -25,7 +25,7 @@ import com.andreapivetta.blu.ui.profile.ProfileActivity
 import com.andreapivetta.blu.ui.tweetdetails.TweetDetailsActivity
 import com.andreapivetta.blu.ui.video.VideoActivity
 import twitter4j.User
-import java.io.Serializable
+import java.util.*
 
 /**
  * Created by andrea on 17/05/16.
@@ -105,7 +105,7 @@ open class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
-        outState?.putSerializable(TAG_TWEET_LIST, adapter.mDataSet.subList(0, 30) as Serializable)
+        outState?.putSerializable(TAG_TWEET_LIST, ArrayList(adapter.mDataSet.subList(0, 30)))
         outState?.putInt(TAG_PAGE, presenter.page)
         super.onSaveInstanceState(outState)
     }
