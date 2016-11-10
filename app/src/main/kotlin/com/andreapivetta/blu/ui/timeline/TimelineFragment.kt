@@ -105,8 +105,7 @@ open class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
-        outState?.putSerializable(TAG_TWEET_LIST, adapter.mDataSet.subList(0, 30)
-                .toMutableList() as Serializable)
+        outState?.putSerializable(TAG_TWEET_LIST, adapter.mDataSet.subList(0, 30) as Serializable)
         outState?.putInt(TAG_PAGE, presenter.page)
         super.onSaveInstanceState(outState)
     }

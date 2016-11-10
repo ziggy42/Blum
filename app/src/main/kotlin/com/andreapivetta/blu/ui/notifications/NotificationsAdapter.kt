@@ -62,13 +62,13 @@ class NotificationsAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                         .inflate(R.layout.notification_item_header, parent, false))
 
     override fun getItemCount(): Int {
-        if (unreadNotifications.size > 0)
-            if (readNotifications.size > 0)
+        if (unreadNotifications.isNotEmpty())
+            if (readNotifications.isNotEmpty())
                 return 2 + readNotifications.size + unreadNotifications.size
             else
                 return 1 + unreadNotifications.size
         else
-            if (readNotifications.size > 0)
+            if (readNotifications.isNotEmpty())
                 return 1 + readNotifications.size
         return 0
     }
@@ -85,12 +85,12 @@ class NotificationsAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     override fun getItemViewType(position: Int): Int {
-        if (unreadNotifications.size > 0) {
+        if (unreadNotifications.isNotEmpty()) {
             if (position == 0)
                 return TYPE_HEADER_NEW
             else if (position <= unreadNotifications.size)
                 return TYPE_NOTIFICATION_NEW
-            else if (position == unreadNotifications.size + 1 && unreadNotifications.size > 0)
+            else if (position == unreadNotifications.size + 1 && unreadNotifications.isNotEmpty())
                 return TYPE_HEADER_OLD
             else
                 return TYPE_NOTIFICATION_OLD
@@ -105,7 +105,7 @@ class NotificationsAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private fun getRealIndex(position: Int): Int {
         if (getItemViewType(position) == TYPE_NOTIFICATION_NEW)
             return position - 1
-        else if (unreadNotifications.size > 0)
+        else if (unreadNotifications.isNotEmpty())
             return position - 2 - unreadNotifications.size
         else
             return position - 1

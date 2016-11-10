@@ -71,7 +71,7 @@ class PopulateDatabaseIntentService : IntentService("PopulateDatabaseIntentServi
             // retrieves all of them
             val users: List<UserFollowed> = NotificationsDataProvider
                     .safeRetrieveFollowedUsers(twitter)
-            if (users.size > 0) {
+            if (users.isNotEmpty()) {
                 storage.saveUsersFollowed(users)
                 settings.setUserFollowedAvailable(true)
             }

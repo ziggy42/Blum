@@ -40,7 +40,7 @@ class MediaPresenter(val userId: Long) : BasePresenter<MediaMvpView>() {
 
         mSubscriber = TwitterAPI.getUserTimeline(userId, Paging(page, 200))
                 .flatMap { list -> Observable.from(list) }
-                .filter { status -> status.mediaEntities.size > 0 }
+                .filter { status -> status.mediaEntities.isNotEmpty() }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(object : Subscriber<Status>() {
@@ -69,7 +69,7 @@ class MediaPresenter(val userId: Long) : BasePresenter<MediaMvpView>() {
 
         TwitterAPI.getUserTimeline(userId, Paging(page, 200))
                 .flatMap { list -> Observable.from(list) }
-                .filter { status -> status.mediaEntities.size > 0 }
+                .filter { status -> status.mediaEntities.isNotEmpty() }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(object : Subscriber<Status>() {

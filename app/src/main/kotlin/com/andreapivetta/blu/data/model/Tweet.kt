@@ -47,7 +47,7 @@ data class Tweet(val status: Status) : Serializable {
 
     fun hasMultipleMedia() = mediaEntities.size > 1
 
-    fun hasLinks() = links.size > 0
+    fun hasLinks() = links.isNotEmpty()
 
     fun getImageUrl(): String {
         if (hasSingleImage() || hasMultipleMedia())

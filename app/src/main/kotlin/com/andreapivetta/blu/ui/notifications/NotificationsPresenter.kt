@@ -12,7 +12,7 @@ class NotificationsPresenter(val storage: AppStorage) : BasePresenter<Notificati
         val readNotifications = storage.getReadNotifications()
         val unreadNotifications = storage.getUnreadNotifications()
 
-        if (readNotifications.size > 0 || unreadNotifications.size > 0) {
+        if (readNotifications.isNotEmpty() || unreadNotifications.isNotEmpty()) {
             mvpView?.showNotifications(readNotifications, unreadNotifications)
             mvpView?.hideEmptyMessage()
             storage.markAllNotificationsAsRead()

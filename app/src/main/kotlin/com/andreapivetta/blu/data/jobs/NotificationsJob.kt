@@ -81,7 +81,7 @@ class NotificationsJob : Job() {
                                                 .filter { x -> savedInfo.favoriters!!.contains(x) }
                                     else x.favoriters
 
-                                    if (newFav != null && newFav.size > 0) {
+                                    if (newFav != null && newFav.isNotEmpty()) {
                                         storage.saveTweetInfo(savedInfo!!,
                                                 { savedInfo -> savedInfo.favoriters?.addAll(newFav) })
                                         val status = twitter.showStatus(savedInfo.id)
@@ -98,7 +98,7 @@ class NotificationsJob : Job() {
                                                 .filter { x -> savedInfo.favoriters!!.contains(x) }
                                     else x.favoriters
 
-                                    if (newRet != null && newRet.size > 0) {
+                                    if (newRet != null && newRet.isNotEmpty()) {
                                         storage.saveTweetInfo(savedInfo!!,
                                                 { savedInfo -> savedInfo.retweeters?.addAll(newRet) })
                                         val status = twitter.showStatus(savedInfo.id)

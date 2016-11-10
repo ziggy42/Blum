@@ -25,7 +25,7 @@ class StatusQuoteViewHolder(container: View, listener: InteractionListener) :
             quotedUserNameTextView.text = quotedStatus.user.name
             quotedUserScreenNameTextView.text = "@${quotedStatus.user.screenName}"
 
-            if (quotedStatus.mediaEntities.size > 0) {
+            if (quotedStatus.mediaEntities.isNotEmpty()) {
                 photoImageView.visible()
                 photoImageView.loadUrl(quotedStatus.mediaEntities[0].mediaURL)
 
