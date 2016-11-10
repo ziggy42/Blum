@@ -7,7 +7,7 @@ import com.andreapivetta.blu.ui.base.MvpView
  */
 interface NewTweetMvpView : MvpView {
 
-    fun getTweet() : String
+    fun getTweet(): String
 
     fun setText(text: String?, selection: Int)
 
@@ -16,6 +16,8 @@ interface NewTweetMvpView : MvpView {
     fun showTooManyCharsError()
 
     fun showTooManyImagesError()
+
+    fun showEmptyTweetError()
 
     fun showSendTweetError()
 

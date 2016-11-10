@@ -214,6 +214,10 @@ class NewTweetActivity : AppCompatActivity(), NewTweetMvpView, OnUserClickListen
         Toast.makeText(this, R.string.too_many_images, Toast.LENGTH_SHORT).show()
     }
 
+    override fun showEmptyTweetError() {
+        Toast.makeText(this, R.string.nothing_to_tweet, Toast.LENGTH_SHORT).show()
+    }
+
     override fun showSendTweetError() {
         Toast.makeText(this, R.string.sending_message_error, Toast.LENGTH_SHORT).show()
     }

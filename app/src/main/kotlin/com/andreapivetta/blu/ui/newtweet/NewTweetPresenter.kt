@@ -33,7 +33,7 @@ class NewTweetPresenter : BasePresenter<NewTweetMvpView>() {
                 query = selectedText.substring(1)
                 lastAtIndex = start
             }
-        } else if (text.length > 0) {
+        } else if (text.isNotEmpty()) {
             val buffer = StringBuilder()
             var i = mvpView!!.getSelectionStart() - 1
             var c = text[i]
@@ -68,7 +68,9 @@ class NewTweetPresenter : BasePresenter<NewTweetMvpView>() {
     fun sendTweet(imageFiles: List<File>) {
         when {
             charsLeft < 0 -> mvpView?.showTooManyCharsError()
-            imageFiles.size == 0 -> sendTweet(mvpView?.getTweet())
+            imageFiles.isEmpty() && mvpView?.getTweet().isNullOrEmpty() ->
+                mvpView?.showEmptyTweetError()
+            imageFiles.isEmpty() -> sendTweet(mvpView?.getTweet())
             else -> sendTweet(mvpView?.getTweet(), imageFiles)
         }
     }
@@ -84,7 +86,9 @@ class NewTweetPresenter : BasePresenter<NewTweetMvpView>() {
     fun reply(inReplyToStatusId: Long, imageFiles: List<File>) {
         when {
             charsLeft < 0 -> mvpView?.showTooManyCharsError()
-            imageFiles.size == 0 -> sendTweet(mvpView?.getTweet(), inReplyToStatusId)
+            imageFiles.isEmpty() && mvpView?.getTweet().isNullOrEmpty() ->
+                mvpView?.showEmptyTweetError()
+            imageFiles.isEmpty() -> sendTweet(mvpView?.getTweet(), inReplyToStatusId)
             else -> sendTweet(mvpView?.getTweet(), imageFiles, inReplyToStatusId)
         }
     }
