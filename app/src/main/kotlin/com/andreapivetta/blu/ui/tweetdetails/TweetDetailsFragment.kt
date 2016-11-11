@@ -1,5 +1,6 @@
 package com.andreapivetta.blu.ui.tweetdetails
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
@@ -18,7 +19,6 @@ import com.andreapivetta.blu.ui.base.custom.decorators.SpaceTopItemDecoration
 import com.andreapivetta.blu.ui.image.ImageActivity
 import com.andreapivetta.blu.ui.newtweet.NewTweetActivity
 import com.andreapivetta.blu.ui.profile.ProfileActivity
-import com.andreapivetta.blu.ui.timeline.InteractionListener
 import com.andreapivetta.blu.ui.video.VideoActivity
 import twitter4j.User
 import java.util.*
@@ -26,7 +26,7 @@ import java.util.*
 /**
  * A placeholder fragment containing a simple view.
  */
-class TweetDetailsFragment : Fragment(), TweetDetailsMvpView, InteractionListener {
+class TweetDetailsFragment : Fragment(), TweetDetailsMvpView, DetailsInteractionListener {
 
     companion object {
         val TAG_ID = "id"
@@ -60,7 +60,7 @@ class TweetDetailsFragment : Fragment(), TweetDetailsMvpView, InteractionListene
 
         adapter = SingleTweetAdapter(this)
         if (savedInstanceState != null) {
-            adapter.currentIndex = savedInstanceState.getInt(TAG_INDEX)
+            adapter.headerIndex = savedInstanceState.getInt(TAG_INDEX)
             adapter.mDataSet = savedInstanceState
                     .getSerializable(TAG_TWEET_LIST) as MutableList<Tweet>
         }
@@ -96,12 +96,12 @@ class TweetDetailsFragment : Fragment(), TweetDetailsMvpView, InteractionListene
 
     override fun onSaveInstanceState(outState: Bundle?) {
         outState?.putSerializable(TAG_TWEET_LIST, ArrayList(adapter.mDataSet))
-        outState?.putInt(TAG_INDEX, adapter.currentIndex)
+        outState?.putInt(TAG_INDEX, adapter.headerIndex)
         super.onSaveInstanceState(outState)
     }
 
     override fun showTweets(headerIndex: Int, tweets: MutableList<Tweet>) {
-        adapter.currentIndex = headerIndex
+        adapter.headerIndex = headerIndex
         adapter.mDataSet = tweets
         adapter.notifyDataSetChanged()
         recyclerView.scrollToPosition(headerIndex)
@@ -178,4 +178,10 @@ class TweetDetailsFragment : Fragment(), TweetDetailsMvpView, InteractionListene
         VideoActivity.launch(context, videoUrl, videoType)
     }
 
+    override fun shareTweet(tweet: Tweet) {
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.putExtra(Intent.EXTRA_TEXT, "https://twitter.com/blum/status/${tweet.id}")
+        intent.type = "text/plain"
+        startActivity(intent)
+    }
 }

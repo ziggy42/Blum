@@ -16,7 +16,6 @@ import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.utils.*
 import com.andreapivetta.blu.data.model.Tweet
 import com.andreapivetta.blu.ui.base.custom.decorators.SpaceLeftItemDecoration
-import com.andreapivetta.blu.ui.timeline.InteractionListener
 import com.andreapivetta.blu.ui.timeline.holders.BaseViewHolder
 import com.andreapivetta.blu.ui.timeline.holders.ImagesAdapter
 import com.bumptech.glide.Glide
@@ -25,11 +24,12 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 /**
  * Created by andrea on 26/05/16.
  */
-class StatusDetailsViewHolder(container: View, listener: InteractionListener) :
+class StatusDetailsViewHolder(container: View, listener: DetailsInteractionListener) :
         BaseViewHolder(container, listener) {
 
     private val mediaViewStub = container.findViewById(R.id.mediaViewStub) as ViewStub
     private val quotedStatusViewStub = container.findViewById(R.id.quotedStatusViewStub) as ViewStub
+    private val shareImageButton = container.findViewById(R.id.shareImageButton)
 
     private var inflatedMediaView: View? = null
     private var inflatedQuotedView: View? = null
@@ -86,6 +86,9 @@ class StatusDetailsViewHolder(container: View, listener: InteractionListener) :
 
         userProfilePicImageView.setOnClickListener { listener.showUser(currentUser) }
         respondImageButton.setOnClickListener { listener.reply(tweet, currentUser) }
+        shareImageButton.setOnClickListener {
+            (listener as DetailsInteractionListener).shareTweet(tweet)
+        }
 
         if (tweet.hasSingleImage()) {
             if (inflatedMediaView == null) {
