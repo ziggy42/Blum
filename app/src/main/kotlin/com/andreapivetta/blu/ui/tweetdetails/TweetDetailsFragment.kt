@@ -45,6 +45,7 @@ class TweetDetailsFragment : Fragment(), TweetDetailsMvpView, InteractionListene
     private var statusId: Long = -1
     private lateinit var recyclerView: RecyclerView
     private lateinit var loadingProgressBar: ProgressBar
+    private lateinit var badThingsViewGroup: ViewGroup
     private lateinit var adapter: SingleTweetAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,6 +60,7 @@ class TweetDetailsFragment : Fragment(), TweetDetailsMvpView, InteractionListene
         val rootView = inflater?.inflate(R.layout.fragment_tweet_details, container, false)
 
         recyclerView = rootView?.findViewById(R.id.tweetsRecyclerView) as RecyclerView
+        badThingsViewGroup = rootView?.findViewById(R.id.badThingsViewGroup) as ViewGroup
         loadingProgressBar = rootView?.findViewById(R.id.loadingProgressBar) as ProgressBar
 
         adapter = SingleTweetAdapter(this) // Move me away when savedInstanceStates occours
@@ -67,6 +69,11 @@ class TweetDetailsFragment : Fragment(), TweetDetailsMvpView, InteractionListene
         recyclerView.setHasFixedSize(true)
         recyclerView.addItemDecoration(SpaceTopItemDecoration(Utils.dpToPx(activity, 10)))
         recyclerView.adapter = adapter
+
+        rootView?.findViewById(R.id.retryButton)?.setOnClickListener {
+            badThingsViewGroup.visible(false)
+            presenter.getConversation(statusId)
+        }
 
         presenter.getConversation(statusId)
         return rootView
@@ -85,7 +92,7 @@ class TweetDetailsFragment : Fragment(), TweetDetailsMvpView, InteractionListene
     }
 
     override fun showError() {
-        // TODO
+        badThingsViewGroup.visible()
     }
 
     override fun showSnackBar(stringResource: Int) {

@@ -12,7 +12,6 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ProgressBar
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.utils.Utils
@@ -46,7 +45,6 @@ open class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var loadingProgressBar: ProgressBar
     private lateinit var badThingsViewGroup: ViewGroup
-    private lateinit var retryButton: Button
 
     protected open fun getTimelinePresenter() = TimelinePresenter()
 
@@ -70,7 +68,6 @@ open class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
         swipeRefreshLayout = rootView?.findViewById(R.id.swipeRefreshLayout) as SwipeRefreshLayout
         loadingProgressBar = rootView?.findViewById(R.id.loadingProgressBar) as ProgressBar
         badThingsViewGroup = rootView?.findViewById(R.id.badThingsViewGroup) as ViewGroup
-        retryButton = rootView?.findViewById(R.id.retryButton) as Button
 
         val linearLayoutManager = LinearLayoutManager(activity)
         recyclerView.layoutManager = linearLayoutManager
@@ -89,7 +86,7 @@ open class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
         swipeRefreshLayout.setOnRefreshListener { presenter.onRefresh() }
         swipeRefreshLayout.setColorSchemeColors(getRefreshColor())
 
-        retryButton.setOnClickListener {
+        rootView?.findViewById(R.id.retryButton)?.setOnClickListener {
             badThingsViewGroup.visible(false)
             presenter.getTweets()
         }
