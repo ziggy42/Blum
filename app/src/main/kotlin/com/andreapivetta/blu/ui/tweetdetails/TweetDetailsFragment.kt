@@ -77,30 +77,11 @@ class TweetDetailsFragment : Fragment(), TweetDetailsMvpView, InteractionListene
         presenter.detachView()
     }
 
-    override fun showTweets(tweets: MutableList<Tweet>) {
+    override fun showTweets(headerIndex: Int, tweets: MutableList<Tweet>) {
+        adapter.currentIndex = headerIndex
         adapter.mDataSet = tweets
         adapter.notifyDataSetChanged()
-        recyclerView.scrollToPosition(adapter.currentIndex)
-    }
-
-    override fun showTweet(tweet: Tweet) {
-        throw UnsupportedOperationException()
-    }
-
-    override fun showMoreTweets(tweets: MutableList<Tweet>) {
-        throw UnsupportedOperationException()
-    }
-
-    override fun getLastTweetId(): Long {
-        throw UnsupportedOperationException()
-    }
-
-    override fun stopRefresh() {
-        throw UnsupportedOperationException()
-    }
-
-    override fun showEmpty() {
-        // TODO
+        recyclerView.scrollToPosition(headerIndex)
     }
 
     override fun showError() {
@@ -125,10 +106,6 @@ class TweetDetailsFragment : Fragment(), TweetDetailsMvpView, InteractionListene
 
     override fun updateRecyclerViewView() {
         adapter.notifyDataSetChanged()
-    }
-
-    override fun setHeaderIndex(index: Int) {
-        adapter.currentIndex = index
     }
 
     // InteractionListener

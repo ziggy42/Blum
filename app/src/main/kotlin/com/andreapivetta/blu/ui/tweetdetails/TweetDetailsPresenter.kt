@@ -48,12 +48,10 @@ class TweetDetailsPresenter : BasePresenter<TweetDetailsMvpView>() {
                             mvpView?.showError()
                         else {
                             val (list, index) = value
-                            mvpView?.setHeaderIndex(index)
-
                             if (list.isEmpty())
-                                mvpView?.showEmpty()
+                                mvpView?.showError()
                             else
-                                mvpView?.showTweets(list.map(::Tweet).toMutableList())
+                                mvpView?.showTweets(index, list.map(::Tweet).toMutableList())
                         }
                         isLoading = false
                     }
