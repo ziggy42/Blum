@@ -21,6 +21,7 @@ import com.andreapivetta.blu.ui.profile.ProfileActivity
 import com.andreapivetta.blu.ui.timeline.InteractionListener
 import com.andreapivetta.blu.ui.video.VideoActivity
 import twitter4j.User
+import java.util.*
 
 /**
  * A placeholder fragment containing a simple view.
@@ -30,6 +31,8 @@ class TweetDetailsFragment : Fragment(), TweetDetailsMvpView, InteractionListene
     companion object {
         val TAG_ID = "id"
         val TAG_SCREEN_NAME = "screen_name"
+        val TAG_TWEET_LIST = "tweet_list"
+        val TAG_INDEX = "index"
 
         fun newInstance(id: Long): TweetDetailsFragment {
             val fragment = TweetDetailsFragment()
@@ -48,11 +51,19 @@ class TweetDetailsFragment : Fragment(), TweetDetailsMvpView, InteractionListene
     private lateinit var badThingsViewGroup: ViewGroup
     private lateinit var adapter: SingleTweetAdapter
 
+    @Suppress("UNCHECKED_CAST")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         statusId = arguments.getLong(TAG_ID)
 
         presenter.attachView(this)
+
+        adapter = SingleTweetAdapter(this)
+        if (savedInstanceState != null) {
+            adapter.currentIndex = savedInstanceState.getInt(TAG_INDEX)
+            adapter.mDataSet = savedInstanceState
+                    .getSerializable(TAG_TWEET_LIST) as MutableList<Tweet>
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
@@ -63,9 +74,7 @@ class TweetDetailsFragment : Fragment(), TweetDetailsMvpView, InteractionListene
         badThingsViewGroup = rootView?.findViewById(R.id.badThingsViewGroup) as ViewGroup
         loadingProgressBar = rootView?.findViewById(R.id.loadingProgressBar) as ProgressBar
 
-        adapter = SingleTweetAdapter(this) // Move me away when savedInstanceStates occours
-        val linearLayoutManager = LinearLayoutManager(activity)
-        recyclerView.layoutManager = linearLayoutManager
+        recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.setHasFixedSize(true)
         recyclerView.addItemDecoration(SpaceTopItemDecoration(Utils.dpToPx(activity, 10)))
         recyclerView.adapter = adapter
@@ -75,13 +84,20 @@ class TweetDetailsFragment : Fragment(), TweetDetailsMvpView, InteractionListene
             presenter.getConversation(statusId)
         }
 
-        presenter.getConversation(statusId)
+        if (adapter.mDataSet.isEmpty())
+            presenter.getConversation(statusId)
         return rootView
     }
 
     override fun onDestroy() {
         super.onDestroy()
         presenter.detachView()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        outState?.putSerializable(TAG_TWEET_LIST, ArrayList(adapter.mDataSet))
+        outState?.putInt(TAG_INDEX, adapter.currentIndex)
+        super.onSaveInstanceState(outState)
     }
 
     override fun showTweets(headerIndex: Int, tweets: MutableList<Tweet>) {
