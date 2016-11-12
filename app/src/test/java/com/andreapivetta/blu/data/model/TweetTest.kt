@@ -3,7 +3,8 @@ package com.andreapivetta.blu.data.model
 import com.andreapivetta.blu.mockobjects.ExtendedMediaEntityImplementation
 import com.andreapivetta.blu.mockobjects.StatusImplementation
 import com.andreapivetta.blu.mockobjects.UserImplementation
-import org.junit.Assert.*
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import java.util.*
@@ -74,17 +75,6 @@ class TweetTest {
         assertTrue(tweet1!!.getTextWithoutMediaURLs().isEmpty())
         assertFalse(tweet2!!.getTextWithoutMediaURLs().isEmpty())
         assertTrue("Hello, World! " == tweet2!!.getTextWithoutMediaURLs())
-    }
-
-    @Test
-    fun testGetTextAsHtmlString() {
-        assertTrue(tweet1!!.getTextAsHtmlString().isEmpty())
-        assertFalse(tweet2!!.getTextAsHtmlString().isEmpty())
-        assertEquals("Hello, World!", tweet2!!.getTextAsHtmlString())
-        assertFalse(tweet3!!.getTextAsHtmlString().isEmpty())
-        assertEquals("Hi <a href=\"com.andreapivetta.blu.user://Pivix00\">@Pivix00</a>#test, how " +
-                "are you <a href=\"com.andreapivetta.blu.hashtag://today\">#today</a>??",
-                tweet3!!.getTextAsHtmlString())
     }
 
 }

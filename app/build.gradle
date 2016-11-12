@@ -79,6 +79,7 @@ dependencies {
     compile 'com.uwetrottmann.photoview:library:1.2.4'
     compile 'com.evernote:android-job:1.1.3'
     compile 'com.schinizer:rxunfurl:0.1.1'
+    compile 'com.github.armcha:AutoLinkTextView:0.2.0'
     compile project(path: ':loginView')
 
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
@@ -99,7 +100,7 @@ dependencies {
 
 buildscript {
     repositories {
-        mavenCentral()
+        jcenter()
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"

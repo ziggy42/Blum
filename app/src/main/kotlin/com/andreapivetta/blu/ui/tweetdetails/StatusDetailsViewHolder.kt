@@ -7,10 +7,8 @@ import android.support.customtabs.CustomTabsIntent
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.text.Html
 import android.text.Spannable
 import android.text.SpannableStringBuilder
-import android.text.method.LinkMovementMethod
 import android.text.style.StyleSpan
 import android.view.View
 import android.view.ViewStub
@@ -25,6 +23,8 @@ import com.andreapivetta.blu.ui.timeline.holders.BaseViewHolder
 import com.andreapivetta.blu.ui.timeline.holders.ImagesAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.luseen.autolinklibrary.AutoLinkMode
+import com.luseen.autolinklibrary.AutoLinkTextView
 import com.schinizer.rxunfurl.RxUnfurl
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -48,12 +48,23 @@ class StatusDetailsViewHolder(container: View, listener: DetailsInteractionListe
 
     override fun setup(tweet: Tweet) {
         val currentUser = tweet.user
+
         val listener = listener as DetailsInteractionListener
+        val autolinkTextView = statusTextView as AutoLinkTextView
 
         userNameTextView.text = currentUser.name
         timeTextView.text = Utils.formatDate(tweet.timeStamp, container.context)
-        statusTextView.text = Html.fromHtml(tweet.getTextAsHtmlString())
-        statusTextView.movementMethod = LinkMovementMethod.getInstance()
+
+        autolinkTextView.addAutoLinkMode(AutoLinkMode.MODE_HASHTAG, AutoLinkMode.MODE_URL,
+                AutoLinkMode.MODE_MENTION)
+        autolinkTextView.setHashtagModeColor(ContextCompat
+                .getColor(container.context, R.color.blueThemeColorAccent))
+        autolinkTextView.setUrlModeColor(ContextCompat
+                .getColor(container.context, R.color.blueThemeColorAccent))
+        autolinkTextView.setMentionModeColor(ContextCompat
+                .getColor(container.context, R.color.blueThemeColorAccent))
+        autolinkTextView.setAutoLinkText(tweet.text)
+        autolinkTextView.setAutoLinkOnClickListener { mode, text -> Timber.i(text) }
 
         userScreenNameTextView.text = "@${currentUser.screenName}"
 
