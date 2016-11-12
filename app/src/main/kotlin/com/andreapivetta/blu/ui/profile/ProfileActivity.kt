@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v7.app.AppCompatActivity
 import android.text.util.Linkify
+import android.widget.Toast
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.utils.loadUrl
 import com.andreapivetta.blu.common.utils.visible
@@ -27,7 +28,13 @@ class ProfileActivity : AppCompatActivity() {
             context.startActivity(intent)
         }
 
+        fun launch(context: Context, screenName: String) {
+            // TODO make this method great again
+            Toast.makeText(context, "Not implemented! The screenName is $screenName", Toast.LENGTH_SHORT).show()
+        }
+
         val TAG_USER = "user"
+        val TAG_USER_SCREEN_NAME = "screen_name"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

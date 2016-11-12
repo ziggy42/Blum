@@ -19,6 +19,8 @@ import com.andreapivetta.blu.common.utils.*
 import com.andreapivetta.blu.data.model.MetaData
 import com.andreapivetta.blu.data.model.Tweet
 import com.andreapivetta.blu.ui.base.custom.decorators.SpaceLeftItemDecoration
+import com.andreapivetta.blu.ui.hashtag.HashtagActivity
+import com.andreapivetta.blu.ui.profile.ProfileActivity
 import com.andreapivetta.blu.ui.timeline.holders.BaseViewHolder
 import com.andreapivetta.blu.ui.timeline.holders.ImagesAdapter
 import com.bumptech.glide.Glide
@@ -64,7 +66,18 @@ class StatusDetailsViewHolder(container: View, listener: DetailsInteractionListe
         autolinkTextView.setMentionModeColor(ContextCompat
                 .getColor(container.context, R.color.blueThemeColorAccent))
         autolinkTextView.setAutoLinkText(tweet.text)
-        autolinkTextView.setAutoLinkOnClickListener { mode, text -> Timber.i(text) }
+        autolinkTextView.setAutoLinkOnClickListener { mode, text ->
+            when (mode) {
+                AutoLinkMode.MODE_HASHTAG -> HashtagActivity.launch(container.context, text)
+                AutoLinkMode.MODE_MENTION -> ProfileActivity.launch(container.context, text)
+                AutoLinkMode.MODE_URL -> CustomTabsIntent.Builder()
+                        .setToolbarColor(ContextCompat
+                                .getColor(container.context, R.color.blueThemeColorPrimary))
+                        .build()
+                        .launchUrl(container.context as Activity, Uri.parse(text.trim()))
+                else -> throw UnsupportedOperationException("No handlers for mode $mode")
+            }
+        }
 
         userScreenNameTextView.text = "@${currentUser.screenName}"
 
