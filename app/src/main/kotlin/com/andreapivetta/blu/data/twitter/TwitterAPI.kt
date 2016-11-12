@@ -29,7 +29,7 @@ object TwitterAPI {
                 }
 
                 override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
-                    throw UnsupportedOperationException()
+                    return true
                 }
 
                 override fun isDone(): Boolean {
@@ -87,7 +87,7 @@ object TwitterAPI {
                 }
 
                 override fun cancel(p0: Boolean): Boolean {
-                    throw UnsupportedOperationException("not implemented")
+                    return true
                 }
 
                 override fun isDone(): Boolean {
@@ -98,7 +98,7 @@ object TwitterAPI {
     fun searchUsers(query: String, paging: Paging): Single<MutableList<User>> =
             Single.from(object : Future<MutableList<User>> {
                 override fun cancel(p0: Boolean): Boolean {
-                    throw UnsupportedOperationException("not implemented")
+                    return true
                 }
 
                 override fun get(p0: Long, p1: TimeUnit?): MutableList<User> {
@@ -148,7 +148,7 @@ object TwitterAPI {
         }
 
         override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
-            throw UnsupportedOperationException()
+            return true
         }
     })
 
@@ -181,7 +181,7 @@ object TwitterAPI {
                 }
 
                 override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
-                    throw UnsupportedOperationException()
+                    return true
                 }
             })
 
@@ -201,7 +201,7 @@ object TwitterAPI {
 
     fun destroy(statusId: Long): Single<Status> = Single.from(object : Future<Status> {
         override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
-            throw UnsupportedOperationException()
+            return true
         }
 
         override fun isCancelled(): Boolean {
@@ -239,7 +239,7 @@ object TwitterAPI {
                 }
 
                 override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
-                    throw UnsupportedOperationException()
+                    return true
                 }
 
                 override fun isCancelled(): Boolean {
@@ -273,7 +273,7 @@ object TwitterAPI {
                 }
 
                 override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
-                    throw UnsupportedOperationException()
+                    return true
                 }
 
                 override fun isCancelled(): Boolean {
@@ -287,7 +287,7 @@ object TwitterAPI {
 
     fun favorite(statusId: Long): Single<Status> = Single.from(object : Future<Status> {
         override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
-            throw UnsupportedOperationException()
+            return true
         }
 
         override fun isCancelled(): Boolean {
@@ -312,7 +312,7 @@ object TwitterAPI {
 
     fun unfavorite(statusId: Long): Single<Status> = Single.from(object : Future<Status> {
         override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
-            throw UnsupportedOperationException()
+            return true
         }
 
         override fun isCancelled(): Boolean {
@@ -348,7 +348,7 @@ object TwitterAPI {
         }
 
         override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
-            throw UnsupportedOperationException()
+            return true
         }
 
         override fun isDone(): Boolean {
@@ -369,7 +369,7 @@ object TwitterAPI {
                 }
 
                 override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
-                    throw UnsupportedOperationException()
+                    return true
                 }
 
                 override fun get(): Pair<MutableList<Status>, Int>? {
@@ -416,7 +416,7 @@ object TwitterAPI {
                 }
 
                 override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
-                    throw UnsupportedOperationException("not implemented")
+                    return true
                 }
 
                 override fun isCancelled(): Boolean {
@@ -449,7 +449,7 @@ object TwitterAPI {
                 }
 
                 override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
-                    throw UnsupportedOperationException("not implemented")
+                    return true
                 }
 
                 override fun isDone(): Boolean {
