@@ -10,4 +10,6 @@ interface DetailsInteractionListener : InteractionListener {
 
     fun shareTweet(tweet: Tweet)
 
+    fun quoteTweet(tweet: Tweet)
+
 }

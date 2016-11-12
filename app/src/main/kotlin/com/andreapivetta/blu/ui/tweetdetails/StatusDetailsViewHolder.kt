@@ -30,12 +30,14 @@ class StatusDetailsViewHolder(container: View, listener: DetailsInteractionListe
     private val mediaViewStub = container.findViewById(R.id.mediaViewStub) as ViewStub
     private val quotedStatusViewStub = container.findViewById(R.id.quotedStatusViewStub) as ViewStub
     private val shareImageButton = container.findViewById(R.id.shareImageButton)
+    private val quoteImageButton = container.findViewById(R.id.quoteImageButton)
 
     private var inflatedMediaView: View? = null
     private var inflatedQuotedView: View? = null
 
     override fun setup(tweet: Tweet) {
         val currentUser = tweet.user
+        val listener = listener as DetailsInteractionListener
 
         userNameTextView.text = currentUser.name
         timeTextView.text = Utils.formatDate(tweet.timeStamp, container.context)
@@ -86,9 +88,8 @@ class StatusDetailsViewHolder(container: View, listener: DetailsInteractionListe
 
         userProfilePicImageView.setOnClickListener { listener.showUser(currentUser) }
         respondImageButton.setOnClickListener { listener.reply(tweet, currentUser) }
-        shareImageButton.setOnClickListener {
-            (listener as DetailsInteractionListener).shareTweet(tweet)
-        }
+        shareImageButton.setOnClickListener { listener.shareTweet(tweet) }
+        quoteImageButton.setOnClickListener { listener.quoteTweet(tweet) }
 
         if (tweet.hasSingleImage()) {
             if (inflatedMediaView == null) {

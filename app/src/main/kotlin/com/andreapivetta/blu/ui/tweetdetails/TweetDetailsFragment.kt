@@ -184,4 +184,8 @@ class TweetDetailsFragment : Fragment(), TweetDetailsMvpView, DetailsInteraction
         intent.type = "text/plain"
         startActivity(intent)
     }
+
+    override fun quoteTweet(tweet: Tweet) {
+        NewTweetActivity.launch(context, tweet)
+    }
 }
