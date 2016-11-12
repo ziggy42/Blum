@@ -15,6 +15,7 @@ import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.utils.Utils
 import com.andreapivetta.blu.common.utils.visible
 import com.andreapivetta.blu.data.model.Tweet
+import com.andreapivetta.blu.data.twitter.getTweetLink
 import com.andreapivetta.blu.ui.base.custom.decorators.SpaceTopItemDecoration
 import com.andreapivetta.blu.ui.image.ImageActivity
 import com.andreapivetta.blu.ui.newtweet.NewTweetActivity
@@ -180,7 +181,7 @@ class TweetDetailsFragment : Fragment(), TweetDetailsMvpView, DetailsInteraction
 
     override fun shareTweet(tweet: Tweet) {
         val intent = Intent(Intent.ACTION_SEND)
-        intent.putExtra(Intent.EXTRA_TEXT, "https://twitter.com/blum/status/${tweet.id}")
+        intent.putExtra(Intent.EXTRA_TEXT, getTweetLink(tweet))
         intent.type = "text/plain"
         startActivity(intent)
     }
