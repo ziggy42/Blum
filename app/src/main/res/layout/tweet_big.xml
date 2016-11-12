@@ -83,6 +83,13 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp" />
 
+        <ViewStub
+            android:id="@+id/urlPreviewViewStub"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp" />
+
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

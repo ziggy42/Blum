@@ -30,8 +30,8 @@ class StatusLinkViewHolder(container: View, listener: InteractionListener) :
     private val urlPreviewImageView: ImageView = container.urlPreviewImageView
     private val urlTitleTextView: TextView = container.urlTitleTextView
     private val urlTextDescriptionView: TextView = container.urlDescriptionTextView
-    private val urlPreviewLayout: View = container.urlPreviewLayout
-    private val loadingProgressBar: View = container.loadingProgressBar
+    private val urlPreviewLayout = container.urlPreviewLayout
+    private val loadingProgressBar = container.loadingProgressBar
     private var subscriber: Subscription? = null
 
     override fun setup(tweet: Tweet) {
@@ -69,7 +69,7 @@ class StatusLinkViewHolder(container: View, listener: InteractionListener) :
         else
             urlPreviewImageView.visibility = View.GONE
         urlTitleTextView.text = metaData.title
-        urlTextDescriptionView.text = metaData.imageUrl
+        urlTextDescriptionView.text = metaData.description
         urlPreviewLayout.setOnClickListener {
             CustomTabsIntent.Builder()
                     .setToolbarColor(ContextCompat

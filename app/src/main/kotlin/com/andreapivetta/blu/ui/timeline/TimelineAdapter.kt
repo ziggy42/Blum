@@ -14,35 +14,32 @@ import java.util.*
 open class TimelineAdapter(val listener: InteractionListener) :
         RecyclerView.Adapter<BaseViewHolder>() {
 
-    companion object {
-        private val TYPE_ITEM = 1
-        private val TYPE_ITEM_PHOTO = 2
-        private val TYPE_ITEM_QUOTE = 3
-        private val TYPE_ITEM_MULTIPLE_PHOTOS = 4
-        private val TYPE_ITEM_VIDEO = 5
-        private val TYPE_ITEM_LINK = 6
-    }
+    private val TYPE_ITEM = 1
+    private val TYPE_ITEM_PHOTO = 2
+    private val TYPE_ITEM_QUOTE = 3
+    private val TYPE_ITEM_MULTIPLE_PHOTOS = 4
+    private val TYPE_ITEM_VIDEO = 5
+    private val TYPE_ITEM_LINK = 6
 
     var mDataSet: MutableList<Tweet> = ArrayList()
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): BaseViewHolder? {
-        when (viewType) {
-            TYPE_ITEM -> return StatusViewHolder(LayoutInflater.from(parent?.context)
-                    .inflate(R.layout.tweet_basic, parent, false), listener)
-            TYPE_ITEM_PHOTO -> return StatusPhotoViewHolder(LayoutInflater.from(parent?.context)
-                    .inflate(R.layout.tweet_photo, parent, false), listener)
-            TYPE_ITEM_QUOTE -> return StatusQuoteViewHolder(LayoutInflater.from(parent?.context)
-                    .inflate(R.layout.tweet_quote, parent, false), listener)
-            TYPE_ITEM_MULTIPLE_PHOTOS -> return StatusMultiplePhotosViewHolder(
-                    LayoutInflater.from(parent?.context).inflate(
-                            R.layout.tweet_multiplephotos, parent, false), listener)
-            TYPE_ITEM_VIDEO -> return StatusVideoViewHolder(LayoutInflater.from(parent?.context)
-                    .inflate(R.layout.tweet_video, parent, false), listener)
-            TYPE_ITEM_LINK -> return StatusLinkViewHolder(LayoutInflater.from(parent?.context)
-                    .inflate(R.layout.tweet_link, parent, false), listener)
-            else -> throw UnsupportedOperationException("No Type found")
-        }
-    }
+    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): BaseViewHolder? =
+            when (viewType) {
+                TYPE_ITEM -> StatusViewHolder(LayoutInflater.from(parent?.context)
+                        .inflate(R.layout.tweet_basic, parent, false), listener)
+                TYPE_ITEM_PHOTO -> StatusPhotoViewHolder(LayoutInflater.from(parent?.context)
+                        .inflate(R.layout.tweet_photo, parent, false), listener)
+                TYPE_ITEM_QUOTE -> StatusQuoteViewHolder(LayoutInflater.from(parent?.context)
+                        .inflate(R.layout.tweet_quote, parent, false), listener)
+                TYPE_ITEM_MULTIPLE_PHOTOS -> StatusMultiplePhotosViewHolder(
+                        LayoutInflater.from(parent?.context).inflate(
+                                R.layout.tweet_multiplephotos, parent, false), listener)
+                TYPE_ITEM_VIDEO -> StatusVideoViewHolder(LayoutInflater.from(parent?.context)
+                        .inflate(R.layout.tweet_video, parent, false), listener)
+                TYPE_ITEM_LINK -> StatusLinkViewHolder(LayoutInflater.from(parent?.context)
+                        .inflate(R.layout.tweet_link, parent, false), listener)
+                else -> throw UnsupportedOperationException("No Type found")
+            }
 
     override fun onBindViewHolder(holder: BaseViewHolder?, position: Int) {
         holder?.setup(mDataSet[position])
