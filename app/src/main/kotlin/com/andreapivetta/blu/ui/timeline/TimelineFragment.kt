@@ -24,6 +24,7 @@ import com.andreapivetta.blu.ui.profile.ProfileActivity
 import com.andreapivetta.blu.ui.tweetdetails.TweetDetailsActivity
 import com.andreapivetta.blu.ui.video.VideoActivity
 import twitter4j.User
+import java.io.Serializable
 import java.util.*
 
 /**
@@ -102,7 +103,8 @@ open class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
-        outState?.putSerializable(TAG_TWEET_LIST, ArrayList(adapter.mDataSet.subList(0, 30)))
+        outState?.putSerializable(TAG_TWEET_LIST, if (adapter.mDataSet.size > 30)
+            ArrayList(adapter.mDataSet.subList(0, 30)) else adapter.mDataSet as Serializable)
         outState?.putInt(TAG_PAGE, presenter.page)
         super.onSaveInstanceState(outState)
     }
