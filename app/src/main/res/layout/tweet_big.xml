@@ -23,8 +23,7 @@
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_marginRight="10dp"
-                android:contentDescription="@string/profile_pic_contentDescriptor"
-                android:src="@drawable/placeholder" />
+                android:contentDescription="@string/profile_pic_contentDescriptor" />
 
             <LinearLayout
                 android:layout_width="0dp"

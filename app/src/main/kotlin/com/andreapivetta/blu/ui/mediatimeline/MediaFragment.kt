@@ -33,8 +33,7 @@ class MediaFragment : Fragment(), MediaMvpView, MediaAdapter.MediaListener {
         }
 
         val TAG_LIST = "list"
-        val TAG_PAGE = "page"
-        val TAG_USER_ID = "page"
+        val TAG_USER_ID = "userid"
     }
 
     private val presenter: MediaPresenter by lazy { MediaPresenter(arguments.getLong(TAG_USER_ID)) }
