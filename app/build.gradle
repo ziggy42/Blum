@@ -43,11 +43,6 @@ android {
         it.buildConfigField 'String', 'LICENSES_URL', LicensesUrl
     }
 
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
-        main.java.srcDirs += 'src/debug/kotlin'
-    }
-
     splits {
         abi {
             enable true
