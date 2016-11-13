@@ -34,7 +34,7 @@ open class StatusViewHolder(container: View, listener: InteractionListener) :
         val currentUser = currentTweet.user
         userNameTextView.text = currentUser.name
         userScreenNameTextView.text = "@${currentUser.screenName}"
-        timeTextView.text = " • ${Utils.formatDate(currentTweet.timeStamp, container.context)}"
+        timeTextView.text = " • ${Utils.formatDate(currentTweet.timeStamp)}"
         userProfilePicImageView.loadAvatar(currentUser.biggerProfileImageURL)
 
         if (currentTweet.favorited)

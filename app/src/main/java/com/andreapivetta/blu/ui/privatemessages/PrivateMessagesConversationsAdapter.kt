@@ -38,7 +38,7 @@ class PrivateMessagesConversationsAdapter() :
         holder?.userNameTextView?.text = message.otherUserName
         holder?.messageTextView?.text = if (message.senderId == message.otherId) message.text else
             context?.getString(R.string.you_message, message.text)
-        holder?.timeTextView?.text = Utils.formatDate(message.timeStamp, holder?.rootView?.context)
+        holder?.timeTextView?.text = Utils.formatDate(message.timeStamp)
 
         holder?.rootView?.setOnClickListener {
             ConversationActivity.launch(context!!, message.otherId)

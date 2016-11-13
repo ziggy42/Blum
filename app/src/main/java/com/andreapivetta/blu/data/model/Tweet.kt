@@ -75,6 +75,4 @@ data class Tweet(val status: Status) : Serializable {
 
     fun getLink() = links[0]
 
-    private fun isSpecialChar(char: Char) = "#|/()=?'^[],;.:-\"\\".contains(char)
-
 }

@@ -79,12 +79,11 @@
         <activity
             android:name=".ui.notifications.NotificationsActivity"
             android:label="@string/notifications" />
+        <activity android:name=".ui.hashtag.HashtagActivity" />
 
         <service
             android:name=".data.jobs.PopulateDatabaseIntentService"
             android:exported="false" />
-
-        <activity android:name=".ui.hashtag.HashtagActivity"></activity>
     </application>
 
 </manifest>

@@ -55,7 +55,7 @@ class StatusDetailsViewHolder(container: View, listener: DetailsInteractionListe
         val autolinkTextView = statusTextView as AutoLinkTextView
 
         userNameTextView.text = currentUser.name
-        timeTextView.text = Utils.formatDate(tweet.timeStamp, container.context)
+        timeTextView.text = Utils.formatDate(tweet.timeStamp)
 
         autolinkTextView.addAutoLinkMode(AutoLinkMode.MODE_HASHTAG, AutoLinkMode.MODE_URL,
                 AutoLinkMode.MODE_MENTION)

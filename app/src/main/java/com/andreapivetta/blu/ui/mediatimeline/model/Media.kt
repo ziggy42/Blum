@@ -9,7 +9,7 @@ import java.io.Serializable
 class Media(status: Status) : Serializable {
 
     val tweetId = status.id
-    val mediaUrl = status.mediaEntities[0].mediaURLHttps
+    val mediaUrl: CharSequence = status.mediaEntities[0].mediaURLHttps
     var retweet = status.isRetweeted
     var favorite = status.isFavorited
 

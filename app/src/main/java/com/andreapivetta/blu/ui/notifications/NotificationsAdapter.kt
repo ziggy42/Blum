@@ -25,8 +25,7 @@ class NotificationsAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                     NotificationAssetsSelector.getIcon(notification, itemView.context))
 
             itemView.userNameTextView.text = notification.userName
-            itemView.timeTextView.text = Utils
-                    .formatDate(notification.timestamp, itemView.context)
+            itemView.timeTextView.text = Utils.formatDate(notification.timestamp)
             itemView.notificationTextView.text = NotificationAssetsSelector
                     .getText(notification, itemView.context)
         }

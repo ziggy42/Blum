@@ -39,7 +39,7 @@ object Utils {
         null
     }
 
-    fun formatDate(timeStamp: Long, context: Context?): String? {
+    fun formatDate(timeStamp: Long): String? {
         val c = Calendar.getInstance()
         val c2 = Calendar.getInstance()
         c2.timeInMillis = timeStamp
@@ -56,11 +56,11 @@ object Utils {
                     else
                         return SimpleDateFormat("MMM dd yyyy", Locale.getDefault()).format(c2.time)
                 } else
-                    return context?.getString(R.string.mini_hours, hours.toInt())
+                    return "${hours}h"
             } else
-                return context?.getString(R.string.mini_minutes, minutes.toInt())
+                return "${minutes}m"
         } else
-            return context?.getString(R.string.mini_seconds, seconds.toInt())
+            return "${seconds}s"
     }
 
 }

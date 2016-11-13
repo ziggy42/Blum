@@ -26,8 +26,7 @@ class ConversationAdapter :
 
             fun setup(privateMessage: PrivateMessage) {
                 messageTextView.text = privateMessage.text
-                timeTextView.text = Utils
-                        .formatDate(privateMessage.timeStamp, messageTextView.context)
+                timeTextView.text = Utils.formatDate(privateMessage.timeStamp)
             }
         }
     }

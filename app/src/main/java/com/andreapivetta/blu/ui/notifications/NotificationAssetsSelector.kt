@@ -1,6 +1,7 @@
 package com.andreapivetta.blu.ui.notifications
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.data.model.Notification
@@ -10,7 +11,7 @@ import com.andreapivetta.blu.data.model.Notification
  */
 object NotificationAssetsSelector {
 
-    fun getIcon(notification: Notification, context: Context) = when (notification.type) {
+    fun getIcon(notification: Notification, context: Context): Drawable = when (notification.type) {
         Notification.FAVOURITE -> ContextCompat.getDrawable(context, R.drawable.ic_favorite)
         Notification.FOLLOW -> ContextCompat.getDrawable(context, R.drawable.ic_person_outline)
         Notification.MENTION -> ContextCompat.getDrawable(context, R.drawable.ic_reply)
@@ -18,7 +19,7 @@ object NotificationAssetsSelector {
         else -> throw RuntimeException("No such notification type")
     }
 
-    fun getText(notification: Notification, context: Context) = when (notification.type) {
+    fun getText(notification: Notification, context: Context): CharSequence = when (notification.type) {
         Notification.FAVOURITE -> context.getString(R.string.notification_text_like,
                 notification.userName, notification.status)
         Notification.FOLLOW -> context.getString(R.string.is_following_not, notification.userName)

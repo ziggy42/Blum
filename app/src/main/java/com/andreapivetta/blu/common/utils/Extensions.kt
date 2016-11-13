@@ -21,15 +21,15 @@ fun ImageView.loadFile(file: File, @DrawableRes placeholder: Int = R.drawable.pl
     Glide.with(context).load(file).placeholder(placeholder).into(this)
 }
 
-fun ImageView.loadUrl(url: String, @DrawableRes placeholder: Int = R.drawable.placeholder) {
+fun ImageView.loadUrl(url: CharSequence, @DrawableRes placeholder: Int = R.drawable.placeholder) {
     Glide.with(context).load(url).placeholder(placeholder).into(this)
 }
 
-fun ImageView.loadUrlCenterCrop(url: String, @DrawableRes placeholder: Int = R.drawable.placeholder) {
+fun ImageView.loadUrlCenterCrop(url: CharSequence, @DrawableRes placeholder: Int = R.drawable.placeholder) {
     Glide.with(context).load(url).placeholder(placeholder).centerCrop().into(this)
 }
 
-fun ImageView.loadAvatar(url: String) {
+fun ImageView.loadAvatar(url: CharSequence) {
     // TODO placeholder
     Glide.with(context).load(url).dontAnimate().into(this)
 }
