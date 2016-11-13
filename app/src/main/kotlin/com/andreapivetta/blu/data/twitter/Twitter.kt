@@ -10,7 +10,7 @@ import twitter4j.conf.ConfigurationBuilder
 /**
  * Created by andrea on 15/05/16.
  */
-object TwitterUtils {
+object Twitter {
 
     private var accessToken: AccessToken? = null
     private var factory: TwitterFactory? = null
@@ -23,7 +23,7 @@ object TwitterUtils {
         return factory as TwitterFactory
     }
 
-    fun getTwitter(): Twitter = getFactory().getInstance(accessToken)
+    fun getInstance(): Twitter = getFactory().getInstance(accessToken)
 
     fun nullTwitter() {
         factory = null

@@ -8,15 +8,9 @@ import java.io.Serializable
  */
 class Media(status: Status) : Serializable {
 
-    val tweetId: Long
-    val mediaUrl: String
-    var retweet: Boolean
-    var favorite: Boolean
+    val tweetId = status.id
+    val mediaUrl = status.mediaEntities[0].mediaURLHttps
+    var retweet = status.isRetweeted
+    var favorite = status.isFavorited
 
-    init {
-        tweetId = status.id
-        mediaUrl = status.mediaEntities[0].mediaURLHttps
-        retweet = status.isRetweeted
-        favorite = status.isFavorited
-    }
 }

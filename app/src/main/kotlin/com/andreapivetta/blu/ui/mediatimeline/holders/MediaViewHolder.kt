@@ -11,14 +11,8 @@ import com.andreapivetta.blu.R
  */
 class MediaViewHolder(val container: View) : RecyclerView.ViewHolder(container) {
 
-    val mediaImageView: ImageView
-    val favouriteImageButton: ImageButton
-    val retweetImageButton: ImageButton
-
-    init {
-        this.mediaImageView = container.findViewById(R.id.imageView) as ImageView
-        this.favouriteImageButton = container.findViewById(R.id.favouriteImageButton) as ImageButton
-        this.retweetImageButton = container.findViewById(R.id.retweetImageButton) as ImageButton
-    }
+    val mediaImageView = container.findViewById(R.id.imageView) as ImageView
+    val favouriteImageButton = container.findViewById(R.id.favouriteImageButton) as ImageButton
+    val retweetImageButton = container.findViewById(R.id.retweetImageButton) as ImageButton
 
 }

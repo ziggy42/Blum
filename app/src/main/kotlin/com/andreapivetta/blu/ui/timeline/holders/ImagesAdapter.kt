@@ -28,7 +28,7 @@ class ImagesAdapter(private val mediaEntities: Array<ExtendedMediaEntity>,
 
     override fun getItemCount() = mediaEntities.size
 
-    inner class VHItem(container: View) : RecyclerView.ViewHolder(container) {
+    class VHItem(container: View) : RecyclerView.ViewHolder(container) {
         var tweetPhotoImageView: ImageView = container.tweetPhotoImageView
     }
 

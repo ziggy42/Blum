@@ -4,7 +4,6 @@ import com.andreapivetta.blu.data.twitter.TwitterAPI
 import com.andreapivetta.blu.ui.base.BasePresenter
 import com.andreapivetta.blu.ui.mediatimeline.model.Media
 import rx.Observable
-import rx.SingleSubscriber
 import rx.Subscriber
 import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
@@ -95,16 +94,10 @@ class MediaPresenter(val userId: Long) : BasePresenter<MediaMvpView>() {
         mFavoriteSubscriber = TwitterAPI.favorite(media.tweetId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(object : SingleSubscriber<Status>() {
-                    override fun onError(error: Throwable?) {
-                        Timber.e(error?.message)
-                    }
-
-                    override fun onSuccess(value: Status?) {
-                        media.favorite = true
-                        mvpView?.onNewInteraction()
-                    }
-                })
+                .subscribe({
+                    media.favorite = true
+                    mvpView?.onNewInteraction()
+                }, { Timber.e(it?.message) })
     }
 
     fun retweet(media: Media) {
@@ -113,16 +106,10 @@ class MediaPresenter(val userId: Long) : BasePresenter<MediaMvpView>() {
         mRetweetSubscriber = TwitterAPI.retweet(media.tweetId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(object : SingleSubscriber<Status>() {
-                    override fun onError(error: Throwable?) {
-                        Timber.e(error?.message)
-                    }
-
-                    override fun onSuccess(value: Status?) {
-                        media.retweet = true
-                        mvpView?.onNewInteraction()
-                    }
-                })
+                .subscribe({
+                    media.retweet = true
+                    mvpView?.onNewInteraction()
+                }, { Timber.e(it?.message) })
     }
 
     fun unfavorite(media: Media) {
@@ -131,15 +118,9 @@ class MediaPresenter(val userId: Long) : BasePresenter<MediaMvpView>() {
         mUnfavoriteSubscriber = TwitterAPI.unfavorite(media.tweetId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(object : SingleSubscriber<Status>() {
-                    override fun onError(error: Throwable?) {
-                        Timber.e(error?.message)
-                    }
-
-                    override fun onSuccess(value: Status?) {
-                        media.favorite = false
-                        mvpView?.onNewInteraction()
-                    }
-                })
+                .subscribe({
+                    media.favorite = false
+                    mvpView?.onNewInteraction()
+                }, { Timber.e(it?.message) })
     }
 }

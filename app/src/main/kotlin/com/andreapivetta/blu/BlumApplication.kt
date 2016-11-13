@@ -4,7 +4,7 @@ import android.app.Application
 import com.andreapivetta.blu.common.settings.AppSettingsFactory
 import com.andreapivetta.blu.data.jobs.NotificationsJobCreator
 import com.andreapivetta.blu.data.twitter.TweetsQueue
-import com.andreapivetta.blu.data.twitter.TwitterUtils
+import com.andreapivetta.blu.data.twitter.Twitter
 import com.evernote.android.job.JobManager
 import io.realm.Realm
 
@@ -15,7 +15,7 @@ open class BlumApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        TwitterUtils.init(AppSettingsFactory.getAppSettings(this))
+        Twitter.init(AppSettingsFactory.getAppSettings(this))
         JobManager.create(this).addJobCreator(NotificationsJobCreator())
         Realm.init(this)
         TweetsQueue.init(this)

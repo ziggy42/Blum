@@ -37,8 +37,10 @@
     <string name="action_search">Search</string>
     <string name="search_hint">Search Tweet or User</string>
     <string name="logout_done">Log Out Done.</string>
-    <string name="like_not_title">%1$s liked your Tweet: %2$s</string>
-    <string name="retw_not_title">%1$s retweeted you: %2$s</string>
+    <string name="notification_title_like">%1$s liked your Tweet</string>
+    <string name="notification_text_like">%1$s liked your Tweet: %2$s</string>
+    <string name="notification_title_retweet">%1$s retweeted your Tweet</string>
+    <string name="notification_text_retweet">%1$s retweeted your Tweet: %2$s</string>
     <string name="follow_not_title">%1$s is now following you</string>
     <string name="reply_not_title">%1$s tweeted</string>
     <string name="retw_ment_not_title">%1$s retweeted a Tweet you were mentioned in</string>

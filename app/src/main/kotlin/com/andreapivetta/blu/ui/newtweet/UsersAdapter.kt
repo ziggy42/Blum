@@ -15,14 +15,12 @@ import kotlinx.android.synthetic.main.user_suggested.view.*
  * Created by andrea on 15/10/16.
  */
 class UsersAdapter(val listener: OnUserClickListener) :
-        RecyclerView.Adapter<UsersAdapter.Companion.UserViewHolder>() {
+        RecyclerView.Adapter<UsersAdapter.UserViewHolder>() {
 
-    companion object {
-        class UserViewHolder(container: View) : RecyclerView.ViewHolder(container) {
-            var userProfilePicImageView: ImageView = container.userProfilePicImageView
-            var userNameTextView: TextView = container.userNameTextView
-            var screenNameTextView: TextView = container.screenNameTextView
-        }
+    class UserViewHolder(container: View) : RecyclerView.ViewHolder(container) {
+        var userProfilePicImageView: ImageView = container.userProfilePicImageView
+        var userNameTextView: TextView = container.userNameTextView
+        var screenNameTextView: TextView = container.screenNameTextView
     }
 
     var users: List<UserFollowed> = listOf()

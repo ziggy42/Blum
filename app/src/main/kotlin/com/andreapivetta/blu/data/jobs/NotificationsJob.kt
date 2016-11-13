@@ -7,7 +7,7 @@ import com.andreapivetta.blu.data.model.Follower
 import com.andreapivetta.blu.data.model.Mention
 import com.andreapivetta.blu.data.model.PrivateMessage
 import com.andreapivetta.blu.data.storage.AppStorageFactory
-import com.andreapivetta.blu.data.twitter.TwitterUtils
+import com.andreapivetta.blu.data.twitter.Twitter
 import com.evernote.android.job.Job
 import com.evernote.android.job.JobRequest
 import timber.log.Timber
@@ -39,7 +39,7 @@ class NotificationsJob : Job() {
     fun checkNotifications(context: Context): Job.Result {
         val settings = AppSettingsFactory.getAppSettings(context)
         val storage = AppStorageFactory.getAppStorage()
-        val twitter = TwitterUtils.getTwitter()
+        val twitter = Twitter.getInstance()
         val dispatcher = NotificationDispatcher(context, storage)
 
         if (settings.isNotifyFavRet()) {

@@ -4,13 +4,11 @@ import com.andreapivetta.blu.R
 import com.andreapivetta.blu.data.model.Tweet
 import com.andreapivetta.blu.data.twitter.TwitterAPI
 import com.andreapivetta.blu.ui.base.BasePresenter
-import rx.SingleSubscriber
 import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import timber.log.Timber
 import twitter4j.Paging
-import twitter4j.Status
 import twitter4j.User
 
 /**
@@ -45,29 +43,24 @@ open class TimelinePresenter : BasePresenter<TimelineMvpView>() {
         mSubscriber = TwitterAPI.getHomeTimeline(Paging(page, 50))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(object : SingleSubscriber<MutableList<Status>>() {
-                    override fun onSuccess(list: MutableList<Status>?) {
-                        mvpView?.hideLoading()
+                .subscribe({
+                    mvpView?.hideLoading()
 
-                        when {
-                            list == null -> mvpView?.showError()
-                            list.isEmpty() -> mvpView?.showEmpty()
-                            else -> {
-                                mvpView?.showTweets(list.map(::Tweet)
-                                        .toMutableList())
-                                page++
-                            }
+                    when {
+                        it == null -> mvpView?.showError()
+                        it.isEmpty() -> mvpView?.showEmpty()
+                        else -> {
+                            mvpView?.showTweets(it.map(::Tweet).toMutableList())
+                            page++
                         }
-
-                        isLoading = false
                     }
 
-                    override fun onError(error: Throwable?) {
-                        Timber.e(error?.message)
-                        mvpView?.hideLoading()
-                        mvpView?.showError()
-                        isLoading = false
-                    }
+                    isLoading = false
+                }, {
+                    Timber.e(it?.message)
+                    mvpView?.hideLoading()
+                    mvpView?.showError()
+                    isLoading = false
                 })
     }
 
@@ -81,21 +74,16 @@ open class TimelinePresenter : BasePresenter<TimelineMvpView>() {
         mSubscriber = TwitterAPI.getHomeTimeline(Paging(page, 50))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(object : SingleSubscriber<MutableList<Status>>() {
-                    override fun onSuccess(list: MutableList<Status>?) {
-                        if (list != null) {
-                            if (list.isNotEmpty())
-                                mvpView?.showMoreTweets(list.map(::Tweet).toMutableList())
-                            page++
-                        }
-                        isLoading = false
+                .subscribe({
+                    if (it != null) {
+                        if (it.isNotEmpty())
+                            mvpView?.showMoreTweets(it.map(::Tweet).toMutableList())
+                        page++
                     }
-
-                    override fun onError(error: Throwable?) {
-                        Timber.e(error?.message)
-                        isLoading = false
-                        // don't visible anything to the user
-                    }
+                    isLoading = false
+                }, {
+                    Timber.e(it?.message)
+                    isLoading = false
                 })
     }
 
@@ -108,21 +96,17 @@ open class TimelinePresenter : BasePresenter<TimelineMvpView>() {
         mRefreshSubscriber = TwitterAPI.refreshTimeLine(page)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(object : SingleSubscriber<MutableList<Status>>() {
-                    override fun onSuccess(list: MutableList<Status>?) {
-                        mvpView?.stopRefresh()
-                        if (list != null) {
-                            list.reversed().forEach { status -> mvpView?.showTweet(Tweet(status)) }
-                        } else {
-                            mvpView?.showSnackBar(R.string.error_refreshing_timeline)
-                        }
-                    }
-
-                    override fun onError(error: Throwable?) {
-                        Timber.e(error?.message)
-                        mvpView?.stopRefresh()
+                .subscribe({
+                    mvpView?.stopRefresh()
+                    if (it != null) {
+                        it.reversed().forEach { status -> mvpView?.showTweet(Tweet(status)) }
+                    } else {
                         mvpView?.showSnackBar(R.string.error_refreshing_timeline)
                     }
+                }, {
+                    Timber.e(it?.message)
+                    mvpView?.stopRefresh()
+                    mvpView?.showSnackBar(R.string.error_refreshing_timeline)
                 })
     }
 
@@ -133,21 +117,17 @@ open class TimelinePresenter : BasePresenter<TimelineMvpView>() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .map(::Tweet)
-                .subscribe(object : SingleSubscriber<Tweet>() {
-                    override fun onSuccess(tweetResult: Tweet?) {
-                        if (tweetResult != null) {
-                            tweet.favorited = true
-                            tweet.favoriteCount++
-                            mvpView?.updateRecyclerViewView()
-                        } else {
-                            mvpView?.showSnackBar(R.string.error_favorite)
-                        }
-                    }
-
-                    override fun onError(error: Throwable?) {
-                        Timber.e(error?.message)
+                .subscribe({
+                    if (it != null) {
+                        tweet.favorited = true
+                        tweet.favoriteCount++
+                        mvpView?.updateRecyclerViewView()
+                    } else {
                         mvpView?.showSnackBar(R.string.error_favorite)
                     }
+                }, {
+                    Timber.e(it?.message)
+                    mvpView?.showSnackBar(R.string.error_favorite)
                 })
     }
 
@@ -158,21 +138,17 @@ open class TimelinePresenter : BasePresenter<TimelineMvpView>() {
                 .map(::Tweet)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(object : SingleSubscriber<Tweet>() {
-                    override fun onSuccess(value: Tweet?) {
-                        if (value != null) {
-                            tweet.retweeted = true
-                            tweet.retweetCount++
-                            mvpView?.updateRecyclerViewView()
-                        } else {
-                            mvpView?.showSnackBar(R.string.error_retweet)
-                        }
-                    }
-
-                    override fun onError(error: Throwable?) {
-                        Timber.e(error?.message)
+                .subscribe({
+                    if (it != null) {
+                        tweet.retweeted = true
+                        tweet.retweetCount++
+                        mvpView?.updateRecyclerViewView()
+                    } else {
                         mvpView?.showSnackBar(R.string.error_retweet)
                     }
+                }, {
+                    Timber.e(it?.message)
+                    mvpView?.showSnackBar(R.string.error_retweet)
                 })
     }
 
@@ -183,21 +159,17 @@ open class TimelinePresenter : BasePresenter<TimelineMvpView>() {
                 .map(::Tweet)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(object : SingleSubscriber<Tweet>() {
-                    override fun onSuccess(value: Tweet?) {
-                        if (value != null) {
-                            tweet.favorited = false
-                            tweet.favoriteCount--
-                            mvpView?.updateRecyclerViewView()
-                        } else {
-                            mvpView?.showSnackBar(R.string.error_unfavorite)
-                        }
-                    }
-
-                    override fun onError(error: Throwable?) {
-                        Timber.e(error?.message)
+                .subscribe({
+                    if (it != null) {
+                        tweet.favorited = false
+                        tweet.favoriteCount--
+                        mvpView?.updateRecyclerViewView()
+                    } else {
                         mvpView?.showSnackBar(R.string.error_unfavorite)
                     }
+                }, {
+                    Timber.e(it?.message)
+                    mvpView?.showSnackBar(R.string.error_unfavorite)
                 })
     }
 
@@ -208,21 +180,17 @@ open class TimelinePresenter : BasePresenter<TimelineMvpView>() {
                 .map(::Tweet)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(object : SingleSubscriber<Tweet>() {
-                    override fun onSuccess(value: Tweet?) {
-                        if (value != null) {
-                            tweet.retweeted = false
-                            tweet.retweetCount--
-                            mvpView?.updateRecyclerViewView()
-                        } else {
-                            mvpView?.showSnackBar(R.string.error_unretweet)
-                        }
-                    }
-
-                    override fun onError(error: Throwable?) {
-                        Timber.e(error?.message)
+                .subscribe({
+                    if (it != null) {
+                        tweet.retweeted = false
+                        tweet.retweetCount--
+                        mvpView?.updateRecyclerViewView()
+                    } else {
                         mvpView?.showSnackBar(R.string.error_unretweet)
                     }
+                }, {
+                    Timber.e(it?.message)
+                    mvpView?.showSnackBar(R.string.error_unretweet)
                 })
     }
 

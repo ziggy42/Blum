@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import com.andreapivetta.blu.R
+import com.andreapivetta.blu.common.utils.pushFragment
 import com.andreapivetta.blu.ui.base.custom.ThemedActivity
 import kotlinx.android.synthetic.main.activity_newtweet.*
 
@@ -24,7 +25,6 @@ class NotificationsActivity : ThemedActivity() {
         toolbar.setNavigationOnClickListener { finish() }
 
         if (savedInstanceState == null)
-            supportFragmentManager.beginTransaction().replace(R.id.container_frameLayout,
-                    NotificationsFragment.newInstance()).commit()
+            pushFragment(R.id.container_frameLayout, NotificationsFragment.newInstance())
     }
 }

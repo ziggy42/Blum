@@ -30,13 +30,12 @@ class BorderedLinearLayout : LinearLayout {
     }
 
     private fun init(attrs: AttributeSet) {
-        val a = context.theme.obtainStyledAttributes(
-                attrs, R.styleable.BorderedLinearLayout, 0, 0)
+        val a = context.theme.obtainStyledAttributes(attrs, R.styleable.BorderedLinearLayout, 0, 0)
 
         strokePaint = Paint()
-        strokePaint!!.style = Paint.Style.STROKE
-        strokePaint!!.color = a.getColor(R.styleable.BorderedLinearLayout_borderColor, Color.BLACK)
-        strokePaint!!.strokeWidth = 2f
+        strokePaint?.style = Paint.Style.STROKE
+        strokePaint?.color = a.getColor(R.styleable.BorderedLinearLayout_borderColor, Color.BLACK)
+        strokePaint?.strokeWidth = 2f
         a.recycle()
     }
 

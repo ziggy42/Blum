@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import com.andreapivetta.blu.R
-import com.bumptech.glide.Glide
+import com.andreapivetta.blu.common.utils.loadFile
 import kotlinx.android.synthetic.main.photo_deletable.view.*
 import java.io.File
 
@@ -15,21 +15,17 @@ import java.io.File
  * Created by andrea on 29/05/16.
  */
 class DeletableImageAdapter() :
-        RecyclerView.Adapter<DeletableImageAdapter.Companion.DeletableImageViewHolder>() {
+        RecyclerView.Adapter<DeletableImageAdapter.DeletableImageViewHolder>() {
 
-    companion object {
-        class DeletableImageViewHolder(root: View) : RecyclerView.ViewHolder(root) {
-            val photoImageView: ImageView = root.tweetPhotoImageView
-            val deleteButton: ImageButton = root.deleteButton
-        }
+    class DeletableImageViewHolder(root: View) : RecyclerView.ViewHolder(root) {
+        val photoImageView: ImageView = root.tweetPhotoImageView
+        val deleteButton: ImageButton = root.deleteButton
     }
 
     val imageFiles: MutableList<File> = mutableListOf()
 
     override fun onBindViewHolder(holder: DeletableImageViewHolder, position: Int) {
-        Glide.with(holder.itemView.context)
-                .load(imageFiles[position])
-                .into(holder.photoImageView)
+        holder.photoImageView.loadFile(imageFiles[position])
         holder.deleteButton.setOnClickListener {
             imageFiles.removeAt(position)
             notifyItemRemoved(position)

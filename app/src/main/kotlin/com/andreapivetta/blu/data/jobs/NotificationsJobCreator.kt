@@ -9,6 +9,6 @@ class NotificationsJobCreator : JobCreator {
 
     override fun create(tag: String?) = when (tag) {
         NotificationsJob.TAG -> NotificationsJob()
-        else -> throw RuntimeException("No such job " + tag)
+        else -> throw RuntimeException("No such job $tag")
     }
 }

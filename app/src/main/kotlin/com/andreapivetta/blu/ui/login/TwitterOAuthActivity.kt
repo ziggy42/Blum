@@ -7,7 +7,7 @@ import android.widget.Toast
 import com.andreapivetta.blu.BuildConfig
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.settings.AppSettingsFactory
-import com.andreapivetta.blu.data.twitter.TwitterUtils
+import com.andreapivetta.blu.data.twitter.Twitter
 import com.andreapivetta.twitterloginview.TwitterLoginListener
 import com.andreapivetta.twitterloginview.TwitterLoginView
 import twitter4j.auth.AccessToken
@@ -30,19 +30,17 @@ class TwitterOAuthActivity : Activity(), TwitterLoginListener {
     override fun onResume() {
         super.onResume()
 
-        if (oauthStarted)
-            return
-
-        oauthStarted = true
-
-        view!!.start(BuildConfig.TWITTER_CONSUMER_KEY, BuildConfig.TWITTER_CONSUMER_SECRET,
-                BuildConfig.TWITTER_CALLBACK, this)
+        if (!oauthStarted) {
+            oauthStarted = true
+            view?.start(BuildConfig.TWITTER_CONSUMER_KEY, BuildConfig.TWITTER_CONSUMER_SECRET,
+                    BuildConfig.TWITTER_CALLBACK, this)
+        }
     }
 
     override fun onSuccess(accessToken: AccessToken) {
         val settings = AppSettingsFactory.getAppSettings(this)
         settings.saveAccessToken(accessToken)
-        TwitterUtils.init(settings)
+        Twitter.init(settings)
 
         showMessage(getString(R.string.authorized_by, accessToken.screenName))
 

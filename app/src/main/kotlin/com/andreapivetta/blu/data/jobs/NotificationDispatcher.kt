@@ -27,7 +27,7 @@ class NotificationDispatcher(val context: Context, val storage: AppStorage) {
                 user.biggerProfileImageURL, false))
 
         sendBroadcast(Notification.NEW_NOTIFICATION_INTENT)
-        notifications.send(context.getString(R.string.like_not_title, user.name), status.text,
+        notifications.send(context.getString(R.string.notification_title_like, user.name), status.text,
                 R.drawable.ic_favorite, user.biggerProfileImageURL, MainActivity::class.java)
     }
 
@@ -37,8 +37,9 @@ class NotificationDispatcher(val context: Context, val storage: AppStorage) {
                 user.biggerProfileImageURL, false))
 
         sendBroadcast(Notification.NEW_NOTIFICATION_INTENT)
-        notifications.send(context.getString(R.string.retw_not_title, user.name), status.text,
-                R.drawable.ic_repeat, user.biggerProfileImageURL, MainActivity::class.java)
+        notifications.send(context.getString(R.string.notification_title_retweet, user.name),
+                status.text, R.drawable.ic_repeat, user.biggerProfileImageURL,
+                MainActivity::class.java)
     }
 
     fun sendMentionNotification(status: Status, user: User) {

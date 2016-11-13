@@ -4,6 +4,7 @@ import com.andreapivetta.blu.data.model.*
 import io.realm.RealmList
 import org.json.JSONObject
 import org.jsoup.Jsoup
+import timber.log.Timber
 import twitter4j.*
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -33,9 +34,7 @@ object NotificationsDataProvider {
     fun retrieveFollowers(twitter: Twitter): MutableList<Follower> {
         val followers = ArrayList<Follower>()
         val ids = twitter.getFollowersIDs(-1)
-        do {
-            followers.addAll(ids.iDs.map(::Follower))
-        } while (ids.hasNext())
+        do followers.addAll(ids.iDs.map(::Follower)) while (ids.hasNext())
         return followers
     }
 
@@ -77,6 +76,7 @@ object NotificationsDataProvider {
                     if (element.attr("data-user-id") != "")
                         usersIDs.add(java.lang.Long.parseLong(element.attr("data-user-id")))
                 } catch (e: Exception) {
+                    Timber.e(e, "Error parsing html")
                     e.printStackTrace()
                     return null
                 }
@@ -108,7 +108,7 @@ object NotificationsDataProvider {
             connection.disconnect()
             return JSONObject(sb.toString())
         } catch (e: Exception) {
-            e.printStackTrace()
+            Timber.e(e, "Error building JSONObject")
             return null
         }
     }

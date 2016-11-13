@@ -4,12 +4,10 @@ import com.andreapivetta.blu.R
 import com.andreapivetta.blu.data.model.Tweet
 import com.andreapivetta.blu.data.twitter.TwitterAPI
 import com.andreapivetta.blu.ui.timeline.TimelinePresenter
-import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import timber.log.Timber
 import twitter4j.Paging
-import twitter4j.Status
 
 /**
  * Created by andrea on 25/06/16.
@@ -24,34 +22,24 @@ class UserTimelinePresenter(val userId: Long) : TimelinePresenter() {
         mSubscriber = TwitterAPI.getUserTimeline(userId, Paging(page, 50))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(object : Subscriber<MutableList<Status>>() {
+                .subscribe({
+                    mvpView?.hideLoading()
 
-                    override fun onCompleted() {
-
-                    }
-
-                    override fun onNext(list: MutableList<Status>?) {
-                        mvpView?.hideLoading()
-
-                        when {
-                            list == null -> mvpView?.showError()
-                            list.isEmpty() -> mvpView?.showEmpty()
-                            else -> {
-                                mvpView?.showTweets(list.map(::Tweet)
-                                        .toMutableList())
-                                page++
-                            }
+                    when {
+                        it == null -> mvpView?.showError()
+                        it.isEmpty() -> mvpView?.showEmpty()
+                        else -> {
+                            mvpView?.showTweets(it.map(::Tweet).toMutableList())
+                            page++
                         }
-
-                        isLoading = false
                     }
 
-                    override fun onError(error: Throwable?) {
-                        Timber.e(error?.message)
-                        mvpView?.hideLoading()
-                        mvpView?.showError()
-                        isLoading = false
-                    }
+                    isLoading = false
+                }, {
+                    Timber.e(it)
+                    mvpView?.hideLoading()
+                    mvpView?.showError()
+                    isLoading = false
                 })
     }
 
@@ -65,26 +53,16 @@ class UserTimelinePresenter(val userId: Long) : TimelinePresenter() {
         mSubscriber = TwitterAPI.getUserTimeline(userId, Paging(page, 50))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(object : Subscriber<MutableList<Status>>() {
-
-                    override fun onCompleted() {
-
+                .subscribe({
+                    if (it != null) {
+                        if (it.isNotEmpty())
+                            mvpView?.showMoreTweets(it.map(::Tweet).toMutableList())
+                        page++
                     }
-
-                    override fun onNext(list: MutableList<Status>?) {
-                        if (list != null) {
-                            if (list.isNotEmpty())
-                                mvpView?.showMoreTweets(list.map(::Tweet)
-                                        .toMutableList())
-                            page++
-                        }
-                        isLoading = false
-                    }
-
-                    override fun onError(error: Throwable?) {
-                        Timber.e(error?.message)
-                        isLoading = false
-                    }
+                    isLoading = false
+                }, {
+                    Timber.e(it)
+                    isLoading = false
                 })
     }
 
@@ -97,25 +75,16 @@ class UserTimelinePresenter(val userId: Long) : TimelinePresenter() {
         mRefreshSubscriber = TwitterAPI.refreshUserTimeLine(userId, page)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(object : Subscriber<MutableList<Status>>() {
-
-                    override fun onCompleted() {
-
-                    }
-
-                    override fun onNext(list: MutableList<Status>?) {
-                        mvpView?.stopRefresh()
-                        if (list != null)
-                            list.reversed().forEach { status -> mvpView?.showTweet(Tweet(status)) }
-                        else
-                            mvpView?.showSnackBar(R.string.error_refreshing_timeline)
-                    }
-
-                    override fun onError(error: Throwable?) {
-                        Timber.e(error?.message)
-                        mvpView?.stopRefresh()
+                .subscribe({
+                    mvpView?.stopRefresh()
+                    if (it != null)
+                        it.reversed().forEach { status -> mvpView?.showTweet(Tweet(status)) }
+                    else
                         mvpView?.showSnackBar(R.string.error_refreshing_timeline)
-                    }
+                }, {
+                    Timber.e(it)
+                    mvpView?.stopRefresh()
+                    mvpView?.showSnackBar(R.string.error_refreshing_timeline)
                 })
     }
 

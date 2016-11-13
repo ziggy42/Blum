@@ -9,23 +9,21 @@ import twitter4j.auth.AccessToken
  */
 class SharedPreferencesAppSettings(context: Context) : AppSettings {
 
-    companion object {
-        private val KEY_LOGIN = "logged"
-        private val KEY_LOGGED_USER = "user"
-        private val KEY_OAUTH_TOKEN = "oauth_token"
-        private val KEY_OAUTH_TOKEN_SECRET = "oauth_token_secret"
-        private val KEY_THEMES = "themes"
-        private val KEY_REALM_POPULATED = "realm_populated"
-        private val KEY_USER_FOLLOWED_AVAILABLE = "user_followed_available"
-        private val KEY_NOTIFY_FAV_RET = "fav_ret"
-        private val KEY_NOTIFY_DIRECT_MESSAGES = "dms"
-        private val KEY_NOTIFY_FOLLOWERS = "followers"
-        private val KEY_NOTIFY_MENTIONS = "mentions"
-        private val KEY_DOWNLOADED_FAV_RET = "downloaded_fav_ret"
-        private val KEY_DOWNLOADED_DIRECT_MESSAGES = "downloaded_dms"
-        private val KEY_DOWNLOADED_FOLLOWERS = "downloaded_followers"
-        private val KEY_DOWNLOADED_MENTIONS = "downloaded_mentions"
-    }
+    private val KEY_LOGIN = "logged"
+    private val KEY_LOGGED_USER = "user"
+    private val KEY_OAUTH_TOKEN = "oauth_token"
+    private val KEY_OAUTH_TOKEN_SECRET = "oauth_token_secret"
+    private val KEY_THEMES = "themes"
+    private val KEY_REALM_POPULATED = "realm_populated"
+    private val KEY_USER_FOLLOWED_AVAILABLE = "user_followed_available"
+    private val KEY_NOTIFY_FAV_RET = "fav_ret"
+    private val KEY_NOTIFY_DIRECT_MESSAGES = "dms"
+    private val KEY_NOTIFY_FOLLOWERS = "followers"
+    private val KEY_NOTIFY_MENTIONS = "mentions"
+    private val KEY_DOWNLOADED_FAV_RET = "downloaded_fav_ret"
+    private val KEY_DOWNLOADED_DIRECT_MESSAGES = "downloaded_dms"
+    private val KEY_DOWNLOADED_FOLLOWERS = "downloaded_followers"
+    private val KEY_DOWNLOADED_MENTIONS = "downloaded_mentions"
 
     private val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
@@ -123,7 +121,7 @@ class SharedPreferencesAppSettings(context: Context) : AppSettings {
             .getBoolean(KEY_DOWNLOADED_FAV_RET, false)
 
     override fun clear() {
-        sharedPreferences.edit().clear().commit()
+        sharedPreferences.edit().clear().apply()
     }
 
 }

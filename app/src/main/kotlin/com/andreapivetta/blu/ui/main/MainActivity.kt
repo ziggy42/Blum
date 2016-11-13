@@ -98,16 +98,15 @@ class MainActivity : ThemedActivity(), MainMvpView {
             messagesCountTextView.text = if (messagesCount < 100) "$messagesCount" else "99"
         }
 
-        val searchView = MenuItemCompat.
-                getActionView(menu?.findItem(R.id.action_search)) as SearchView
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(s: String): Boolean {
-                search(searchView.query.toString())
-                return true
-            }
+        (MenuItemCompat.getActionView(menu?.findItem(R.id.action_search)) as SearchView)
+                .setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                    override fun onQueryTextSubmit(query: String): Boolean {
+                        search(query)
+                        return true
+                    }
 
-            override fun onQueryTextChange(s: String) = false
-        })
+                    override fun onQueryTextChange(s: String) = false
+                })
 
         return true
     }

@@ -18,16 +18,14 @@ import java.util.*
  * Created by andrea on 06/08/16.
  */
 class PrivateMessagesConversationsAdapter() :
-        RecyclerView.Adapter<PrivateMessagesConversationsAdapter.Companion.ConversationViewHolder>() {
+        RecyclerView.Adapter<PrivateMessagesConversationsAdapter.ConversationViewHolder>() {
 
-    companion object {
-        class ConversationViewHolder(val rootView: View) : RecyclerView.ViewHolder(rootView) {
-            val userProfilePicImageView =
-                    rootView.findViewById(R.id.userProfilePicImageView) as ImageView
-            val userNameTextView = rootView.findViewById(R.id.userNameTextView) as TextView
-            val messageTextView = rootView.findViewById(R.id.messageTextView) as TextView
-            val timeTextView = rootView.findViewById(R.id.timeTextView) as TextView
-        }
+    class ConversationViewHolder(val rootView: View) : RecyclerView.ViewHolder(rootView) {
+        val userProfilePicImageView =
+                rootView.findViewById(R.id.userProfilePicImageView) as ImageView
+        val userNameTextView = rootView.findViewById(R.id.userNameTextView) as TextView
+        val messageTextView = rootView.findViewById(R.id.messageTextView) as TextView
+        val timeTextView = rootView.findViewById(R.id.timeTextView) as TextView
     }
 
     var dataSet: MutableList<PrivateMessage> = ArrayList()

@@ -61,7 +61,7 @@ class SetupActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        LocalBroadcastManager.getInstance(this@SetupActivity).unregisterReceiver(responseReceiver)
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(responseReceiver)
     }
 
     private fun updateViewForDownload() {

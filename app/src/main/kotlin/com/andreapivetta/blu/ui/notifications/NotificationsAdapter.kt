@@ -17,38 +17,34 @@ import java.util.*
  */
 class NotificationsAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    companion object {
+    class NotificationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        private val TYPE_HEADER_NEW = 0
-        private val TYPE_HEADER_OLD = 1
-        private val TYPE_NOTIFICATION_NEW = 2
-        private val TYPE_NOTIFICATION_OLD = 3
+        fun setup(notification: Notification) {
+            itemView.userProfilePicImageView.loadAvatar(notification.profilePicURL)
+            itemView.notificationTypeImageView.setImageDrawable(
+                    NotificationAssetsSelector.getIcon(notification, itemView.context))
 
-        class NotificationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-            fun setup(notification: Notification) {
-                itemView.userProfilePicImageView.loadAvatar(notification.profilePicURL)
-                itemView.notificationTypeImageView.setImageDrawable(
-                        NotificationAssetsSelector.getIcon(notification, itemView.context))
-
-                itemView.userNameTextView.text = notification.userName
-                itemView.timeTextView.text = Utils
-                        .formatDate(notification.timestamp, itemView.context)
-                itemView.notificationTextView.text = NotificationAssetsSelector
-                        .getText(notification, itemView.context)
-            }
-
-        }
-
-        class HeaderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-            fun setup(old: Boolean) {
-                itemView.labelTextView.text = if (old) "Old" else "New"
-            }
-
+            itemView.userNameTextView.text = notification.userName
+            itemView.timeTextView.text = Utils
+                    .formatDate(notification.timestamp, itemView.context)
+            itemView.notificationTextView.text = NotificationAssetsSelector
+                    .getText(notification, itemView.context)
         }
 
     }
+
+    class HeaderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        fun setup(old: Boolean) {
+            itemView.labelTextView.text = if (old) "Old" else "New"
+        }
+
+    }
+
+    private val TYPE_HEADER_NEW = 0
+    private val TYPE_HEADER_OLD = 1
+    private val TYPE_NOTIFICATION_NEW = 2
+    private val TYPE_NOTIFICATION_OLD = 3
 
     var unreadNotifications: List<Notification> = ArrayList()
     var readNotifications: List<Notification> = ArrayList()

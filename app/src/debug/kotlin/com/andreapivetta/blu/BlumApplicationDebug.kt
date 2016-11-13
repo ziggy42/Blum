@@ -1,11 +1,9 @@
 package com.andreapivetta.blu
 
-import android.app.Application
-import com.andreapivetta.blu.data.twitter.TwitterUtils
 import com.facebook.stetho.Stetho
 import com.squareup.leakcanary.LeakCanary
-import timber.log.Timber
 import com.uphyca.stetho_realm.RealmInspectorModulesProvider
+import timber.log.Timber
 import java.util.regex.Pattern
 
 /**
@@ -16,7 +14,7 @@ class BlumApplicationDebug : BlumApplication() {
     override fun onCreate() {
         super.onCreate()
 
-        Timber.plant(Timber.DebugTree());
+        Timber.plant(Timber.DebugTree())
         LeakCanary.install(this)
         Stetho.initialize(Stetho.newInitializerBuilder(this)
                 .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))

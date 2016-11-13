@@ -89,9 +89,7 @@ class RealmAppStorage(name: String = "blumRealm") : AppStorage {
             .where(UserFollowed::class.java).findAllSorted("name")
 
     override fun saveUserFollowed(userFollowed: UserFollowed) {
-        realm.executeTransaction {
-            realm.copyToRealm(userFollowed)
-        }
+        realm.executeTransaction { realm.copyToRealm(userFollowed) }
     }
 
     override fun saveTweetInfo(tweetInfo: TweetInfo, body: (TweetInfo) -> Unit) {
@@ -102,15 +100,11 @@ class RealmAppStorage(name: String = "blumRealm") : AppStorage {
     }
 
     override fun saveMention(mention: Mention) {
-        realm.executeTransaction {
-            realm.copyToRealm(mention)
-        }
+        realm.executeTransaction { realm.copyToRealm(mention) }
     }
 
     override fun saveFollower(follower: Follower) {
-        realm.executeTransaction {
-            realm.copyToRealm(follower)
-        }
+        realm.executeTransaction { realm.copyToRealm(follower) }
     }
 
     override fun getAllFollowers(): List<Follower> = realm.where(Follower::class.java).findAll()

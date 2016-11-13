@@ -14,24 +14,18 @@ class EditedViewPager : ViewPager {
 
     constructor(context: Context, attributeSet: AttributeSet) : super(context, attributeSet)
 
-    override fun onTouchEvent(ev: MotionEvent?): Boolean {
-        try {
-            return super.onTouchEvent(ev)
-        } catch(err: IllegalArgumentException) {
-            err.printStackTrace()
-        }
-
-        return false
+    override fun onTouchEvent(ev: MotionEvent?) = try {
+        super.onTouchEvent(ev)
+    } catch(err: IllegalArgumentException) {
+        err.printStackTrace()
+        false
     }
 
-    override fun onInterceptTouchEvent(ev: MotionEvent?): Boolean {
-        try {
-            return super.onInterceptTouchEvent(ev)
-        } catch(err: IllegalArgumentException) {
-            err.printStackTrace()
-        }
-
-        return false
+    override fun onInterceptTouchEvent(ev: MotionEvent?) = try {
+        super.onInterceptTouchEvent(ev)
+    } catch(err: IllegalArgumentException) {
+        err.printStackTrace()
+        false
     }
 
 }

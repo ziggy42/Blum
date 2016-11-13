@@ -18,7 +18,7 @@ object TwitterAPI {
             Single.from(object : Future<MutableList<Status>> {
                 override fun get() =
                         try {
-                            TwitterUtils.getTwitter().getHomeTimeline(paging)
+                            Twitter.getInstance().getHomeTimeline(paging)
                         } catch(err: Exception) {
                             Timber.e(err, "Error in getHomeTimeline")
                             null
@@ -45,7 +45,7 @@ object TwitterAPI {
             Observable.from(object : Future<MutableList<Status>> {
                 override fun get() =
                         try {
-                            TwitterUtils.getTwitter().getUserTimeline(userId, paging)
+                            Twitter.getInstance().getUserTimeline(userId, paging)
                         } catch(err: Exception) {
                             Timber.e(err, "Error in getUserTimeline")
                             null
@@ -76,7 +76,7 @@ object TwitterAPI {
 
                 override fun get() =
                         try {
-                            TwitterUtils.getTwitter().search(query)
+                            Twitter.getInstance().search(query)
                         } catch (err: Exception) {
                             Timber.e(err, "Error in searchTweets")
                             null
@@ -107,7 +107,7 @@ object TwitterAPI {
 
                 override fun get(): MutableList<User>? =
                         try {
-                            TwitterUtils.getTwitter().searchUsers(query, paging.page)
+                            Twitter.getInstance().searchUsers(query, paging.page)
                         } catch (err: Exception) {
                             Timber.e(err, "Error in searchTweets")
                             null
@@ -137,7 +137,7 @@ object TwitterAPI {
         }
 
         override fun get() = try {
-            TwitterUtils.getTwitter().updateStatus(tweet)
+            Twitter.getInstance().updateStatus(tweet)
         } catch (err: Exception) {
             Timber.e(err, "Error in updateStatus")
             null
@@ -166,11 +166,11 @@ object TwitterAPI {
                     val status = StatusUpdate(tweet)
                     val mediaIds = LongArray(images.size)
                     images.forEachIndexed { i, file ->
-                        mediaIds[i] = TwitterUtils.getTwitter()
+                        mediaIds[i] = Twitter.getInstance()
                                 .uploadMedia(images[i]).mediaId
                     }
                     status.setMediaIds(*mediaIds)
-                    TwitterUtils.getTwitter().updateStatus(status)
+                    Twitter.getInstance().updateStatus(status)
                 } catch (err: Exception) {
                     Timber.e(err, "Error in updateStatus")
                     null
@@ -209,7 +209,7 @@ object TwitterAPI {
         }
 
         override fun get() = try {
-            TwitterUtils.getTwitter().destroyStatus(statusId)
+            Twitter.getInstance().destroyStatus(statusId)
         } catch (err: Exception) {
             Timber.e(err, "Error in destroy")
             null
@@ -229,7 +229,7 @@ object TwitterAPI {
                 override fun get() = try {
                     val status = StatusUpdate(tweet)
                     status.inReplyToStatusId = inReplyToStatusId
-                    TwitterUtils.getTwitter().updateStatus(status)
+                    Twitter.getInstance().updateStatus(status)
                 } catch (err: Exception) {
                     null
                 }
@@ -257,12 +257,12 @@ object TwitterAPI {
                     val status = StatusUpdate(tweet)
                     val mediaIds = LongArray(images.size)
                     images.forEachIndexed { i, file ->
-                        mediaIds[i] = TwitterUtils.getTwitter()
+                        mediaIds[i] = Twitter.getInstance()
                                 .uploadMedia(images[i]).mediaId
                     }
                     status.setMediaIds(*mediaIds)
                     status.inReplyToStatusId = inReplyToStatusId
-                    TwitterUtils.getTwitter().updateStatus(status)
+                    Twitter.getInstance().updateStatus(status)
                 } catch (err: Exception) {
                     Timber.e(err, "Error in reply")
                     null
@@ -295,7 +295,7 @@ object TwitterAPI {
         }
 
         override fun get() = try {
-            TwitterUtils.getTwitter().createFavorite(statusId)
+            Twitter.getInstance().createFavorite(statusId)
         } catch (err: Exception) {
             Timber.e(err, "Error in favorite")
             null
@@ -320,7 +320,7 @@ object TwitterAPI {
         }
 
         override fun get() = try {
-            TwitterUtils.getTwitter().destroyFavorite(statusId)
+            Twitter.getInstance().destroyFavorite(statusId)
         } catch (err: Exception) {
             Timber.e(err, "Error in unfavorite")
             null
@@ -341,7 +341,7 @@ object TwitterAPI {
         }
 
         override fun get() = try {
-            TwitterUtils.getTwitter().retweetStatus(statusId)
+            Twitter.getInstance().retweetStatus(statusId)
         } catch (err: Exception) {
             Timber.e(err, "Error in retweet")
             null
@@ -375,11 +375,11 @@ object TwitterAPI {
                 override fun get(): Pair<MutableList<Status>, Int>? {
                     try {
                         val list = ArrayList<Status>()
-                        val status = TwitterUtils.getTwitter().showStatus(statusId)
+                        val status = Twitter.getInstance().showStatus(statusId)
                         var currentStatus = status
                         var id: Long = currentStatus.inReplyToStatusId
                         while (id != -1L) {
-                            currentStatus = TwitterUtils.getTwitter().showStatus(id)
+                            currentStatus = Twitter.getInstance().showStatus(id)
                             list.add(currentStatus)
                             id = currentStatus.inReplyToStatusId
                         }
@@ -387,7 +387,7 @@ object TwitterAPI {
                         val targetIndex = list.size
                         list.add(status)
 
-                        val result = TwitterUtils.getTwitter()
+                        val result = Twitter.getInstance()
                                 .search(Query("to: ${status.user.screenName}"))
                         result.tweets.forEach {
                             tmpStatus ->
@@ -424,7 +424,7 @@ object TwitterAPI {
                 }
 
                 override fun get(): User? = try {
-                    TwitterUtils.getTwitter().showUser(userId)
+                    Twitter.getInstance().showUser(userId)
                 } catch (err: Exception) {
                     Timber.e(err, "Error in getting a User")
                     null
@@ -442,7 +442,7 @@ object TwitterAPI {
                 }
 
                 override fun get(): DirectMessage? = try {
-                    TwitterUtils.getTwitter().sendDirectMessage(userId, text)
+                    Twitter.getInstance().sendDirectMessage(userId, text)
                 } catch (err: Exception) {
                     Timber.e(err, "Error in getting a User")
                     null

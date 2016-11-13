@@ -8,7 +8,7 @@ import com.andreapivetta.blu.common.settings.AppSettingsFactory
 import com.andreapivetta.blu.data.model.PrivateMessage
 import com.andreapivetta.blu.data.model.UserFollowed
 import com.andreapivetta.blu.data.storage.AppStorageFactory
-import com.andreapivetta.blu.data.twitter.TwitterUtils
+import com.andreapivetta.blu.data.twitter.Twitter
 import timber.log.Timber
 
 class PopulateDatabaseIntentService : IntentService("PopulateDatabaseIntentService") {
@@ -28,7 +28,7 @@ class PopulateDatabaseIntentService : IntentService("PopulateDatabaseIntentServi
 
         Timber.i("Starting PopulateDatabaseIntentService...")
 
-        val twitter = TwitterUtils.getTwitter()
+        val twitter = Twitter.getInstance()
         val storage = AppStorageFactory.getAppStorage()
         val settings = AppSettingsFactory.getAppSettings(this)
         storage.clear()

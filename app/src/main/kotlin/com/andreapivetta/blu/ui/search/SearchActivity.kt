@@ -43,12 +43,10 @@ class SearchActivity : ThemedActivity() {
     inner class SearchFragmentPagerAdapter(supportFragmentManager: FragmentManager) :
             FragmentPagerAdapter(supportFragmentManager) {
 
-        override fun getItem(position: Int): Fragment {
-            when (position) {
-                0 -> return SearchTweetFragment.newInstance(query)
-                1 -> return SearchUsersFragment.newInstance(query)
-                else -> throw RuntimeException("Unknown item")
-            }
+        override fun getItem(position: Int): Fragment = when (position) {
+            0 -> SearchTweetFragment.newInstance(query)
+            1 -> SearchUsersFragment.newInstance(query)
+            else -> throw RuntimeException("Unknown item")
         }
 
         override fun getPageTitle(position: Int): CharSequence = resources.

@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import com.andreapivetta.blu.R
+import com.andreapivetta.blu.common.utils.pushFragment
 import com.andreapivetta.blu.ui.base.custom.ThemedActivity
 import kotlinx.android.synthetic.main.activity_tweet_details.*
 
@@ -26,9 +27,8 @@ class TweetDetailsActivity : ThemedActivity() {
         toolbar.setNavigationOnClickListener { finish() }
 
         if (savedInstanceState == null)
-            supportFragmentManager.beginTransaction()
-                    .replace(R.id.container_frameLayout, TweetDetailsFragment.newInstance(
-                            intent.getLongExtra(TweetDetailsFragment.TAG_ID, -1L))).commit()
+            pushFragment(R.id.container_frameLayout, TweetDetailsFragment.newInstance(
+                    intent.getLongExtra(TweetDetailsFragment.TAG_ID, -1L)))
     }
 
 }

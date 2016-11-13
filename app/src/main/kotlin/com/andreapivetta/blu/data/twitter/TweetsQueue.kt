@@ -4,11 +4,9 @@ import android.content.Context
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.notifications.AppNotifications
 import com.andreapivetta.blu.common.notifications.AppNotificationsFactory
-import rx.SingleSubscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import timber.log.Timber
-import twitter4j.Status
 import java.io.File
 import java.util.*
 
@@ -54,19 +52,15 @@ object TweetsQueue {
             TwitterAPI.updateStatus(queue.poll())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
-                    .subscribe(object : SingleSubscriber<Status>() {
-                        override fun onSuccess(value: Status?) {
-                            sending = false
-                            appNotifications?.stopLongRunning(id!!)
-                            tick()
-                        }
-
-                        override fun onError(error: Throwable?) {
-                            Timber.e(error?.message)
-                            sending = false
-                            appNotifications?.stopLongRunning(id!!)
-                            tick()
-                        }
+                    .subscribe({
+                        sending = false
+                        appNotifications?.stopLongRunning(id!!)
+                        tick()
+                    }, {
+                        Timber.e(it?.message)
+                        sending = false
+                        appNotifications?.stopLongRunning(id!!)
+                        tick()
                     })
         }
     }

@@ -15,16 +15,6 @@ import java.util.*
  */
 class MediaAdapter(val listener: MediaListener) : RecyclerView.Adapter<MediaViewHolder>() {
 
-    interface MediaListener {
-        fun favorite(media: Media)
-
-        fun retweet(media: Media)
-
-        fun unfavorite(media: Media)
-
-        fun unretweet(media: Media)
-    }
-
     var mDataSet: MutableList<Media> = ArrayList()
 
     override fun onBindViewHolder(holder: MediaViewHolder?, position: Int) {

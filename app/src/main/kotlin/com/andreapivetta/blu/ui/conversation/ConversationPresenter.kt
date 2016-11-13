@@ -4,14 +4,11 @@ import com.andreapivetta.blu.data.model.PrivateMessage
 import com.andreapivetta.blu.data.storage.AppStorage
 import com.andreapivetta.blu.data.twitter.TwitterAPI
 import com.andreapivetta.blu.ui.base.BasePresenter
-import rx.SingleSubscriber
 import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import timber.log.Timber
-import twitter4j.DirectMessage
 import twitter4j.Twitter
-import twitter4j.User
 
 /**
  * Created by andrea on 21/09/16.
@@ -41,23 +38,19 @@ class ConversationPresenter(val twitter: Twitter, val storage: AppStorage, val o
         sendPrivateMessageSubscriber = TwitterAPI.sendPrivateMessage(text, otherId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(object : SingleSubscriber<DirectMessage>() {
-                    override fun onSuccess(directMessage: DirectMessage?) {
-                        if (directMessage == null) {
-                            onError(Exception("DirectMessage can't be null"))
-                        } else {
-                            val message = PrivateMessage.valueOf(directMessage, otherId, true)
-                            message.isRead = true
-                            storage.savePrivateMessage(message)
-                            mvpView?.showNewPrivateMessage(message)
-                        }
-                    }
-
-                    override fun onError(error: Throwable?) {
-                        Timber.e(error, "Send private message failed")
+                .subscribe({
+                    if (it == null) {
+                        Timber.e("Send private message failed")
                         mvpView?.showSendFailed()
+                    } else {
+                        val message = PrivateMessage.valueOf(it, otherId, true)
+                        message.isRead = true
+                        storage.savePrivateMessage(message)
+                        mvpView?.showNewPrivateMessage(message)
                     }
-
+                }, {
+                    Timber.e(it, "Send private message failed")
+                    mvpView?.showSendFailed()
                 })
     }
 
@@ -66,28 +59,24 @@ class ConversationPresenter(val twitter: Twitter, val storage: AppStorage, val o
         mvpView?.showLoading()
         isLoading = true
 
-
         loadUserSubscriber = TwitterAPI.showUser(userId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(object : SingleSubscriber<User>() {
-                    override fun onSuccess(user: User?) {
-                        mvpView?.hideLoading()
-                        if (user == null)
-                            onError(Exception("User not found"))
-                        else {
-                            mvpView?.showUserData(user)
-                            messages = storage.getConversation(userId)
-                            storage.setMessagesAsRead(messages!!.toList())
-                            mvpView?.showConversation(messages!!)
-                        }
-                    }
-
-                    override fun onError(error: Throwable?) {
-                        Timber.e(error, "User lookup failed")
-                        mvpView?.hideLoading()
+                .subscribe({
+                    mvpView?.hideLoading()
+                    if (it == null) {
+                        Timber.e("User not found")
                         mvpView?.showError()
+                    } else {
+                        mvpView?.showUserData(it)
+                        messages = storage.getConversation(userId)
+                        storage.setMessagesAsRead(messages!!.toList())
+                        mvpView?.showConversation(messages!!)
                     }
+                }, {
+                    Timber.e(it, "User lookup failed")
+                    mvpView?.hideLoading()
+                    mvpView?.showError()
                 })
     }
 }

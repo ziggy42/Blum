@@ -21,7 +21,7 @@ import java.io.Serializable
 /**
  * Created by andrea on 24/06/16.
  */
-class MediaFragment : Fragment(), MediaMvpView, MediaAdapter.MediaListener {
+class MediaFragment : Fragment(), MediaMvpView, MediaListener {
 
     companion object {
         fun newInstance(userId: Long): MediaFragment {
@@ -41,6 +41,7 @@ class MediaFragment : Fragment(), MediaMvpView, MediaAdapter.MediaListener {
     private lateinit var recyclerView: RecyclerView
     private lateinit var loadingProgressBar: ProgressBar
 
+    @Suppress("UNCHECKED_CAST")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         presenter.attachView(this)

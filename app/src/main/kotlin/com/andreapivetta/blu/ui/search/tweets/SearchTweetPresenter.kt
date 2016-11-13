@@ -3,7 +3,6 @@ package com.andreapivetta.blu.ui.search.tweets
 import com.andreapivetta.blu.data.model.Tweet
 import com.andreapivetta.blu.data.twitter.TwitterAPI
 import com.andreapivetta.blu.ui.timeline.TimelinePresenter
-import rx.SingleSubscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import timber.log.Timber
@@ -26,31 +25,26 @@ class SearchTweetPresenter(textQuery: String) : TimelinePresenter() {
         mSubscriber = TwitterAPI.searchTweets(query!!)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(object : SingleSubscriber<QueryResult>() {
-                    override fun onSuccess(result: QueryResult?) {
-                        mvpView?.hideLoading()
+                .subscribe({
+                    mvpView?.hideLoading()
 
-                        queryResult = result
-                        val list = result?.tweets
-                        when {
-                            list == null -> mvpView?.showError()
-                            list.isEmpty() -> mvpView?.showEmpty()
-                            else -> {
-                                mvpView?.showTweets(list.map(::Tweet)
-                                        .toMutableList())
-                                page++
-                            }
+                    queryResult = it
+                    val list = it?.tweets
+                    when {
+                        list == null -> mvpView?.showError()
+                        list.isEmpty() -> mvpView?.showEmpty()
+                        else -> {
+                            mvpView?.showTweets(list.map(::Tweet).toMutableList())
+                            page++
                         }
-
-                        isLoading = false
                     }
 
-                    override fun onError(error: Throwable?) {
-                        Timber.e(error?.message)
-                        mvpView?.hideLoading()
-                        mvpView?.showError()
-                        isLoading = false
-                    }
+                    isLoading = false
+                }, {
+                    Timber.e(it?.message)
+                    mvpView?.hideLoading()
+                    mvpView?.showError()
+                    isLoading = false
                 })
     }
 
@@ -60,19 +54,12 @@ class SearchTweetPresenter(textQuery: String) : TimelinePresenter() {
             mRefreshSubscriber = TwitterAPI.searchTweets(query!!)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
-                    .subscribe(object : SingleSubscriber<QueryResult>() {
-                        override fun onSuccess(result: QueryResult?) {
-                            queryResult = result
-                            val list = result?.tweets
-                            if (list != null)
-                                mvpView?.showMoreTweets(list
-                                        .map(::Tweet).toMutableList())
-                        }
-
-                        override fun onError(error: Throwable?) {
-                            Timber.e(error?.message)
-                        }
-                    })
+                    .subscribe({
+                        queryResult = it
+                        val list = it?.tweets
+                        if (list != null)
+                            mvpView?.showMoreTweets(list.map(::Tweet).toMutableList())
+                    }, { Timber.e(it?.message) })
         }
     }
 

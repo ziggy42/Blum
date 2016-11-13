@@ -1,3 +1,5 @@
+@file:Suppress("UNUSED_PARAMETER")
+
 package com.andreapivetta.blu.ui.base.custom
 
 import android.content.Context
@@ -10,6 +12,7 @@ import android.view.View
 /**
  * Thanks to https://plus.google.com/+IanLake/posts/M2wPSXgGGAF
  */
+@Suppress("unused")
 class ScrollAwareFABBehavior(context: Context, attrs: AttributeSet) : FloatingActionButton.Behavior() {
 
     override fun onStartNestedScroll(coordinatorLayout: CoordinatorLayout?, child: FloatingActionButton?,
@@ -20,10 +23,10 @@ class ScrollAwareFABBehavior(context: Context, attrs: AttributeSet) : FloatingAc
     override fun onNestedScroll(coordinatorLayout: CoordinatorLayout?, child: FloatingActionButton?, target: View?,
                                 dxConsumed: Int, dyConsumed: Int, dxUnconsumed: Int, dyUnconsumed: Int) {
         super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed)
-        if (dyConsumed > 0 && child!!.visibility == View.VISIBLE) {
-            child.hide()
-        } else if (dyConsumed < 0 && child!!.visibility != View.VISIBLE) {
-            child.show()
+        if (dyConsumed > 0 && child?.visibility == View.VISIBLE) {
+            child?.hide()
+        } else if (dyConsumed < 0 && child?.visibility != View.VISIBLE) {
+            child?.show()
         }
     }
 }
