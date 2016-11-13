@@ -222,7 +222,6 @@ class StatusDetailsViewHolder(container: View, listener: DetailsInteractionListe
         val descriptionTextView = inflatedUrlPreviewView
                 ?.findViewById(R.id.urlDescriptionTextView) as TextView
         val titleTextView = inflatedUrlPreviewView?.findViewById(R.id.urlTitleTextView) as TextView
-        val previewLayout = inflatedUrlPreviewView?.findViewById(R.id.urlPreviewLayout)
         val loadingProgressBar = inflatedUrlPreviewView?.findViewById(R.id.loadingProgressBar)
 
         RxUnfurl.generatePreview(tweet.getLink())
@@ -241,7 +240,7 @@ class StatusDetailsViewHolder(container: View, listener: DetailsInteractionListe
                             previewImageView.visible(false)
                         titleTextView.text = x.title
                         descriptionTextView.text = x.description
-                        previewLayout?.setOnClickListener {
+                        inflatedUrlPreviewView?.setOnClickListener {
                             CustomTabsIntent.Builder()
                                     .setToolbarColor(ContextCompat.getColor(container.context,
                                             R.color.blueThemeColorPrimary))
