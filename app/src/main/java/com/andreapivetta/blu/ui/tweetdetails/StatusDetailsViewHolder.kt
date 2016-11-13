@@ -11,7 +11,6 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.StyleSpan
 import android.view.View
-import android.view.ViewStub
 import android.widget.ImageView
 import android.widget.TextView
 import com.andreapivetta.blu.R
@@ -28,6 +27,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.luseen.autolinklibrary.AutoLinkMode
 import com.luseen.autolinklibrary.AutoLinkTextView
 import com.schinizer.rxunfurl.RxUnfurl
+import kotlinx.android.synthetic.main.tweet_big.view.*
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import timber.log.Timber
@@ -38,11 +38,11 @@ import timber.log.Timber
 class StatusDetailsViewHolder(container: View, listener: DetailsInteractionListener) :
         BaseViewHolder(container, listener) {
 
-    private val mediaViewStub = container.findViewById(R.id.mediaViewStub) as ViewStub
-    private val quotedStatusViewStub = container.findViewById(R.id.quotedStatusViewStub) as ViewStub
-    private val urlPreviewViewStub = container.findViewById(R.id.urlPreviewViewStub) as ViewStub
-    private val shareImageButton = container.findViewById(R.id.shareImageButton)
-    private val quoteImageButton = container.findViewById(R.id.quoteImageButton)
+    private val mediaViewStub = container.mediaViewStub
+    private val quotedStatusViewStub = container.quotedStatusViewStub
+    private val urlPreviewViewStub = container.urlPreviewViewStub
+    private val shareImageButton = container.shareImageButton
+    private val quoteImageButton = container.quoteImageButton
 
     private var inflatedMediaView: View? = null
     private var inflatedQuotedView: View? = null
@@ -73,6 +73,7 @@ class StatusDetailsViewHolder(container: View, listener: DetailsInteractionListe
                 AutoLinkMode.MODE_URL -> CustomTabsIntent.Builder()
                         .setToolbarColor(ContextCompat
                                 .getColor(container.context, R.color.blueThemeColorPrimary))
+                        .setShowTitle(true)
                         .build()
                         .launchUrl(container.context as Activity, Uri.parse(text.trim()))
                 else -> throw UnsupportedOperationException("No handlers for mode $mode")
@@ -244,6 +245,7 @@ class StatusDetailsViewHolder(container: View, listener: DetailsInteractionListe
                             CustomTabsIntent.Builder()
                                     .setToolbarColor(ContextCompat.getColor(container.context,
                                             R.color.blueThemeColorPrimary))
+                                    .setShowTitle(true)
                                     .build()
                                     .launchUrl(container.context as Activity, Uri.parse(x.url))
                         }

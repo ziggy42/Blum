@@ -12,6 +12,7 @@ import com.andreapivetta.blu.common.utils.Utils
 import com.andreapivetta.blu.common.utils.loadAvatar
 import com.andreapivetta.blu.data.model.PrivateMessage
 import com.andreapivetta.blu.ui.conversation.ConversationActivity
+import kotlinx.android.synthetic.main.item_conversation.view.*
 import java.util.*
 
 /**
@@ -21,11 +22,10 @@ class PrivateMessagesConversationsAdapter() :
         RecyclerView.Adapter<PrivateMessagesConversationsAdapter.ConversationViewHolder>() {
 
     class ConversationViewHolder(val rootView: View) : RecyclerView.ViewHolder(rootView) {
-        val userProfilePicImageView =
-                rootView.findViewById(R.id.userProfilePicImageView) as ImageView
-        val userNameTextView = rootView.findViewById(R.id.userNameTextView) as TextView
-        val messageTextView = rootView.findViewById(R.id.messageTextView) as TextView
-        val timeTextView = rootView.findViewById(R.id.timeTextView) as TextView
+        val userProfilePicImageView: ImageView = rootView.userProfilePicImageView
+        val userNameTextView: TextView = rootView.userNameTextView
+        val messageTextView: TextView = rootView.messageTextView
+        val timeTextView: TextView = rootView.timeTextView
     }
 
     var dataSet: MutableList<PrivateMessage> = ArrayList()

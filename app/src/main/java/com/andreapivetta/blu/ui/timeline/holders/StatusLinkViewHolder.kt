@@ -74,6 +74,7 @@ class StatusLinkViewHolder(container: View, listener: InteractionListener) :
             CustomTabsIntent.Builder()
                     .setToolbarColor(ContextCompat
                             .getColor(container.context, R.color.blueThemeColorPrimary))
+                    .setShowTitle(true)
                     .build()
                     .launchUrl(container.context as Activity, Uri.parse(metaData.link))
         }

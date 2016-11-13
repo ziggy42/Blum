@@ -40,6 +40,7 @@ class SettingsActivity : ThemedActivity() {
             findPreference("pref_key_licenses").setOnPreferenceClickListener {
                 CustomTabsIntent.Builder().setToolbarColor(ContextCompat
                         .getColor(activity, R.color.blueThemeColorPrimary))
+                        .setShowTitle(true)
                         .build()
                         .launchUrl(activity, Uri.parse(BuildConfig.LICENSES_URL))
                 true

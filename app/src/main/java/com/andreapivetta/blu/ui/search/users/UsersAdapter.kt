@@ -9,6 +9,7 @@ import android.widget.TextView
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.utils.loadUrl
 import com.andreapivetta.blu.ui.profile.ProfileActivity
+import kotlinx.android.synthetic.main.user.view.*
 import twitter4j.User
 import java.util.*
 
@@ -38,10 +39,10 @@ class UsersAdapter : RecyclerView.Adapter<UsersAdapter.UserViewHolder>() {
 
     class UserViewHolder(val container: View) : RecyclerView.ViewHolder(container) {
 
-        val profilePicImageView = container.findViewById(R.id.userProfilePicImageView) as ImageView
-        val userNameTextView = container.findViewById(R.id.userNameTextView) as TextView
-        val screenNameTextView = container.findViewById(R.id.screenNameTextView) as TextView
-        val descriptionTextView = container.findViewById(R.id.descriptionTextView) as TextView
+        val profilePicImageView: ImageView = container.userProfilePicImageView
+        val userNameTextView: TextView = container.userNameTextView
+        val screenNameTextView: TextView = container.screenNameTextView
+        val descriptionTextView: TextView = container.descriptionTextView
 
     }
 
