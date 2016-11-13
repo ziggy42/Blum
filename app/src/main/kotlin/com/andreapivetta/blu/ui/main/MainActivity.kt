@@ -5,13 +5,13 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v4.view.MenuItemCompat
 import android.support.v7.widget.SearchView
 import android.view.Menu
 import android.view.MenuItem
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.settings.AppSettingsFactory
+import com.andreapivetta.blu.common.utils.pushFragment
 import com.andreapivetta.blu.common.utils.visible
 import com.andreapivetta.blu.data.model.Notification
 import com.andreapivetta.blu.data.model.PrivateMessage
@@ -54,7 +54,7 @@ class MainActivity : ThemedActivity(), MainMvpView {
         fab.setOnClickListener { newTweet() }
 
         if (savedInstanceState == null)
-            pushFragment(TimelineFragment.newInstance())
+            pushFragment(R.id.container_frameLayout, TimelineFragment.newInstance())
 
         if (!AppSettingsFactory.getAppSettings(this).isUserDataDownloaded())
             SetupActivity.launch(this)
@@ -63,11 +63,6 @@ class MainActivity : ThemedActivity(), MainMvpView {
     override fun onDestroy() {
         super.onDestroy()
         unregisterReceiver(receiver)
-    }
-
-    private fun pushFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction()
-                .replace(R.id.container_frameLayout, fragment).commit()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
