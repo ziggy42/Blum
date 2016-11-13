@@ -2,15 +2,16 @@ package com.andreapivetta.blu.ui.settings
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.preference.PreferenceFragment
+import android.support.customtabs.CustomTabsIntent
 import android.support.v4.content.ContextCompat
 import android.support.v4.content.IntentCompat
 import android.support.v7.app.AlertDialog
 import android.text.Html
 import android.text.method.LinkMovementMethod
 import android.view.View
-import android.webkit.WebView
 import android.widget.ImageView
 import android.widget.TextView
 import com.andreapivetta.blu.BuildConfig
@@ -37,14 +38,10 @@ class SettingsActivity : ThemedActivity() {
             addPreferencesFromResource(R.xml.pref_general)
 
             findPreference("pref_key_licenses").setOnPreferenceClickListener {
-                val webView = WebView(activity)
-                webView.loadUrl(BuildConfig.LICENSES_URL)
-
-                AlertDialog.Builder(activity).setView(webView)
-                        .setTitle(getString(R.string.licenses_pref_title))
-                        .setPositiveButton(getString(R.string.ok), null)
-                        .show()
-
+                CustomTabsIntent.Builder().setToolbarColor(ContextCompat
+                        .getColor(activity, R.color.blueThemeColorPrimary))
+                        .build()
+                        .launchUrl(activity, Uri.parse(BuildConfig.LICENSES_URL))
                 true
             }
 
