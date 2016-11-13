@@ -9,11 +9,8 @@ import android.support.customtabs.CustomTabsIntent
 import android.support.v4.content.ContextCompat
 import android.support.v4.content.IntentCompat
 import android.support.v7.app.AlertDialog
-import android.text.Html
-import android.text.method.LinkMovementMethod
 import android.view.View
 import android.widget.ImageView
-import android.widget.TextView
 import com.andreapivetta.blu.BuildConfig
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.settings.AppSettingsFactory
@@ -21,6 +18,9 @@ import com.andreapivetta.blu.data.storage.AppStorageFactory
 import com.andreapivetta.blu.data.twitter.Twitter
 import com.andreapivetta.blu.ui.base.custom.ThemedActivity
 import com.andreapivetta.blu.ui.login.LoginActivity
+import com.andreapivetta.blu.ui.profile.ProfileActivity
+import com.luseen.autolinklibrary.AutoLinkMode
+import com.luseen.autolinklibrary.AutoLinkTextView
 import kotlinx.android.synthetic.main.activity_settings.*
 
 class SettingsActivity : ThemedActivity() {
@@ -47,9 +47,13 @@ class SettingsActivity : ThemedActivity() {
 
             findPreference("pref_key_about").setOnPreferenceClickListener {
                 val dialogView = View.inflate(activity, R.layout.dialog_about, null)
-                val mTwitterTextView = dialogView.findViewById(R.id.aboutTextView) as TextView
-                mTwitterTextView.text = Html.fromHtml(getString(R.string.my_twitter))
-                mTwitterTextView.movementMethod = LinkMovementMethod.getInstance()
+                val aboutTextView = dialogView.findViewById(R.id.aboutTextView) as AutoLinkTextView
+                aboutTextView.addAutoLinkMode(AutoLinkMode.MODE_MENTION)
+                aboutTextView.setMentionModeColor(ContextCompat.getColor(activity, R.color.blueThemeColorAccent))
+                aboutTextView.setAutoLinkOnClickListener { mode, text ->
+                    if (mode === AutoLinkMode.MODE_MENTION) ProfileActivity.launch(activity, text)
+                }
+                aboutTextView.setAutoLinkText(getString(R.string.my_twitter))
                 AlertDialog.Builder(activity).setView(dialogView).show()
 
                 true

@@ -14,7 +14,7 @@
         android:contentDescription="@string/app_name"
         android:src="@mipmap/ic_launcher" />
 
-    <TextView
+    <com.luseen.autolinklibrary.AutoLinkTextView
         android:id="@+id/aboutTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
