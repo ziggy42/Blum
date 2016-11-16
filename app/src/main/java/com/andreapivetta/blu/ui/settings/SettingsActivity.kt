@@ -18,7 +18,7 @@ import com.andreapivetta.blu.data.storage.AppStorageFactory
 import com.andreapivetta.blu.data.twitter.Twitter
 import com.andreapivetta.blu.ui.base.custom.ThemedActivity
 import com.andreapivetta.blu.ui.login.LoginActivity
-import com.andreapivetta.blu.ui.profile.ProfileActivity
+import com.andreapivetta.blu.ui.profile.UserActivity
 import com.luseen.autolinklibrary.AutoLinkMode
 import com.luseen.autolinklibrary.AutoLinkTextView
 import kotlinx.android.synthetic.main.activity_settings.*
@@ -52,7 +52,7 @@ class SettingsActivity : ThemedActivity() {
                 aboutTextView.addAutoLinkMode(AutoLinkMode.MODE_MENTION)
                 aboutTextView.setMentionModeColor(ContextCompat.getColor(activity, R.color.blueThemeColorAccent))
                 aboutTextView.setAutoLinkOnClickListener { mode, text ->
-                    if (mode === AutoLinkMode.MODE_MENTION) ProfileActivity.launch(activity, text)
+                    if (mode === AutoLinkMode.MODE_MENTION) UserActivity.launch(activity, text)
                 }
                 aboutTextView.setAutoLinkText(getString(R.string.my_twitter))
                 AlertDialog.Builder(activity).setView(dialogView).show()

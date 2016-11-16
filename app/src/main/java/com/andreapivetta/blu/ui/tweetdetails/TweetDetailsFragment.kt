@@ -19,7 +19,7 @@ import com.andreapivetta.blu.data.twitter.getTweetLink
 import com.andreapivetta.blu.ui.base.custom.decorators.SpaceTopItemDecoration
 import com.andreapivetta.blu.ui.image.ImageActivity
 import com.andreapivetta.blu.ui.newtweet.NewTweetActivity
-import com.andreapivetta.blu.ui.profile.ProfileActivity
+import com.andreapivetta.blu.ui.profile.UserActivity
 import com.andreapivetta.blu.ui.video.VideoActivity
 import twitter4j.User
 import java.util.*
@@ -164,7 +164,7 @@ class TweetDetailsFragment : Fragment(), TweetDetailsMvpView, DetailsInteraction
     }
 
     override fun showUser(user: User) {
-        ProfileActivity.launch(context, user)
+        UserActivity.launch(context, user)
     }
 
     override fun showImage(imageUrl: String) {

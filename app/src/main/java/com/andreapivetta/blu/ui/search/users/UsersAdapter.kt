@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.utils.loadUrl
-import com.andreapivetta.blu.ui.profile.ProfileActivity
+import com.andreapivetta.blu.ui.profile.UserActivity
 import kotlinx.android.synthetic.main.user.view.*
 import twitter4j.User
 import java.util.*
@@ -33,7 +33,7 @@ class UsersAdapter : RecyclerView.Adapter<UsersAdapter.UserViewHolder>() {
         holder?.screenNameTextView?.text = "@${user.screenName}"
         holder?.descriptionTextView?.text = user.description
         holder?.container?.setOnClickListener {
-            ProfileActivity.launch(holder.container.context!!, user)
+            UserActivity.launch(holder.container.context!!, user)
         }
     }
 

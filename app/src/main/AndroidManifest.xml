@@ -51,10 +51,6 @@
             android:name=".ui.tweetdetails.TweetDetailsActivity"
             android:label="@string/title_activity_tweet" />
         <activity
-            android:name=".ui.profile.ProfileActivity"
-            android:label="@string/title_empty"
-            android:theme="@style/ProfileTheme" />
-        <activity
             android:name=".ui.image.ImageActivity"
             android:label="@string/title_empty"
             android:theme="@style/ImageActivityTheme" />
@@ -80,6 +76,9 @@
             android:name=".ui.notifications.NotificationsActivity"
             android:label="@string/notifications" />
         <activity android:name=".ui.hashtag.HashtagActivity" />
+        <activity
+            android:name=".ui.profile.UserActivity"
+            android:label="@string/title_empty" />
 
         <service
             android:name=".data.jobs.PopulateDatabaseIntentService"

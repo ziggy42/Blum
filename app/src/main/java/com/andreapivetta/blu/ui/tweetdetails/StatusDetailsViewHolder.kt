@@ -19,7 +19,7 @@ import com.andreapivetta.blu.data.model.MetaData
 import com.andreapivetta.blu.data.model.Tweet
 import com.andreapivetta.blu.ui.base.custom.decorators.SpaceLeftItemDecoration
 import com.andreapivetta.blu.ui.hashtag.HashtagActivity
-import com.andreapivetta.blu.ui.profile.ProfileActivity
+import com.andreapivetta.blu.ui.profile.UserActivity
 import com.andreapivetta.blu.ui.timeline.holders.BaseViewHolder
 import com.andreapivetta.blu.ui.timeline.holders.ImagesAdapter
 import com.bumptech.glide.Glide
@@ -69,7 +69,7 @@ class StatusDetailsViewHolder(container: View, listener: DetailsInteractionListe
         autolinkTextView.setAutoLinkOnClickListener { mode, text ->
             when (mode) {
                 AutoLinkMode.MODE_HASHTAG -> HashtagActivity.launch(container.context, text)
-                AutoLinkMode.MODE_MENTION -> ProfileActivity.launch(container.context, text)
+                AutoLinkMode.MODE_MENTION -> UserActivity.launch(container.context, text)
                 AutoLinkMode.MODE_URL -> CustomTabsIntent.Builder()
                         .setToolbarColor(ContextCompat
                                 .getColor(container.context, R.color.blueThemeColorPrimary))
