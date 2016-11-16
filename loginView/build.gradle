@@ -13,6 +13,6 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-annotations:25.0.0'
+    compile 'com.android.support:support-annotations:25.0.1'
     compile 'org.twitter4j:twitter4j-core:4.0.5'
 }

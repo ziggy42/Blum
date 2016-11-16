@@ -53,7 +53,7 @@ android {
 }
 
 dependencies {
-    final SUPPORT_LIBRARY_VERSION = '25.0.0'
+    final SUPPORT_LIBRARY_VERSION = '25.0.1'
     final FIREBASE_VERSION = '9.8.0'
     final RX_JAVA_VERSION = '1.2.0'
 
