@@ -12,9 +12,10 @@ import twitter4j.User
 /**
  * Created by andrea on 14/11/16.
  */
-class UserAdapter(private val userMvpView: UserMvpView, private val user: User) :
+class UserAdapter(private val userMvpView: UserMvpView) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    var user: User? = null
     var tweets: MutableList<Tweet> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder? =
@@ -39,12 +40,12 @@ class UserAdapter(private val userMvpView: UserMvpView, private val user: User) 
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
         if (position == 0)
-            (holder as ProfileViewHolder).setup(user)
+            (holder as ProfileViewHolder).setup(user!!)
         else
             (holder as BaseViewHolder).setup(tweets[position - 1])
     }
 
-    override fun getItemCount() = tweets.size + 1
+    override fun getItemCount() = if (user != null) tweets.size + 1 else 0
 
     override fun getItemViewType(position: Int): Int {
         if (position == 0) return R.layout.profile

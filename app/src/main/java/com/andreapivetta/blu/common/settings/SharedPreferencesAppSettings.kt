@@ -10,7 +10,8 @@ import twitter4j.auth.AccessToken
 class SharedPreferencesAppSettings(context: Context) : AppSettings {
 
     private val KEY_LOGIN = "logged"
-    private val KEY_LOGGED_USER = "user"
+    private val KEY_LOGGED_USER_ID = "user"
+    private val KEY_LOGGED_USER = "screen_name"
     private val KEY_OAUTH_TOKEN = "oauth_token"
     private val KEY_OAUTH_TOKEN_SECRET = "oauth_token_secret"
     private val KEY_THEMES = "themes"
@@ -34,7 +35,8 @@ class SharedPreferencesAppSettings(context: Context) : AppSettings {
                 .putString(KEY_OAUTH_TOKEN, accessToken.token)
                 .putString(KEY_OAUTH_TOKEN_SECRET, accessToken.tokenSecret)
                 .putBoolean(KEY_LOGIN, true)
-                .putLong(KEY_LOGGED_USER, accessToken.userId)
+                .putLong(KEY_LOGGED_USER_ID, accessToken.userId)
+                .putString(KEY_LOGGED_USER, accessToken.screenName)
                 .apply()
     }
 
@@ -42,7 +44,9 @@ class SharedPreferencesAppSettings(context: Context) : AppSettings {
             sharedPreferences.getString(KEY_OAUTH_TOKEN, ""),
             sharedPreferences.getString(KEY_OAUTH_TOKEN_SECRET, ""))
 
-    override fun getLoggedUserId() = sharedPreferences.getLong(KEY_LOGGED_USER, 0L)
+    override fun getLoggedUserId() = sharedPreferences.getLong(KEY_LOGGED_USER_ID, 0L)
+
+    override fun getLoggedUserScreenName() = sharedPreferences.getString(KEY_LOGGED_USER, "")
 
     override fun saveTheme(theme: String) {
         sharedPreferences.edit().putString(KEY_THEMES, theme).apply()

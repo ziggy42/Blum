@@ -15,6 +15,8 @@ interface AppSettings {
 
     fun getLoggedUserId(): Long
 
+    fun getLoggedUserScreenName(): String
+
     fun saveTheme(theme: String)
 
     fun getTheme(): String

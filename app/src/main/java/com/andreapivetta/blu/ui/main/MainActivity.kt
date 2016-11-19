@@ -10,6 +10,7 @@ import android.support.v7.widget.SearchView
 import android.view.Menu
 import android.view.MenuItem
 import com.andreapivetta.blu.R
+import com.andreapivetta.blu.common.settings.AppSettings
 import com.andreapivetta.blu.common.settings.AppSettingsFactory
 import com.andreapivetta.blu.common.utils.pushFragment
 import com.andreapivetta.blu.common.utils.visible
@@ -20,6 +21,7 @@ import com.andreapivetta.blu.ui.custom.ThemedActivity
 import com.andreapivetta.blu.ui.newtweet.NewTweetActivity
 import com.andreapivetta.blu.ui.notifications.NotificationsActivity
 import com.andreapivetta.blu.ui.privatemessages.PrivateMessagesActivity
+import com.andreapivetta.blu.ui.profile.UserActivity
 import com.andreapivetta.blu.ui.search.SearchActivity
 import com.andreapivetta.blu.ui.settings.SettingsActivity
 import com.andreapivetta.blu.ui.setup.SetupActivity
@@ -33,6 +35,8 @@ class MainActivity : ThemedActivity(), MainMvpView {
     private var notificationsCount = 0L
     private var messagesCount = 0L
     private val receiver: NotificationUpdatesReceiver? by lazy { NotificationUpdatesReceiver() }
+
+    private val settings: AppSettings by lazy { AppSettingsFactory.getAppSettings(this) }
 
     override fun onResume() {
         super.onResume()
@@ -56,7 +60,7 @@ class MainActivity : ThemedActivity(), MainMvpView {
         if (savedInstanceState == null)
             pushFragment(R.id.container_frameLayout, TimelineFragment.newInstance())
 
-        if (!AppSettingsFactory.getAppSettings(this).isUserDataDownloaded())
+        if (!settings.isUserDataDownloaded())
             SetupActivity.launch(this)
     }
 
@@ -137,7 +141,7 @@ class MainActivity : ThemedActivity(), MainMvpView {
     }
 
     override fun openProfile() {
-        // TODO
+        UserActivity.launch(this, settings.getLoggedUserScreenName())
     }
 
     override fun newTweet() {

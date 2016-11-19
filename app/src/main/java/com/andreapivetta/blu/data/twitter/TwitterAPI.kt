@@ -435,6 +435,32 @@ object TwitterAPI {
                 }
             })
 
+    fun showUser(userScreenName: String): Single<User> =
+            Single.from(object : Future<User> {
+                override fun isDone(): Boolean {
+                    throw UnsupportedOperationException("not implemented")
+                }
+
+                override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
+                    return true
+                }
+
+                override fun isCancelled(): Boolean {
+                    throw UnsupportedOperationException("not implemented")
+                }
+
+                override fun get(): User? = try {
+                    Twitter.getInstance().showUser(userScreenName)
+                } catch (err: Exception) {
+                    Timber.e(err, "Error in getting a User")
+                    null
+                }
+
+                override fun get(timeout: Long, unit: TimeUnit?): User {
+                    throw UnsupportedOperationException("not implemented")
+                }
+            })
+
     fun sendPrivateMessage(text: String, userId: Long): Single<DirectMessage> =
             Single.from(object : Future<DirectMessage> {
                 override fun get(timeout: Long, unit: TimeUnit?): DirectMessage {

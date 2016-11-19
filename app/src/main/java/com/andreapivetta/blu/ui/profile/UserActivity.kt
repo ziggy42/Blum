@@ -6,12 +6,13 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.widget.Toast
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.utils.Utils
+import com.andreapivetta.blu.common.utils.visible
 import com.andreapivetta.blu.data.model.Tweet
 import com.andreapivetta.blu.ui.custom.decorators.SpaceItemDecoration
 import com.andreapivetta.blu.ui.image.ImageActivity
+import com.andreapivetta.blu.ui.newtweet.NewTweetActivity
 import com.andreapivetta.blu.ui.tweetdetails.TweetDetailsActivity
 import com.andreapivetta.blu.ui.video.VideoActivity
 import kotlinx.android.synthetic.main.activity_user.*
@@ -20,6 +21,9 @@ import twitter4j.User
 class UserActivity : AppCompatActivity(), UserMvpView {
 
     companion object {
+        val TAG_USER = "user"
+        val TAG_USER_SCREEN_NAME = "screen_name"
+
         fun launch(context: Context, user: User) {
             val intent = Intent(context, UserActivity::class.java)
             intent.putExtra(TAG_USER, user)
@@ -27,16 +31,14 @@ class UserActivity : AppCompatActivity(), UserMvpView {
         }
 
         fun launch(context: Context, screenName: String) {
-            // TODO make this method great again
-            Toast.makeText(context, "Not implemented! The screenName is $screenName", Toast.LENGTH_SHORT).show()
+            val intent = Intent(context, UserActivity::class.java)
+            intent.putExtra(TAG_USER_SCREEN_NAME, screenName)
+            context.startActivity(intent)
         }
-
-        val TAG_USER = "user"
-        val TAG_USER_SCREEN_NAME = "screen_name"
     }
 
     private lateinit var adapter: UserAdapter
-    private val userPresenter by lazy { UserPresenter(intent.getSerializableExtra(TAG_USER) as User) }
+    private val presenter = UserPresenter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,20 +47,66 @@ class UserActivity : AppCompatActivity(), UserMvpView {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         toolbar.setNavigationOnClickListener { finish() }
 
-        adapter = UserAdapter(this, intent.getSerializableExtra(TAG_USER) as User)
-
+        adapter = UserAdapter(this)
         userRecyclerView.layoutManager = LinearLayoutManager(this)
         userRecyclerView.addItemDecoration(SpaceItemDecoration(Utils.dpToPx(this, 10)))
         userRecyclerView.setHasFixedSize(true)
         userRecyclerView.adapter = adapter
 
-        userPresenter.attachView(this)
-        userPresenter.loadUserData()
+        presenter.attachView(this)
+        if (intent.hasExtra(TAG_USER)) {
+            hideLoading()
+            val user = intent.getSerializableExtra(TAG_USER) as User
+            setupUser(user)
+            presenter.loadUserData(user)
+        } else
+            presenter.loadUser(intent.getStringExtra(TAG_USER_SCREEN_NAME))
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        userPresenter.detachView()
+        presenter.detachView()
+    }
+
+    override fun setupUser(user: User) {
+        adapter.user = user
+        adapter.notifyItemInserted(0)
+    }
+
+    override fun showTweet(tweet: Tweet) {
+        val removedPosition = adapter.tweets.size - 1
+        adapter.tweets.removeAt(removedPosition)
+        adapter.notifyItemRemoved(removedPosition + 1)
+
+        adapter.tweets.add(0, tweet)
+        adapter.notifyItemInserted(1)
+        userRecyclerView.scrollToPosition(1)
+    }
+
+    override fun getLastTweetId(): Long = adapter.tweets[0].id
+
+    override fun stopRefresh() {
+        swipeRefreshLayout.isRefreshing = false
+    }
+
+    override fun showEmpty() {
+        errorView.visible()
+    }
+
+    override fun showError() {
+        errorView.visible()
+    }
+
+    override fun showLoading() {
+        loadingProgressBar.visible()
+    }
+
+    override fun hideLoading() {
+        loadingProgressBar.visible(false)
+    }
+
+    override fun showNewTweet(tweet: Tweet, user: User) {
+        NewTweetActivity.launch(this, "@${user.screenName}", tweet.id)
     }
 
     override fun showTweets(tweets: MutableList<Tweet>) {
