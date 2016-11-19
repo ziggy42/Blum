@@ -1,7 +1,6 @@
 package com.andreapivetta.blu.common.utils
 
 import android.app.Activity
-import android.content.Context
 import android.net.Uri
 import android.support.annotation.DrawableRes
 import android.support.annotation.LayoutRes
@@ -43,10 +42,10 @@ fun AppCompatActivity.pushFragment(@LayoutRes containerViewId: Int, fragment: Fr
     supportFragmentManager.beginTransaction().replace(containerViewId, fragment).commit()
 }
 
-fun openUrl(context: Context, url: String) {
+fun openUrl(activity: Activity, url: String) {
     CustomTabsIntent.Builder()
-            .setToolbarColor(ContextCompat.getColor(context, R.color.blueThemeColorPrimary))
+            .setToolbarColor(ContextCompat.getColor(activity, R.color.blueThemeColorPrimary))
             .setShowTitle(true)
             .build()
-            .launchUrl(context as Activity, Uri.parse(url.trim()))
+            .launchUrl(activity, Uri.parse(url.trim()))
 }

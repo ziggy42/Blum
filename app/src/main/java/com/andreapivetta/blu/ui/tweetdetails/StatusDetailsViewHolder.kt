@@ -241,7 +241,7 @@ class StatusDetailsViewHolder(container: View, listener: DetailsInteractionListe
                             previewImageView.visible(false)
                         titleTextView.text = x.title
                         descriptionTextView.text = x.description
-                        inflatedUrlPreviewView?.setOnClickListener { openUrl(container.context, x.url) }
+                        inflatedUrlPreviewView?.setOnClickListener { openUrl(container.context as Activity, x.url) }
                     }
                 }, { e -> Timber.e(e, "Error loading url preview") })
     }

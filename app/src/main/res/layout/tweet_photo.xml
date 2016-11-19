@@ -36,8 +36,7 @@
             android:adjustViewBounds="true"
             android:contentDescription="@string/tweet_photo_contentDescriptor"
             android:duplicateParentState="true"
-            android:scaleType="fitCenter"
-            android:transitionName="@string/image_transition" />
+            android:scaleType="fitCenter" />
 
         <TextView
             android:id="@+id/retweetTextView"

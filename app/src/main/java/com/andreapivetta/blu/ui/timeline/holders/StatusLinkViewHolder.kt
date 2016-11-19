@@ -1,5 +1,6 @@
 package com.andreapivetta.blu.ui.timeline.holders
 
+import android.app.Activity
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -66,6 +67,6 @@ class StatusLinkViewHolder(container: View, listener: InteractionListener) :
             urlPreviewImageView.visibility = View.GONE
         urlTitleTextView.text = metaData.title
         urlTextDescriptionView.text = metaData.description
-        urlPreviewLayout.setOnClickListener { openUrl(container.context, metaData.link) }
+        urlPreviewLayout.setOnClickListener { openUrl(container.context as Activity, metaData.link) }
     }
 }

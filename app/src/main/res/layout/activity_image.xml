@@ -4,8 +4,7 @@
     <com.andreapivetta.blu.ui.base.custom.EditedViewPager
         android:id="@+id/photosViewPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:transitionName="@string/image_transition" />
+        android:layout_height="match_parent" />
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"

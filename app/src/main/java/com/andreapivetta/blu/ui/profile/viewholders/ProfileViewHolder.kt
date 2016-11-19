@@ -1,5 +1,6 @@
 package com.andreapivetta.blu.ui.profile.viewholders
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.Typeface
 import android.support.v4.content.ContextCompat
@@ -55,7 +56,7 @@ class ProfileViewHolder(container: View, val userMvpView: UserMvpView) :
             when (mode) {
                 AutoLinkMode.MODE_HASHTAG -> HashtagActivity.launch(context, text)
                 AutoLinkMode.MODE_MENTION -> UserActivity.launch(context, text)
-                AutoLinkMode.MODE_URL -> openUrl(context, text)
+                AutoLinkMode.MODE_URL -> openUrl(context as Activity, text)
                 else -> throw UnsupportedOperationException("No handlers for mode $mode")
             }
         }
@@ -65,7 +66,7 @@ class ProfileViewHolder(container: View, val userMvpView: UserMvpView) :
         extraTextView.setAutoLinkText(getExtra(user))
         extraTextView.setAutoLinkOnClickListener { mode, text ->
             when (mode) {
-                AutoLinkMode.MODE_URL -> openUrl(context, text)
+                AutoLinkMode.MODE_URL -> openUrl(context as Activity, text)
                 else -> throw UnsupportedOperationException("No handlers for mode $mode")
             }
         }
