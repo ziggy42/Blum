@@ -14,6 +14,7 @@ import com.andreapivetta.blu.common.settings.AppSettingsFactory
 import com.andreapivetta.blu.common.utils.Utils
 import com.andreapivetta.blu.common.utils.visible
 import com.andreapivetta.blu.data.model.Tweet
+import com.andreapivetta.blu.ui.custom.Theme
 import com.andreapivetta.blu.ui.custom.decorators.SpaceItemDecoration
 import com.andreapivetta.blu.ui.image.ImageActivity
 import com.andreapivetta.blu.ui.newtweet.NewTweetActivity
@@ -58,7 +59,7 @@ class UserActivity : AppCompatActivity(), UserMvpView {
         userRecyclerView.adapter = adapter
 
         swipeRefreshLayout.setOnRefreshListener { presenter.onRefresh() }
-        swipeRefreshLayout.setColorSchemeColors(Utils.getRefreshColor(this))
+        swipeRefreshLayout.setColorSchemeColors(Theme.getColorPrimary(this))
 
         findViewById(R.id.retryButton)?.setOnClickListener {
             errorView.visible(false)

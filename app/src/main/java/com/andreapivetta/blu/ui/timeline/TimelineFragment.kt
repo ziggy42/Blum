@@ -1,6 +1,5 @@
 package com.andreapivetta.blu.ui.timeline
 
-import android.app.Activity
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
@@ -16,6 +15,7 @@ import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.utils.Utils
 import com.andreapivetta.blu.common.utils.visible
 import com.andreapivetta.blu.data.model.Tweet
+import com.andreapivetta.blu.ui.custom.Theme
 import com.andreapivetta.blu.ui.custom.decorators.SpaceTopItemDecoration
 import com.andreapivetta.blu.ui.image.ImageActivity
 import com.andreapivetta.blu.ui.newtweet.NewTweetActivity
@@ -84,7 +84,7 @@ open class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
         })
 
         swipeRefreshLayout.setOnRefreshListener { presenter.onRefresh() }
-        swipeRefreshLayout.setColorSchemeColors(Utils.getRefreshColor(context as Activity))
+        swipeRefreshLayout.setColorSchemeColors(Theme.getColorPrimary(context))
 
         rootView?.findViewById(R.id.retryButton)?.setOnClickListener {
             badThingsViewGroup.visible(false)
