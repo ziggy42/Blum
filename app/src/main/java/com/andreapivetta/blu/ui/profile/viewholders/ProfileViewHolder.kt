@@ -1,15 +1,22 @@
 package com.andreapivetta.blu.ui.profile.viewholders
 
+import android.content.Context
 import android.graphics.Typeface
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.style.StyleSpan
 import android.view.View
+import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.utils.loadAvatar
 import com.andreapivetta.blu.common.utils.loadUrl
+import com.andreapivetta.blu.common.utils.openUrl
+import com.andreapivetta.blu.ui.hashtag.HashtagActivity
+import com.andreapivetta.blu.ui.profile.UserActivity
 import com.andreapivetta.blu.ui.profile.UserMvpView
+import com.luseen.autolinklibrary.AutoLinkMode
 import kotlinx.android.synthetic.main.profile.view.*
 import twitter4j.User
 
@@ -26,44 +33,72 @@ class ProfileViewHolder(container: View, val userMvpView: UserMvpView) :
     private val descriptionTextView = container.descriptionTextView
     private val extraTextView = container.extraTextView
     private val statsTextView = container.statsTextView
+    private val context: Context = container.context
 
     fun setup(user: User) {
         bannerImageView.loadUrl(user.profileBannerRetinaURL)
         picImageView.loadAvatar(user.biggerProfileImageURLHttps)
         nameTextView.text = user.name
-        screenNameTextView.text = user.screenName
-        descriptionTextView.text = user.description
-        extraTextView.text = getExtra(user)
+        screenNameTextView.text = "@${user.screenName}"
         statsTextView.text = getStats(user)
-    }
 
-    private fun getExtra(user: User): CharSequence {
-        if (!user.location.isNullOrEmpty()) {
-            if (!user.url.isNullOrEmpty())
-                return "${user.location} • ${user.url}"
-            return user.location
+        descriptionTextView.addAutoLinkMode(AutoLinkMode.MODE_HASHTAG, AutoLinkMode.MODE_URL,
+                AutoLinkMode.MODE_MENTION)
+        descriptionTextView.setHashtagModeColor(ContextCompat
+                .getColor(context, R.color.blueThemeColorAccent))
+        descriptionTextView.setUrlModeColor(ContextCompat
+                .getColor(context, R.color.blueThemeColorAccent))
+        descriptionTextView.setMentionModeColor(ContextCompat
+                .getColor(context, R.color.blueThemeColorAccent))
+        descriptionTextView.setAutoLinkText(user.description)
+        descriptionTextView.setAutoLinkOnClickListener { mode, text ->
+            when (mode) {
+                AutoLinkMode.MODE_HASHTAG -> HashtagActivity.launch(context, text)
+                AutoLinkMode.MODE_MENTION -> UserActivity.launch(context, text)
+                AutoLinkMode.MODE_URL -> openUrl(context, text)
+                else -> throw UnsupportedOperationException("No handlers for mode $mode")
+            }
         }
-        return user.url
+
+        extraTextView.addAutoLinkMode(AutoLinkMode.MODE_URL)
+        extraTextView.setUrlModeColor(ContextCompat.getColor(context, R.color.blueThemeColorAccent))
+        extraTextView.setAutoLinkText(getExtra(user))
+        extraTextView.setAutoLinkOnClickListener { mode, text ->
+            when (mode) {
+                AutoLinkMode.MODE_URL -> openUrl(context, text)
+                else -> throw UnsupportedOperationException("No handlers for mode $mode")
+            }
+        }
+
+        if (user.isVerified)
+            nameTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_verified_user, 0)
     }
 
-    private fun getStats(user: User): CharSequence {
+    private fun getExtra(user: User): String = if (user.url.isNullOrEmpty()) user.location else {
+        if (user.location.isNullOrEmpty()) user.url else
+            "${user.location} • ${user.url}"
+    }
+
+    private fun getStats(user: User): SpannableStringBuilder {
         val builder = SpannableStringBuilder()
 
-        val followersString = "${user.followersCount}"
+        val followersString = getCount(user.followersCount)
         val followersSpan = SpannableString(followersString)
         followersSpan.setSpan(StyleSpan(Typeface.BOLD), 0, followersString.length,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
 
-        val followingString = "${user.friendsCount}"
+        val followingString = getCount(user.friendsCount)
         val followingSpan = SpannableString(followingString)
-        followersSpan.setSpan(StyleSpan(Typeface.BOLD), 0, followingString.length,
+        followingSpan.setSpan(StyleSpan(Typeface.BOLD), 0, followingString.length,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
 
         builder.append(followersSpan)
                 .append(" followers ")
                 .append(followingSpan)
                 .append(" following")
-        return builder.toString()
+        return builder
     }
 
+    private fun getCount(amount: Int) = if (amount < 10000) amount.toString() else
+        (amount / 1000).toString() + "k"
 }

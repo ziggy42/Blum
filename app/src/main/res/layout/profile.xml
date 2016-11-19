@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -17,15 +18,17 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="-35dp"
+            android:layout_marginTop="-40dp"
             android:orientation="vertical"
-            android:paddingBottom="10dp">
+            android:paddingBottom="20dp">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/picImageView"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_gravity="center_horizontal" />
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center_horizontal"
+                app:civ_border_color="@color/white"
+                app:civ_border_width="2dp" />
 
             <TextView
                 android:id="@+id/nameTextView"
@@ -33,16 +36,17 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
-                android:textSize="20sp"
+                android:textSize="22sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/screenNameTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center_horizontal"
+                android:textSize="18sp" />
 
-            <TextView
+            <com.luseen.autolinklibrary.AutoLinkTextView
                 android:id="@+id/descriptionTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -52,18 +56,19 @@
                 android:layout_marginTop="10dp"
                 android:gravity="center" />
 
-            <TextView
+            <com.luseen.autolinklibrary.AutoLinkTextView
                 android:id="@+id/extraTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp" />
 
             <TextView
                 android:id="@+id/statsTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="5dp" />
 
         </LinearLayout>
 

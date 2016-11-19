@@ -1,14 +1,10 @@
 package com.andreapivetta.blu.ui.timeline.holders
 
-import android.app.Activity
-import android.net.Uri
-import android.support.customtabs.CustomTabsIntent
-import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.utils.loadUrl
+import com.andreapivetta.blu.common.utils.openUrl
 import com.andreapivetta.blu.common.utils.visible
 import com.andreapivetta.blu.data.model.MetaData
 import com.andreapivetta.blu.data.model.Tweet
@@ -70,13 +66,6 @@ class StatusLinkViewHolder(container: View, listener: InteractionListener) :
             urlPreviewImageView.visibility = View.GONE
         urlTitleTextView.text = metaData.title
         urlTextDescriptionView.text = metaData.description
-        urlPreviewLayout.setOnClickListener {
-            CustomTabsIntent.Builder()
-                    .setToolbarColor(ContextCompat
-                            .getColor(container.context, R.color.blueThemeColorPrimary))
-                    .setShowTitle(true)
-                    .build()
-                    .launchUrl(container.context as Activity, Uri.parse(metaData.link))
-        }
+        urlPreviewLayout.setOnClickListener { openUrl(container.context, metaData.link) }
     }
 }

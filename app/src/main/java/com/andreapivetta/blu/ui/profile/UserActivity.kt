@@ -10,7 +10,7 @@ import android.widget.Toast
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.utils.Utils
 import com.andreapivetta.blu.data.model.Tweet
-import com.andreapivetta.blu.ui.base.custom.decorators.SpaceTopItemDecoration
+import com.andreapivetta.blu.ui.base.custom.decorators.SpaceItemDecoration
 import com.andreapivetta.blu.ui.image.ImageActivity
 import com.andreapivetta.blu.ui.tweetdetails.TweetDetailsActivity
 import com.andreapivetta.blu.ui.video.VideoActivity
@@ -48,7 +48,7 @@ class UserActivity : AppCompatActivity(), UserMvpView {
         adapter = UserAdapter(this, intent.getSerializableExtra(TAG_USER) as User)
 
         userRecyclerView.layoutManager = LinearLayoutManager(this)
-        userRecyclerView.addItemDecoration(SpaceTopItemDecoration(Utils.dpToPx(this, 10)))
+        userRecyclerView.addItemDecoration(SpaceItemDecoration(Utils.dpToPx(this, 10)))
         userRecyclerView.setHasFixedSize(true)
         userRecyclerView.adapter = adapter
 

@@ -241,15 +241,7 @@ class StatusDetailsViewHolder(container: View, listener: DetailsInteractionListe
                             previewImageView.visible(false)
                         titleTextView.text = x.title
                         descriptionTextView.text = x.description
-                        inflatedUrlPreviewView?.setOnClickListener {
-                            CustomTabsIntent.Builder()
-                                    .setToolbarColor(ContextCompat.getColor(container.context,
-                                            R.color.blueThemeColorPrimary))
-                                    .setShowTitle(true)
-                                    .build()
-                                    .launchUrl(container.context as Activity, Uri.parse(x.url))
-                        }
-
+                        inflatedUrlPreviewView?.setOnClickListener { openUrl(container.context, x.url) }
                     }
                 }, { e -> Timber.e(e, "Error loading url preview") })
     }

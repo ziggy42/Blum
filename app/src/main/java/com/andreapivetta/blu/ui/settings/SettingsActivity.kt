@@ -2,10 +2,8 @@ package com.andreapivetta.blu.ui.settings
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.preference.PreferenceFragment
-import android.support.customtabs.CustomTabsIntent
 import android.support.v4.content.ContextCompat
 import android.support.v4.content.IntentCompat
 import android.support.v7.app.AlertDialog
@@ -14,6 +12,7 @@ import android.widget.ImageView
 import com.andreapivetta.blu.BuildConfig
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.settings.AppSettingsFactory
+import com.andreapivetta.blu.common.utils.openUrl
 import com.andreapivetta.blu.data.storage.AppStorageFactory
 import com.andreapivetta.blu.data.twitter.Twitter
 import com.andreapivetta.blu.ui.base.custom.ThemedActivity
@@ -38,11 +37,7 @@ class SettingsActivity : ThemedActivity() {
             addPreferencesFromResource(R.xml.pref_general)
 
             findPreference("pref_key_licenses").setOnPreferenceClickListener {
-                CustomTabsIntent.Builder().setToolbarColor(ContextCompat
-                        .getColor(activity, R.color.blueThemeColorPrimary))
-                        .setShowTitle(true)
-                        .build()
-                        .launchUrl(activity, Uri.parse(BuildConfig.LICENSES_URL))
+                openUrl(activity, BuildConfig.LICENSES_URL)
                 true
             }
 

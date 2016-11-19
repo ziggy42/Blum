@@ -1,8 +1,13 @@
 package com.andreapivetta.blu.common.utils
 
+import android.app.Activity
+import android.content.Context
+import android.net.Uri
 import android.support.annotation.DrawableRes
 import android.support.annotation.LayoutRes
+import android.support.customtabs.CustomTabsIntent
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.ImageView
@@ -36,4 +41,12 @@ fun ImageView.loadAvatar(url: CharSequence?) {
 
 fun AppCompatActivity.pushFragment(@LayoutRes containerViewId: Int, fragment: Fragment) {
     supportFragmentManager.beginTransaction().replace(containerViewId, fragment).commit()
+}
+
+fun openUrl(context: Context, url: String) {
+    CustomTabsIntent.Builder()
+            .setToolbarColor(ContextCompat.getColor(context, R.color.blueThemeColorPrimary))
+            .setShowTitle(true)
+            .build()
+            .launchUrl(context as Activity, Uri.parse(url.trim()))
 }
