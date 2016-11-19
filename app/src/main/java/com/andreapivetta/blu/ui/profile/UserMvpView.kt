@@ -9,9 +9,9 @@ import twitter4j.User
  */
 interface UserMvpView : TimelineMvpView, InteractionListener {
 
-    fun follow()
+    fun updateFriendshipStatus(followed: Boolean)
 
-    fun unfollow()
+    fun showUpdateFriendshipControls()
 
     fun setupUser(user: User)
 }

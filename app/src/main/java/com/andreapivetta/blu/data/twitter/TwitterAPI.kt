@@ -14,6 +14,8 @@ import java.util.concurrent.TimeUnit
  */
 object TwitterAPI {
 
+    private val twitter = Twitter.getInstance()
+
     fun getHomeTimeline(paging: Paging): Single<MutableList<Status>> =
             Single.from(object : Future<MutableList<Status>> {
                 override fun get() =
@@ -486,4 +488,11 @@ object TwitterAPI {
                     throw UnsupportedOperationException("not implemented")
                 }
             })
+
+    fun getFriendship(firstUserId: Long, secondUserId: Long): Single<Relationship> =
+            Single.fromCallable { twitter.showFriendship(firstUserId, secondUserId) }
+
+    fun follow(id: Long): Single<User> = Single.fromCallable { twitter.createFriendship(id) }
+
+    fun unfollow(id: Long): Single<User> = Single.fromCallable { twitter.destroyFriendship(id) }
 }

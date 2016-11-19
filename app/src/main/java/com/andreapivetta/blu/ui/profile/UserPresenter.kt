@@ -1,9 +1,11 @@
 package com.andreapivetta.blu.ui.profile
 
 import com.andreapivetta.blu.R
+import com.andreapivetta.blu.common.settings.AppSettings
 import com.andreapivetta.blu.data.model.Tweet
 import com.andreapivetta.blu.data.twitter.TwitterAPI
 import com.andreapivetta.blu.ui.base.BasePresenter
+import rx.Single
 import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -14,28 +16,34 @@ import twitter4j.User
 /**
  * Created by andrea on 14/11/16.
  */
-class UserPresenter : BasePresenter<UserMvpView>() {
+class UserPresenter(val settings: AppSettings) : BasePresenter<UserMvpView>() {
 
     private var page = 1
-    private var subscription: Subscription? = null
+    private var userTimelineSubscription: Subscription? = null
+    private var relationshipSubscription: Subscription? = null
     private var unfavoriteSubscription: Subscription? = null
     private var unretweetSubscription: Subscription? = null
     private var retweetSubscription: Subscription? = null
     private var favoriteSubscription: Subscription? = null
     private var refreshSubscription: Subscription? = null
+    private var updateFriendshipSubscription: Subscription? = null
 
-    private var user: User? = null
+    private lateinit var user: User
+
+    var relationshipDataAvailable: Boolean = false
+    var isLoggedUserFollowing: Boolean = false
 
     override fun detachView() {
         super.detachView()
-        subscription?.unsubscribe()
+        userTimelineSubscription?.unsubscribe()
+        relationshipSubscription?.unsubscribe()
     }
 
     fun loadUser(screenName: String) {
         checkViewAttached()
         mvpView?.showLoading()
 
-        subscription = TwitterAPI.showUser(screenName)
+        userTimelineSubscription = TwitterAPI.showUser(screenName)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({
@@ -53,13 +61,8 @@ class UserPresenter : BasePresenter<UserMvpView>() {
     fun loadUserData(user: User) {
         this.user = user
         checkViewAttached()
-
-        subscription = TwitterAPI.getUserTimeline(user.id, Paging(page, 50))
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe({
-                    mvpView?.showTweets(it.map(::Tweet).toMutableList())
-                }, { Timber.e(it?.message) })
+        loadFriendShip()
+        loadUserTimeline()
     }
 
     fun onRefresh() {
@@ -68,7 +71,7 @@ class UserPresenter : BasePresenter<UserMvpView>() {
         val page = Paging(1, 200)
         page.sinceId = mvpView!!.getLastTweetId()
 
-        refreshSubscription = TwitterAPI.refreshUserTimeLine(user!!.id, page)
+        refreshSubscription = TwitterAPI.refreshUserTimeLine(user.id, page)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({
@@ -83,6 +86,37 @@ class UserPresenter : BasePresenter<UserMvpView>() {
                     mvpView?.stopRefresh()
                     mvpView?.showSnackBar(R.string.error_refreshing_timeline)
                 })
+    }
+
+    private fun loadUserTimeline() {
+        userTimelineSubscription = TwitterAPI.getUserTimeline(user.id, Paging(page, 50))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+                    mvpView?.showTweets(it.map(::Tweet).toMutableList())
+                }, { Timber.e(it?.message) })
+    }
+
+    private fun loadFriendShip() {
+        relationshipSubscription = TwitterAPI.getFriendship(settings.getLoggedUserId(), user.id)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+                    relationshipDataAvailable = true
+                    isLoggedUserFollowing = it.isSourceFollowingTarget
+                    mvpView?.showUpdateFriendshipControls()
+                }, { Timber.e(it) })
+    }
+
+    fun updateFriendship() {
+        val single: Single<User> = if (isLoggedUserFollowing) TwitterAPI.unfollow(user.id) else
+            TwitterAPI.follow(user.id)
+        updateFriendshipSubscription = single.observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+                    isLoggedUserFollowing = !isLoggedUserFollowing
+                    mvpView?.updateFriendshipStatus(isLoggedUserFollowing)
+                }, { Timber.e(it) })
     }
 
     fun favorite(tweet: Tweet) {

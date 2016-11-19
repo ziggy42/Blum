@@ -22,7 +22,7 @@ object NotificationAssetsSelector {
     fun getText(notification: Notification, context: Context): CharSequence = when (notification.type) {
         Notification.FAVOURITE -> context.getString(R.string.notification_text_like,
                 notification.userName, notification.status)
-        Notification.FOLLOW -> context.getString(R.string.is_following_not, notification.userName)
+        Notification.FOLLOW -> context.getString(R.string.follow_not_title, notification.userName)
         Notification.MENTION -> context.getString(R.string.mentioned_not,
                 notification.userName, notification.status)
         Notification.RETWEET -> context.getString(R.string.notification_text_retweet,

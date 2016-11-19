@@ -23,7 +23,6 @@
     <string name="likes">%1$s Likes</string>
     <string name="retweets">%1$s Retweets</string>
     <string name="notifications">Notifications</string>
-    <string name="is_following_not">%1$s is now following you</string>
     <string name="mentioned_not">%1$s mentioned you: %2$s</string>
     <string name="logout_done">Log Out Done.</string>
     <string name="notification_title_like">%1$s liked your Tweet</string>
@@ -67,6 +66,10 @@
     <string name="im_done">I\'m done</string>
     <string name="downloading_please_wait">I\'m downloading some stuff for you, please be patient..</string>
     <string name="nothing_to_tweet">There\'s nothing to tweet here</string>
+    <string name="follow">Follow this user</string>
+    <string name="unfollow">Unfollow this user</string>
+    <string name="new_follow">You are now following this user</string>
+    <string name="new_unfollow">You are not following this user anymore</string>
 
     <array name="search_tabs_names">
         <item>Tweets</item>

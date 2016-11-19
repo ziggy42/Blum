@@ -7,7 +7,10 @@ import android.support.design.widget.Snackbar
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.view.Menu
+import android.view.MenuItem
 import com.andreapivetta.blu.R
+import com.andreapivetta.blu.common.settings.AppSettingsFactory
 import com.andreapivetta.blu.common.utils.Utils
 import com.andreapivetta.blu.common.utils.visible
 import com.andreapivetta.blu.data.model.Tweet
@@ -39,7 +42,7 @@ class UserActivity : AppCompatActivity(), UserMvpView {
     }
 
     private lateinit var adapter: UserAdapter
-    private val presenter = UserPresenter()
+    private val presenter by lazy { UserPresenter(AppSettingsFactory.getAppSettings(this)) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,6 +78,25 @@ class UserActivity : AppCompatActivity(), UserMvpView {
     override fun onDestroy() {
         super.onDestroy()
         presenter.detachView()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        if (presenter.relationshipDataAvailable) {
+            menuInflater.inflate(R.menu.menu_profile, menu)
+            val item = menu?.findItem(R.id.action_update_relation)
+            item?.title = if (presenter.isLoggedUserFollowing) getString(R.string.unfollow) else
+                getString(R.string.follow)
+            return true
+        }
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if (item?.itemId == R.id.action_update_relation) {
+            presenter.updateFriendship()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun setupUser(user: User) {
@@ -127,20 +149,21 @@ class UserActivity : AppCompatActivity(), UserMvpView {
     }
 
     override fun showSnackBar(stringResource: Int) {
-        Snackbar.make(window.decorView.rootView, getString(stringResource), Snackbar.LENGTH_SHORT)
-                .show()
+        Snackbar.make(findViewById(android.R.id.content), getString(stringResource),
+                Snackbar.LENGTH_SHORT).show()
     }
 
     override fun updateRecyclerViewView() {
         adapter.notifyDataSetChanged()
     }
 
-    override fun follow() {
-        throw UnsupportedOperationException("not implemented")
+    override fun updateFriendshipStatus(followed: Boolean) {
+        invalidateOptionsMenu()
+        showSnackBar(if (followed) R.string.new_follow else R.string.new_unfollow)
     }
 
-    override fun unfollow() {
-        throw UnsupportedOperationException("not implemented")
+    override fun showUpdateFriendshipControls() {
+        invalidateOptionsMenu()
     }
 
     override fun favorite(tweet: Tweet) {

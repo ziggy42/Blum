@@ -34,7 +34,7 @@ class UserAdapter(private val userMvpView: UserMvpView) :
                 R.layout.tweet_link -> StatusLinkViewHolder(LayoutInflater.from(parent?.context)
                         .inflate(R.layout.tweet_link, parent, false), userMvpView)
                 R.layout.profile -> ProfileViewHolder(LayoutInflater.from(parent?.context)
-                        .inflate(R.layout.profile, parent, false), userMvpView)
+                        .inflate(R.layout.profile, parent, false))
                 else -> throw UnsupportedOperationException("No Type found")
             }
 

@@ -16,7 +16,6 @@ import com.andreapivetta.blu.common.utils.loadUrl
 import com.andreapivetta.blu.common.utils.openUrl
 import com.andreapivetta.blu.ui.hashtag.HashtagActivity
 import com.andreapivetta.blu.ui.profile.UserActivity
-import com.andreapivetta.blu.ui.profile.UserMvpView
 import com.luseen.autolinklibrary.AutoLinkMode
 import kotlinx.android.synthetic.main.profile.view.*
 import twitter4j.User
@@ -24,8 +23,7 @@ import twitter4j.User
 /**
  * Created by andrea on 14/11/16.
  */
-class ProfileViewHolder(container: View, val userMvpView: UserMvpView) :
-        RecyclerView.ViewHolder(container) {
+class ProfileViewHolder(container: View) : RecyclerView.ViewHolder(container) {
 
     private val bannerImageView = container.bannerImageView
     private val picImageView = container.picImageView

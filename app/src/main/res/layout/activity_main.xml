@@ -37,6 +37,6 @@
         android:layout_margin="16dp"
         android:src="@drawable/ic_create"
         android:tint="@color/white"
-        app:layout_behavior="com.andreapivetta.blu.ui.base.custom.ScrollAwareFABBehavior" />
+        app:layout_behavior="com.andreapivetta.blu.ui.custom.ScrollAwareFABBehavior" />
 
 </android.support.design.widget.CoordinatorLayout>
