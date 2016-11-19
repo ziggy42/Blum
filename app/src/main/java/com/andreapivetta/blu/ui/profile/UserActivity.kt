@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import com.andreapivetta.blu.R
@@ -53,6 +54,14 @@ class UserActivity : AppCompatActivity(), UserMvpView {
         userRecyclerView.setHasFixedSize(true)
         userRecyclerView.adapter = adapter
 
+        swipeRefreshLayout.setOnRefreshListener { presenter.onRefresh() }
+        swipeRefreshLayout.setColorSchemeColors(Utils.getRefreshColor(this))
+
+        findViewById(R.id.retryButton)?.setOnClickListener {
+            errorView.visible(false)
+            presenter.loadUser(intent.getStringExtra(TAG_USER_SCREEN_NAME))
+        }
+
         presenter.attachView(this)
         if (intent.hasExtra(TAG_USER)) {
             hideLoading()
@@ -80,7 +89,6 @@ class UserActivity : AppCompatActivity(), UserMvpView {
 
         adapter.tweets.add(0, tweet)
         adapter.notifyItemInserted(1)
-        userRecyclerView.scrollToPosition(1)
     }
 
     override fun getLastTweetId(): Long = adapter.tweets[0].id
@@ -136,23 +144,30 @@ class UserActivity : AppCompatActivity(), UserMvpView {
     }
 
     override fun favorite(tweet: Tweet) {
-        throw UnsupportedOperationException("not implemented")
+        presenter.favorite(tweet)
     }
 
     override fun retweet(tweet: Tweet) {
-        throw UnsupportedOperationException("not implemented")
+        AlertDialog.Builder(this)
+                .setTitle(getString(R.string.retweet_title))
+                .setPositiveButton(getString(R.string.retweet),
+                        { dialogInterface, i -> presenter.retweet(tweet) })
+                .setNeutralButton(getString(R.string.quote),
+                        { dialogInterface, i -> NewTweetActivity.launch(this, tweet) })
+                .setNegativeButton(R.string.cancel, null)
+                .create().show()
     }
 
     override fun unfavorite(tweet: Tweet) {
-        throw UnsupportedOperationException("not implemented")
+        presenter.unfavorite(tweet)
     }
 
     override fun unretweet(tweet: Tweet) {
-        throw UnsupportedOperationException("not implemented")
+        presenter.unretweet(tweet)
     }
 
     override fun reply(tweet: Tweet, user: User) {
-        throw UnsupportedOperationException("not implemented")
+        showNewTweet(tweet, user)
     }
 
     override fun openTweet(tweet: Tweet, user: User) {

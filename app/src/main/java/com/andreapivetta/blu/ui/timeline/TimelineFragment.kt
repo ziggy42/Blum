@@ -1,14 +1,13 @@
 package com.andreapivetta.blu.ui.timeline
 
+import android.app.Activity
 import android.os.Bundle
-import android.support.annotation.ColorRes
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -85,7 +84,7 @@ open class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
         })
 
         swipeRefreshLayout.setOnRefreshListener { presenter.onRefresh() }
-        swipeRefreshLayout.setColorSchemeColors(getRefreshColor())
+        swipeRefreshLayout.setColorSchemeColors(Utils.getRefreshColor(context as Activity))
 
         rootView?.findViewById(R.id.retryButton)?.setOnClickListener {
             badThingsViewGroup.visible(false)
@@ -107,12 +106,6 @@ open class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
             ArrayList(adapter.mDataSet.subList(0, 30)) else adapter.mDataSet as Serializable)
         outState?.putInt(TAG_PAGE, presenter.page)
         super.onSaveInstanceState(outState)
-    }
-
-    @ColorRes private fun getRefreshColor(): Int {
-        val typedValue = TypedValue()
-        activity.theme.resolveAttribute(R.attr.appColorPrimary, typedValue, true)
-        return typedValue.data
     }
 
     // TimelineMvpView

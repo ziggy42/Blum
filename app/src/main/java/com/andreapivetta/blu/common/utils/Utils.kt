@@ -1,10 +1,13 @@
 package com.andreapivetta.blu.common.utils
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.support.annotation.ColorRes
 import android.support.v4.content.ContextCompat
 import android.util.DisplayMetrics
+import android.util.TypedValue
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.settings.AppSettingsFactory
 import timber.log.Timber
@@ -37,6 +40,12 @@ object Utils {
     } catch (e: IOException) {
         Timber.e(e)
         null
+    }
+
+    @ColorRes fun getRefreshColor(activity: Activity): Int {
+        val typedValue = TypedValue()
+        activity.theme.resolveAttribute(R.attr.appColorPrimary, typedValue, true)
+        return typedValue.data
     }
 
     fun formatDate(timeStamp: Long): String? {
