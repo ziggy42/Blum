@@ -16,7 +16,7 @@ import com.andreapivetta.blu.common.utils.visible
 import com.andreapivetta.blu.data.model.Notification
 import com.andreapivetta.blu.data.model.PrivateMessage
 import com.andreapivetta.blu.data.storage.AppStorageFactory
-import com.andreapivetta.blu.ui.base.custom.ThemedActivity
+import com.andreapivetta.blu.ui.custom.ThemedActivity
 import com.andreapivetta.blu.ui.newtweet.NewTweetActivity
 import com.andreapivetta.blu.ui.notifications.NotificationsActivity
 import com.andreapivetta.blu.ui.privatemessages.PrivateMessagesActivity

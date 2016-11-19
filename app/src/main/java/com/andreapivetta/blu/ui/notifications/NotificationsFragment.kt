@@ -12,7 +12,7 @@ import com.andreapivetta.blu.common.utils.Utils
 import com.andreapivetta.blu.common.utils.visible
 import com.andreapivetta.blu.data.model.Notification
 import com.andreapivetta.blu.data.storage.AppStorageFactory
-import com.andreapivetta.blu.ui.base.custom.decorators.SpaceTopItemDecoration
+import com.andreapivetta.blu.ui.custom.decorators.SpaceTopItemDecoration
 
 /**
  * Created by andrea on 28/07/16.

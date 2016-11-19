@@ -7,7 +7,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import com.andreapivetta.blu.R
-import com.andreapivetta.blu.ui.base.custom.ThemedActivity
+import com.andreapivetta.blu.ui.custom.ThemedActivity
 import com.andreapivetta.blu.ui.search.tweets.SearchTweetFragment
 import com.andreapivetta.blu.ui.search.users.SearchUsersFragment
 import kotlinx.android.synthetic.main.activity_search.*

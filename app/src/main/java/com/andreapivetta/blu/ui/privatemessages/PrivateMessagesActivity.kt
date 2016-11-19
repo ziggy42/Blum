@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.utils.pushFragment
-import com.andreapivetta.blu.ui.base.custom.ThemedActivity
+import com.andreapivetta.blu.ui.custom.ThemedActivity
 import kotlinx.android.synthetic.main.activity_newtweet.*
 
 class PrivateMessagesActivity : ThemedActivity() {

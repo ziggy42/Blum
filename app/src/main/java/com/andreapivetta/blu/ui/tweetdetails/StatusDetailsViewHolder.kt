@@ -17,7 +17,7 @@ import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.utils.*
 import com.andreapivetta.blu.data.model.MetaData
 import com.andreapivetta.blu.data.model.Tweet
-import com.andreapivetta.blu.ui.base.custom.decorators.SpaceLeftItemDecoration
+import com.andreapivetta.blu.ui.custom.decorators.SpaceLeftItemDecoration
 import com.andreapivetta.blu.ui.hashtag.HashtagActivity
 import com.andreapivetta.blu.ui.profile.UserActivity
 import com.andreapivetta.blu.ui.timeline.holders.BaseViewHolder

@@ -1,4 +1,4 @@
-package com.andreapivetta.blu.ui.base.custom
+package com.andreapivetta.blu.ui.custom
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity

@@ -17,7 +17,7 @@ import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.utils.Utils
 import com.andreapivetta.blu.common.utils.visible
 import com.andreapivetta.blu.data.model.Tweet
-import com.andreapivetta.blu.ui.base.custom.decorators.SpaceTopItemDecoration
+import com.andreapivetta.blu.ui.custom.decorators.SpaceTopItemDecoration
 import com.andreapivetta.blu.ui.image.ImageActivity
 import com.andreapivetta.blu.ui.newtweet.NewTweetActivity
 import com.andreapivetta.blu.ui.profile.UserActivity

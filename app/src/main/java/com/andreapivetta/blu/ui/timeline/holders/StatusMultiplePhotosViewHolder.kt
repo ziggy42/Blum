@@ -4,7 +4,7 @@ package com.andreapivetta.blu.ui.timeline.holders
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.andreapivetta.blu.data.model.Tweet
-import com.andreapivetta.blu.ui.base.custom.decorators.SpaceLeftItemDecoration
+import com.andreapivetta.blu.ui.custom.decorators.SpaceLeftItemDecoration
 import com.andreapivetta.blu.ui.timeline.InteractionListener
 import kotlinx.android.synthetic.main.tweet_multiplephotos.view.*
 

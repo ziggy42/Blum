@@ -1,6 +1,6 @@
 @file:Suppress("UNUSED_PARAMETER")
 
-package com.andreapivetta.blu.ui.base.custom
+package com.andreapivetta.blu.ui.custom
 
 import android.content.Context
 import android.support.design.widget.CoordinatorLayout

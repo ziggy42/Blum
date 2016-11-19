@@ -15,7 +15,7 @@ import com.andreapivetta.blu.common.settings.AppSettingsFactory
 import com.andreapivetta.blu.common.utils.openUrl
 import com.andreapivetta.blu.data.storage.AppStorageFactory
 import com.andreapivetta.blu.data.twitter.Twitter
-import com.andreapivetta.blu.ui.base.custom.ThemedActivity
+import com.andreapivetta.blu.ui.custom.ThemedActivity
 import com.andreapivetta.blu.ui.login.LoginActivity
 import com.andreapivetta.blu.ui.profile.UserActivity
 import com.luseen.autolinklibrary.AutoLinkMode

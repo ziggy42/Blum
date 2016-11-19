@@ -14,7 +14,7 @@ import android.widget.ProgressBar
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.utils.Utils
 import com.andreapivetta.blu.common.utils.visible
-import com.andreapivetta.blu.ui.base.custom.decorators.SpaceTopItemDecoration
+import com.andreapivetta.blu.ui.custom.decorators.SpaceTopItemDecoration
 import com.andreapivetta.blu.ui.timeline.TimelineFragment
 import twitter4j.User
 import java.io.Serializable

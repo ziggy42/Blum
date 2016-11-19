@@ -10,7 +10,7 @@ import android.widget.Toast
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.utils.Utils
 import com.andreapivetta.blu.data.model.Tweet
-import com.andreapivetta.blu.ui.base.custom.decorators.SpaceItemDecoration
+import com.andreapivetta.blu.ui.custom.decorators.SpaceItemDecoration
 import com.andreapivetta.blu.ui.image.ImageActivity
 import com.andreapivetta.blu.ui.tweetdetails.TweetDetailsActivity
 import com.andreapivetta.blu.ui.video.VideoActivity
