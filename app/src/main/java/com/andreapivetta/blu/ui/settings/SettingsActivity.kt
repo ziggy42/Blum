@@ -15,6 +15,7 @@ import com.andreapivetta.blu.common.settings.AppSettingsFactory
 import com.andreapivetta.blu.common.utils.openUrl
 import com.andreapivetta.blu.data.storage.AppStorageFactory
 import com.andreapivetta.blu.data.twitter.Twitter
+import com.andreapivetta.blu.ui.custom.Theme
 import com.andreapivetta.blu.ui.custom.ThemedActivity
 import com.andreapivetta.blu.ui.login.LoginActivity
 import com.andreapivetta.blu.ui.profile.UserActivity
@@ -45,7 +46,7 @@ class SettingsActivity : ThemedActivity() {
                 val dialogView = View.inflate(activity, R.layout.dialog_about, null)
                 val aboutTextView = dialogView.findViewById(R.id.aboutTextView) as AutoLinkTextView
                 aboutTextView.addAutoLinkMode(AutoLinkMode.MODE_MENTION)
-                aboutTextView.setMentionModeColor(ContextCompat.getColor(activity, R.color.blueThemeColorAccent))
+                aboutTextView.setMentionModeColor(Theme.getColorPrimary(activity))
                 aboutTextView.setAutoLinkOnClickListener { mode, text ->
                     if (mode === AutoLinkMode.MODE_MENTION) UserActivity.launch(activity, text)
                 }

@@ -16,7 +16,7 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_gravity="center"
-        android:background="?attr/circleButton"
+        android:background="?attr/circleDrawable"
         android:contentDescription="@string/play_video_contentDescription"
         android:src="@drawable/ic_play_arrow" />
 

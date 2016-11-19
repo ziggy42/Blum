@@ -1,10 +1,8 @@
 package com.andreapivetta.blu.ui.tweetdetails
 
 import android.app.Activity
+import android.content.Context
 import android.graphics.Typeface
-import android.net.Uri
-import android.support.customtabs.CustomTabsIntent
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.Spannable
@@ -17,6 +15,7 @@ import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.utils.*
 import com.andreapivetta.blu.data.model.MetaData
 import com.andreapivetta.blu.data.model.Tweet
+import com.andreapivetta.blu.ui.custom.Theme
 import com.andreapivetta.blu.ui.custom.decorators.SpaceLeftItemDecoration
 import com.andreapivetta.blu.ui.hashtag.HashtagActivity
 import com.andreapivetta.blu.ui.profile.UserActivity
@@ -43,6 +42,7 @@ class StatusDetailsViewHolder(container: View, listener: DetailsInteractionListe
     private val urlPreviewViewStub = container.urlPreviewViewStub
     private val shareImageButton = container.shareImageButton
     private val quoteImageButton = container.quoteImageButton
+    private val context: Context = container.context
 
     private var inflatedMediaView: View? = null
     private var inflatedQuotedView: View? = null
@@ -59,23 +59,15 @@ class StatusDetailsViewHolder(container: View, listener: DetailsInteractionListe
 
         autolinkTextView.addAutoLinkMode(AutoLinkMode.MODE_HASHTAG, AutoLinkMode.MODE_URL,
                 AutoLinkMode.MODE_MENTION)
-        autolinkTextView.setHashtagModeColor(ContextCompat
-                .getColor(container.context, R.color.blueThemeColorAccent))
-        autolinkTextView.setUrlModeColor(ContextCompat
-                .getColor(container.context, R.color.blueThemeColorAccent))
-        autolinkTextView.setMentionModeColor(ContextCompat
-                .getColor(container.context, R.color.blueThemeColorAccent))
+        autolinkTextView.setHashtagModeColor(Theme.getColorPrimary(context))
+        autolinkTextView.setUrlModeColor(Theme.getColorPrimary(context))
+        autolinkTextView.setMentionModeColor(Theme.getColorPrimary(context))
         autolinkTextView.setAutoLinkText(tweet.text)
         autolinkTextView.setAutoLinkOnClickListener { mode, text ->
             when (mode) {
                 AutoLinkMode.MODE_HASHTAG -> HashtagActivity.launch(container.context, text)
                 AutoLinkMode.MODE_MENTION -> UserActivity.launch(container.context, text)
-                AutoLinkMode.MODE_URL -> CustomTabsIntent.Builder()
-                        .setToolbarColor(ContextCompat
-                                .getColor(container.context, R.color.blueThemeColorPrimary))
-                        .setShowTitle(true)
-                        .build()
-                        .launchUrl(container.context as Activity, Uri.parse(text.trim()))
+                AutoLinkMode.MODE_URL -> openUrl(container.context as Activity, text)
                 else -> throw UnsupportedOperationException("No handlers for mode $mode")
             }
         }

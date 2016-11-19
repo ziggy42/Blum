@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.os.Environment
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.MenuItemCompat
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
@@ -25,6 +24,7 @@ import com.andreapivetta.blu.common.utils.visible
 import com.andreapivetta.blu.data.model.Tweet
 import com.andreapivetta.blu.data.storage.AppStorage
 import com.andreapivetta.blu.data.storage.AppStorageFactory
+import com.andreapivetta.blu.ui.custom.ThemedActivity
 import com.mlsdev.rximagepicker.RxImageConverters
 import com.mlsdev.rximagepicker.RxImagePicker
 import com.mlsdev.rximagepicker.Sources
@@ -32,7 +32,7 @@ import kotlinx.android.synthetic.main.activity_newtweet.*
 import kotlinx.android.synthetic.main.quoted_tweet.*
 import java.io.File
 
-class NewTweetActivity : AppCompatActivity(), NewTweetMvpView, OnUserClickListener {
+class NewTweetActivity : ThemedActivity(), NewTweetMvpView, OnUserClickListener {
 
     private val presenter: NewTweetPresenter by lazy { NewTweetPresenter() }
     private val imageAdapter: DeletableImageAdapter by lazy { DeletableImageAdapter() }

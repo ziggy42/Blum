@@ -8,6 +8,7 @@ import android.graphics.Color
 import android.support.annotation.DrawableRes
 import android.support.v4.app.NotificationCompat
 import com.andreapivetta.blu.common.utils.Utils
+import com.andreapivetta.blu.ui.custom.Theme
 
 /**
  * Created by andrea on 11/10/16.
@@ -23,7 +24,7 @@ class AndroidAppNotifications(val context: Context) : AppNotifications {
         notificationManager.notify(id, NotificationCompat.Builder(context)
                 .setDefaults(android.app.Notification.DEFAULT_SOUND)
                 .setAutoCancel(true)
-                .setColor(Utils.getResourceColorPrimary(context))
+                .setColor(Theme.getColorPrimaryId(context))
                 .setLargeIcon(Utils.getBitmapFromURL(largeIconUrl))
                 .setLights(Color.BLUE, 500, 1000)
                 .setStyle(NotificationCompat.BigTextStyle().bigText(text))
@@ -38,7 +39,7 @@ class AndroidAppNotifications(val context: Context) : AppNotifications {
     override fun sendLongRunning(title: String, text: String, @DrawableRes icon: Int): Int {
         val id = getId()
         notificationManager.notify(id, NotificationCompat.Builder(context)
-                .setColor(Utils.getResourceColorPrimary(context))
+                .setColor(Theme.getColorPrimaryId(context))
                 .setContentTitle(title)
                 .setContentText(text)
                 .setSmallIcon(icon)

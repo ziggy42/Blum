@@ -6,11 +6,11 @@ import android.support.annotation.DrawableRes
 import android.support.annotation.LayoutRes
 import android.support.customtabs.CustomTabsIntent
 import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.ImageView
 import com.andreapivetta.blu.R
+import com.andreapivetta.blu.ui.custom.Theme
 import com.bumptech.glide.Glide
 import java.io.File
 
@@ -44,7 +44,7 @@ fun AppCompatActivity.pushFragment(@LayoutRes containerViewId: Int, fragment: Fr
 
 fun openUrl(activity: Activity, url: String) {
     CustomTabsIntent.Builder()
-            .setToolbarColor(ContextCompat.getColor(activity, R.color.blueThemeColorPrimary))
+            .setToolbarColor(Theme.getColorPrimary(activity))
             .setShowTitle(true)
             .build()
             .launchUrl(activity, Uri.parse(url.trim()))

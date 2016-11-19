@@ -5,11 +5,9 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.support.annotation.ColorRes
-import android.support.v4.content.ContextCompat
 import android.util.DisplayMetrics
 import android.util.TypedValue
 import com.andreapivetta.blu.R
-import com.andreapivetta.blu.common.settings.AppSettingsFactory
 import timber.log.Timber
 import java.io.IOException
 import java.net.HttpURLConnection
@@ -22,15 +20,6 @@ object Utils {
 
     fun dpToPx(context: Context, dp: Int) = Math.round(dp *
             (context.resources.displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT))
-
-    fun getResourceColorPrimary(context: Context) =
-            when (AppSettingsFactory.getAppSettings(context).getTheme()) {
-                "B" -> ContextCompat.getColor(context, R.color.blueThemeColorPrimary)
-                "P" -> ContextCompat.getColor(context, R.color.pinkThemeColorPrimary)
-                "G" -> ContextCompat.getColor(context, R.color.greenThemeColorPrimary)
-                "D" -> ContextCompat.getColor(context, R.color.darkThemeColorPrimary)
-                else -> throw RuntimeException("Unsupported theme")
-            }
 
     fun getBitmapFromURL(strURL: String): Bitmap? = try {
         val connection = URL(strURL).openConnection() as HttpURLConnection

@@ -3,7 +3,6 @@ package com.andreapivetta.blu.ui.profile.viewholders
 import android.app.Activity
 import android.content.Context
 import android.graphics.Typeface
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.text.Spannable
 import android.text.SpannableString
@@ -14,6 +13,7 @@ import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.utils.loadAvatar
 import com.andreapivetta.blu.common.utils.loadUrl
 import com.andreapivetta.blu.common.utils.openUrl
+import com.andreapivetta.blu.ui.custom.Theme
 import com.andreapivetta.blu.ui.hashtag.HashtagActivity
 import com.andreapivetta.blu.ui.profile.UserActivity
 import com.luseen.autolinklibrary.AutoLinkMode
@@ -32,6 +32,7 @@ class ProfileViewHolder(container: View) : RecyclerView.ViewHolder(container) {
     private val descriptionTextView = container.descriptionTextView
     private val extraTextView = container.extraTextView
     private val statsTextView = container.statsTextView
+
     private val context: Context = container.context
 
     fun setup(user: User) {
@@ -43,12 +44,9 @@ class ProfileViewHolder(container: View) : RecyclerView.ViewHolder(container) {
 
         descriptionTextView.addAutoLinkMode(AutoLinkMode.MODE_HASHTAG, AutoLinkMode.MODE_URL,
                 AutoLinkMode.MODE_MENTION)
-        descriptionTextView.setHashtagModeColor(ContextCompat
-                .getColor(context, R.color.blueThemeColorAccent))
-        descriptionTextView.setUrlModeColor(ContextCompat
-                .getColor(context, R.color.blueThemeColorAccent))
-        descriptionTextView.setMentionModeColor(ContextCompat
-                .getColor(context, R.color.blueThemeColorAccent))
+        descriptionTextView.setHashtagModeColor(Theme.getColorPrimary(context))
+        descriptionTextView.setUrlModeColor(Theme.getColorPrimary(context))
+        descriptionTextView.setMentionModeColor(Theme.getColorPrimary(context))
         descriptionTextView.setAutoLinkText(user.description)
         descriptionTextView.setAutoLinkOnClickListener { mode, text ->
             when (mode) {
@@ -60,7 +58,7 @@ class ProfileViewHolder(container: View) : RecyclerView.ViewHolder(container) {
         }
 
         extraTextView.addAutoLinkMode(AutoLinkMode.MODE_URL)
-        extraTextView.setUrlModeColor(ContextCompat.getColor(context, R.color.blueThemeColorAccent))
+        extraTextView.setUrlModeColor(Theme.getColorPrimary(context))
         extraTextView.setAutoLinkText(getExtra(user))
         extraTextView.setAutoLinkOnClickListener { mode, text ->
             when (mode) {
