@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.andreapivetta.blu.R
-import com.andreapivetta.blu.common.utils.loadUrl
+import com.andreapivetta.blu.common.utils.loadAvatar
 import com.andreapivetta.blu.ui.profile.UserActivity
 import kotlinx.android.synthetic.main.user.view.*
 import twitter4j.User
@@ -18,17 +18,17 @@ import java.util.*
  */
 class UsersAdapter : RecyclerView.Adapter<UsersAdapter.UserViewHolder>() {
 
-    var mDataSet: MutableList<User> = ArrayList()
+    var users: MutableList<User> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int) = UserViewHolder(
             LayoutInflater.from(parent?.context).inflate(R.layout.user, parent, false))
 
-    override fun getItemCount() = mDataSet.size
+    override fun getItemCount() = users.size
 
     override fun onBindViewHolder(holder: UserViewHolder?, position: Int) {
-        val user = mDataSet[position]
+        val user = users[position]
 
-        holder?.profilePicImageView?.loadUrl(user.originalProfileImageURL)
+        holder?.profilePicImageView?.loadAvatar(user.originalProfileImageURL)
         holder?.userNameTextView?.text = user.name
         holder?.screenNameTextView?.text = "@${user.screenName}"
         holder?.descriptionTextView?.text = user.description

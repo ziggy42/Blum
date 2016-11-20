@@ -25,6 +25,10 @@ import java.io.Serializable
 class SearchUsersFragment : Fragment(), SearchUsersMvpView {
 
     companion object {
+        val TAG_QUERY = "query"
+        val TAG_USERS_LIST = "users"
+        val TAG_PAGE = "page"
+
         fun newInstance(query: String): SearchUsersFragment {
             val fragment = SearchUsersFragment()
             val bundle = Bundle()
@@ -32,10 +36,6 @@ class SearchUsersFragment : Fragment(), SearchUsersMvpView {
             fragment.arguments = bundle
             return fragment
         }
-
-        val TAG_QUERY = "query"
-        val TAG_USERS_LIST = "users"
-        val TAG_PAGE = "page"
     }
 
     private val presenter: SearchUsersPresenter by lazy {
@@ -56,7 +56,7 @@ class SearchUsersFragment : Fragment(), SearchUsersMvpView {
 
         adapter = UsersAdapter()
         if (bundle != null) {
-            adapter.mDataSet = bundle.getSerializable(TAG_USERS_LIST) as MutableList<User>
+            adapter.users = bundle.getSerializable(TAG_USERS_LIST) as MutableList<User>
             presenter.page = bundle.getInt(TimelineFragment.TAG_PAGE)
         }
     }
@@ -87,24 +87,24 @@ class SearchUsersFragment : Fragment(), SearchUsersMvpView {
             }
         })
 
-        if (adapter.mDataSet.isEmpty())
+        if (adapter.users.isEmpty())
             presenter.getUsers()
         return rootView
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
-        outState?.putSerializable(TAG_USERS_LIST, adapter.mDataSet as Serializable)
+        outState?.putSerializable(TAG_USERS_LIST, adapter.users as Serializable)
         outState?.putInt(TAG_PAGE, presenter.page)
         super.onSaveInstanceState(outState)
     }
 
     override fun showUsers(users: MutableList<User>) {
-        adapter.mDataSet = users
+        adapter.users = users
         adapter.notifyDataSetChanged()
     }
 
     override fun showMoreUsers(users: MutableList<User>) {
-        adapter.mDataSet.addAll(users)
+        adapter.users.addAll(users)
     }
 
     override fun showEmpty() {
@@ -124,7 +124,7 @@ class SearchUsersFragment : Fragment(), SearchUsersMvpView {
     }
 
     override fun hideLoading() {
-        loadingProgressBar.visible()
+        loadingProgressBar.visible(false)
     }
 
     override fun updateRecyclerViewView() {
