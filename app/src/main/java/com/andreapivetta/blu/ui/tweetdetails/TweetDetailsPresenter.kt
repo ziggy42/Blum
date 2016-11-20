@@ -16,18 +16,18 @@ import twitter4j.User
 class TweetDetailsPresenter : BasePresenter<TweetDetailsMvpView>() {
 
     private var isLoading: Boolean = false
-    private var mSubscriber: Subscription? = null
-    private var mRetweetSubscriber: Subscription? = null
-    private var mFavoriteSubscriber: Subscription? = null
-    private var mUnfavoriteSubscriber: Subscription? = null
-    private var mUnretweetSubscriber: Subscription? = null
+    private var subscription: Subscription? = null
+    private var retweetSubscription: Subscription? = null
+    private var favoriteSubscription: Subscription? = null
+    private var unfavoriteSubscription: Subscription? = null
+    private var unretweetSubscription: Subscription? = null
 
     override fun detachView() {
         super.detachView()
-        mSubscriber?.unsubscribe()
-        mFavoriteSubscriber?.unsubscribe()
-        mUnfavoriteSubscriber?.unsubscribe()
-        mUnretweetSubscriber?.unsubscribe()
+        subscription?.unsubscribe()
+        favoriteSubscription?.unsubscribe()
+        unfavoriteSubscription?.unsubscribe()
+        unretweetSubscription?.unsubscribe()
     }
 
     fun getConversation(statusId: Long) {
@@ -35,7 +35,7 @@ class TweetDetailsPresenter : BasePresenter<TweetDetailsMvpView>() {
         mvpView?.showLoading()
         isLoading = true
 
-        mSubscriber = TwitterAPI.getConversation(statusId)
+        subscription = TwitterAPI.getConversation(statusId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({
@@ -57,7 +57,7 @@ class TweetDetailsPresenter : BasePresenter<TweetDetailsMvpView>() {
     fun favorite(tweet: Tweet) {
         checkViewAttached()
 
-        mFavoriteSubscriber = TwitterAPI.favorite(tweet.id)
+        favoriteSubscription = TwitterAPI.favorite(tweet.id)
                 .map(::Tweet)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -71,7 +71,7 @@ class TweetDetailsPresenter : BasePresenter<TweetDetailsMvpView>() {
     fun retweet(tweet: Tweet) {
         checkViewAttached()
 
-        mRetweetSubscriber = TwitterAPI.retweet(tweet.id)
+        retweetSubscription = TwitterAPI.retweet(tweet.id)
                 .map(::Tweet)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -85,7 +85,7 @@ class TweetDetailsPresenter : BasePresenter<TweetDetailsMvpView>() {
     fun unfavorite(tweet: Tweet) {
         checkViewAttached()
 
-        mUnfavoriteSubscriber = TwitterAPI.unfavorite(tweet.id)
+        unfavoriteSubscription = TwitterAPI.unfavorite(tweet.id)
                 .map(::Tweet)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -99,7 +99,7 @@ class TweetDetailsPresenter : BasePresenter<TweetDetailsMvpView>() {
     fun unretweet(tweet: Tweet) {
         checkViewAttached()
 
-        mUnfavoriteSubscriber = TwitterAPI.unretweet(tweet.status.currentUserRetweetId)
+        unfavoriteSubscription = TwitterAPI.unretweet(tweet.status.currentUserRetweetId)
                 .map(::Tweet)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())

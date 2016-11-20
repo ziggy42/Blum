@@ -8,12 +8,11 @@ import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import timber.log.Timber
-import twitter4j.Twitter
 
 /**
  * Created by andrea on 21/09/16.
  */
-class ConversationPresenter(val twitter: Twitter, val storage: AppStorage, val otherId: Long) :
+class ConversationPresenter(private val storage: AppStorage, private val otherId: Long) :
         BasePresenter<ConversationMvpView>() {
 
     private var isLoading = false

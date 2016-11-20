@@ -18,21 +18,21 @@ open class TimelinePresenter : BasePresenter<TimelineMvpView>() {
 
     var page: Int = 1
     protected var isLoading: Boolean = false
-    protected var mSubscriber: Subscription? = null
-    protected var mRefreshSubscriber: Subscription? = null
-    private var mFavoriteSubscriber: Subscription? = null
-    private var mRetweetSubscriber: Subscription? = null
-    private var mUnfavoriteSubscriber: Subscription? = null
-    private var mUnretweetSubscriber: Subscription? = null
+    protected var subscription: Subscription? = null
+    protected var refreshSubscription: Subscription? = null
+    private var favoriteSubscription: Subscription? = null
+    private var retweetSubscription: Subscription? = null
+    private var unfavoriteSubscription: Subscription? = null
+    private var unretweetSubscription: Subscription? = null
 
     override fun detachView() {
         super.detachView()
-        mSubscriber?.unsubscribe()
-        mRefreshSubscriber?.unsubscribe()
-        mFavoriteSubscriber?.unsubscribe()
-        mRefreshSubscriber?.unsubscribe()
-        mUnfavoriteSubscriber?.unsubscribe()
-        mUnretweetSubscriber?.unsubscribe()
+        subscription?.unsubscribe()
+        refreshSubscription?.unsubscribe()
+        favoriteSubscription?.unsubscribe()
+        refreshSubscription?.unsubscribe()
+        unfavoriteSubscription?.unsubscribe()
+        unretweetSubscription?.unsubscribe()
     }
 
     open fun getTweets() {
@@ -40,7 +40,7 @@ open class TimelinePresenter : BasePresenter<TimelineMvpView>() {
         mvpView?.showLoading()
         isLoading = true
 
-        mSubscriber = TwitterAPI.getHomeTimeline(Paging(page, 50))
+        subscription = TwitterAPI.getHomeTimeline(Paging(page, 50))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({
@@ -71,7 +71,7 @@ open class TimelinePresenter : BasePresenter<TimelineMvpView>() {
         checkViewAttached()
         isLoading = true
 
-        mSubscriber = TwitterAPI.getHomeTimeline(Paging(page, 50))
+        subscription = TwitterAPI.getHomeTimeline(Paging(page, 50))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({
@@ -93,7 +93,7 @@ open class TimelinePresenter : BasePresenter<TimelineMvpView>() {
         val page = Paging(1, 200)
         page.sinceId = mvpView!!.getLastTweetId()
 
-        mRefreshSubscriber = TwitterAPI.refreshTimeLine(page)
+        refreshSubscription = TwitterAPI.refreshTimeLine(page)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({
@@ -113,7 +113,7 @@ open class TimelinePresenter : BasePresenter<TimelineMvpView>() {
     fun favorite(tweet: Tweet) {
         checkViewAttached()
 
-        mFavoriteSubscriber = TwitterAPI.favorite(tweet.id)
+        favoriteSubscription = TwitterAPI.favorite(tweet.id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .map(::Tweet)
@@ -134,7 +134,7 @@ open class TimelinePresenter : BasePresenter<TimelineMvpView>() {
     fun retweet(tweet: Tweet) {
         checkViewAttached()
 
-        mRetweetSubscriber = TwitterAPI.retweet(tweet.id)
+        retweetSubscription = TwitterAPI.retweet(tweet.id)
                 .map(::Tweet)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -155,7 +155,7 @@ open class TimelinePresenter : BasePresenter<TimelineMvpView>() {
     fun unfavorite(tweet: Tweet) {
         checkViewAttached()
 
-        mUnfavoriteSubscriber = TwitterAPI.unfavorite(tweet.id)
+        unfavoriteSubscription = TwitterAPI.unfavorite(tweet.id)
                 .map(::Tweet)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -176,7 +176,7 @@ open class TimelinePresenter : BasePresenter<TimelineMvpView>() {
     fun unretweet(tweet: Tweet) {
         checkViewAttached()
 
-        mUnfavoriteSubscriber = TwitterAPI.unretweet(tweet.status.currentUserRetweetId)
+        unfavoriteSubscription = TwitterAPI.unretweet(tweet.status.currentUserRetweetId)
                 .map(::Tweet)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())

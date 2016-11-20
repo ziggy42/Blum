@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.user_suggested.view.*
 /**
  * Created by andrea on 15/10/16.
  */
-class UsersAdapter(val listener: OnUserClickListener) :
+class UsersAdapter(private val listener: OnUserClickListener) :
         RecyclerView.Adapter<UsersAdapter.UserViewHolder>() {
 
     class UserViewHolder(container: View) : RecyclerView.ViewHolder(container) {

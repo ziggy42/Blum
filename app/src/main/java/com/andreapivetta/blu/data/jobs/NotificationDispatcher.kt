@@ -16,7 +16,7 @@ import twitter4j.User
 /**
  * Created by andrea on 18/09/16.
  */
-class NotificationDispatcher(val context: Context, val storage: AppStorage) {
+class NotificationDispatcher(private val context: Context, private val storage: AppStorage) {
 
     private val notifications: AppNotifications = AppNotificationsFactory
             .getAppNotifications(context)

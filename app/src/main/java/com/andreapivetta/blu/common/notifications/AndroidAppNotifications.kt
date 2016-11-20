@@ -13,7 +13,7 @@ import com.andreapivetta.blu.ui.custom.Theme
 /**
  * Created by andrea on 11/10/16.
  */
-class AndroidAppNotifications(val context: Context) : AppNotifications {
+class AndroidAppNotifications(private val context: Context) : AppNotifications {
 
     private val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE)
             as NotificationManager

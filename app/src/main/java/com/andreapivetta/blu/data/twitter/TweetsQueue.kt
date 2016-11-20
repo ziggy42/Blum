@@ -29,8 +29,8 @@ object TweetsQueue {
     }
 
     val queue: Queue<StatusUpdate> = LinkedList<StatusUpdate>()
-    var appNotifications: AppNotifications? = null
-    var context: Context? = null
+    lateinit var appNotifications: AppNotifications
+    lateinit var context: Context
     var sending = false
 
     fun init(context: Context) {
@@ -46,20 +46,20 @@ object TweetsQueue {
     @Synchronized private fun tick() {
         if (!sending && queue.isNotEmpty()) {
             sending = true
-            val id = appNotifications?.sendLongRunning(
-                    context!!.getString(R.string.sending_tweet_title),
-                    context!!.getString(R.string.sending_tweet_content), R.drawable.ic_publish)
+            val id = appNotifications.sendLongRunning(
+                    context.getString(R.string.sending_tweet_title),
+                    context.getString(R.string.sending_tweet_content), R.drawable.ic_publish)
             TwitterAPI.updateStatus(queue.poll())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
                     .subscribe({
                         sending = false
-                        appNotifications?.stopLongRunning(id!!)
+                        appNotifications.stopLongRunning(id)
                         tick()
                     }, {
-                        Timber.e(it?.message)
+                        Timber.e(it)
                         sending = false
-                        appNotifications?.stopLongRunning(id!!)
+                        appNotifications.stopLongRunning(id)
                         tick()
                     })
         }

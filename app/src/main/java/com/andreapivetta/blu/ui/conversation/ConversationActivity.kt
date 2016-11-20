@@ -9,7 +9,6 @@ import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.utils.visible
 import com.andreapivetta.blu.data.model.PrivateMessage
 import com.andreapivetta.blu.data.storage.AppStorageFactory
-import com.andreapivetta.blu.data.twitter.Twitter
 import com.andreapivetta.blu.ui.custom.ThemedActivity
 import kotlinx.android.synthetic.main.activity_conversation.*
 import twitter4j.User
@@ -27,7 +26,7 @@ class ConversationActivity : ThemedActivity(), ConversationMvpView {
     }
 
     private val presenter: ConversationPresenter by lazy {
-        ConversationPresenter(Twitter.getInstance(), AppStorageFactory.getAppStorage(),
+        ConversationPresenter(AppStorageFactory.getAppStorage(),
                 intent.getLongExtra(ARG_OTHER_ID, -1L))
     }
 

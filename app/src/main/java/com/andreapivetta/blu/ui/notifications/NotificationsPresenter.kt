@@ -6,7 +6,7 @@ import com.andreapivetta.blu.ui.base.BasePresenter
 /**
  * Created by andrea on 30/09/16.
  */
-class NotificationsPresenter(val storage: AppStorage) : BasePresenter<NotificationsMvpView>() {
+class NotificationsPresenter(private val storage: AppStorage) : BasePresenter<NotificationsMvpView>() {
 
     fun getNotifications() {
         val readNotifications = storage.getReadNotifications()

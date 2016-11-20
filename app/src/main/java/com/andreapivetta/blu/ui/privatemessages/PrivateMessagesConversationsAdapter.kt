@@ -28,10 +28,10 @@ class PrivateMessagesConversationsAdapter() :
         val timeTextView: TextView = rootView.timeTextView
     }
 
-    var dataSet: MutableList<PrivateMessage> = ArrayList()
+    var messages: MutableList<PrivateMessage> = ArrayList()
 
     override fun onBindViewHolder(holder: ConversationViewHolder?, position: Int) {
-        val message = dataSet[position]
+        val message = messages[position]
         val context = holder?.itemView?.context
 
         holder?.userProfilePicImageView?.loadAvatar(message.otherUserProfilePicUrl)
@@ -51,6 +51,6 @@ class PrivateMessagesConversationsAdapter() :
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int) = ConversationViewHolder(
             LayoutInflater.from(parent?.context).inflate(R.layout.item_conversation, parent, false))
 
-    override fun getItemCount() = dataSet.size
+    override fun getItemCount() = messages.size
 
 }

@@ -22,7 +22,7 @@ class SearchTweetPresenter(textQuery: String) : TimelinePresenter() {
         mvpView?.showLoading()
         isLoading = true
 
-        mSubscriber = TwitterAPI.searchTweets(query!!)
+        subscription = TwitterAPI.searchTweets(query!!)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({
@@ -51,7 +51,7 @@ class SearchTweetPresenter(textQuery: String) : TimelinePresenter() {
     override fun getMoreTweets() {
         if (queryResult != null && queryResult!!.hasNext()) {
             query = queryResult?.nextQuery()
-            mRefreshSubscriber = TwitterAPI.searchTweets(query!!)
+            refreshSubscription = TwitterAPI.searchTweets(query!!)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
                     .subscribe({

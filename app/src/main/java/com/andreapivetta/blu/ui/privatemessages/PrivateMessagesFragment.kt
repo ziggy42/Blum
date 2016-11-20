@@ -53,7 +53,7 @@ class PrivateMessagesFragment : Fragment(), PrivateMessagesMvpView {
     }
 
     override fun showConversations(conversations: MutableList<PrivateMessage>) {
-        adapterPrivateMessages.dataSet = conversations
+        adapterPrivateMessages.messages = conversations
         adapterPrivateMessages.notifyDataSetChanged()
     }
 

@@ -11,7 +11,7 @@ import twitter4j.Paging
 /**
  * Created by andrea on 25/07/16.
  */
-class SearchUsersPresenter(val textQuery: String) : BasePresenter<SearchUsersMvpView>() {
+class SearchUsersPresenter(private val textQuery: String) : BasePresenter<SearchUsersMvpView>() {
 
     var page: Int = 1
     private var isLoading: Boolean = false
