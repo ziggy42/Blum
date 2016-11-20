@@ -10,16 +10,15 @@ import com.andreapivetta.blu.ui.timeline.TimelineAdapter
  */
 class SingleTweetAdapter(listener: DetailsInteractionListener) : TimelineAdapter(listener) {
 
-    private val TYPE_HEADER = 0
     var headerIndex = 0
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int) =
-            if (viewType == TYPE_HEADER) StatusDetailsViewHolder(LayoutInflater.from(
+            if (viewType == R.layout.tweet_big) StatusDetailsViewHolder(LayoutInflater.from(
                     parent?.context).inflate(R.layout.tweet_big, parent, false),
                     listener as DetailsInteractionListener)
             else super.onCreateViewHolder(parent, viewType)
 
     override fun getItemViewType(position: Int) =
-            if (position == headerIndex) TYPE_HEADER else super.getItemViewType(position)
+            if (position == headerIndex) R.layout.tweet_big else super.getItemViewType(position)
 
 }

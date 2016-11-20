@@ -55,7 +55,7 @@ open class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
 
         adapter = TimelineAdapter(this)
         if (bundle != null) {
-            adapter.mDataSet = bundle.getSerializable(TAG_TWEET_LIST) as MutableList<Tweet>
+            adapter.tweets = bundle.getSerializable(TAG_TWEET_LIST) as MutableList<Tweet>
             presenter.page = bundle.getInt(TAG_PAGE)
         }
     }
@@ -91,7 +91,7 @@ open class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
             presenter.getTweets()
         }
 
-        if (adapter.mDataSet.isEmpty())
+        if (adapter.tweets.isEmpty())
             presenter.getTweets()
         return rootView
     }
@@ -102,8 +102,8 @@ open class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
-        outState?.putSerializable(TAG_TWEET_LIST, if (adapter.mDataSet.size > 30)
-            ArrayList(adapter.mDataSet.subList(0, 30)) else adapter.mDataSet as Serializable)
+        outState?.putSerializable(TAG_TWEET_LIST, if (adapter.tweets.size > 30)
+            ArrayList(adapter.tweets.subList(0, 30)) else adapter.tweets as Serializable)
         outState?.putInt(TAG_PAGE, presenter.page)
         super.onSaveInstanceState(outState)
     }
@@ -111,25 +111,25 @@ open class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
     // TimelineMvpView
 
     override fun showTweets(tweets: MutableList<Tweet>) {
-        adapter.mDataSet = tweets
+        adapter.tweets = tweets
         adapter.notifyDataSetChanged()
     }
 
     override fun showTweet(tweet: Tweet) {
-        val removedPosition = adapter.mDataSet.size - 1
-        adapter.mDataSet.removeAt(removedPosition)
+        val removedPosition = adapter.tweets.size - 1
+        adapter.tweets.removeAt(removedPosition)
         adapter.notifyItemRemoved(removedPosition)
 
-        adapter.mDataSet.add(0, tweet)
+        adapter.tweets.add(0, tweet)
         adapter.notifyItemInserted(0)
         recyclerView.scrollToPosition(0)
     }
 
     override fun showMoreTweets(tweets: MutableList<Tweet>) {
-        adapter.mDataSet.addAll(tweets)
+        adapter.tweets.addAll(tweets)
     }
 
-    override fun getLastTweetId(): Long = adapter.mDataSet[0].id
+    override fun getLastTweetId(): Long = adapter.tweets[0].id
 
     override fun stopRefresh() {
         swipeRefreshLayout.isRefreshing = false

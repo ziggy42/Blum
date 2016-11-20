@@ -62,7 +62,7 @@ class TweetDetailsFragment : Fragment(), TweetDetailsMvpView, DetailsInteraction
         adapter = SingleTweetAdapter(this)
         if (savedInstanceState != null) {
             adapter.headerIndex = savedInstanceState.getInt(TAG_INDEX)
-            adapter.mDataSet = savedInstanceState
+            adapter.tweets = savedInstanceState
                     .getSerializable(TAG_TWEET_LIST) as MutableList<Tweet>
         }
     }
@@ -85,7 +85,7 @@ class TweetDetailsFragment : Fragment(), TweetDetailsMvpView, DetailsInteraction
             presenter.getConversation(statusId)
         }
 
-        if (adapter.mDataSet.isEmpty())
+        if (adapter.tweets.isEmpty())
             presenter.getConversation(statusId)
         return rootView
     }
@@ -96,14 +96,14 @@ class TweetDetailsFragment : Fragment(), TweetDetailsMvpView, DetailsInteraction
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
-        outState?.putSerializable(TAG_TWEET_LIST, ArrayList(adapter.mDataSet))
+        outState?.putSerializable(TAG_TWEET_LIST, ArrayList(adapter.tweets))
         outState?.putInt(TAG_INDEX, adapter.headerIndex)
         super.onSaveInstanceState(outState)
     }
 
     override fun showTweets(headerIndex: Int, tweets: MutableList<Tweet>) {
         adapter.headerIndex = headerIndex
-        adapter.mDataSet = tweets
+        adapter.tweets = tweets
         adapter.notifyDataSetChanged()
         recyclerView.scrollToPosition(headerIndex)
     }
