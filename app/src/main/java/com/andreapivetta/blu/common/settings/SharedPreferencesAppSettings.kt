@@ -46,7 +46,7 @@ class SharedPreferencesAppSettings(context: Context) : AppSettings {
 
     override fun getLoggedUserId() = sharedPreferences.getLong(KEY_LOGGED_USER_ID, 0L)
 
-    override fun getLoggedUserScreenName() = sharedPreferences.getString(KEY_LOGGED_USER, "")
+    override fun getLoggedUserScreenName(): String = sharedPreferences.getString(KEY_LOGGED_USER, "")
 
     override fun saveTheme(theme: String) {
         sharedPreferences.edit().putString(KEY_THEMES, theme).apply()

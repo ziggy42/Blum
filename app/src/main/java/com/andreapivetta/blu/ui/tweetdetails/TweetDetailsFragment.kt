@@ -1,6 +1,5 @@
 package com.andreapivetta.blu.ui.tweetdetails
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
@@ -13,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.utils.Utils
+import com.andreapivetta.blu.common.utils.shareText
 import com.andreapivetta.blu.common.utils.visible
 import com.andreapivetta.blu.data.model.Tweet
 import com.andreapivetta.blu.data.twitter.getTweetLink
@@ -180,10 +180,7 @@ class TweetDetailsFragment : Fragment(), TweetDetailsMvpView, DetailsInteraction
     }
 
     override fun shareTweet(tweet: Tweet) {
-        val intent = Intent(Intent.ACTION_SEND)
-        intent.putExtra(Intent.EXTRA_TEXT, getTweetLink(tweet))
-        intent.type = "text/plain"
-        startActivity(intent)
+        shareText(context, getTweetLink(tweet))
     }
 
     override fun quoteTweet(tweet: Tweet) {

@@ -1,6 +1,8 @@
 package com.andreapivetta.blu.common.utils
 
 import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.support.annotation.DrawableRes
 import android.support.annotation.LayoutRes
@@ -48,4 +50,11 @@ fun openUrl(activity: Activity, url: String) {
             .setShowTitle(true)
             .build()
             .launchUrl(activity, Uri.parse(url.trim()))
+}
+
+fun shareText(context: Context, text: String) {
+    val intent = Intent(Intent.ACTION_SEND)
+    intent.putExtra(Intent.EXTRA_TEXT, text)
+    intent.type = "text/plain"
+    context.startActivity(intent)
 }

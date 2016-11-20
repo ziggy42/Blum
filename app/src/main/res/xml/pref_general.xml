@@ -39,6 +39,16 @@
     <PreferenceCategory android:title="@string/prefcat_others_title">
 
         <Preference
+            android:key="pref_key_share"
+            android:summary="@string/share_pref_summary"
+            android:title="@string/share_pref_title" />
+
+        <Preference
+            android:key="pref_key_rate"
+            android:summary="@string/rate_pref_summary"
+            android:title="@string/rate_pref_title" />
+
+        <Preference
             android:key="pref_key_licenses"
             android:summary="@string/licenses_pref_summary"
             android:title="@string/licenses_pref_title" />

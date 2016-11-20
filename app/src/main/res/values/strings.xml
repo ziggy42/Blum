@@ -70,6 +70,8 @@
     <string name="unfollow">Unfollow this user</string>
     <string name="new_follow">You are now following this user</string>
     <string name="new_unfollow">You are not following this user anymore</string>
+    <string name="share_app_text">Check out Blum on Google Play https://play.google.com/store/apps/details?id=com.andreapivetta.blu</string>
+    <string name="missing_play_store">You need to have Play Store installed to perform this action</string>
 
     <array name="search_tabs_names">
         <item>Tweets</item>
@@ -114,6 +116,10 @@
     <string name="prefcat_appearance_title">Appearance</string>
     <string name="themes_pref_summary">Choose the UI Theme</string>
     <string name="themes_pref_title">Themes</string>
+    <string name="share_pref_title">Share</string>
+    <string name="share_pref_summary">Share this app with anyone</string>
+    <string name="rate_pref_summary">Rate Blum on Google Play</string>
+    <string name="rate_pref_title">Rate</string>
 
     <!-- Content Descriptors -->
     <string name="profile_background_contentDescriptor" translatable="false">User Background Image View</string>

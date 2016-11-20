@@ -2,6 +2,7 @@ package com.andreapivetta.blu.ui.settings
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.preference.Preference.OnPreferenceChangeListener
 import android.preference.PreferenceFragment
@@ -10,10 +11,12 @@ import android.support.v4.content.IntentCompat
 import android.support.v7.app.AlertDialog
 import android.view.View
 import android.widget.ImageView
+import android.widget.Toast
 import com.andreapivetta.blu.BuildConfig
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.settings.AppSettingsFactory
 import com.andreapivetta.blu.common.utils.openUrl
+import com.andreapivetta.blu.common.utils.shareText
 import com.andreapivetta.blu.data.storage.AppStorageFactory
 import com.andreapivetta.blu.data.twitter.Twitter
 import com.andreapivetta.blu.ui.custom.Theme
@@ -77,6 +80,21 @@ class SettingsActivity : ThemedActivity() {
                                 { dialogInterface, i -> logout() })
                         .setNegativeButton(getString(R.string.cancel), null).show()
 
+                true
+            }
+
+            findPreference("pref_key_share").setOnPreferenceClickListener {
+                shareText(activity, activity.getString(R.string.share_app_text))
+                true
+            }
+
+            findPreference("pref_key_rate").setOnPreferenceClickListener {
+                try {
+                    startActivity(Intent(Intent.ACTION_VIEW, Uri
+                            .parse("market://details?id=${activity.applicationContext.packageName}")))
+                } catch (err: Exception) {
+                    Toast.makeText(activity, getString(R.string.missing_play_store), Toast.LENGTH_SHORT).show()
+                }
                 true
             }
         }
