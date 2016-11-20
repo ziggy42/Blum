@@ -182,6 +182,8 @@ class NotificationsJob : Job() {
             }
         }
 
+
+        storage.close()
         Timber.d("Done")
 
         return Result.SUCCESS

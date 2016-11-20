@@ -81,6 +81,7 @@ class PopulateDatabaseIntentService : IntentService("PopulateDatabaseIntentServi
                     .sendBroadcast(Intent(BROADCAST_ACTION).putExtra(DATA_STATUS, true))
             NotificationsJob.scheduleJob()
 
+            storage.close()
             Timber.i("PopulateDatabaseIntentService finished.")
         } catch (err: Exception) {
             Timber.e(err, "Error running PopulateDatabaseIntentService")

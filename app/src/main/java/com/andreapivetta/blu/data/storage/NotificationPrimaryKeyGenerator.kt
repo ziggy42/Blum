@@ -3,9 +3,9 @@ package com.andreapivetta.blu.data.storage
 /**
  * Created by andrea on 19/09/16.
  */
-object NotificationPrimaryKeyGenerator {
+class NotificationPrimaryKeyGenerator(storage: AppStorage) {
 
-    private var highestKey = AppStorageFactory.getAppStorage().getLastNotificationId() ?: 0
+    private var highestKey = storage.getLastNotificationId() ?: 0
 
     @Synchronized fun getNextKey() = highestKey++
 
