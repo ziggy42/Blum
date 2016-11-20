@@ -29,6 +29,6 @@ object Theme {
                 "P" -> R.color.pinkThemeColorPrimary
                 "G" -> R.color.greenThemeColorPrimary
                 "D" -> R.color.darkThemeColorPrimary
-                else -> throw RuntimeException("Unsupported theme")
+                else -> throw RuntimeException("No such theme")
             }
 }

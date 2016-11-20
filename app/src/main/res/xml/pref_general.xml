@@ -1,5 +1,17 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <PreferenceCategory android:title="@string/prefcat_appearance_title">
+
+        <ListPreference
+            android:defaultValue="B"
+            android:entries="@array/themes"
+            android:entryValues="@array/themes_values"
+            android:key="themes"
+            android:summary="@string/themes_pref_summary"
+            android:title="@string/themes_pref_title" />
+
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/notifications">
 
         <CheckBoxPreference

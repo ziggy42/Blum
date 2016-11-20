@@ -111,6 +111,9 @@
     <string name="about_pref_summary">About the authors</string>
     <string name="licenses_pref_title">Open Source Licenses</string>
     <string name="licenses_pref_summary">Licenses for open source software used in this app</string>
+    <string name="prefcat_appearance_title">Appearance</string>
+    <string name="themes_pref_summary">Choose the UI Theme</string>
+    <string name="themes_pref_title">Themes</string>
 
     <!-- Content Descriptors -->
     <string name="profile_background_contentDescriptor" translatable="false">User Background Image View</string>

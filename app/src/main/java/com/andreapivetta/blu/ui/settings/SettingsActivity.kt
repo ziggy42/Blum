@@ -3,6 +3,7 @@ package com.andreapivetta.blu.ui.settings
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.preference.Preference.OnPreferenceChangeListener
 import android.preference.PreferenceFragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.content.IntentCompat
@@ -18,10 +19,12 @@ import com.andreapivetta.blu.data.twitter.Twitter
 import com.andreapivetta.blu.ui.custom.Theme
 import com.andreapivetta.blu.ui.custom.ThemedActivity
 import com.andreapivetta.blu.ui.login.LoginActivity
+import com.andreapivetta.blu.ui.main.MainActivity
 import com.andreapivetta.blu.ui.profile.UserActivity
 import com.luseen.autolinklibrary.AutoLinkMode
 import com.luseen.autolinklibrary.AutoLinkTextView
 import kotlinx.android.synthetic.main.activity_settings.*
+
 
 class SettingsActivity : ThemedActivity() {
 
@@ -36,6 +39,12 @@ class SettingsActivity : ThemedActivity() {
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
             addPreferencesFromResource(R.xml.pref_general)
+
+            findPreference("themes").onPreferenceChangeListener = OnPreferenceChangeListener {
+                preference, newValue ->
+                restartApplication()
+                true
+            }
 
             findPreference("pref_key_licenses").setOnPreferenceClickListener {
                 openUrl(activity, BuildConfig.LICENSES_URL)
@@ -80,6 +89,13 @@ class SettingsActivity : ThemedActivity() {
             val intent = Intent(activity, LoginActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or
                     IntentCompat.FLAG_ACTIVITY_CLEAR_TASK
+            activity.startActivity(intent)
+        }
+
+        private fun restartApplication() {
+            activity.finish()
+            val intent = Intent(activity, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or IntentCompat.FLAG_ACTIVITY_CLEAR_TASK
             activity.startActivity(intent)
         }
 

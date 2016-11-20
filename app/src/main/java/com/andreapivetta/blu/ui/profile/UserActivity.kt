@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
@@ -15,6 +14,7 @@ import com.andreapivetta.blu.common.utils.Utils
 import com.andreapivetta.blu.common.utils.visible
 import com.andreapivetta.blu.data.model.Tweet
 import com.andreapivetta.blu.ui.custom.Theme
+import com.andreapivetta.blu.ui.custom.ThemedActivity
 import com.andreapivetta.blu.ui.custom.decorators.SpaceItemDecoration
 import com.andreapivetta.blu.ui.image.ImageActivity
 import com.andreapivetta.blu.ui.newtweet.NewTweetActivity
@@ -23,7 +23,7 @@ import com.andreapivetta.blu.ui.video.VideoActivity
 import kotlinx.android.synthetic.main.activity_user.*
 import twitter4j.User
 
-class UserActivity : AppCompatActivity(), UserMvpView {
+class UserActivity : ThemedActivity(), UserMvpView {
 
     companion object {
         val TAG_USER = "user"
