@@ -32,6 +32,7 @@ class UserPresenter(val settings: AppSettings) : BasePresenter<UserMvpView>() {
 
     var relationshipDataAvailable: Boolean = false
     var isLoggedUserFollowing: Boolean = false
+    var isLoggedUser: Boolean = false
 
     override fun detachView() {
         super.detachView()
@@ -98,14 +99,19 @@ class UserPresenter(val settings: AppSettings) : BasePresenter<UserMvpView>() {
     }
 
     private fun loadFriendShip() {
-        relationshipSubscription = TwitterAPI.getFriendship(settings.getLoggedUserId(), user.id)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe({
-                    relationshipDataAvailable = true
-                    isLoggedUserFollowing = it.isSourceFollowingTarget
-                    mvpView?.showUpdateFriendshipControls()
-                }, { Timber.e(it) })
+        if (settings.getLoggedUserId() == user.id) {
+            isLoggedUser = true
+            mvpView?.showUpdateFriendshipControls()
+        } else {
+            relationshipSubscription = TwitterAPI.getFriendship(settings.getLoggedUserId(), user.id)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe({
+                        relationshipDataAvailable = true
+                        isLoggedUserFollowing = it.isSourceFollowingTarget
+                        mvpView?.showUpdateFriendshipControls()
+                    }, { Timber.e(it) })
+        }
     }
 
     fun updateFriendship() {

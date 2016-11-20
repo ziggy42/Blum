@@ -82,7 +82,7 @@ class UserActivity : ThemedActivity(), UserMvpView {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        if (presenter.relationshipDataAvailable) {
+        if (presenter.relationshipDataAvailable && !presenter.isLoggedUser) {
             menuInflater.inflate(R.menu.menu_profile, menu)
             val item = menu?.findItem(R.id.action_update_relation)
             item?.title = if (presenter.isLoggedUserFollowing) getString(R.string.unfollow) else
