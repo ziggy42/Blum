@@ -39,7 +39,7 @@ class SearchUsersPresenter(val textQuery: String) : BasePresenter<SearchUsersMvp
 
                     isLoading = false
                 }, {
-                    Timber.e(it?.message)
+                    Timber.e(it)
                     mvpView?.hideLoading()
                     mvpView?.showError()
                     isLoading = false
@@ -64,7 +64,7 @@ class SearchUsersPresenter(val textQuery: String) : BasePresenter<SearchUsersMvp
                     }
                     isLoading = false
                 }, {
-                    Timber.e(it?.message)
+                    Timber.e(it)
                     isLoading = false
                 })
     }

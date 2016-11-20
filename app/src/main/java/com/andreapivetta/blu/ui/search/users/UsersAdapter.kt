@@ -35,6 +35,10 @@ class UsersAdapter : RecyclerView.Adapter<UsersAdapter.UserViewHolder>() {
         holder?.container?.setOnClickListener {
             UserActivity.launch(holder.container.context!!, user)
         }
+
+        if (user.isVerified)
+            holder?.userNameTextView
+                    ?.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_verified_user, 0)
     }
 
     class UserViewHolder(val container: View) : RecyclerView.ViewHolder(container) {
