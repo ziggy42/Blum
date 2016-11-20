@@ -18,7 +18,7 @@ interface InteractionListener {
 
     fun reply(tweet: Tweet, user: User)
 
-    fun openTweet(tweet: Tweet, user: User)
+    fun openTweet(tweet: Tweet)
 
     fun showUser(user: User)
 

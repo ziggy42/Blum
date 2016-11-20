@@ -68,7 +68,7 @@ open class StatusViewHolder(container: View, listener: InteractionListener) :
         }
 
         respondImageButton.setOnClickListener { listener.reply(currentTweet, currentUser) }
-        container.setOnClickListener { listener.openTweet(currentTweet, currentUser) }
+        container.setOnClickListener { listener.openTweet(currentTweet) }
     }
 
 }

@@ -1,13 +1,12 @@
 package com.andreapivetta.blu.ui.image
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.*
 import android.widget.ImageView
 import com.andreapivetta.blu.R
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.andreapivetta.blu.common.utils.loadUrl
+import com.andreapivetta.blu.common.utils.shareText
 import uk.co.senab.photoview.PhotoViewAttacher
 
 /**
@@ -16,7 +15,7 @@ import uk.co.senab.photoview.PhotoViewAttacher
 class ImageFragment : Fragment() {
 
     companion object {
-        val TAG_IMAGE = "image"
+        private val TAG_IMAGE = "image"
 
         fun newInstance(imageUrl: String): ImageFragment {
             val imageFragment = ImageFragment()
@@ -29,6 +28,7 @@ class ImageFragment : Fragment() {
 
     private lateinit var imageUrl: String
     private var photoViewAttacher: PhotoViewAttacher? = null
+    private val imageActivity: ImageActivity by lazy { activity as ImageActivity }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,22 +40,20 @@ class ImageFragment : Fragment() {
         val rootView = inflater?.inflate(R.layout.fragment_image, container, false)
         val tweetImageView = rootView?.findViewById(R.id.tweetImageView) as ImageView
 
-        Glide.with(context).load(imageUrl)
-                .asBitmap().dontTransform()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(tweetImageView)
-
+        tweetImageView.loadUrl(imageUrl)
         tweetImageView.setOnTouchListener { v, event ->
             if (photoViewAttacher == null) {
                 photoViewAttacher = PhotoViewAttacher(tweetImageView)
                 (photoViewAttacher as PhotoViewAttacher).setOnPhotoTapListener { view, fl1, fl2 ->
-                    (activity as ImageActivity).showToolbar()
-                    (activity as ImageActivity).hideToolbarDelay()
+                    imageActivity.showToolbar()
+                    imageActivity.hideToolbarDelay()
                 }
             }
 
             true
         }
+
+        imageActivity.hideToolbarDelay()
 
         return rootView
     }
@@ -72,10 +70,7 @@ class ImageFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (item?.itemId == R.id.action_share) {
-            val intent = Intent(Intent.ACTION_SEND)
-            intent.putExtra(Intent.EXTRA_TEXT,
-                    getString(R.string.check_out_photo, imageUrl)).type = "text/plain"
-            startActivity(intent)
+            shareText(context, getString(R.string.check_out_photo, imageUrl))
         }
 
         return super.onOptionsItemSelected(item)

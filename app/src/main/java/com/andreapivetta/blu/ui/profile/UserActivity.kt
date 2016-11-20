@@ -26,8 +26,8 @@ import twitter4j.User
 class UserActivity : ThemedActivity(), UserMvpView {
 
     companion object {
-        val TAG_USER = "user"
-        val TAG_USER_SCREEN_NAME = "screen_name"
+        private val TAG_USER = "user"
+        private val TAG_USER_SCREEN_NAME = "screen_name"
 
         fun launch(context: Context, user: User) {
             val intent = Intent(context, UserActivity::class.java)
@@ -194,8 +194,8 @@ class UserActivity : ThemedActivity(), UserMvpView {
         showNewTweet(tweet, user)
     }
 
-    override fun openTweet(tweet: Tweet, user: User) {
-        TweetDetailsActivity.launch(this, tweet.id, user.screenName)
+    override fun openTweet(tweet: Tweet) {
+        TweetDetailsActivity.launch(this, tweet.id)
     }
 
     override fun showUser(user: User) {

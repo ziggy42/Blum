@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 class HashtagActivity : ThemedActivity() {
 
     companion object {
-        val TAG_HASHTAG = "hashtag"
+        private val TAG_HASHTAG = "hashtag"
 
         fun launch(context: Context, hashtag: String) {
             val intent = Intent(context, HashtagActivity::class.java)

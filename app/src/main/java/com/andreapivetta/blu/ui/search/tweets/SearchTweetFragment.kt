@@ -9,6 +9,8 @@ import com.andreapivetta.blu.ui.timeline.TimelineFragment
 class SearchTweetFragment : TimelineFragment() {
 
     companion object {
+        private val TAG_QUERY = "query"
+
         fun newInstance(query: String): SearchTweetFragment {
             val fragment = SearchTweetFragment()
             val bundle = Bundle()
@@ -16,8 +18,6 @@ class SearchTweetFragment : TimelineFragment() {
             fragment.arguments = bundle
             return fragment
         }
-
-        val TAG_QUERY = "query"
     }
 
     override fun getTimelinePresenter() = SearchTweetPresenter(arguments.getString(TAG_QUERY))

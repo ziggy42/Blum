@@ -21,8 +21,6 @@ import com.andreapivetta.blu.ui.hashtag.HashtagActivity
 import com.andreapivetta.blu.ui.profile.UserActivity
 import com.andreapivetta.blu.ui.timeline.holders.BaseViewHolder
 import com.andreapivetta.blu.ui.timeline.holders.ImagesAdapter
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.luseen.autolinklibrary.AutoLinkMode
 import com.luseen.autolinklibrary.AutoLinkTextView
 import com.schinizer.rxunfurl.RxUnfurl
@@ -137,11 +135,7 @@ class StatusDetailsViewHolder(container: View, listener: DetailsInteractionListe
             inflatedMediaView = mediaViewStub.inflate()
         }
 
-        Glide.with(container.context).load(tweet.getImageUrl())
-                .asBitmap().dontTransform()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .placeholder(R.drawable.placeholder)
-                .into(inflatedMediaView as ImageView)
+        (inflatedMediaView as ImageView).loadUrl(tweet.getImageUrl())
         inflatedMediaView?.setOnClickListener { listener.showImage(tweet.getImageUrl()) }
     }
 
@@ -199,9 +193,7 @@ class StatusDetailsViewHolder(container: View, listener: DetailsInteractionListe
                     quotedStatus.text
         }
 
-        inflatedQuotedView?.setOnClickListener {
-            listener.openTweet(quotedStatus, quotedStatus.user)
-        }
+        inflatedQuotedView?.setOnClickListener { listener.openTweet(quotedStatus) }
     }
 
     private fun setupUrlPreview(tweet: Tweet) {

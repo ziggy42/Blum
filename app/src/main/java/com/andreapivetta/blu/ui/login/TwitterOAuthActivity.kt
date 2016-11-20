@@ -14,7 +14,7 @@ import twitter4j.auth.AccessToken
 
 class TwitterOAuthActivity : Activity(), TwitterLoginListener {
 
-    private var view: TwitterLoginView? = null
+    private lateinit var view: TwitterLoginView
     private var oauthStarted: Boolean = false
 
     public override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,7 +32,7 @@ class TwitterOAuthActivity : Activity(), TwitterLoginListener {
 
         if (!oauthStarted) {
             oauthStarted = true
-            view?.start(BuildConfig.TWITTER_CONSUMER_KEY, BuildConfig.TWITTER_CONSUMER_SECRET,
+            view.start(BuildConfig.TWITTER_CONSUMER_KEY, BuildConfig.TWITTER_CONSUMER_SECRET,
                     BuildConfig.TWITTER_CALLBACK, this)
         }
     }

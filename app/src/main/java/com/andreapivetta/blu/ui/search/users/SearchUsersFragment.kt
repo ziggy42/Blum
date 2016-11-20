@@ -15,7 +15,6 @@ import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.utils.Utils
 import com.andreapivetta.blu.common.utils.visible
 import com.andreapivetta.blu.ui.custom.decorators.SpaceTopItemDecoration
-import com.andreapivetta.blu.ui.timeline.TimelineFragment
 import twitter4j.User
 import java.io.Serializable
 
@@ -25,9 +24,9 @@ import java.io.Serializable
 class SearchUsersFragment : Fragment(), SearchUsersMvpView {
 
     companion object {
-        val TAG_QUERY = "query"
-        val TAG_USERS_LIST = "users"
-        val TAG_PAGE = "page"
+        private val TAG_QUERY = "query"
+        private val TAG_USERS_LIST = "users"
+        private val TAG_PAGE = "page"
 
         fun newInstance(query: String): SearchUsersFragment {
             val fragment = SearchUsersFragment()
@@ -57,7 +56,7 @@ class SearchUsersFragment : Fragment(), SearchUsersMvpView {
         adapter = UsersAdapter()
         if (bundle != null) {
             adapter.users = bundle.getSerializable(TAG_USERS_LIST) as MutableList<User>
-            presenter.page = bundle.getInt(TimelineFragment.TAG_PAGE)
+            presenter.page = bundle.getInt(TAG_PAGE)
         }
     }
 

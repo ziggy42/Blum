@@ -32,11 +32,11 @@ import java.util.*
 open class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
 
     companion object {
-        val TAG_TWEET_LIST = "tweet_list"
-        val TAG_PAGE = "page"
-
         fun newInstance() = TimelineFragment()
     }
+
+    private val TAG_TWEET_LIST = "tweet_list"
+    private val TAG_PAGE = "page"
 
     private val presenter: TimelinePresenter by lazy { getTimelinePresenter() }
 
@@ -192,8 +192,8 @@ open class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
         presenter.reply(tweet, user)
     }
 
-    override fun openTweet(tweet: Tweet, user: User) {
-        TweetDetailsActivity.launch(context, tweet.id, user.screenName)
+    override fun openTweet(tweet: Tweet) {
+        TweetDetailsActivity.launch(context, tweet.id)
     }
 
     override fun showUser(user: User) {

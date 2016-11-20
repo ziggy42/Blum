@@ -30,10 +30,9 @@ import java.util.*
 class TweetDetailsFragment : Fragment(), TweetDetailsMvpView, DetailsInteractionListener {
 
     companion object {
-        val TAG_ID = "id"
-        val TAG_SCREEN_NAME = "screen_name"
-        val TAG_TWEET_LIST = "tweet_list"
-        val TAG_INDEX = "index"
+        private val TAG_ID = "id"
+        private val TAG_TWEET_LIST = "tweet_list"
+        private val TAG_INDEX = "index"
 
         fun newInstance(id: Long): TweetDetailsFragment {
             val fragment = TweetDetailsFragment()
@@ -159,8 +158,8 @@ class TweetDetailsFragment : Fragment(), TweetDetailsMvpView, DetailsInteraction
         presenter.reply(tweet, user)
     }
 
-    override fun openTweet(tweet: Tweet, user: User) {
-        TweetDetailsActivity.launch(context, tweet.id, user.screenName)
+    override fun openTweet(tweet: Tweet) {
+        TweetDetailsActivity.launch(context, tweet.id)
     }
 
     override fun showUser(user: User) {

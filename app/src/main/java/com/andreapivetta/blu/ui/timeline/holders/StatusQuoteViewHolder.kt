@@ -35,9 +35,7 @@ class StatusQuoteViewHolder(container: View, listener: InteractionListener) :
                 quotedStatusTextView.text = quotedStatus.text
             }
 
-            quotedStatusLinearLayout.setOnClickListener {
-                listener.openTweet(quotedStatus, quotedStatus.user)
-            }
+            quotedStatusLinearLayout.setOnClickListener { listener.openTweet(quotedStatus) }
         } else quotedStatusLinearLayout.visible(false)
     }
 

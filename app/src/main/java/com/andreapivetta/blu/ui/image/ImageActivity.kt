@@ -16,8 +16,8 @@ import kotlinx.android.synthetic.main.activity_image.*
 class ImageActivity : AppCompatActivity() {
 
     companion object {
-        val TAG_IMAGES = "images"
-        val TAG_CURRENT_ITEM = "current_item"
+        private val TAG_IMAGES = "images"
+        private val TAG_CURRENT_ITEM = "current_item"
 
         fun launch(context: Context, imageUrls: Array<String>) {
             val intent = Intent(context, ImageActivity::class.java)
@@ -51,30 +51,27 @@ class ImageActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         toolbar.setNavigationOnClickListener { finish() }
 
-        val viewPager = findViewById(R.id.photosViewPager) as ViewPager
-        viewPager.adapter = ImageFragmentPagerAdapter(supportFragmentManager)
-        viewPager.currentItem = currentItem
-        viewPager.setPageTransformer(true, { view, position ->
-            val pageWidth = view.width
-
+        photosViewPager.adapter = ImageFragmentPagerAdapter(supportFragmentManager)
+        photosViewPager.currentItem = currentItem
+        photosViewPager.setPageTransformer(true, { view, position ->
             if (position < -1) {
-                view.alpha = 0.toFloat()
+                view.alpha = 0f
             } else if (position <= 0) {
-                view.alpha = 1.toFloat()
-                view.translationX = 0.toFloat()
-                view.scaleX = 1.toFloat()
-                view.scaleY = 1.toFloat()
+                view.alpha = 1f
+                view.translationX = 0f
+                view.scaleX = 1f
+                view.scaleY = 1f
             } else if (position <= 1) {
                 view.alpha = 1 - position
-                view.translationX = pageWidth * -position
+                view.translationX = view.width * -position
 
                 val scaleFactor = 0.75f + (1 - 0.75f) * (1 - Math.abs(position))
                 view.scaleX = scaleFactor
                 view.scaleY = scaleFactor
-            } else view.alpha = 0.toFloat()
+            } else view.alpha = 0f
         })
 
-        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+        photosViewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
             }
 

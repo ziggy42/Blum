@@ -11,10 +11,11 @@ import kotlinx.android.synthetic.main.activity_tweet_details.*
 class TweetDetailsActivity : ThemedActivity() {
 
     companion object {
-        fun launch(context: Context, id: Long, screenName: String) {
+        private val TAG_ID = "id"
+
+        fun launch(context: Context, id: Long) {
             val intent = Intent(context, TweetDetailsActivity::class.java)
-            intent.putExtra(TweetDetailsFragment.TAG_ID, id)
-                    .putExtra(TweetDetailsFragment.TAG_SCREEN_NAME, screenName)
+            intent.putExtra(TAG_ID, id)
             context.startActivity(intent)
         }
     }
@@ -27,8 +28,8 @@ class TweetDetailsActivity : ThemedActivity() {
         toolbar.setNavigationOnClickListener { finish() }
 
         if (savedInstanceState == null)
-            pushFragment(R.id.container_frameLayout, TweetDetailsFragment.newInstance(
-                    intent.getLongExtra(TweetDetailsFragment.TAG_ID, -1L)))
+            pushFragment(R.id.container_frameLayout,
+                    TweetDetailsFragment.newInstance(intent.getLongExtra(TAG_ID, -1L)))
     }
 
 }
