@@ -67,9 +67,7 @@ object TwitterAPI {
             Single.fromCallable {
                 val status = StatusUpdate(tweet)
                 val mediaIds = LongArray(images.size)
-                images.forEachIndexed { i, file ->
-                    mediaIds[i] = twitter.uploadMedia(images[i]).mediaId
-                }
+                images.forEachIndexed { i, file -> mediaIds[i] = twitter.uploadMedia(file).mediaId }
                 status.setMediaIds(*mediaIds)
                 status.inReplyToStatusId = inReplyToStatusId
                 twitter.updateStatus(status)

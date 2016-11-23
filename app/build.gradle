@@ -5,7 +5,7 @@ apply plugin: 'realm-android'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.0"
+    buildToolsVersion "25.0.1"
 
     defaultConfig {
         applicationId "com.andreapivetta.blu"
@@ -54,8 +54,8 @@ android {
 
 dependencies {
     final SUPPORT_LIBRARY_VERSION = '25.0.1'
-    final FIREBASE_VERSION = '9.8.0'
-    final RX_JAVA_VERSION = '1.2.1'
+    final FIREBASE_VERSION = '10.0.0'
+    final RX_JAVA_VERSION = '1.2.2'
 
     compile "com.android.support:support-fragment:$SUPPORT_LIBRARY_VERSION"
     compile "com.android.support:recyclerview-v7:$SUPPORT_LIBRARY_VERSION"
