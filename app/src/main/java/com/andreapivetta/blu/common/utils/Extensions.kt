@@ -48,6 +48,7 @@ fun openUrl(activity: Activity, url: String) {
     CustomTabsIntent.Builder()
             .setToolbarColor(Theme.getColorPrimary(activity))
             .setShowTitle(true)
+            .addDefaultShareMenuItem()
             .build()
             .launchUrl(activity, Uri.parse(url.trim()))
 }
