@@ -18,8 +18,8 @@ class AndroidAppNotifications(private val context: Context) : AppNotifications {
     private val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE)
             as NotificationManager
 
-    override fun <T> send(title: String, text: String, @DrawableRes icon: Int, largeIconUrl: String,
-                          clazz: Class<T>): Int {
+    override fun send(title: String, text: String, @DrawableRes icon: Int, largeIconUrl: String,
+                      intent: Intent): Int {
         val id = getId()
         notificationManager.notify(id, NotificationCompat.Builder(context)
                 .setDefaults(android.app.Notification.DEFAULT_SOUND)
@@ -31,7 +31,7 @@ class AndroidAppNotifications(private val context: Context) : AppNotifications {
                 .setContentTitle(title)
                 .setContentText(text)
                 .setSmallIcon(icon)
-                .setContentIntent(getPendingIntent(context, clazz))
+                .setContentIntent(getPendingIntent(context, intent))
                 .build())
         return id
     }
@@ -52,8 +52,8 @@ class AndroidAppNotifications(private val context: Context) : AppNotifications {
         notificationManager.cancel(id)
     }
 
-    private fun <T> getPendingIntent(context: Context, clazz: Class<T>) = PendingIntent
-            .getActivity(context, 0, Intent(context, clazz), PendingIntent.FLAG_UPDATE_CURRENT)
+    private fun getPendingIntent(context: Context, intent: Intent) = PendingIntent
+            .getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
     private fun getId() = (System.currentTimeMillis() % Int.MAX_VALUE).toInt()
 }

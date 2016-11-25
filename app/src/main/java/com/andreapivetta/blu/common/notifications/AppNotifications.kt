@@ -1,5 +1,6 @@
 package com.andreapivetta.blu.common.notifications
 
+import android.content.Intent
 import android.support.annotation.DrawableRes
 
 /**
@@ -7,8 +8,7 @@ import android.support.annotation.DrawableRes
  */
 interface AppNotifications {
 
-    fun <T> send(title: String, text: String, @DrawableRes icon: Int, largeIconUrl: String,
-                 clazz: Class<T>): Int
+    fun send(title: String, text: String, @DrawableRes icon: Int, largeIconUrl: String, intent: Intent): Int
 
     fun sendLongRunning(title: String, text: String, @DrawableRes icon: Int): Int
 

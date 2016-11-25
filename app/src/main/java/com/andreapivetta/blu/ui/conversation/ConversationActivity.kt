@@ -16,7 +16,7 @@ import twitter4j.User
 class ConversationActivity : ThemedActivity(), ConversationMvpView {
 
     companion object {
-        private val ARG_OTHER_ID = "other_id"
+        val ARG_OTHER_ID = "other_id"
 
         fun launch(context: Context, otherId: Long) {
             val intent = Intent(context, ConversationActivity::class.java)
