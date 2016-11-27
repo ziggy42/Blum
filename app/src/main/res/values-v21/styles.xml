@@ -9,8 +9,9 @@
         <item name="android:windowSharedElementEnterTransition">@android:transition/move</item>
         <item name="android:windowSharedElementExitTransition">@android:transition/move</item>
         <item name="android:textColorPrimary">@color/lightThemesTextColor</item>
-        <item name="appBackgroundColor">@color/lightThemesCardViewBackgroundColor</item>
         <item name="android:windowBackground">@color/background</item>
+        <item name="appBackgroundColor">@color/lightThemesCardViewBackgroundColor</item>
+        <item name="toolbarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
     </style>
 
     <!-- Blue Theme -->
@@ -55,6 +56,7 @@
         <item name="colorAccent">@color/darkThemeColorAccent</item>
         <item name="circleDrawable">@drawable/circle_darkdark</item>
         <item name="rectBackground">@drawable/rect_background_dark</item>
+        <item name="toolbarPopupTheme">@style/ThemeOverlay.AppCompat.Dark</item>
     </style>
 
     <style name="ImageActivityTheme" parent="Theme.AppCompat.NoActionBar">

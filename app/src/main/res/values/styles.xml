@@ -2,8 +2,9 @@
 
     <style name="LightBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:textColorPrimary">@color/lightThemesTextColor</item>
-        <item name="appBackgroundColor">@color/lightThemesCardViewBackgroundColor</item>
         <item name="android:windowBackground">@color/background</item>
+        <item name="appBackgroundColor">@color/lightThemesCardViewBackgroundColor</item>
+        <item name="toolbarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
     </style>
 
     <!-- Base application theme. -->
@@ -43,6 +44,7 @@
         <item name="appBackgroundColor">@color/darkThemesCardViewBackgroundColor</item>
         <item name="circleDrawable">@drawable/circle_darkdark</item>
         <item name="rectBackground">@drawable/rect_background_dark</item>
+        <item name="toolbarPopupTheme">@style/ThemeOverlay.AppCompat.Dark</item>
     </style>
 
     <style name="ImageActivityTheme" parent="Theme.AppCompat.NoActionBar">
