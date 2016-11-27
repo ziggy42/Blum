@@ -15,6 +15,7 @@ import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.utils.*
 import com.andreapivetta.blu.data.model.MetaData
 import com.andreapivetta.blu.data.model.Tweet
+import com.andreapivetta.blu.data.url.UrlInfo
 import com.andreapivetta.blu.ui.custom.Theme
 import com.andreapivetta.blu.ui.custom.decorators.SpaceLeftItemDecoration
 import com.andreapivetta.blu.ui.hashtag.HashtagActivity
@@ -23,7 +24,6 @@ import com.andreapivetta.blu.ui.timeline.holders.BaseViewHolder
 import com.andreapivetta.blu.ui.timeline.holders.ImagesAdapter
 import com.luseen.autolinklibrary.AutoLinkMode
 import com.luseen.autolinklibrary.AutoLinkTextView
-import com.schinizer.rxunfurl.RxUnfurl
 import kotlinx.android.synthetic.main.tweet_big.view.*
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -209,7 +209,7 @@ class StatusDetailsViewHolder(container: View, listener: DetailsInteractionListe
         val titleTextView = inflatedUrlPreviewView?.findViewById(R.id.urlTitleTextView) as TextView
         val loadingProgressBar = inflatedUrlPreviewView?.findViewById(R.id.loadingProgressBar)
 
-        RxUnfurl.generatePreview(tweet.getLink())
+        UrlInfo.generatePreview(tweet.getLink())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ x ->

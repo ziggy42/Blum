@@ -9,8 +9,8 @@ import com.andreapivetta.blu.common.utils.openUrl
 import com.andreapivetta.blu.common.utils.visible
 import com.andreapivetta.blu.data.model.MetaData
 import com.andreapivetta.blu.data.model.Tweet
+import com.andreapivetta.blu.data.url.UrlInfo
 import com.andreapivetta.blu.ui.timeline.InteractionListener
-import com.schinizer.rxunfurl.RxUnfurl
 import kotlinx.android.synthetic.main.tweet_link.view.*
 import kotlinx.android.synthetic.main.url_preview.view.*
 import rx.Subscription
@@ -38,7 +38,7 @@ class StatusLinkViewHolder(container: View, listener: InteractionListener) :
         if (tweet.metaData == null) {
             urlPreviewLayout.setOnClickListener { }
             subscriber?.unsubscribe()
-            subscriber = RxUnfurl.generatePreview(tweet.getLink())
+            subscriber = UrlInfo.generatePreview(tweet.getLink())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ x ->
