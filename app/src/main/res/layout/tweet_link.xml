@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground"
-    card_view:cardBackgroundColor="?appCardViewBackgroundColor"
+    card_view:cardBackgroundColor="?attr/appBackgroundColor"
     card_view:cardCornerRadius="0dp">
 
     <LinearLayout

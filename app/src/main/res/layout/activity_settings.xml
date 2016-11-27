@@ -4,7 +4,7 @@
     android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="?attr/appBackgroundColor"
     android:orientation="vertical"
     tools:context=".ui.main.MainActivity">
 

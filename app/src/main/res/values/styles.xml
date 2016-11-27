@@ -1,17 +1,9 @@
 <resources>
 
-    <style name="TransparentText" parent="@android:style/TextAppearance">
-        <item name="android:textColor">@android:color/transparent</item>
-    </style>
-
     <style name="LightBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:textColorPrimary">@color/lightThemesTextColor</item>
-        <item name="appCardViewBackgroundColor">@color/lightThemesCardViewBackgroundColor</item>
-        <item name="appBackgroundColor">@color/lightThemesBackground</item>
-        <item name="appSeparationLineColor">@color/lightGrey</item>
+        <item name="appBackgroundColor">@color/lightThemesCardViewBackgroundColor</item>
         <item name="android:windowBackground">@color/background</item>
-        <item name="toolbarTheme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
-        <item name="toolbarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
     </style>
 
     <!-- Base application theme. -->
@@ -19,42 +11,27 @@
         <item name="colorPrimary">@color/blueThemeColorPrimary</item>
         <item name="colorPrimaryDark">@color/blueThemeColorPrimaryDark</item>
         <item name="colorAccent">@color/blueThemeColorAccent</item>
-        <item name="appColorPrimary">@color/blueThemeColorPrimary</item>
-        <item name="appColorPrimaryDark">@color/blueThemeColorPrimaryDark</item>
-        <item name="appColorAccent">@color/blueThemeColorAccent</item>
         <item name="circleDrawable">@drawable/circle_darkblue</item>
         <item name="rectBackground">@drawable/rect_background_blue</item>
     </style>
-
-    <style name="BlueUserTheme" parent="BlueAppTheme" />
 
     <!-- Pink Theme -->
     <style name="PinkAppTheme" parent="LightBaseTheme">
         <item name="colorPrimary">@color/pinkThemeColorPrimary</item>
         <item name="colorPrimaryDark">@color/pinkThemeColorPrimaryDark</item>
         <item name="colorAccent">@color/pinkThemeColorAccent</item>
-        <item name="appColorPrimary">@color/pinkThemeColorPrimary</item>
-        <item name="appColorPrimaryDark">@color/pinkThemeColorPrimaryDark</item>
-        <item name="appColorAccent">@color/pinkThemeColorAccent</item>
         <item name="circleDrawable">@drawable/circle_darkpink</item>
         <item name="rectBackground">@drawable/rect_background_pink</item>
     </style>
-
-    <style name="PinkUserTheme" parent="PinkAppTheme" />
 
     <!-- Green Theme -->
     <style name="GreenAppTheme" parent="LightBaseTheme">
         <item name="colorPrimary">@color/greenThemeColorPrimary</item>
         <item name="colorPrimaryDark">@color/greenThemeColorPrimaryDark</item>
         <item name="colorAccent">@color/greenThemeColorAccent</item>
-        <item name="appColorPrimary">@color/greenThemeColorPrimary</item>
-        <item name="appColorPrimaryDark">@color/greenThemeColorPrimaryDark</item>
-        <item name="appColorAccent">@color/greenThemeColorAccent</item>
         <item name="circleDrawable">@drawable/circle_darkgreen</item>
         <item name="rectBackground">@drawable/rect_background_green</item>
     </style>
-
-    <style name="GreenUserTheme" parent="GreenAppTheme" />
 
     <!-- Dark Theme -->
     <style name="DarkTheme" parent="Theme.AppCompat.NoActionBar">
@@ -63,30 +40,14 @@
         <item name="colorAccent">@color/darkThemeColorAccent</item>
         <item name="android:textColorPrimary">@color/darkThemesTextColor</item>
         <item name="android:windowBackground">@color/darkThemesBackground</item>
-        <item name="appColorPrimary">@color/darkThemeColorPrimary</item>
-        <item name="appCardViewBackgroundColor">@color/darkThemesCardViewBackgroundColor</item>
-        <item name="appBackgroundColor">@color/darkThemesBackground</item>
-        <item name="appSeparationLineColor">@color/darkThemeColorPrimary</item>
+        <item name="appBackgroundColor">@color/darkThemesCardViewBackgroundColor</item>
         <item name="circleDrawable">@drawable/circle_darkdark</item>
         <item name="rectBackground">@drawable/rect_background_dark</item>
-        <item name="toolbarTheme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
-        <item name="toolbarPopupTheme">@style/ThemeOverlay.AppCompat</item>
     </style>
-
-    <style name="DarkUserTheme" parent="DarkTheme" />
 
     <style name="ImageActivityTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:windowBackground">@color/black</item>
-    </style>
-
-    <style name="ProfileTheme" parent="LightBaseTheme">
-        <item name="colorControlNormal">@color/blueThemeColorPrimary</item>
-        <item name="colorPrimary">@color/white</item>
-        <item name="colorPrimaryDark">@color/lightGrey</item>
-        <item name="colorAccent">@color/blueThemeColorPrimary</item>
-        <item name="circleDrawable">@drawable/circle_darkblue</item>
-        <item name="rectBackground">@drawable/rect_background_blue</item>
     </style>
 
 </resources>

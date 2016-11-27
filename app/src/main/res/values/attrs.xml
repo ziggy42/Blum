@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <attr name="appColorPrimary" format="color|reference" />
-    <attr name="appColorPrimaryDark" format="color|reference" />
-    <attr name="appColorAccent" format="color|reference" />
     <attr name="appBackgroundColor" format="color|reference" />
-    <attr name="appCardViewBackgroundColor" format="color|reference" />
-    <attr name="appSeparationLineColor" format="color|reference" />
-
     <attr name="circleDrawable" format="reference" />
     <attr name="rectBackground" format="reference" />
-    <attr name="toolbarTheme" format="reference" />
-    <attr name="toolbarPopupTheme" format="reference" />
 </resources>
