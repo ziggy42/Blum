@@ -123,6 +123,13 @@ class RealmAppStorage(name: String = "blumRealm") : AppStorage {
         realm.executeTransaction { realm.copyToRealm(userFollowed) }
     }
 
+    override fun updateUsersFollowed(userFollowed: List<UserFollowed>) {
+        realm.executeTransaction {
+            realm.delete(UserFollowed::class.java)
+            realm.copyToRealm(userFollowed)
+        }
+    }
+
     override fun saveMentions(mentions: List<Mention>) {
         realm.executeTransaction { realm.copyToRealm(mentions) }
     }

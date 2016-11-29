@@ -6,7 +6,6 @@ import android.content.Intent
 import android.support.v4.content.LocalBroadcastManager
 import com.andreapivetta.blu.common.settings.AppSettingsFactory
 import com.andreapivetta.blu.data.model.PrivateMessage
-import com.andreapivetta.blu.data.model.UserFollowed
 import com.andreapivetta.blu.data.storage.AppStorageFactory
 import com.andreapivetta.blu.data.twitter.Twitter
 import timber.log.Timber
@@ -14,8 +13,8 @@ import timber.log.Timber
 class PopulateDatabaseIntentService : IntentService("PopulateDatabaseIntentService") {
 
     companion object {
-        val BROADCAST_ACTION = "com.andreapivetta.blu.data.jobs.BROADCAST"
-        val DATA_STATUS = "PopulateDatabaseIntentService.STATUS"
+        const val BROADCAST_ACTION = "com.andreapivetta.blu.data.jobs.BROADCAST"
+        const val DATA_STATUS = "PopulateDatabaseIntentService.STATUS"
 
         fun startService(context: Context) {
             context.startService(Intent(context, PopulateDatabaseIntentService::class.java))
@@ -69,8 +68,7 @@ class PopulateDatabaseIntentService : IntentService("PopulateDatabaseIntentServi
             Timber.i("Retrieving followed users")
             // If the user doesn't follow too many users (so we don't hit Twitter API limits),
             // retrieves all of them
-            val users: List<UserFollowed> = NotificationsDataProvider
-                    .safeRetrieveFollowedUsers(twitter)
+            val users = NotificationsDataProvider.safeRetrieveFollowedUsers(twitter)
             if (users.isNotEmpty()) {
                 storage.saveUsersFollowed(users)
                 settings.setUserFollowedAvailable(true)
@@ -79,7 +77,7 @@ class PopulateDatabaseIntentService : IntentService("PopulateDatabaseIntentServi
             settings.setUserDataDownloaded(true)
             LocalBroadcastManager.getInstance(this)
                     .sendBroadcast(Intent(BROADCAST_ACTION).putExtra(DATA_STATUS, true))
-            NotificationsJob.scheduleJob()
+            AppJobCreator.scheduleJobs()
 
             storage.close()
             Timber.i("PopulateDatabaseIntentService finished.")

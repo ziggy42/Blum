@@ -21,7 +21,7 @@ class NotificationsJob : Job() {
     // TODO performance
 
     companion object {
-        val TAG = "notifications_job"
+        const val TAG = "notifications_job"
 
         fun scheduleJob() {
             JobRequest.Builder(TAG)
@@ -94,8 +94,8 @@ class NotificationsJob : Job() {
 
                                 if (x.retweeters != null) {
                                     val newRet = if (savedInfo != null)
-                                        x.favoriters!!.toMutableList()
-                                                .filter { x -> savedInfo.favoriters!!.contains(x) }
+                                        x.favoriters?.toMutableList()
+                                                ?.filter { x -> savedInfo.favoriters!!.contains(x) }
                                     else x.favoriters
 
                                     if (newRet != null && newRet.isNotEmpty()) {
@@ -181,7 +181,6 @@ class NotificationsJob : Job() {
                 settings.setDirectMessagesDownloaded(true)
             }
         }
-
 
         storage.close()
         Timber.d("Done")

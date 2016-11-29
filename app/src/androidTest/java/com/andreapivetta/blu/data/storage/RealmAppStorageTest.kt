@@ -165,6 +165,13 @@ class RealmAppStorageTest {
     }
 
     @Test
+    fun clearUsersFollowed() {
+        storage.updateUsersFollowed(listOf(UserFollowed(3)))
+        assertEquals(1, storage.getAllUserFollowed().size)
+        assertEquals(3, storage.getAllUserFollowed()[0].id)
+    }
+
+    @Test
     fun saveTweetInfo() {
         storage.saveTweetInfo(TweetInfo(5))
         assertEquals(5, storage.getAllTweetInfo().size)

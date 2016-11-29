@@ -41,6 +41,8 @@ interface AppStorage {
 
     fun saveUsersFollowed(userFollowed: List<UserFollowed>)
 
+    fun updateUsersFollowed(userFollowed: List<UserFollowed>)
+
     fun saveTweetInfo(tweetInfo: TweetInfo, body: (TweetInfo) -> Unit = {})
 
     fun saveTweetInfoList(tweetInfoList: List<TweetInfo>)
