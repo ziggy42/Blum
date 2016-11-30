@@ -21,7 +21,7 @@ class UsersFollowedJob : Job() {
             JobRequest.Builder(TAG)
                     .setPeriodic(TimeUnit.DAYS.toMillis(2))
                     .setPersisted(true)
-                    .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
+                    .setRequiredNetworkType(JobRequest.NetworkType.UNMETERED)
                     .build()
                     .schedule()
         }

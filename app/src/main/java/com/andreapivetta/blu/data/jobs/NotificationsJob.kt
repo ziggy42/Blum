@@ -27,7 +27,7 @@ class NotificationsJob : Job() {
             JobRequest.Builder(TAG)
                     .setPeriodic(TimeUnit.MINUTES.toMillis(BuildConfig.INTERVAL))
                     .setPersisted(true)
-                    .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
+                    .setRequiredNetworkType(JobRequest.NetworkType.UNMETERED)
                     .build()
                     .schedule()
         }
