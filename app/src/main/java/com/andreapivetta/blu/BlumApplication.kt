@@ -19,6 +19,12 @@ open class BlumApplication : Application() {
         JobManager.create(this).addJobCreator(AppJobCreator())
         Realm.init(this)
         TweetsQueue.init(this)
+
+        /**
+         * Migration from java version of Blum
+         * TODO remove me ASAP
+         */
+        Migration.migrate(applicationContext)
     }
 
 }

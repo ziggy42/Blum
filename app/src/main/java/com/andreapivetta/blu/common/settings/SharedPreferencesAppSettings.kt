@@ -9,7 +9,7 @@ import twitter4j.auth.AccessToken
  */
 class SharedPreferencesAppSettings(context: Context) : AppSettings {
 
-    private val KEY_LOGIN = "logged"
+    private val KEY_LOGIN = "login"
     private val KEY_LOGGED_USER_ID = "user"
     private val KEY_LOGGED_USER = "screen_name"
     private val KEY_OAUTH_TOKEN = "oauth_token"
