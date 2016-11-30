@@ -3,7 +3,7 @@ package com.andreapivetta.blu.ui.newtweet
 import com.andreapivetta.blu.common.utils.Patterns
 import com.andreapivetta.blu.data.model.Tweet
 import com.andreapivetta.blu.data.twitter.TweetsQueue
-import com.andreapivetta.blu.data.twitter.getTweetLink
+import com.andreapivetta.blu.data.twitter.getTweetUrl
 import com.andreapivetta.blu.ui.base.BasePresenter
 import java.io.File
 
@@ -79,7 +79,7 @@ class NewTweetPresenter : BasePresenter<NewTweetMvpView>() {
     fun sendTweet(quotedTweet: Tweet) {
         when {
             charsLeft < 0 -> mvpView?.showTooManyCharsError()
-            else -> sendTweet("${mvpView?.getTweet()} ${getTweetLink(quotedTweet)}")
+            else -> sendTweet("${mvpView?.getTweet()} ${getTweetUrl(quotedTweet)}")
         }
     }
 

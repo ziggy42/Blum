@@ -20,7 +20,6 @@ class NotificationDispatcher(private val context: Context, private val storage: 
 
     private val keyGenerator = NotificationPrimaryKeyGenerator(storage)
     private val notifications = AppNotificationsFactory.getAppNotifications(context)
-
     private val genericNotificationIntent = Intent(context, NotificationsActivity::class.java)
 
     fun sendFavoriteNotification(status: Status, user: User) {

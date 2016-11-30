@@ -1,25 +1,29 @@
 package com.andreapivetta.blu.data.jobs
 
 import com.andreapivetta.blu.data.model.*
+import com.andreapivetta.blu.data.twitter.getFavoritersUrl
+import com.andreapivetta.blu.data.twitter.getRetweetersUrl
 import io.realm.RealmList
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import org.json.JSONException
 import org.json.JSONObject
 import org.jsoup.Jsoup
 import timber.log.Timber
 import twitter4j.*
-import java.io.BufferedReader
-import java.io.InputStreamReader
-import java.net.URL
 import java.util.*
-import javax.net.ssl.HttpsURLConnection
 
 /**
  * Created by andrea on 17/09/16.
  */
 object NotificationsDataProvider {
 
-    private val USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36"
-    private val FAVORITERS_URL = "https://twitter.com/i/activity/favorited_popup?id="
-    private val RETWEETERS_URL = "https://twitter.com/i/activity/retweeted_popup?id="
+    private val httpClient = OkHttpClient.Builder()
+            .addInterceptor { x ->
+                x.proceed(x.request().newBuilder().addHeader("user-agent", "Mozilla/5.0 " +
+                        "(X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) " +
+                        "Chrome/53.0.2785.116 Safari/537.36").build())
+            }.build()
 
     fun retrieveTweetInfo(twitter: Twitter): MutableList<TweetInfo> =
             twitter.getUserTimeline(Paging(1, 100))
@@ -39,7 +43,7 @@ object NotificationsDataProvider {
     }
 
     fun retrieveDirectMessages(twitter: Twitter): MutableList<DirectMessage> {
-        val directMessages: MutableList<DirectMessage> = twitter.getDirectMessages(Paging(1, 200))
+        val directMessages = twitter.getDirectMessages(Paging(1, 200))
         directMessages.addAll(twitter.getSentDirectMessages(Paging(1, 200)))
         return directMessages
     }
@@ -58,59 +62,24 @@ object NotificationsDataProvider {
         return users
     }
 
-    @Throws(Exception::class)
-    fun getFavoriters(tweetID: Long): RealmList<UserId>? = getUsers(tweetID, FAVORITERS_URL)
+    fun getFavoriters(tweetID: Long): RealmList<UserId>? = getUsers(getFavoritersUrl(tweetID))
 
-    @Throws(Exception::class)
-    fun getRetweeters(tweetID: Long): RealmList<UserId>? = getUsers(tweetID, RETWEETERS_URL)
+    fun getRetweeters(tweetID: Long): RealmList<UserId>? = getUsers(getRetweetersUrl(tweetID))
 
-    @Throws(Exception::class)
-    private fun getUsers(tweetID: Long, url: String): RealmList<UserId>? {
-        val usersIDs = ArrayList<Long>()
-        val json = getJson(tweetID, url) ?: return null
-        val doc = Jsoup.parse(json.getString("htmlUsers"))
-
-        if (doc != null) {
-            for (element in doc.getElementsByTag("img")) {
-                try {
-                    if (element.attr("data-user-id") != "")
-                        usersIDs.add(java.lang.Long.parseLong(element.attr("data-user-id")))
-                } catch (e: Exception) {
-                    Timber.e(e, "Error parsing html")
-                    e.printStackTrace()
-                    return null
-                }
-            }
-
-            val realmList = RealmList<UserId>()
-            realmList.addAll(usersIDs.map(::UserId))
-            return realmList
-        }
-
-        return null
+    private fun getUsers(url: String): RealmList<UserId>? = try {
+        val json = getJson(url)
+        RealmList(*Jsoup.parse(json.getString("htmlUsers"))
+                .getElementsByTag("img")
+                .filter { x -> x.hasAttr("data-user-id") && x.attr("data-user-id").isNotBlank() }
+                .map { x -> UserId(x.attr("data-user-id").toLong()) }
+                .toTypedArray())
+    } catch (exception: JSONException) {
+        Timber.e(exception, "Error getting users!")
+        null
     }
 
-    private fun getJson(tweetId: Long, url: String): JSONObject? {
-        try {
-            val obj = URL(url + tweetId)
-
-            val connection = obj.openConnection() as HttpsURLConnection
-            connection.setRequestProperty("Content-Type", "text/html")
-            connection.setRequestProperty("charset", "utf-8")
-            connection.setRequestProperty("user-agent", USER_AGENT)
-            connection.requestMethod = "GET"
-            connection.connect()
-
-            val reader = BufferedReader(InputStreamReader(connection.inputStream))
-            val sb = StringBuilder()
-            reader.forEachLine { line -> sb.append(line).append('\n') }
-
-            connection.disconnect()
-            return JSONObject(sb.toString())
-        } catch (e: Exception) {
-            Timber.e(e, "Error building JSONObject")
-            return null
-        }
-    }
+    @Throws(JSONException::class)
+    private fun getJson(url: String): JSONObject =
+            JSONObject(httpClient.newCall(Request.Builder().url(url).build()).execute().body().string())
 
 }

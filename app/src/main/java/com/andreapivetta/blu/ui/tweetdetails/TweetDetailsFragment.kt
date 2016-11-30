@@ -15,7 +15,7 @@ import com.andreapivetta.blu.common.utils.Utils
 import com.andreapivetta.blu.common.utils.shareText
 import com.andreapivetta.blu.common.utils.visible
 import com.andreapivetta.blu.data.model.Tweet
-import com.andreapivetta.blu.data.twitter.getTweetLink
+import com.andreapivetta.blu.data.twitter.getTweetUrl
 import com.andreapivetta.blu.ui.custom.decorators.SpaceTopItemDecoration
 import com.andreapivetta.blu.ui.image.ImageActivity
 import com.andreapivetta.blu.ui.newtweet.NewTweetActivity
@@ -179,7 +179,7 @@ class TweetDetailsFragment : Fragment(), TweetDetailsMvpView, DetailsInteraction
     }
 
     override fun shareTweet(tweet: Tweet) {
-        shareText(context, getTweetLink(tweet))
+        shareText(context, getTweetUrl(tweet))
     }
 
     override fun quoteTweet(tweet: Tweet) {

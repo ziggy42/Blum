@@ -54,7 +54,7 @@ class NotificationsJob : Job() {
                             run {
                                 Timber.d("New tweet discovered %d", x.id)
                                 storage.saveTweetInfo(x)
-                                if (x.favoriters!!.size > 0 || x.retweeters!!.size > 0) {
+                                if (x.hasFavoriters() || x.hasRetweeters()) {
                                     val status = twitter.showStatus(x.id)
 
                                     x.favoriters?.forEach { y ->

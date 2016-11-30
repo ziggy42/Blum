@@ -12,13 +12,12 @@ open class TweetInfo(
         open var favoriters: RealmList<UserId>? = RealmList<UserId>(),
         open var retweeters: RealmList<UserId>? = RealmList<UserId>()) : RealmObject() {
 
-    override fun equals(other: Any?): Boolean {
-        if (other !is TweetInfo)
-            return false
-        return id == other.id
-    }
+    fun hasFavoriters(): Boolean = favoriters != null && favoriters!!.isNotEmpty()
 
-    override fun hashCode(): Int {
-        return (id * 17).toInt()
-    }
+    fun hasRetweeters(): Boolean = retweeters != null && retweeters!!.isNotEmpty()
+
+    override fun equals(other: Any?): Boolean = if (other !is TweetInfo) false else id == other.id
+
+    override fun hashCode(): Int = (id * 17).toInt()
+
 }
