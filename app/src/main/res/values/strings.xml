@@ -64,7 +64,7 @@
     <string name="favorites_retweeets">Favorites and Retweets</string>
     <string name="favorites_retweets_setup">Get a notification for new favorites and retweets. PLEASE NOTE: because of how Twitter works, turning on this setting may cause some battery drains. Also, there\'s no true guarantee that you\'ll get all your notifications.</string>
     <string name="im_done">I\'m done</string>
-    <string name="downloading_please_wait">I\'m downloading some stuff for you, please be patient..</string>
+    <string name="downloading_please_wait">I\'m downloading some stuff for you, please be patient…</string>
     <string name="nothing_to_tweet">There\'s nothing to tweet here</string>
     <string name="follow">Follow this user</string>
     <string name="unfollow">Unfollow this user</string>
