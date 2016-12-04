@@ -26,8 +26,8 @@ import twitter4j.User
 class UserActivity : ThemedActivity(), UserMvpView {
 
     companion object {
-        private val TAG_USER = "user"
-        private val TAG_USER_SCREEN_NAME = "screen_name"
+        const val TAG_USER = "user"
+        private const val TAG_USER_SCREEN_NAME = "screen_name"
 
         fun launch(context: Context, user: User) {
             val intent = Intent(context, UserActivity::class.java)

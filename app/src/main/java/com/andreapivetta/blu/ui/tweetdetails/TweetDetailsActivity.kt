@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.activity_tweet_details.*
 class TweetDetailsActivity : ThemedActivity() {
 
     companion object {
-        private val TAG_ID = "id"
+        const val TAG_ID = "id"
 
         fun launch(context: Context, id: Long) {
             val intent = Intent(context, TweetDetailsActivity::class.java)

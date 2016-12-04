@@ -9,7 +9,8 @@ import com.andreapivetta.blu.data.model.PrivateMessage
 import com.andreapivetta.blu.data.storage.AppStorage
 import com.andreapivetta.blu.data.storage.NotificationPrimaryKeyGenerator
 import com.andreapivetta.blu.ui.conversation.ConversationActivity
-import com.andreapivetta.blu.ui.notifications.NotificationsActivity
+import com.andreapivetta.blu.ui.profile.UserActivity
+import com.andreapivetta.blu.ui.tweetdetails.TweetDetailsActivity
 import twitter4j.Status
 import twitter4j.User
 
@@ -20,15 +21,15 @@ class NotificationDispatcher(private val context: Context, private val storage: 
 
     private val keyGenerator = NotificationPrimaryKeyGenerator(storage)
     private val notifications = AppNotificationsFactory.getAppNotifications(context)
-    private val genericNotificationIntent = Intent(context, NotificationsActivity::class.java)
 
     fun sendFavoriteNotification(status: Status, user: User) {
         storage.saveNotification(Notification(keyGenerator.getNextKey(), Notification.FAVOURITE,
                 user.name, user.id, status.id, status.text, user.biggerProfileImageURL, false))
 
         sendBroadcast(Notification.NEW_NOTIFICATION_INTENT)
-        notifications.send(context.getString(R.string.notification_title_like, user.name), status.text,
-                R.drawable.ic_favorite, user.biggerProfileImageURL, genericNotificationIntent)
+        notifications.send(context.getString(R.string.notification_title_like, user.name),
+                status.text, R.drawable.ic_favorite, user.biggerProfileImageURL,
+                getTweetDetailsIntent(status))
     }
 
     fun sendRetweetNotification(status: Status, user: User) {
@@ -38,7 +39,7 @@ class NotificationDispatcher(private val context: Context, private val storage: 
         sendBroadcast(Notification.NEW_NOTIFICATION_INTENT)
         notifications.send(context.getString(R.string.notification_title_retweet, user.name),
                 status.text, R.drawable.ic_repeat, user.biggerProfileImageURL,
-                genericNotificationIntent)
+                getTweetDetailsIntent(status))
     }
 
     fun sendMentionNotification(status: Status, user: User) {
@@ -47,30 +48,38 @@ class NotificationDispatcher(private val context: Context, private val storage: 
 
         sendBroadcast(Notification.NEW_NOTIFICATION_INTENT)
         notifications.send(context.getString(R.string.reply_not_title, user.name), status.text,
-                R.drawable.ic_reply, user.biggerProfileImageURL, genericNotificationIntent)
+                R.drawable.ic_reply, user.biggerProfileImageURL, getTweetDetailsIntent(status))
     }
 
     fun sendFollowerNotification(user: User) {
-        storage.saveNotification(Notification(keyGenerator.getNextKey(), Notification.FAVOURITE,
+        val intent = Intent(context, UserActivity::class.java)
+        intent.putExtra(UserActivity.TAG_USER, user)
+
+        storage.saveNotification(Notification(keyGenerator.getNextKey(), Notification.FOLLOW,
                 user.name, user.id, 0, "", user.biggerProfileImageURL, false))
 
         sendBroadcast(Notification.NEW_NOTIFICATION_INTENT)
         notifications.send(user.name, context.getString(R.string.follow_not_title, user.name),
-                R.drawable.ic_person_outline, user.biggerProfileImageURL, genericNotificationIntent)
+                R.drawable.ic_person_outline, user.biggerProfileImageURL, intent)
     }
 
-    fun sendPrivateMessageNotification(privateMessage: PrivateMessage) {
+    fun sendPrivateMessageNotification(message: PrivateMessage) {
         val intent = Intent(context, ConversationActivity::class.java)
-        intent.putExtra(ConversationActivity.ARG_OTHER_ID, privateMessage.otherId)
+        intent.putExtra(ConversationActivity.ARG_OTHER_ID, message.otherId)
 
         sendBroadcast(PrivateMessage.NEW_PRIVATE_MESSAGE_INTENT)
-        notifications.send(context.getString(R.string.message_not_title,
-                privateMessage.otherUserName), privateMessage.text, R.drawable.ic_message,
-                privateMessage.otherUserProfilePicUrl, intent)
+        notifications.send(context.getString(R.string.message_not_title, message.otherUserName),
+                message.text, R.drawable.ic_message, message.otherUserProfilePicUrl, intent)
     }
 
     private fun sendBroadcast(intentString: String) {
         context.sendBroadcast(Intent(intentString))
+    }
+
+    private fun getTweetDetailsIntent(status: Status): Intent {
+        val intent = Intent(context, TweetDetailsActivity::class.java)
+        intent.putExtra(TweetDetailsActivity.TAG_ID, status.id)
+        return intent
     }
 
 }
