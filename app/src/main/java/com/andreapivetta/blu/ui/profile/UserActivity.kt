@@ -28,6 +28,7 @@ class UserActivity : ThemedActivity(), UserMvpView {
     companion object {
         const val TAG_USER = "user"
         private const val TAG_USER_SCREEN_NAME = "screen_name"
+        private const val TAG_USER_ID = "id"
 
         fun launch(context: Context, user: User) {
             val intent = Intent(context, UserActivity::class.java)
@@ -38,6 +39,12 @@ class UserActivity : ThemedActivity(), UserMvpView {
         fun launch(context: Context, screenName: String) {
             val intent = Intent(context, UserActivity::class.java)
             intent.putExtra(TAG_USER_SCREEN_NAME, screenName)
+            context.startActivity(intent)
+        }
+
+        fun launch(context: Context, id: Long) {
+            val intent = Intent(context, UserActivity::class.java)
+            intent.putExtra(TAG_USER_ID, id)
             context.startActivity(intent)
         }
     }
@@ -72,8 +79,11 @@ class UserActivity : ThemedActivity(), UserMvpView {
             val user = intent.getSerializableExtra(TAG_USER) as User
             setupUser(user)
             presenter.loadUserData(user)
-        } else
+        } else if (intent.hasExtra(TAG_USER_SCREEN_NAME)) {
             presenter.loadUser(intent.getStringExtra(TAG_USER_SCREEN_NAME))
+        } else if (intent.hasExtra(TAG_USER_ID)) {
+            presenter.loadUser(intent.getLongExtra(TAG_USER_ID, -1))
+        } else throw RuntimeException("You must specify a way to load the user")
     }
 
     override fun onDestroy() {

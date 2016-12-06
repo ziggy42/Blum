@@ -59,6 +59,25 @@ class UserPresenter(val settings: AppSettings) : BasePresenter<UserMvpView>() {
                 })
     }
 
+    fun loadUser(id: Long) {
+        checkViewAttached()
+        mvpView?.showLoading()
+
+        userTimelineSubscription = TwitterAPI.showUser(id)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+                    user = it
+                    mvpView?.hideLoading()
+                    mvpView?.setupUser(it)
+                    loadUserData(it)
+                }, {
+                    Timber.e(it?.message)
+                    mvpView?.hideLoading()
+                    mvpView?.showError()
+                })
+    }
+
     fun loadUserData(user: User) {
         this.user = user
         checkViewAttached()

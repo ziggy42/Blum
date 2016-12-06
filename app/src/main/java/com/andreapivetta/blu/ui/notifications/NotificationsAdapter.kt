@@ -8,6 +8,8 @@ import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.utils.Utils
 import com.andreapivetta.blu.common.utils.loadAvatar
 import com.andreapivetta.blu.data.model.Notification
+import com.andreapivetta.blu.ui.profile.UserActivity
+import com.andreapivetta.blu.ui.tweetdetails.TweetDetailsActivity
 import kotlinx.android.synthetic.main.notification_item.view.*
 import kotlinx.android.synthetic.main.notification_item_header.view.*
 import java.util.*
@@ -28,6 +30,14 @@ class NotificationsAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             itemView.timeTextView.text = Utils.formatDate(notification.timestamp)
             itemView.notificationTextView.text = NotificationAssetsSelector
                     .getText(notification, itemView.context)
+
+            itemView.setOnClickListener {
+                when (notification.type) {
+                    Notification.FOLLOW -> UserActivity.launch(itemView.context, notification.userId)
+                    Notification.MENTION, Notification.RETWEET, Notification.FAVOURITE ->
+                        TweetDetailsActivity.launch(itemView.context, notification.tweetId)
+                }
+            }
         }
 
     }
@@ -79,30 +89,27 @@ class NotificationsAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
-    override fun getItemViewType(position: Int): Int {
-        if (unreadNotifications.isNotEmpty()) {
-            if (position == 0)
-                return TYPE_HEADER_NEW
-            else if (position <= unreadNotifications.size)
-                return TYPE_NOTIFICATION_NEW
-            else if (position == unreadNotifications.size + 1 && unreadNotifications.isNotEmpty())
-                return TYPE_HEADER_OLD
-            else
-                return TYPE_NOTIFICATION_OLD
-        } else {
-            if (position == 0)
-                return TYPE_HEADER_OLD
-            else
-                return TYPE_NOTIFICATION_OLD
-        }
+    override fun getItemViewType(position: Int): Int = if (unreadNotifications.isNotEmpty()) {
+        if (position == 0)
+            TYPE_HEADER_NEW
+        else if (position <= unreadNotifications.size)
+            TYPE_NOTIFICATION_NEW
+        else if (position == unreadNotifications.size + 1 && unreadNotifications.isNotEmpty())
+            TYPE_HEADER_OLD
+        else
+            TYPE_NOTIFICATION_OLD
+    } else {
+        if (position == 0)
+            TYPE_HEADER_OLD
+        else
+            TYPE_NOTIFICATION_OLD
     }
 
-    private fun getRealIndex(position: Int): Int {
-        if (getItemViewType(position) == TYPE_NOTIFICATION_NEW)
-            return position - 1
-        else if (unreadNotifications.isNotEmpty())
-            return position - 2 - unreadNotifications.size
-        else
-            return position - 1
-    }
+    private fun getRealIndex(position: Int): Int =
+            if (getItemViewType(position) == TYPE_NOTIFICATION_NEW)
+                position - 1
+            else if (unreadNotifications.isNotEmpty())
+                position - 2 - unreadNotifications.size
+            else
+                position - 1
 }
