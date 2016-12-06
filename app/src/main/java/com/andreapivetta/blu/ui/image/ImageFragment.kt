@@ -5,9 +5,11 @@ import android.support.v4.app.Fragment
 import android.view.*
 import android.widget.ImageView
 import com.andreapivetta.blu.R
+import com.andreapivetta.blu.common.utils.download
 import com.andreapivetta.blu.common.utils.loadUrl
 import com.andreapivetta.blu.common.utils.shareText
 import uk.co.senab.photoview.PhotoViewAttacher
+
 
 /**
  * Created by andrea on 28/05/16.
@@ -64,13 +66,14 @@ class ImageFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        inflater?.inflate(R.menu.menu_share, menu)
+        inflater?.inflate(R.menu.menu_media, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item?.itemId == R.id.action_share) {
-            shareText(context, getString(R.string.check_out_photo, imageUrl))
+        when (item?.itemId) {
+            R.id.action_share -> shareText(context, getString(R.string.check_out_photo, imageUrl))
+            R.id.action_download -> download(context, imageUrl)
         }
 
         return super.onOptionsItemSelected(item)

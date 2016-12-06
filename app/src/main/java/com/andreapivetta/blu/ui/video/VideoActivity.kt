@@ -13,8 +13,8 @@ import kotlinx.android.synthetic.main.activity_video.*
 class VideoActivity : AppCompatActivity() {
 
     companion object {
-        private val TAG_URL = "video"
-        private val TAG_TYPE = "type"
+        private const val TAG_URL = "video"
+        private const val TAG_TYPE = "type"
 
         fun launch(context: Context, videoUrl: String, videoType: String) {
             val intent = Intent(context, VideoActivity::class.java)

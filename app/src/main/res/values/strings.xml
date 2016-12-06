@@ -72,6 +72,7 @@
     <string name="new_unfollow">You are not following this user anymore</string>
     <string name="share_app_text">Check out Blum on Google Play https://play.google.com/store/apps/details?id=com.andreapivetta.blu</string>
     <string name="missing_play_store">You need to have Play Store installed to perform this action</string>
+    <string name="download">Download</string>
 
     <array name="search_tabs_names">
         <item>Tweets</item>

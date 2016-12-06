@@ -1,6 +1,7 @@
 package com.andreapivetta.blu.common.utils
 
 import android.app.Activity
+import android.app.DownloadManager
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -58,4 +59,14 @@ fun shareText(context: Context, text: String) {
     intent.putExtra(Intent.EXTRA_TEXT, text)
     intent.type = "text/plain"
     context.startActivity(intent)
+}
+
+fun download(context: Context, url: String) {
+    val request = DownloadManager.Request(Uri.parse(url))
+            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+            .setDestinationInExternalPublicDir("/Download", System.currentTimeMillis().toString())
+
+    request.allowScanningByMediaScanner()
+
+    (context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager).enqueue(request)
 }
