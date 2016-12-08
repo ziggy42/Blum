@@ -1,17 +1,22 @@
 package com.andreapivetta.blu.ui.notifications
 
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.app.Fragment
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.utils.Utils
 import com.andreapivetta.blu.common.utils.visible
+import com.andreapivetta.blu.data.jobs.NotificationsIntentService
 import com.andreapivetta.blu.data.model.Notification
 import com.andreapivetta.blu.data.storage.AppStorageFactory
+import com.andreapivetta.blu.ui.custom.Theme
 import com.andreapivetta.blu.ui.custom.decorators.SpaceTopItemDecoration
 
 /**
@@ -41,6 +46,14 @@ class NotificationsFragment : Fragment(), NotificationsMvpView {
         recyclerView.setHasFixedSize(true)
         recyclerView.addItemDecoration(SpaceTopItemDecoration(Utils.dpToPx(context, 10)))
         recyclerView.adapter = adapter
+
+        val refreshLayout = rootView?.findViewById(R.id.swipeRefreshLayout) as SwipeRefreshLayout
+        refreshLayout.setColorSchemeColors(Theme.getColorPrimary(context))
+        refreshLayout.setOnRefreshListener {
+            NotificationsIntentService.startService(context)
+            Toast.makeText(context, R.string.checking_notifications, Toast.LENGTH_SHORT).show()
+            Handler().postDelayed({ refreshLayout.isRefreshing = false }, 2000)
+        }
 
         emptyView = rootView?.findViewById(R.id.emptyLinearLayout) as ViewGroup
 

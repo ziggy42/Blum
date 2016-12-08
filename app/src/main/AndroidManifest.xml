@@ -83,6 +83,9 @@
         <service
             android:name=".data.jobs.PopulateDatabaseIntentService"
             android:exported="false" />
+        <service
+            android:name=".data.jobs.NotificationsIntentService"
+            android:exported="false" />
     </application>
 
 </manifest>

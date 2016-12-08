@@ -28,10 +28,10 @@ object TweetsQueue {
         }
     }
 
-    val queue: Queue<StatusUpdate> = LinkedList<StatusUpdate>()
-    lateinit var appNotifications: AppNotifications
-    lateinit var context: Context
-    var sending = false
+    private val queue: Queue<StatusUpdate> = LinkedList<StatusUpdate>()
+    private lateinit var appNotifications: AppNotifications
+    private lateinit var context: Context
+    private var sending = false
 
     fun init(context: Context) {
         this.context = context
