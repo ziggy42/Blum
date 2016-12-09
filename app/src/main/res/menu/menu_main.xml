@@ -4,15 +4,15 @@
     tools:context="com.andreapivetta.blu.ui.main.MainActivity">
 
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
-
-    <item
         android:id="@+id/action_profile"
         android:orderInCategory="100"
         android:title="@string/action_profile"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:title="@string/action_settings"
         app:showAsAction="never" />
 
     <item
