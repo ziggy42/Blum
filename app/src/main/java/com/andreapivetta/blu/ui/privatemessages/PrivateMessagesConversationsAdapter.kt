@@ -12,6 +12,7 @@ import com.andreapivetta.blu.common.utils.Utils
 import com.andreapivetta.blu.common.utils.loadAvatar
 import com.andreapivetta.blu.data.model.PrivateMessage
 import com.andreapivetta.blu.ui.conversation.ConversationActivity
+import com.andreapivetta.blu.ui.profile.UserActivity
 import kotlinx.android.synthetic.main.item_conversation.view.*
 import java.util.*
 
@@ -39,13 +40,14 @@ class PrivateMessagesConversationsAdapter() :
         holder?.messageTextView?.text = if (message.senderId == message.otherId) message.text else
             context?.getString(R.string.you_message, message.text)
         holder?.timeTextView?.text = Utils.formatDate(message.timeStamp)
+        holder?.messageTextView?.setTypeface(null, if (message.isRead) Typeface.NORMAL else Typeface.BOLD)
 
         holder?.rootView?.setOnClickListener {
             ConversationActivity.launch(context!!, message.otherId)
         }
 
-        holder?.messageTextView?.
-                setTypeface(null, if (message.isRead) Typeface.NORMAL else Typeface.BOLD)
+        holder?.userProfilePicImageView
+                ?.setOnClickListener { UserActivity.launch(context!!, message.otherId) }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int) = ConversationViewHolder(
