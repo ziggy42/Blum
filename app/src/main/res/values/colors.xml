@@ -40,7 +40,6 @@
     <color name="lightBlue">#B3E5FC</color>
     <color name="black">#000000</color>
     <color name="blackTransparent">#7f000000</color>
-    <color name="transparent">#00000000</color>
     <color name="gray">#757575</color>
 
 </resources>

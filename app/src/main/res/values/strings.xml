@@ -24,7 +24,6 @@
     <string name="retweets">%1$s Retweets</string>
     <string name="notifications">Notifications</string>
     <string name="mentioned_not">%1$s mentioned you: %2$s</string>
-    <string name="logout_done">Log Out Done.</string>
     <string name="notification_title_like">%1$s liked your Tweet</string>
     <string name="notification_text_like">%1$s liked your Tweet: %2$s</string>
     <string name="notification_title_retweet">%1$s retweeted your Tweet</string>
@@ -45,7 +44,6 @@
     <string name="too_many_images">You can send at most 4 images</string>
     <string name="check_out_photo">I\'ve found this photo on Twitter %1$s</string>
     <string name="followers" translatable="false">Followers</string>
-    <string name="follows_you">%1$s follows you!</string>
     <string name="cancellation">Cancellation</string>
     <string name="retry">Retry</string>
     <string name="something_bad_happened">Something bad happened. That\'s all we know.</string>
@@ -94,11 +92,6 @@
         <item>D</item>
     </string-array>
 
-    <string-array name="user_profile_tabs">
-        <item>Tweets</item>
-        <item>Photos</item>
-    </string-array>
-
     <!-- Activities titles -->
     <string name="title_empty" translatable="false" />
     <string name="title_activity_tweet" translatable="false">Tweet</string>
@@ -124,13 +117,11 @@
     <string name="rate_pref_title">Rate</string>
 
     <!-- Content Descriptors -->
-    <string name="profile_background_contentDescriptor" translatable="false">User Background Image View</string>
     <string name="retweet_imageButton_contentDescriptor" translatable="false">Retweet Image Button</string>
     <string name="favourite_imageButton_contentDescriptor" translatable="false">Favourite Image Button</string>
     <string name="respond_imageButton_contentDescriptor" translatable="false">Respond Image Button</string>
     <string name="share_imageButton_contentDescriptor" translatable="false">Share Image Button</string>
     <string name="tweet_photo_contentDescriptor" translatable="false">Tweet Photo</string>
-    <string name="take_photo_contentDescriptor" translatable="false">Take and Add a Photo Image Button</string>
     <string name="notifications_contentDescription" translatable="false">Notifications</string>
     <string name="send_message_contentDescriptor" translatable="false">Send Message Button</string>
     <string name="profile_pic_contentDescriptor" translatable="false">Profile Picture</string>
