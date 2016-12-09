@@ -24,7 +24,7 @@ class AndroidAppNotifications(private val context: Context) : AppNotifications {
         notificationManager.notify(id, NotificationCompat.Builder(context)
                 .setDefaults(android.app.Notification.DEFAULT_SOUND)
                 .setAutoCancel(true)
-                .setColor(Theme.getColorPrimaryId(context))
+                .setColor(Theme.getColorPrimary(context))
                 .setLargeIcon(Utils.getBitmapFromURL(largeIconUrl))
                 .setLights(Color.BLUE, 500, 1000)
                 .setStyle(NotificationCompat.BigTextStyle().bigText(text))
@@ -39,7 +39,7 @@ class AndroidAppNotifications(private val context: Context) : AppNotifications {
     override fun sendLongRunning(title: String, text: String, @DrawableRes icon: Int): Int {
         val id = getId()
         notificationManager.notify(id, NotificationCompat.Builder(context)
-                .setColor(Theme.getColorPrimaryId(context))
+                .setColor(Theme.getColorPrimary(context))
                 .setContentTitle(title)
                 .setContentText(text)
                 .setSmallIcon(icon)
