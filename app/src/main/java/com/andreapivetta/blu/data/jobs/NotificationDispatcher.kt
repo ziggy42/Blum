@@ -19,12 +19,11 @@ import twitter4j.User
  */
 class NotificationDispatcher(private val context: Context, private val storage: AppStorage) {
 
-    private val keyGenerator = NotificationPrimaryKeyGenerator(storage)
     private val notifications = AppNotificationsFactory.getAppNotifications(context)
 
     fun sendFavoriteNotification(status: Status, user: User) {
-        storage.saveNotification(Notification(keyGenerator.getNextKey(), Notification.FAVOURITE,
-                user.name, user.id, status.id, status.text, user.biggerProfileImageURL, false))
+        storage.saveNotification(Notification(NotificationPrimaryKeyGenerator.getNextKey(), Notification.FAVOURITE,
+                user.name, user.id, status.id, status.text, user.biggerProfileImageURL))
 
         sendBroadcast(Notification.NEW_NOTIFICATION_INTENT)
         notifications.send(context.getString(R.string.notification_title_like, user.name),
@@ -33,8 +32,8 @@ class NotificationDispatcher(private val context: Context, private val storage: 
     }
 
     fun sendRetweetNotification(status: Status, user: User) {
-        storage.saveNotification(Notification(keyGenerator.getNextKey(), Notification.RETWEET,
-                user.name, user.id, status.id, status.text, user.biggerProfileImageURL, false))
+        storage.saveNotification(Notification(NotificationPrimaryKeyGenerator.getNextKey(), Notification.RETWEET,
+                user.name, user.id, status.id, status.text, user.biggerProfileImageURL))
 
         sendBroadcast(Notification.NEW_NOTIFICATION_INTENT)
         notifications.send(context.getString(R.string.notification_title_retweet, user.name),
@@ -43,8 +42,8 @@ class NotificationDispatcher(private val context: Context, private val storage: 
     }
 
     fun sendMentionNotification(status: Status, user: User) {
-        storage.saveNotification(Notification(keyGenerator.getNextKey(), Notification.MENTION,
-                user.name, user.id, status.id, status.text, user.biggerProfileImageURL, false))
+        storage.saveNotification(Notification(NotificationPrimaryKeyGenerator.getNextKey(), Notification.MENTION,
+                user.name, user.id, status.id, status.text, user.biggerProfileImageURL))
 
         sendBroadcast(Notification.NEW_NOTIFICATION_INTENT)
         notifications.send(context.getString(R.string.reply_not_title, user.name), status.text,
@@ -55,8 +54,8 @@ class NotificationDispatcher(private val context: Context, private val storage: 
         val intent = Intent(context, UserActivity::class.java)
         intent.putExtra(UserActivity.TAG_USER, user)
 
-        storage.saveNotification(Notification(keyGenerator.getNextKey(), Notification.FOLLOW,
-                user.name, user.id, 0, "", user.biggerProfileImageURL, false))
+        storage.saveNotification(Notification(NotificationPrimaryKeyGenerator.getNextKey(), Notification.FOLLOW,
+                user.name, user.id, 0, "", user.biggerProfileImageURL))
 
         sendBroadcast(Notification.NEW_NOTIFICATION_INTENT)
         notifications.send(user.name, context.getString(R.string.follow_not_title, user.name),
