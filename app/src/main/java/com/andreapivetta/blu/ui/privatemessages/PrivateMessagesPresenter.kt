@@ -16,4 +16,8 @@ class PrivateMessagesPresenter(private val storage: AppStorage) : BasePresenter<
             mvpView?.showConversations(conversations)
     }
 
+    fun onNewPrivateMessages() {
+        mvpView?.showConversations(storage.getConversations())
+    }
+
 }

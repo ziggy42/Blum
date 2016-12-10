@@ -1,5 +1,9 @@
 package com.andreapivetta.blu.ui.privatemessages
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -11,6 +15,7 @@ import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.utils.visible
 import com.andreapivetta.blu.data.model.PrivateMessage
 import com.andreapivetta.blu.data.storage.AppStorageFactory
+import timber.log.Timber
 
 /**
  * Created by andrea on 28/07/16.
@@ -22,9 +27,16 @@ class PrivateMessagesFragment : Fragment(), PrivateMessagesMvpView {
     }
 
     private val presenter by lazy { PrivateMessagesPresenter(AppStorageFactory.getAppStorage()) }
+    private val receiver: PrivateMessagesReceiver? by lazy { PrivateMessagesReceiver() }
 
     private lateinit var adapterPrivateMessages: PrivateMessagesConversationsAdapter
     private lateinit var emptyViewGroup: ViewGroup
+
+    override fun onResume() {
+        super.onResume()
+        presenter.getConversations()
+        activity.registerReceiver(receiver, IntentFilter(PrivateMessage.NEW_PRIVATE_MESSAGE_INTENT))
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,9 +59,9 @@ class PrivateMessagesFragment : Fragment(), PrivateMessagesMvpView {
         return rootView
     }
 
-    override fun onResume() {
-        super.onResume()
-        presenter.getConversations()
+    override fun onDestroy() {
+        super.onDestroy()
+        activity.unregisterReceiver(receiver)
     }
 
     override fun showConversations(conversations: MutableList<PrivateMessage>) {
@@ -63,6 +75,15 @@ class PrivateMessagesFragment : Fragment(), PrivateMessagesMvpView {
 
     override fun showEmpty() {
         emptyViewGroup.visible()
+    }
+
+    inner class PrivateMessagesReceiver() : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            Timber.i(intent?.action)
+            if (intent?.action === PrivateMessage.NEW_PRIVATE_MESSAGE_INTENT) {
+                presenter.onNewPrivateMessages()
+            }
+        }
     }
 
 }

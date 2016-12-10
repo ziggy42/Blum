@@ -17,7 +17,6 @@
         android:layout_marginRight="16dp"
         android:contentDescription="@string/profile_pic_contentDescriptor"
         android:scaleType="centerCrop"
-        android:src="@drawable/placeholder"
         tools:src="@drawable/ic_account_circle" />
 
     <RelativeLayout
