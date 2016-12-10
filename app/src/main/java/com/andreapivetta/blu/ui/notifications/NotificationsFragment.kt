@@ -1,5 +1,9 @@
 package com.andreapivetta.blu.ui.notifications
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.Fragment
@@ -29,8 +33,14 @@ class NotificationsFragment : Fragment(), NotificationsMvpView {
     }
 
     private val presenter by lazy { NotificationsPresenter(AppStorageFactory.getAppStorage()) }
+    private val receiver: NotificationUpdatesReceiver? by lazy { NotificationUpdatesReceiver() }
     private var adapter = NotificationsAdapter()
     private lateinit var emptyView: ViewGroup
+
+    override fun onResume() {
+        super.onResume()
+        activity.registerReceiver(receiver, IntentFilter(Notification.NEW_NOTIFICATION_INTENT))
+    }
 
     @Suppress("UNCHECKED_CAST")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,6 +72,11 @@ class NotificationsFragment : Fragment(), NotificationsMvpView {
         return rootView
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        activity.unregisterReceiver(receiver)
+    }
+
     override fun showNotifications(readNotifications: List<Notification>,
                                    unreadNotifications: List<Notification>) {
         adapter.unreadNotifications = unreadNotifications
@@ -71,5 +86,13 @@ class NotificationsFragment : Fragment(), NotificationsMvpView {
 
     override fun hideEmptyMessage() {
         emptyView.visible(false)
+    }
+
+    inner class NotificationUpdatesReceiver() : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (intent?.action === Notification.NEW_NOTIFICATION_INTENT) {
+                presenter.onNewNotification()
+            }
+        }
     }
 }

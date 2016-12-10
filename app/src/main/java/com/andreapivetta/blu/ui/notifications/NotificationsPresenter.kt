@@ -9,9 +9,9 @@ import java.util.*
  */
 class NotificationsPresenter(private val storage: AppStorage) : BasePresenter<NotificationsMvpView>() {
 
-    fun getNotifications() {
-        // TODO performance
+    // TODO performance
 
+    fun getNotifications() {
         val readNotifications = ArrayList(storage.getReadNotifications())
         val unreadNotifications = ArrayList(storage.getUnreadNotifications())
 
@@ -20,6 +20,14 @@ class NotificationsPresenter(private val storage: AppStorage) : BasePresenter<No
             mvpView?.hideEmptyMessage()
             storage.markAllNotificationsAsRead()
         }
+    }
+
+    fun onNewNotification() {
+        val readNotifications = ArrayList(storage.getReadNotifications())
+        val unreadNotifications = ArrayList(storage.getUnreadNotifications())
+
+        mvpView?.showNotifications(readNotifications, unreadNotifications)
+        storage.markAllNotificationsAsRead()
     }
 
 }
