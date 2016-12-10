@@ -11,6 +11,7 @@ import org.json.JSONObject
 import org.jsoup.Jsoup
 import timber.log.Timber
 import twitter4j.*
+import java.net.SocketTimeoutException
 import java.util.*
 
 /**
@@ -76,9 +77,12 @@ object NotificationsDataProvider {
     } catch (exception: JSONException) {
         Timber.e(exception, "Error getting users!")
         null
+    } catch (exception: SocketTimeoutException) {
+        Timber.e(exception, "Timeout getting users!")
+        null
     }
 
-    @Throws(JSONException::class)
+    @Throws(JSONException::class, SocketTimeoutException::class)
     private fun getJson(url: String): JSONObject =
             JSONObject(httpClient.newCall(Request.Builder().url(url).build()).execute().body().string())
 
