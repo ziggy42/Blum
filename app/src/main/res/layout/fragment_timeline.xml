@@ -12,8 +12,6 @@
             android:id="@+id/tweetsRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingLeft="@dimen/recyclerViewPadding"
-            android:paddingRight="@dimen/recyclerViewPadding"
             android:scrollbars="vertical" />
 
     </android.support.v4.widget.SwipeRefreshLayout>
