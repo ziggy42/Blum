@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.ImageView
+import android.widget.Toast
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.ui.custom.Theme
 import com.bumptech.glide.Glide
@@ -63,6 +64,15 @@ fun shareText(context: Context, text: String) {
     intent.putExtra(Intent.EXTRA_TEXT, text)
     intent.type = "text/plain"
     context.startActivity(intent)
+}
+
+fun shareApp(context: Context) {
+    try {
+        context.startActivity(Intent(Intent.ACTION_VIEW, Uri
+                .parse("market://details?id=${context.applicationContext.packageName}")))
+    } catch (err: Exception) {
+        Toast.makeText(context, context.getString(R.string.missing_play_store), Toast.LENGTH_SHORT).show()
+    }
 }
 
 fun download(context: Context, url: String) {

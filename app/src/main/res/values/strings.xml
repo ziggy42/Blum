@@ -40,7 +40,7 @@
     <string name="hint_message">Message</string>
     <string name="you_message">You: %1$s</string>
     <string name="message_not_title">%1$s sent you a Message!</string>
-    <string name="my_twitter">Developed with ♥ by \@Pivix00\n Icon from \@stefano_openlab</string>
+    <string name="about_message">Developed with ♥ by \@Pivix00\n Icon from \@stefano_openlab</string>
     <string name="too_many_images">You can send at most 4 images</string>
     <string name="check_out_photo">I\'ve found this photo on Twitter %1$s</string>
     <string name="followers" translatable="false">Followers</string>
