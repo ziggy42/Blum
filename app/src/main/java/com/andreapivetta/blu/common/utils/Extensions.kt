@@ -32,6 +32,10 @@ fun ImageView.loadUrl(url: CharSequence?, @DrawableRes placeholder: Int = R.draw
     Glide.with(context).load(url).placeholder(placeholder).into(this)
 }
 
+fun ImageView.loadUrlWithoutPlaceholder(url: CharSequence?) {
+    Glide.with(context).load(url).into(this)
+}
+
 fun ImageView.loadUrlCenterCrop(url: CharSequence?, @DrawableRes placeholder: Int = R.drawable.placeholder) {
     Glide.with(context).load(url).placeholder(placeholder).centerCrop().into(this)
 }

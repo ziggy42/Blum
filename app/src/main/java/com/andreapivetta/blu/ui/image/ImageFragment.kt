@@ -6,7 +6,7 @@ import android.view.*
 import android.widget.ImageView
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.utils.download
-import com.andreapivetta.blu.common.utils.loadUrl
+import com.andreapivetta.blu.common.utils.loadUrlWithoutPlaceholder
 import com.andreapivetta.blu.common.utils.shareText
 import uk.co.senab.photoview.PhotoViewAttacher
 
@@ -42,7 +42,7 @@ class ImageFragment : Fragment() {
         val rootView = inflater?.inflate(R.layout.fragment_image, container, false)
         val tweetImageView = rootView?.findViewById(R.id.tweetImageView) as ImageView
 
-        tweetImageView.loadUrl(imageUrl)
+        tweetImageView.loadUrlWithoutPlaceholder(imageUrl)
         tweetImageView.setOnTouchListener { v, event ->
             if (photoViewAttacher == null) {
                 photoViewAttacher = PhotoViewAttacher(tweetImageView)
