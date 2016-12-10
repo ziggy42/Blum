@@ -31,6 +31,12 @@ class ConversationPresenter(private val storage: AppStorage, private val otherId
         loadUserSubscriber?.unsubscribe()
     }
 
+    fun onNewPrivateMessage() {
+        messages = storage.getConversation(otherId)
+        storage.setMessagesAsRead(messages!!.toList())
+        mvpView?.showConversation(messages!!)
+    }
+
     fun sendPrivateMessage(text: String) {
         checkViewAttached()
 

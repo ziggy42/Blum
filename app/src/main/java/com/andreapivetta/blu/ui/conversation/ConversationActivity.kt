@@ -1,7 +1,9 @@
 package com.andreapivetta.blu.ui.conversation
 
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.widget.Toast
@@ -11,12 +13,13 @@ import com.andreapivetta.blu.data.model.PrivateMessage
 import com.andreapivetta.blu.data.storage.AppStorageFactory
 import com.andreapivetta.blu.ui.custom.ThemedActivity
 import kotlinx.android.synthetic.main.activity_conversation.*
+import timber.log.Timber
 import twitter4j.User
 
 class ConversationActivity : ThemedActivity(), ConversationMvpView {
 
     companion object {
-        val ARG_OTHER_ID = "other_id"
+        const val ARG_OTHER_ID = "other_id"
 
         fun launch(context: Context, otherId: Long) {
             val intent = Intent(context, ConversationActivity::class.java)
@@ -25,12 +28,18 @@ class ConversationActivity : ThemedActivity(), ConversationMvpView {
         }
     }
 
+    private val receiver: PrivateMessagesReceiver? by lazy { PrivateMessagesReceiver() }
     private val presenter: ConversationPresenter by lazy {
         ConversationPresenter(AppStorageFactory.getAppStorage(),
                 intent.getLongExtra(ARG_OTHER_ID, -1L))
     }
 
     private val adapter = ConversationAdapter()
+
+    override fun onResume() {
+        super.onResume()
+        registerReceiver(receiver, IntentFilter(PrivateMessage.NEW_PRIVATE_MESSAGE_INTENT))
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,6 +66,7 @@ class ConversationActivity : ThemedActivity(), ConversationMvpView {
     override fun onDestroy() {
         super.onDestroy()
         presenter.detachView()
+        unregisterReceiver(receiver)
     }
 
     override fun showLoading() {
@@ -79,7 +89,7 @@ class ConversationActivity : ThemedActivity(), ConversationMvpView {
     }
 
     override fun showConversation(messages: MutableList<PrivateMessage>) {
-        adapter.messages.addAll(messages)
+        adapter.messages = messages
         adapter.notifyDataSetChanged()
     }
 
@@ -91,5 +101,14 @@ class ConversationActivity : ThemedActivity(), ConversationMvpView {
 
     override fun showSendFailed() {
         Toast.makeText(this, getString(R.string.sending_message_error), Toast.LENGTH_SHORT).show()
+    }
+
+    inner class PrivateMessagesReceiver() : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (intent?.action === PrivateMessage.NEW_PRIVATE_MESSAGE_INTENT) {
+                Timber.i(intent.toString())
+                presenter.onNewPrivateMessage()
+            }
+        }
     }
 }

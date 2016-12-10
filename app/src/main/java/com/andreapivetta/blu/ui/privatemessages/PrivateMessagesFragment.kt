@@ -15,7 +15,6 @@ import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.utils.visible
 import com.andreapivetta.blu.data.model.PrivateMessage
 import com.andreapivetta.blu.data.storage.AppStorageFactory
-import timber.log.Timber
 
 /**
  * Created by andrea on 28/07/16.
@@ -79,7 +78,6 @@ class PrivateMessagesFragment : Fragment(), PrivateMessagesMvpView {
 
     inner class PrivateMessagesReceiver() : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
-            Timber.i(intent?.action)
             if (intent?.action === PrivateMessage.NEW_PRIVATE_MESSAGE_INTENT) {
                 presenter.onNewPrivateMessages()
             }
