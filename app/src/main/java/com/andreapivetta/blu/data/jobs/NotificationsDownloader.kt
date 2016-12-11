@@ -13,8 +13,8 @@ import twitter4j.Twitter
  */
 object NotificationsDownloader {
 
-    fun checkNotifications(settings: AppSettings, storage: AppStorage, twitter: Twitter,
-                           dispatcher: NotificationDispatcher) {
+    @Synchronized fun checkNotifications(settings: AppSettings, storage: AppStorage, twitter: Twitter,
+                                         dispatcher: NotificationDispatcher) {
         val time = System.currentTimeMillis()
 
         if (settings.isNotifyFavRet()) {
