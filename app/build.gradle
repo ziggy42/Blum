@@ -5,7 +5,7 @@ apply plugin: 'realm-android'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.1"
+    buildToolsVersion "25.0.2"
 
     defaultConfig {
         applicationId "com.andreapivetta.blu"
@@ -53,9 +53,9 @@ android {
 }
 
 dependencies {
-    final SUPPORT_LIBRARY_VERSION = '25.0.1'
+    final SUPPORT_LIBRARY_VERSION = '25.1.0'
     final FIREBASE_VERSION = '10.0.1'
-    final RX_JAVA_VERSION = '1.2.3'
+    final RX_JAVA_VERSION = '1.2.4'
 
     compile "com.android.support:support-fragment:$SUPPORT_LIBRARY_VERSION"
     compile "com.android.support:recyclerview-v7:$SUPPORT_LIBRARY_VERSION"
@@ -79,7 +79,7 @@ dependencies {
     compile project(path: ':loginView')
 
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
-    debugCompile 'com.facebook.stetho:stetho:1.4.1'
+    debugCompile 'com.facebook.stetho:stetho:1.4.2'
     debugCompile 'com.uphyca:stetho_realm:2.0.0'
 
     releaseCompile "com.artemzin.rxjava:proguard-rules:$RX_JAVA_VERSION.0"
