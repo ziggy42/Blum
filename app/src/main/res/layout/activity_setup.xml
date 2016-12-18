@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.andreapivetta.blu.ui.setup.SetupActivity">
+    tools:context=".ui.setup.SetupActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
