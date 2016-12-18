@@ -128,5 +128,6 @@
     <string name="delete_photo_tweet_contentDescriptor" translatable="false">Delete Photo Buttom</string>
     <string name="play_video_contentDescription" translatable="false">Play Video Button</string>
     <string name="video_preview_contentDescription" translatable="false">Video Preview</string>
+    <string name="hint_user">User Name</string>
 
 </resources>

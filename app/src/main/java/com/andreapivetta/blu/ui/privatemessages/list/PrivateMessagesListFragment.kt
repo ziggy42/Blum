@@ -1,4 +1,4 @@
-package com.andreapivetta.blu.ui.privatemessages
+package com.andreapivetta.blu.ui.privatemessages.list
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -19,13 +19,13 @@ import com.andreapivetta.blu.data.storage.AppStorageFactory
 /**
  * Created by andrea on 28/07/16.
  */
-class PrivateMessagesFragment : Fragment(), PrivateMessagesMvpView {
+class PrivateMessagesListFragment : Fragment(), PrivateMessagesListMvpView {
 
     companion object {
-        fun newInstance() = PrivateMessagesFragment()
+        fun newInstance() = PrivateMessagesListFragment()
     }
 
-    private val presenter by lazy { PrivateMessagesPresenter(AppStorageFactory.getAppStorage()) }
+    private val presenter by lazy { PrivateMessagesListPresenter(AppStorageFactory.getAppStorage()) }
     private val receiver: PrivateMessagesReceiver? by lazy { PrivateMessagesReceiver() }
 
     private lateinit var adapterPrivateMessages: PrivateMessagesConversationsAdapter

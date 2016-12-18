@@ -1,17 +1,15 @@
 package com.andreapivetta.blu.ui.privatemessages
 
-import com.andreapivetta.blu.data.model.PrivateMessage
+import com.andreapivetta.blu.data.model.UserFollowed
 import com.andreapivetta.blu.ui.base.MvpView
 
 /**
- * Created by andrea on 28/07/16.
+ * Created by andrea on 16/12/16.
  */
 interface PrivateMessagesMvpView : MvpView {
 
-    fun showConversations(conversations: MutableList<PrivateMessage>)
+    fun showConversationDialog(users: List<UserFollowed>)
 
-    fun showError()
-
-    fun showEmpty()
+    fun startConversation(userId: Long)
 
 }

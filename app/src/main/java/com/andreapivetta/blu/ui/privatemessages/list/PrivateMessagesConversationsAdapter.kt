@@ -1,4 +1,4 @@
-package com.andreapivetta.blu.ui.privatemessages
+package com.andreapivetta.blu.ui.privatemessages.list
 
 import android.graphics.Typeface
 import android.support.v7.widget.RecyclerView
