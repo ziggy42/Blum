@@ -98,15 +98,18 @@ object NotificationsDownloader {
                 Timber.d("Checking for new mentions...")
                 val newMentions = NotificationsDataProvider.retrieveMentions(twitter)
                 val savedMentions = storage.getAllMentions().map(Mention::tweetId)
+                val loggedUserId = settings.getLoggedUserId()
 
-                newMentions.filterNot { x -> savedMentions.contains(x.tweetId) }
-                        .forEach { x ->
-                            run {
-                                storage.saveMention(x)
-                                dispatcher.sendMentionNotification(
-                                        twitter.showStatus(x.tweetId), twitter.showUser(x.userId))
-                            }
-                        }
+                newMentions.filterNot {
+                    x ->
+                    savedMentions.contains(x.tweetId) || x.userId == loggedUserId
+                }.forEach { x ->
+                    run {
+                        storage.saveMention(x)
+                        dispatcher.sendMentionNotification(
+                                twitter.showStatus(x.tweetId), twitter.showUser(x.userId))
+                    }
+                }
             } else {
                 Timber.d("Downloading mentions...")
                 storage.saveMentions(NotificationsDataProvider.retrieveMentions(twitter))
