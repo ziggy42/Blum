@@ -9,11 +9,20 @@ import android.support.v4.view.ViewCompat
 import android.util.AttributeSet
 import android.view.View
 
+
 /**
  * Thanks to https://plus.google.com/+IanLake/posts/M2wPSXgGGAF
  */
 @Suppress("unused")
 class ScrollAwareFABBehavior(context: Context, attrs: AttributeSet) : FloatingActionButton.Behavior() {
+
+    // https://code.google.com/p/android/issues/detail?id=230298
+    private val listener = object : FloatingActionButton.OnVisibilityChangedListener() {
+        override fun onHidden(fab: FloatingActionButton?) {
+            super.onHidden(fab)
+            fab?.visibility = View.INVISIBLE
+        }
+    }
 
     override fun onStartNestedScroll(coordinatorLayout: CoordinatorLayout?, child: FloatingActionButton?,
                                      directTargetChild: View?, target: View?, nestedScrollAxes: Int) =
@@ -24,7 +33,7 @@ class ScrollAwareFABBehavior(context: Context, attrs: AttributeSet) : FloatingAc
                                 dxConsumed: Int, dyConsumed: Int, dxUnconsumed: Int, dyUnconsumed: Int) {
         super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed)
         if (dyConsumed > 0 && child?.visibility == View.VISIBLE) {
-            child?.hide()
+            child?.hide(listener)
         } else if (dyConsumed < 0 && child?.visibility != View.VISIBLE) {
             child?.show()
         }
