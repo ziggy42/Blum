@@ -1,6 +1,9 @@
 package com.andreapivetta.blu.ui.image
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.view.*
 import android.widget.ImageView
@@ -31,6 +34,7 @@ class ImageFragment : Fragment() {
     private lateinit var imageUrl: String
     private var photoViewAttacher: PhotoViewAttacher? = null
     private val imageActivity: ImageActivity by lazy { activity as ImageActivity }
+    private val REQUEST_CODE = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,10 +77,20 @@ class ImageFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.action_share -> shareText(context, getString(R.string.check_out_photo, imageUrl))
-            R.id.action_download -> download(context, imageUrl)
+            R.id.action_download ->
+                if (ActivityCompat.checkSelfPermission(activity, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        == PackageManager.PERMISSION_GRANTED)
+                    download(context, imageUrl)
+                else
+                    requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), REQUEST_CODE)
         }
 
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        if (requestCode == REQUEST_CODE && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            download(context, imageUrl)
+        }
+    }
 }
