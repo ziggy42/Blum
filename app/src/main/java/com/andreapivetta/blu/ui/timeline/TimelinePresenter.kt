@@ -92,22 +92,23 @@ open class TimelinePresenter : BasePresenter<TimelineMvpView>() {
 
         val page = Paging(1, 200)
         page.sinceId = mvpView!!.getLastTweetId()
-
-        refreshSubscription = TwitterAPI.refreshTimeLine(page)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe({
-                    mvpView?.stopRefresh()
-                    if (it != null) {
-                        it.reversed().forEach { status -> mvpView?.showTweet(Tweet(status)) }
-                    } else {
+        if (page.sinceId > 0) {
+            refreshSubscription = TwitterAPI.refreshTimeLine(page)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe({
+                        mvpView?.stopRefresh()
+                        if (it != null) {
+                            it.reversed().forEach { status -> mvpView?.showTweet(Tweet(status)) }
+                        } else {
+                            mvpView?.showSnackBar(R.string.error_refreshing_timeline)
+                        }
+                    }, {
+                        Timber.e(it?.message)
+                        mvpView?.stopRefresh()
                         mvpView?.showSnackBar(R.string.error_refreshing_timeline)
-                    }
-                }, {
-                    Timber.e(it?.message)
-                    mvpView?.stopRefresh()
-                    mvpView?.showSnackBar(R.string.error_refreshing_timeline)
-                })
+                    })
+        }
     }
 
     fun favorite(tweet: Tweet) {

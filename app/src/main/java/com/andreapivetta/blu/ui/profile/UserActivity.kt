@@ -124,7 +124,7 @@ class UserActivity : ThemedActivity(), UserMvpView {
         adapter.notifyItemInserted(1)
     }
 
-    override fun getLastTweetId(): Long = adapter.tweets[0].id
+    override fun getLastTweetId(): Long = if (adapter.tweets.size > 0) adapter.tweets[0].id else -1
 
     override fun stopRefresh() {
         swipeRefreshLayout.isRefreshing = false
