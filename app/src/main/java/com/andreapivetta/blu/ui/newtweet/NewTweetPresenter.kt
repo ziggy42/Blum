@@ -37,16 +37,18 @@ class NewTweetPresenter : BasePresenter<NewTweetMvpView>() {
         } else if (text.isNotEmpty()) {
             val buffer = StringBuilder()
             var i = mvpView!!.getSelectionStart() - 1
-            var c = text[i]
-            while (c != '@' && c != ' ' && i > 0) {
-                buffer.append(c)
-                i--
-                c = text[i]
-            }
+            if (i >= 0) {
+                var c = text[i]
+                while (c != '@' && c != ' ' && i > 0) {
+                    buffer.append(c)
+                    i--
+                    c = text[i]
+                }
 
-            if (c == '@') {
-                query = buffer.reverse().toString()
-                lastAtIndex = i
+                if (c == '@') {
+                    query = buffer.reverse().toString()
+                    lastAtIndex = i
+                }
             }
         }
 
