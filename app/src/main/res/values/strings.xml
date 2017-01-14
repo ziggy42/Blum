@@ -72,6 +72,7 @@
     <string name="missing_play_store">You need to have Play Store installed to perform this action</string>
     <string name="download">Download</string>
     <string name="checking_notifications">Checking notifications…</string>
+    <string name="hint_user">User Name</string>
 
     <array name="search_tabs_names">
         <item>Tweets</item>
@@ -115,6 +116,7 @@
     <string name="share_pref_summary">Share this app with anyone</string>
     <string name="rate_pref_summary">Rate Blum on Google Play</string>
     <string name="rate_pref_title">Rate</string>
+    <string name="fork_pref_title">Fork me on Github</string>
 
     <!-- Content Descriptors -->
     <string name="retweet_imageButton_contentDescriptor" translatable="false">Retweet Image Button</string>
@@ -128,6 +130,5 @@
     <string name="delete_photo_tweet_contentDescriptor" translatable="false">Delete Photo Buttom</string>
     <string name="play_video_contentDescription" translatable="false">Play Video Button</string>
     <string name="video_preview_contentDescription" translatable="false">Video Preview</string>
-    <string name="hint_user">User Name</string>
 
 </resources>

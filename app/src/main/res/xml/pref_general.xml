@@ -59,6 +59,10 @@
             android:title="@string/about_pref_title" />
 
         <Preference
+            android:key="pref_key_fork"
+            android:title="@string/fork_pref_title" />
+
+        <Preference
             android:key="pref_key_logout"
             android:summary="@string/logout_pref_summary"
             android:title="@string/logout_pref_title" />

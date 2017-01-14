@@ -23,7 +23,7 @@ import com.andreapivetta.blu.ui.profile.UserActivity
 import com.luseen.autolinklibrary.AutoLinkMode
 import com.luseen.autolinklibrary.AutoLinkTextView
 
-class SettingsFragment() : PreferenceFragment() {
+class SettingsFragment : PreferenceFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,6 +57,11 @@ class SettingsFragment() : PreferenceFragment() {
 
         findPreference("pref_key_rate").setOnPreferenceClickListener {
             shareApp(activity)
+            true
+        }
+
+        findPreference("pref_key_fork").setOnPreferenceClickListener {
+            openUrl(activity, "https://github.com/ziggy42/Blum-kotlin")
             true
         }
     }
