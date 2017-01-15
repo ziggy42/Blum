@@ -88,9 +88,10 @@ class UserPresenter(val settings: AppSettings) : BasePresenter<UserMvpView>() {
     fun onRefresh() {
         checkViewAttached()
 
-        val page = Paging(1, 200)
-        page.sinceId = mvpView!!.getLastTweetId()
-        if (page.sinceId > 0) {
+        val sinceId = mvpView?.getLastTweetId()
+        if (sinceId != null && sinceId > 0) {
+            val page = Paging(1, 200)
+            page.sinceId = sinceId
             refreshSubscription = TwitterAPI.refreshUserTimeLine(user.id, page)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
@@ -106,7 +107,7 @@ class UserPresenter(val settings: AppSettings) : BasePresenter<UserMvpView>() {
                         mvpView?.stopRefresh()
                         mvpView?.showSnackBar(R.string.error_refreshing_timeline)
                     })
-        }
+        } else mvpView?.stopRefresh()
     }
 
     private fun loadUserTimeline() {

@@ -90,9 +90,10 @@ open class TimelinePresenter : BasePresenter<TimelineMvpView>() {
     open fun onRefresh() {
         checkViewAttached()
 
-        val page = Paging(1, 200)
-        page.sinceId = mvpView!!.getLastTweetId()
-        if (page.sinceId > 0) {
+        val sinceId = mvpView?.getLastTweetId()
+        if (sinceId != null && sinceId > 0) {
+            val page = Paging(1, 200)
+            page.sinceId = sinceId
             refreshSubscription = TwitterAPI.refreshTimeLine(page)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
@@ -108,7 +109,7 @@ open class TimelinePresenter : BasePresenter<TimelineMvpView>() {
                         mvpView?.stopRefresh()
                         mvpView?.showSnackBar(R.string.error_refreshing_timeline)
                     })
-        }
+        } else mvpView?.stopRefresh()
     }
 
     fun favorite(tweet: Tweet) {
