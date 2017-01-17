@@ -93,17 +93,16 @@ class ConversationActivity : ThemedActivity(), ConversationMvpView {
         adapter.notifyDataSetChanged()
     }
 
-    override fun showNewPrivateMessage(message: PrivateMessage) {
-        adapter.messages.add(message)
-        adapter.notifyItemInserted(adapter.messages.size - 1)
-        conversationRecyclerView.scrollToPosition(adapter.messages.size - 1)
+    override fun showNewPrivateMessage() {
+        adapter.notifyItemInserted(adapter.messages.size)
+        conversationRecyclerView.scrollToPosition(adapter.messages.size)
     }
 
     override fun showSendFailed() {
         Toast.makeText(this, getString(R.string.sending_message_error), Toast.LENGTH_SHORT).show()
     }
 
-    inner class PrivateMessagesReceiver() : BroadcastReceiver() {
+    inner class PrivateMessagesReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (intent?.action === PrivateMessage.NEW_PRIVATE_MESSAGE_INTENT) {
                 Timber.i(intent.toString())

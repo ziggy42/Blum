@@ -51,7 +51,7 @@ class ConversationPresenter(private val storage: AppStorage, private val otherId
                         val message = PrivateMessage.valueOf(it, otherId, true)
                         message.isRead = true
                         storage.savePrivateMessage(message)
-                        mvpView?.showNewPrivateMessage(message)
+                        mvpView?.showNewPrivateMessage()
                     }
                 }, {
                     Timber.e(it, "Send private message failed")

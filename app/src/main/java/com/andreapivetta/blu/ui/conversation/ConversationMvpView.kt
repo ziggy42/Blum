@@ -11,7 +11,7 @@ interface ConversationMvpView : MvpView {
 
     fun showConversation(messages: MutableList<PrivateMessage>)
 
-    fun showNewPrivateMessage(message: PrivateMessage)
+    fun showNewPrivateMessage()
 
     fun showSendFailed()
 
