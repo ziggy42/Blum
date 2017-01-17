@@ -14,7 +14,7 @@ import java.io.File
 /**
  * Created by andrea on 29/05/16.
  */
-class DeletableImageAdapter() :
+class DeletableImageAdapter :
         RecyclerView.Adapter<DeletableImageAdapter.DeletableImageViewHolder>() {
 
     class DeletableImageViewHolder(root: View) : RecyclerView.ViewHolder(root) {

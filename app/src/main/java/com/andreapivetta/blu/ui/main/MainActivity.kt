@@ -148,7 +148,7 @@ class MainActivity : ThemedActivity(), MainMvpView {
         NewTweetActivity.launch(this)
     }
 
-    inner class NotificationUpdatesReceiver() : BroadcastReceiver() {
+    inner class NotificationUpdatesReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             when (intent?.action) {
                 Notification.NEW_NOTIFICATION_INTENT -> {

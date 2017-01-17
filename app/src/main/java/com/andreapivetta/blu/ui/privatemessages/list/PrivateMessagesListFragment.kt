@@ -76,7 +76,7 @@ class PrivateMessagesListFragment : Fragment(), PrivateMessagesListMvpView {
         emptyViewGroup.visible()
     }
 
-    inner class PrivateMessagesReceiver() : BroadcastReceiver() {
+    inner class PrivateMessagesReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (intent?.action === PrivateMessage.NEW_PRIVATE_MESSAGE_INTENT) {
                 presenter.onNewPrivateMessages()

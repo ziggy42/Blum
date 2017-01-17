@@ -17,7 +17,7 @@ import java.util.*
 /**
  * Created by andrea on 29/09/16.
  */
-class NotificationsAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class NotificationsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     class NotificationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 

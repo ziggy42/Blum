@@ -88,7 +88,7 @@ class NotificationsFragment : Fragment(), NotificationsMvpView {
         emptyView.visible(false)
     }
 
-    inner class NotificationUpdatesReceiver() : BroadcastReceiver() {
+    inner class NotificationUpdatesReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (intent?.action === Notification.NEW_NOTIFICATION_INTENT) {
                 presenter.onNewNotification()

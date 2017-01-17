@@ -19,7 +19,7 @@ import java.util.*
 /**
  * Created by andrea on 06/08/16.
  */
-class PrivateMessagesConversationsAdapter() :
+class PrivateMessagesConversationsAdapter :
         RecyclerView.Adapter<PrivateMessagesConversationsAdapter.ConversationViewHolder>() {
 
     class ConversationViewHolder(val rootView: View) : RecyclerView.ViewHolder(rootView) {

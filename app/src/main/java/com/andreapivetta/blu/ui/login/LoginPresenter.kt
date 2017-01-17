@@ -5,7 +5,7 @@ import com.andreapivetta.blu.ui.base.BasePresenter
 /**
  * Created by andrea on 15/05/16.
  */
-class LoginPresenter() : BasePresenter<LoginMvpView>() {
+class LoginPresenter : BasePresenter<LoginMvpView>() {
 
     companion object {
         val CODE_OAUTH = 0
