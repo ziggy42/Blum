@@ -212,20 +212,23 @@ class StatusDetailsViewHolder(container: View, listener: DetailsInteractionListe
         UrlInfo.generatePreview(tweet.getLink())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ x ->
+                .subscribe({
                     run {
                         tweet.metaData =
-                                MetaData(if (x.images.isNotEmpty()) x.images[0].source
-                                else null, x.title, x.description, tweet.getLink())
+                                MetaData(if (it.images.isNotEmpty()) it.images[0].source
+                                else null, it.title, it.description, tweet.getLink())
 
                         loadingProgressBar?.visible(false)
-                        if (x.images.isNotEmpty())
-                            previewImageView.loadUrl(x.images[0].source)
+                        if (it.images.isNotEmpty())
+                            previewImageView.loadUrl(it.images[0].source)
                         else
                             previewImageView.visible(false)
-                        titleTextView.text = x.title
-                        descriptionTextView.text = x.description
-                        inflatedUrlPreviewView?.setOnClickListener { openUrl(container.context as Activity, x.url) }
+                        titleTextView.text = it.title
+                        descriptionTextView.text = it.description
+                        val url = it.url
+                        inflatedUrlPreviewView?.setOnClickListener {
+                            openUrl(container.context as Activity, url)
+                        }
                     }
                 }, { e -> Timber.e(e, "Error loading url preview") })
     }

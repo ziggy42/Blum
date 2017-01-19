@@ -17,6 +17,6 @@ class PrivateMessagesPresenter(storage: AppStorage) : BasePresenter<PrivateMessa
     }
 
     fun queryUsers(query: String) = users
-            .filter { x -> x.name.toLowerCase().startsWith(query.toLowerCase()) }
+            .filter { it.name.toLowerCase().startsWith(query.toLowerCase()) }
 
 }

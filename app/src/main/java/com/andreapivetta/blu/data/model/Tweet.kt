@@ -25,7 +25,7 @@ data class Tweet(val status: Status) : Serializable {
     var retweetCount: Int = status.retweetCount
     var favorited: Boolean = status.isFavorited
     var favoriteCount: Int = status.favoriteCount
-    var links: List<String> = status.urlEntities.map { x -> x.expandedURL }
+    var links: List<String> = status.urlEntities.map { it.expandedURL }
     var metaData: MetaData? = null
 
     fun getRetweetedTweet(): Tweet {

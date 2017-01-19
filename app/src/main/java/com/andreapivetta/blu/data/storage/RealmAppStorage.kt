@@ -46,7 +46,7 @@ class RealmAppStorage(name: String = "blumRealm") : AppStorage {
     override fun markAllNotificationsAsRead() {
         realm.executeTransaction {
             realm.where(Notification::class.java).equalTo("isRead", false).findAll()
-                    .forEach { x -> x.isRead = true }
+                    .forEach { it.isRead = true }
         }
     }
 
@@ -58,7 +58,7 @@ class RealmAppStorage(name: String = "blumRealm") : AppStorage {
     override fun getConversations(): MutableList<PrivateMessage> = realm
             .where(PrivateMessage::class.java)
             .findAllSorted("timeStamp", Sort.DESCENDING)
-            .distinctBy { x -> x.otherId }.toMutableList()
+            .distinctBy { it.otherId }.toMutableList()
 
     override fun getConversation(otherUserId: Long): MutableList<PrivateMessage> = realm
             .where(PrivateMessage::class.java)
@@ -67,10 +67,10 @@ class RealmAppStorage(name: String = "blumRealm") : AppStorage {
 
     override fun setMessagesAsRead(messages: List<PrivateMessage>) {
         realm.executeTransaction {
-            messages.forEach { x ->
+            messages.forEach {
                 run {
-                    x.isRead = true
-                    realm.copyToRealmOrUpdate(x)
+                    it.isRead = true
+                    realm.copyToRealmOrUpdate(it)
                 }
             }
         }

@@ -28,7 +28,7 @@ class UsersAdapter(private val listener: OnUserClickListener) :
 
     fun filter(prefix: String) {
         shownUsers = users.toMutableList()
-                .filter { x -> x.screenName.toLowerCase().startsWith(prefix.toLowerCase()) }
+                .filter { it.screenName.toLowerCase().startsWith(prefix.toLowerCase()) }
         notifyDataSetChanged()
     }
 

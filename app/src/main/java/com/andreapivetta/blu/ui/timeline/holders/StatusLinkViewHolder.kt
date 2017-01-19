@@ -41,11 +41,11 @@ class StatusLinkViewHolder(container: View, listener: InteractionListener) :
             subscriber = UrlInfo.generatePreview(tweet.getLink())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({ x ->
+                    .subscribe({
                         run {
                             tweet.metaData =
-                                    MetaData(if (x.images.isNotEmpty()) x.images[0].source
-                                    else null, x.title, x.description, tweet.getLink())
+                                    MetaData(if (it.images.isNotEmpty()) it.images[0].source
+                                    else null, it.title, it.description, tweet.getLink())
                             loadPreview(tweet.metaData as MetaData)
                         }
                     }, { e -> Timber.e(e, "Error loading url preview") })

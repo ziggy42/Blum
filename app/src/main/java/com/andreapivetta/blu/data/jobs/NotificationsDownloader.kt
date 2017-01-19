@@ -22,64 +22,64 @@ object NotificationsDownloader {
                 Timber.d("Checking for new favorites and retweeets...")
                 val newTweetInfoList = NotificationsDataProvider.retrieveTweetInfo(twitter)
                 val tweetInfoList = storage.getAllTweetInfo()
-                val tweetInfoListIds = tweetInfoList.map { x -> x.id }
+                val tweetInfoListIds = tweetInfoList.map { it.id }
 
-                newTweetInfoList.filterNot { x -> tweetInfoListIds.contains(x.id) }
-                        .forEach { x ->
+                newTweetInfoList.filterNot { tweetInfoListIds.contains(it.id) }
+                        .forEach {
                             run {
-                                Timber.d("New tweet discovered %d", x.id)
-                                storage.saveTweetInfo(x)
-                                if (x.hasFavoriters() || x.hasRetweeters()) {
-                                    val status = twitter.showStatus(x.id)
+                                Timber.d("New tweet discovered %d", it.id)
+                                storage.saveTweetInfo(it)
+                                if (it.hasFavoriters() || it.hasRetweeters()) {
+                                    val status = twitter.showStatus(it.id)
 
-                                    x.favoriters?.forEach { y ->
+                                    it.favoriters?.forEach {
                                         dispatcher.sendFavoriteNotification(status,
-                                                twitter.showUser(y.userId))
+                                                twitter.showUser(it.userId))
                                     }
 
-                                    x.retweeters?.forEach { y ->
+                                    it.retweeters?.forEach {
                                         dispatcher.sendRetweetNotification(status,
-                                                twitter.showUser(y.userId))
+                                                twitter.showUser(it.userId))
                                     }
                                 }
                             }
                         }
 
-                newTweetInfoList.filter { x -> tweetInfoListIds.contains(x.id) }
-                        .forEach { x ->
+                newTweetInfoList.filter { tweetInfoListIds.contains(it.id) }
+                        .forEach {
                             run {
-                                val savedInfo = tweetInfoList.find { y -> y == x }
+                                val savedInfo = tweetInfoList.find { y -> y == it }
 
-                                if (x.favoriters != null) {
+                                if (it.favoriters != null) {
                                     val newFav = if (savedInfo != null)
-                                        x.favoriters!!.toMutableList()
-                                                .filter { x -> savedInfo.favoriters!!.contains(x) }
-                                    else x.favoriters
+                                        it.favoriters!!.toMutableList()
+                                                .filter { savedInfo.favoriters!!.contains(it) }
+                                    else it.favoriters
 
                                     if (newFav != null && newFav.isNotEmpty()) {
                                         storage.saveTweetInfo(savedInfo!!,
-                                                { savedInfo -> savedInfo.favoriters?.addAll(newFav) })
+                                                { it.favoriters?.addAll(newFav) })
                                         val status = twitter.showStatus(savedInfo.id)
-                                        newFav.forEach { x ->
+                                        newFav.forEach {
                                             dispatcher.sendFavoriteNotification(status,
-                                                    twitter.showUser(x.userId))
+                                                    twitter.showUser(it.userId))
                                         }
                                     }
                                 }
 
-                                if (x.retweeters != null) {
+                                if (it.retweeters != null) {
                                     val newRet = if (savedInfo != null)
-                                        x.favoriters?.toMutableList()
-                                                ?.filter { x -> savedInfo.favoriters!!.contains(x) }
-                                    else x.favoriters
+                                        it.favoriters?.toMutableList()
+                                                ?.filter { savedInfo.favoriters!!.contains(it) }
+                                    else it.favoriters
 
                                     if (newRet != null && newRet.isNotEmpty()) {
                                         storage.saveTweetInfo(savedInfo!!,
-                                                { savedInfo -> savedInfo.retweeters?.addAll(newRet) })
+                                                { it.retweeters?.addAll(newRet) })
                                         val status = twitter.showStatus(savedInfo.id)
-                                        newRet.forEach { x ->
+                                        newRet.forEach {
                                             dispatcher.sendRetweetNotification(status,
-                                                    twitter.showUser(x.userId))
+                                                    twitter.showUser(it.userId))
                                         }
                                     }
                                 }
@@ -101,13 +101,12 @@ object NotificationsDownloader {
                 val loggedUserId = settings.getLoggedUserId()
 
                 newMentions.filterNot {
-                    x ->
-                    savedMentions.contains(x.tweetId) || x.userId == loggedUserId
-                }.forEach { x ->
+                    savedMentions.contains(it.tweetId) || it.userId == loggedUserId
+                }.forEach {
                     run {
-                        storage.saveMention(x)
+                        storage.saveMention(it)
                         dispatcher.sendMentionNotification(
-                                twitter.showStatus(x.tweetId), twitter.showUser(x.userId))
+                                twitter.showStatus(it.tweetId), twitter.showUser(it.userId))
                     }
                 }
             } else {
@@ -123,11 +122,11 @@ object NotificationsDownloader {
                 val newFollowers = NotificationsDataProvider.retrieveFollowers(twitter)
                 val savedFollowers = storage.getAllFollowers().map(Follower::userId)
 
-                newFollowers.filterNot { x -> savedFollowers.contains(x.userId) }
-                        .forEach { x ->
+                newFollowers.filterNot { savedFollowers.contains(it.userId) }
+                        .forEach {
                             run {
-                                storage.saveFollower(x)
-                                dispatcher.sendFollowerNotification(twitter.showUser(x.userId))
+                                storage.saveFollower(it)
+                                dispatcher.sendFollowerNotification(twitter.showUser(it.userId))
                             }
                         }
             } else {
@@ -141,21 +140,21 @@ object NotificationsDownloader {
             if (settings.isDirectMessagesDownloaded()) {
                 Timber.d("Checking for new private messages...")
                 val newPrivateMessages = NotificationsDataProvider.retrieveDirectMessages(twitter)
-                        .map { x -> PrivateMessage.valueOf(x, settings.getLoggedUserId()) }
-                val savedPrivateMessages = storage.getAllPrivateMessages().map { x -> x.id }
+                        .map { PrivateMessage.valueOf(it, settings.getLoggedUserId()) }
+                val savedPrivateMessages = storage.getAllPrivateMessages().map { it.id }
 
-                newPrivateMessages.filterNot { x -> savedPrivateMessages.contains(x.id) }
-                        .forEach { x ->
+                newPrivateMessages.filterNot { savedPrivateMessages.contains(it.id) }
+                        .forEach {
                             run {
-                                storage.savePrivateMessage(x)
-                                dispatcher.sendPrivateMessageNotification(x)
+                                storage.savePrivateMessage(it)
+                                dispatcher.sendPrivateMessageNotification(it)
                             }
                         }
             } else {
                 Timber.d("Downloading private messages...")
                 storage.savePrivateMessages(NotificationsDataProvider
                         .retrieveDirectMessages(twitter)
-                        .map { x -> PrivateMessage.valueOf(x, settings.getLoggedUserId()) })
+                        .map { PrivateMessage.valueOf(it, settings.getLoggedUserId()) })
                 settings.setDirectMessagesDownloaded(true)
             }
         }

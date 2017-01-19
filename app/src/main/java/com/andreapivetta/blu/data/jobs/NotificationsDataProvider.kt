@@ -20,20 +20,19 @@ import java.util.*
 object NotificationsDataProvider {
 
     private val httpClient = OkHttpClient.Builder()
-            .addInterceptor { x ->
-                x.proceed(x.request().newBuilder().addHeader("user-agent", "Mozilla/5.0 " +
-                        "(X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) " +
-                        "Chrome/53.0.2785.116 Safari/537.36").build())
+            .addInterceptor {
+                it.proceed(it.request().newBuilder().addHeader("user-agent", "Mozilla/5.0(X11; " +
+                        "Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36").build())
             }.build()
 
     fun retrieveTweetInfo(twitter: Twitter): MutableList<TweetInfo> =
             twitter.getUserTimeline(Paging(1, 100))
-                    .map { x -> TweetInfo(x.id, getFavoriters(x.id), getRetweeters(x.id)) }
+                    .map { TweetInfo(it.id, getFavoriters(it.id), getRetweeters(it.id)) }
                     .toMutableList()
 
     fun retrieveMentions(twitter: Twitter): MutableList<Mention> =
             twitter.getMentionsTimeline(Paging(1, 200))
-                    .map { x -> Mention.valueOf(x) }
+                    .map { Mention.valueOf(it) }
                     .toMutableList()
 
     fun retrieveFollowers(twitter: Twitter): MutableList<Follower> {
@@ -56,7 +55,7 @@ object NotificationsDataProvider {
             var pagableFollowings: PagableResponseList<User>
             do {
                 pagableFollowings = twitter.getFriendsList(twitter.id, cursor, 200)
-                users.addAll(pagableFollowings.map { x -> UserFollowed.valueOf(x) })
+                users.addAll(pagableFollowings.map { UserFollowed.valueOf(it) })
                 cursor = pagableFollowings.nextCursor
             } while (cursor != 0L)
         }
@@ -71,8 +70,8 @@ object NotificationsDataProvider {
         val json = getJson(url)
         RealmList(*Jsoup.parse(json.getString("htmlUsers"))
                 .getElementsByTag("img")
-                .filter { x -> x.hasAttr("data-user-id") && x.attr("data-user-id").isNotBlank() }
-                .map { x -> UserId(x.attr("data-user-id").toLong()) }
+                .filter { it.hasAttr("data-user-id") && it.attr("data-user-id").isNotBlank() }
+                .map { UserId(it.attr("data-user-id").toLong()) }
                 .toTypedArray())
     } catch (exception: JSONException) {
         Timber.e(exception, "Error getting users!")
