@@ -13,9 +13,8 @@ import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.utils.loadAvatar
 import com.andreapivetta.blu.common.utils.loadUrl
 import com.andreapivetta.blu.common.utils.openUrl
+import com.andreapivetta.blu.common.utils.setupText
 import com.andreapivetta.blu.ui.custom.Theme
-import com.andreapivetta.blu.ui.hashtag.HashtagActivity
-import com.andreapivetta.blu.ui.profile.UserActivity
 import com.luseen.autolinklibrary.AutoLinkMode
 import kotlinx.android.synthetic.main.profile.view.*
 import twitter4j.User
@@ -41,21 +40,7 @@ class ProfileViewHolder(container: View) : RecyclerView.ViewHolder(container) {
         nameTextView.text = user.name
         screenNameTextView.text = "@${user.screenName}"
         statsTextView.text = getStats(user)
-
-        descriptionTextView.addAutoLinkMode(AutoLinkMode.MODE_HASHTAG, AutoLinkMode.MODE_URL,
-                AutoLinkMode.MODE_MENTION)
-        descriptionTextView.setHashtagModeColor(Theme.getColorPrimary(context))
-        descriptionTextView.setUrlModeColor(Theme.getColorPrimary(context))
-        descriptionTextView.setMentionModeColor(Theme.getColorPrimary(context))
-        descriptionTextView.setAutoLinkText(user.description)
-        descriptionTextView.setAutoLinkOnClickListener { mode, text ->
-            when (mode) {
-                AutoLinkMode.MODE_HASHTAG -> HashtagActivity.launch(context, text)
-                AutoLinkMode.MODE_MENTION -> UserActivity.launch(context, text)
-                AutoLinkMode.MODE_URL -> openUrl(context as Activity, text)
-                else -> throw UnsupportedOperationException("No handlers for mode $mode")
-            }
-        }
+        descriptionTextView.setupText(user.description)
 
         extraTextView.addAutoLinkMode(AutoLinkMode.MODE_URL)
         extraTextView.setUrlModeColor(Theme.getColorPrimary(context))

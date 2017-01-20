@@ -7,15 +7,17 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.utils.Utils
+import com.andreapivetta.blu.common.utils.setupText
 import com.andreapivetta.blu.data.model.PrivateMessage
-import java.util.*
+import com.luseen.autolinklibrary.AutoLinkTextView
+import kotlinx.android.synthetic.main.message_left.view.*
 
 /**
  * Created by andrea on 21/09/16.
  */
 class ConversationAdapter : RecyclerView.Adapter<ConversationAdapter.PrivateMessageViewHolder>() {
 
-    var messages: MutableList<PrivateMessage> = ArrayList()
+    var messages: MutableList<PrivateMessage> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): PrivateMessageViewHolder =
             PrivateMessageViewHolder(LayoutInflater.from(parent?.context)
@@ -34,11 +36,11 @@ class ConversationAdapter : RecyclerView.Adapter<ConversationAdapter.PrivateMess
     override fun getItemCount() = messages.size
 
     class PrivateMessageViewHolder(container: View) : RecyclerView.ViewHolder(container) {
-        var messageTextView: TextView = container.findViewById(R.id.messageTextView) as TextView
-        var timeTextView: TextView = container.findViewById(R.id.timeTextView) as TextView
+        private val messageTextView: AutoLinkTextView = container.messageTextView
+        private val timeTextView: TextView = container.timeTextView
 
         fun setup(privateMessage: PrivateMessage) {
-            messageTextView.text = privateMessage.text
+            messageTextView.setupText(privateMessage.text)
             timeTextView.text = Utils.formatDate(privateMessage.timeStamp)
         }
     }

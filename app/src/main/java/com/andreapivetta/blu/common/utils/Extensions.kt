@@ -15,7 +15,11 @@ import android.widget.ImageView
 import android.widget.Toast
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.ui.custom.Theme
+import com.andreapivetta.blu.ui.hashtag.HashtagActivity
+import com.andreapivetta.blu.ui.profile.UserActivity
 import com.bumptech.glide.Glide
+import com.luseen.autolinklibrary.AutoLinkMode
+import com.luseen.autolinklibrary.AutoLinkTextView
 import java.io.File
 
 /**
@@ -44,6 +48,22 @@ fun ImageView.loadUrlCenterCrop(url: CharSequence?, @DrawableRes placeholder: In
 fun ImageView.loadAvatar(url: CharSequence?) {
     // TODO placeholder
     Glide.with(context).load(url).dontAnimate().into(this)
+}
+
+fun AutoLinkTextView.setupText(text: String) {
+    addAutoLinkMode(AutoLinkMode.MODE_HASHTAG, AutoLinkMode.MODE_URL, AutoLinkMode.MODE_MENTION)
+    setHashtagModeColor(Theme.getColorPrimary(context))
+    setUrlModeColor(Theme.getColorPrimary(context))
+    setMentionModeColor(Theme.getColorPrimary(context))
+    setAutoLinkText(text)
+    setAutoLinkOnClickListener { mode, text ->
+        when (mode) {
+            AutoLinkMode.MODE_HASHTAG -> HashtagActivity.launch(context, text)
+            AutoLinkMode.MODE_MENTION -> UserActivity.launch(context, text)
+            AutoLinkMode.MODE_URL -> openUrl(context as Activity, text)
+            else -> throw UnsupportedOperationException("No handlers for mode $mode")
+        }
+    }
 }
 
 fun AppCompatActivity.pushFragment(@LayoutRes containerViewId: Int, fragment: Fragment) {
