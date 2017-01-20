@@ -51,12 +51,18 @@ fun AppCompatActivity.pushFragment(@LayoutRes containerViewId: Int, fragment: Fr
 }
 
 fun openUrl(activity: Activity, url: String) {
-    CustomTabsIntent.Builder()
-            .setToolbarColor(Theme.getColorPrimary(activity))
-            .setShowTitle(true)
-            .addDefaultShareMenuItem()
-            .build()
-            .launchUrl(activity, Uri.parse(url.trim()))
+    try {
+        CustomTabsIntent.Builder()
+                .setToolbarColor(Theme.getColorPrimary(activity))
+                .setShowTitle(true)
+                .addDefaultShareMenuItem()
+                .build()
+                .launchUrl(activity, Uri.parse(url.trim()))
+    } catch (err: Exception) {
+        Toast.makeText(activity,
+                "You are running this app on an alien spaceship and we don't support them yet",
+                Toast.LENGTH_SHORT).show()
+    }
 }
 
 fun shareText(context: Context, text: String) {

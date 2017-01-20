@@ -49,7 +49,7 @@ object NotificationsDataProvider {
     }
 
     fun safeRetrieveFollowedUsers(twitter: Twitter): MutableList<UserFollowed> {
-        val users = ArrayList<UserFollowed>()
+        val users = mutableListOf<UserFollowed>()
         if (twitter.showUser(twitter.id).friendsCount < 2800) {
             var cursor: Long = -1
             var pagableFollowings: PagableResponseList<User>
