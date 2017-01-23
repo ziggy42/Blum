@@ -14,17 +14,12 @@ import twitter4j.auth.AccessToken
 
 class TwitterOAuthActivity : Activity(), TwitterLoginListener {
 
-    private lateinit var view: TwitterLoginView
+    private val view: TwitterLoginView by lazy { TwitterLoginView(this) }
     private var oauthStarted: Boolean = false
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        view = TwitterLoginView(this)
-
         setContentView(view)
-
-        oauthStarted = false
     }
 
     override fun onResume() {

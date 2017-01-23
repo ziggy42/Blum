@@ -7,7 +7,7 @@ import com.andreapivetta.blu.ui.base.exception.MvpViewNotAttachedException
  */
 open class BasePresenter<V : MvpView> : Presenter<V> {
 
-    protected  var mvpView: V? = null
+    protected var mvpView: V? = null
 
     override fun attachView(mvpView: V) {
         this.mvpView = mvpView
