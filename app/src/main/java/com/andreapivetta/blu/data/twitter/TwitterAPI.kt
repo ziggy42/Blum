@@ -3,7 +3,7 @@ package com.andreapivetta.blu.data.twitter
 import rx.Observable
 import rx.Single
 import twitter4j.*
-import java.io.File
+import java.io.InputStream
 import java.util.*
 
 /**
@@ -33,25 +33,28 @@ object TwitterAPI {
     fun updateStatus(tweet: String?): Single<Status> =
             Single.fromCallable { twitter.updateStatus(tweet) }
 
-    fun updateStatus(tweet: String?, images: List<File>): Single<Status> = Single.fromCallable {
+    fun updateStatus(tweet: String?, images: List<InputStream>): Single<Status> = Single.fromCallable {
         val status = StatusUpdate(tweet)
         val mediaIds = LongArray(images.size)
-        images.forEachIndexed { i, file -> mediaIds[i] = twitter.uploadMedia(images[i]).mediaId }
+        images.forEachIndexed { i, stream ->
+            mediaIds[i] = twitter.uploadMedia("", stream).mediaId
+            stream.close()
+        }
         status.setMediaIds(*mediaIds)
         twitter.updateStatus(status)
     }
 
     fun updateStatus(statusUpdate: TweetsQueue.StatusUpdate): Single<Status> {
         if (statusUpdate.reply > 0)
-            if (statusUpdate.files.isEmpty())
+            if (statusUpdate.streams.isEmpty())
                 return reply(statusUpdate.text, statusUpdate.reply)
             else
-                return reply(statusUpdate.text, statusUpdate.reply, statusUpdate.files)
+                return reply(statusUpdate.text, statusUpdate.reply, statusUpdate.streams)
         else
-            if (statusUpdate.files.isEmpty())
+            if (statusUpdate.streams.isEmpty())
                 return updateStatus(statusUpdate.text)
             else
-                return updateStatus(statusUpdate.text, statusUpdate.files)
+                return updateStatus(statusUpdate.text, statusUpdate.streams)
     }
 
     fun destroy(statusId: Long): Single<Status> =
@@ -63,11 +66,14 @@ object TwitterAPI {
         twitter.updateStatus(status)
     }
 
-    fun reply(tweet: String?, inReplyToStatusId: Long, images: List<File>): Single<Status> =
+    fun reply(tweet: String?, inReplyToStatusId: Long, images: List<InputStream>): Single<Status> =
             Single.fromCallable {
                 val status = StatusUpdate(tweet)
                 val mediaIds = LongArray(images.size)
-                images.forEachIndexed { i, file -> mediaIds[i] = twitter.uploadMedia(file).mediaId }
+                images.forEachIndexed { i, stream ->
+                    mediaIds[i] = twitter.uploadMedia("", stream).mediaId
+                    stream.close()
+                }
                 status.setMediaIds(*mediaIds)
                 status.inReplyToStatusId = inReplyToStatusId
                 twitter.updateStatus(status)

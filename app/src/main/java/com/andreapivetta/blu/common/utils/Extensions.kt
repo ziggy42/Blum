@@ -20,7 +20,6 @@ import com.andreapivetta.blu.ui.profile.UserActivity
 import com.bumptech.glide.Glide
 import com.luseen.autolinklibrary.AutoLinkMode
 import com.luseen.autolinklibrary.AutoLinkTextView
-import java.io.File
 
 /**
  * Created by andrea on 27/09/16.
@@ -29,8 +28,8 @@ fun View.visible(show: Boolean = true) {
     this.visibility = if (show) View.VISIBLE else View.GONE
 }
 
-fun ImageView.loadFile(file: File?, @DrawableRes placeholder: Int = R.drawable.placeholder) {
-    Glide.with(context).load(file).placeholder(placeholder).into(this)
+fun ImageView.loadUri(uri: Uri?, @DrawableRes placeholder: Int = R.drawable.placeholder) {
+    Glide.with(context).load(uri).placeholder(placeholder).into(this)
 }
 
 fun ImageView.loadUrl(url: CharSequence?, @DrawableRes placeholder: Int = R.drawable.placeholder) {

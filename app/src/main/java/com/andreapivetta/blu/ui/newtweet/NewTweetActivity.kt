@@ -18,7 +18,7 @@ import android.widget.Toast
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.settings.AppSettings
 import com.andreapivetta.blu.common.settings.AppSettingsFactory
-import com.andreapivetta.blu.common.utils.FileUtils
+import com.andreapivetta.blu.common.utils.Utils
 import com.andreapivetta.blu.common.utils.loadUrl
 import com.andreapivetta.blu.common.utils.visible
 import com.andreapivetta.blu.data.model.Tweet
@@ -113,7 +113,7 @@ class NewTweetActivity : ThemedActivity(), NewTweetMvpView, OnUserClickListener 
                 presenter.afterTextChanged(newTweetEditText.text.toString())
             } else if (intent.type.startsWith("image/")) {
                 val selectedImageUri = intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)
-                imageAdapter.imageFiles.add(File(FileUtils.getPath(this, selectedImageUri)))
+                imageAdapter.images.add(selectedImageUri)
                 photosRecyclerView.visible()
                 imageAdapter.notifyDataSetChanged()
                 presenter.afterTextChanged(newTweetEditText.text.toString())
@@ -128,7 +128,7 @@ class NewTweetActivity : ThemedActivity(), NewTweetMvpView, OnUserClickListener 
                             showTooManyImagesError()
                             break
                         }
-                        imageAdapter.imageFiles.add(File(FileUtils.getPath(this, imageUris[i])))
+                        imageAdapter.images.add(imageUris[i])
                     }
                     imageAdapter.notifyDataSetChanged()
                     presenter.afterTextChanged(newTweetEditText.text.toString())
@@ -189,11 +189,12 @@ class NewTweetActivity : ThemedActivity(), NewTweetMvpView, OnUserClickListener 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (item?.itemId == R.id.action_send)
             if (intent.hasExtra(TAG_REPLY_ID))
-                presenter.reply(intent.getLongExtra(TAG_REPLY_ID, -1), imageAdapter.imageFiles)
+                presenter.reply(intent.getLongExtra(TAG_REPLY_ID, -1),
+                        imageAdapter.images.map { Utils.inputStreamFromUri(this, it) })
             else if (intent.hasExtra(TAG_QUOTED_TWEET))
                 presenter.sendTweet(quotedTweet!!)
             else
-                presenter.sendTweet(imageAdapter.imageFiles)
+                presenter.sendTweet(imageAdapter.images.map { Utils.inputStreamFromUri(this, it) })
         return true
     }
 
@@ -251,7 +252,7 @@ class NewTweetActivity : ThemedActivity(), NewTweetMvpView, OnUserClickListener 
                             "${System.currentTimeMillis()}_image.jpeg"))
                 }
                 .subscribe {
-                    imageAdapter.imageFiles.add(it)
+                    imageAdapter.images.add(Uri.fromFile(it))
                     imageAdapter.notifyDataSetChanged()
                 }
     }
@@ -264,7 +265,7 @@ class NewTweetActivity : ThemedActivity(), NewTweetMvpView, OnUserClickListener 
                             "${System.currentTimeMillis()}_image.jpeg"))
                 }
                 .subscribe {
-                    imageAdapter.imageFiles.add(it)
+                    imageAdapter.images.add(Uri.fromFile(it))
                     imageAdapter.notifyDataSetChanged()
                 }
     }

@@ -3,9 +3,11 @@ package com.andreapivetta.blu.common.utils
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.util.DisplayMetrics
 import timber.log.Timber
 import java.io.IOException
+import java.io.InputStream
 import java.net.HttpURLConnection
 import java.net.URL
 import java.text.SimpleDateFormat
@@ -50,5 +52,8 @@ object Utils {
         } else
             return "${seconds}s"
     }
+
+    fun inputStreamFromUri(context: Context, uri: Uri): InputStream
+            = context.contentResolver.openInputStream(uri)
 
 }

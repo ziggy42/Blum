@@ -7,7 +7,7 @@ import com.andreapivetta.blu.common.notifications.AppNotificationsFactory
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import timber.log.Timber
-import java.io.File
+import java.io.InputStream
 import java.util.*
 
 /**
@@ -15,15 +15,15 @@ import java.util.*
  */
 object TweetsQueue {
 
-    data class StatusUpdate(val text: String, val files: List<File>, val reply: Long = -1) {
+    data class StatusUpdate(val text: String, val streams: List<InputStream>, val reply: Long = -1) {
         companion object {
             fun valueOf(text: String) = StatusUpdate(text, listOf())
 
             fun valueOf(text: String, reply: Long) = StatusUpdate(text, listOf(), reply)
 
-            fun valueOf(text: String, files: List<File>) = StatusUpdate(text, files)
+            fun valueOf(text: String, files: List<InputStream>) = StatusUpdate(text, files)
 
-            fun valueOf(text: String, files: List<File>, reply: Long) =
+            fun valueOf(text: String, files: List<InputStream>, reply: Long) =
                     StatusUpdate(text, files, reply)
         }
     }

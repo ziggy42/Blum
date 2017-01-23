@@ -5,7 +5,7 @@ import com.andreapivetta.blu.data.model.Tweet
 import com.andreapivetta.blu.data.twitter.TweetsQueue
 import com.andreapivetta.blu.data.twitter.getTweetUrl
 import com.andreapivetta.blu.ui.base.BasePresenter
-import java.io.File
+import java.io.InputStream
 
 /**
  * Created by andrea on 20/05/16.
@@ -68,13 +68,13 @@ class NewTweetPresenter : BasePresenter<NewTweetMvpView>() {
         mvpView?.hideSuggestions()
     }
 
-    fun sendTweet(imageFiles: List<File>) {
+    fun sendTweet(images: List<InputStream>) {
         when {
             charsLeft < 0 -> mvpView?.showTooManyCharsError()
-            imageFiles.isEmpty() && mvpView?.getTweet().isNullOrEmpty() ->
+            images.isEmpty() && mvpView?.getTweet().isNullOrEmpty() ->
                 mvpView?.showEmptyTweetError()
-            imageFiles.isEmpty() -> sendTweet(mvpView?.getTweet())
-            else -> sendTweet(mvpView?.getTweet(), imageFiles)
+            images.isEmpty() -> sendTweet(mvpView?.getTweet())
+            else -> sendTweet(mvpView?.getTweet(), images)
         }
     }
 
@@ -85,13 +85,13 @@ class NewTweetPresenter : BasePresenter<NewTweetMvpView>() {
         }
     }
 
-    fun reply(inReplyToStatusId: Long, imageFiles: List<File>) {
+    fun reply(inReplyToStatusId: Long, images: List<InputStream>) {
         when {
             charsLeft < 0 -> mvpView?.showTooManyCharsError()
-            imageFiles.isEmpty() && mvpView?.getTweet().isNullOrEmpty() ->
+            images.isEmpty() && mvpView?.getTweet().isNullOrEmpty() ->
                 mvpView?.showEmptyTweetError()
-            imageFiles.isEmpty() -> sendTweet(mvpView?.getTweet(), inReplyToStatusId)
-            else -> sendTweet(mvpView?.getTweet(), imageFiles, inReplyToStatusId)
+            images.isEmpty() -> sendTweet(mvpView?.getTweet(), inReplyToStatusId)
+            else -> sendTweet(mvpView?.getTweet(), images, inReplyToStatusId)
         }
     }
 
@@ -126,9 +126,9 @@ class NewTweetPresenter : BasePresenter<NewTweetMvpView>() {
         mvpView?.close()
     }
 
-    private fun sendTweet(status: String?, imageFiles: List<File>) {
+    private fun sendTweet(status: String?, images: List<InputStream>) {
         if (status != null)
-            TweetsQueue.add(TweetsQueue.StatusUpdate.valueOf(status, imageFiles))
+            TweetsQueue.add(TweetsQueue.StatusUpdate.valueOf(status, images))
         mvpView?.close()
     }
 
@@ -138,9 +138,9 @@ class NewTweetPresenter : BasePresenter<NewTweetMvpView>() {
         mvpView?.close()
     }
 
-    private fun sendTweet(status: String?, imageFiles: List<File>, inReplyToStatusId: Long) {
+    private fun sendTweet(status: String?, images: List<InputStream>, inReplyToStatusId: Long) {
         if (status != null)
-            TweetsQueue.add(TweetsQueue.StatusUpdate.valueOf(status, imageFiles, inReplyToStatusId))
+            TweetsQueue.add(TweetsQueue.StatusUpdate.valueOf(status, images, inReplyToStatusId))
         mvpView?.close()
     }
 
