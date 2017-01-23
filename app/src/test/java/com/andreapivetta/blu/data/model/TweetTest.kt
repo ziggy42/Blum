@@ -42,19 +42,19 @@ class TweetTest {
         mockStatus1.mockId = 756222722787737600
         mockStatus1.mockText = "https://t.co/rwImyHL5Aj"
         mockStatus1.mockCreatedAt = Calendar.getInstance().time
-        mockStatus1.mockExtendedMediaEntities = arrayOf(mediaEntity1)
+        mockStatus1.mockMediaEntities = arrayOf(mediaEntity1)
         mockStatus1.mockUser = UserImplementation()
 
         mockStatus2.mockId = 756222722787737600
         mockStatus2.mockText = "Hello, World! https://t.co/rwImyHL5Aj"
         mockStatus2.mockCreatedAt = Calendar.getInstance().time
-        mockStatus2.mockExtendedMediaEntities = arrayOf(mediaEntity1, mediaEntity2)
+        mockStatus2.mockMediaEntities = arrayOf(mediaEntity1, mediaEntity2)
         mockStatus2.mockUser = UserImplementation()
 
         mockStatus3.mockId = 756222722787737600
         mockStatus3.mockText = "Hi @Pivix00#test, how are you #today??"
         mockStatus3.mockCreatedAt = Calendar.getInstance().time
-        mockStatus3.mockExtendedMediaEntities = arrayOf()
+        mockStatus3.mockMediaEntities = arrayOf()
 
         mockStatus3.mockUser = UserImplementation()
 

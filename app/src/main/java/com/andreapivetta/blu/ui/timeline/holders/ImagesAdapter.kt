@@ -9,10 +9,10 @@ import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.utils.loadUrl
 import com.andreapivetta.blu.ui.timeline.InteractionListener
 import kotlinx.android.synthetic.main.photo_deletable.view.*
-import twitter4j.ExtendedMediaEntity
+import twitter4j.MediaEntity
 
 
-class ImagesAdapter(private val mediaEntities: Array<ExtendedMediaEntity>,
+class ImagesAdapter(private val mediaEntities: Array<MediaEntity>,
                     private val listener: InteractionListener) :
         RecyclerView.Adapter<ImagesAdapter.VHItem>() {
 

@@ -1,17 +1,16 @@
 package com.andreapivetta.blu.mockobjects
 
-import twitter4j.ExtendedMediaEntity
 import twitter4j.MediaEntity
 
 /**
  * Created by andrea on 21/07/16.
  */
-class ExtendedMediaEntityImplementation : ExtendedMediaEntity {
+class ExtendedMediaEntityImplementation : MediaEntity {
 
     var mockVideoAspectRatioHeight: Int = 0
     var mockVideoAspectRatioWidth: Int = 0
     var mockVideoDurationInMillis: Long = 0L
-    var mockVideoVariants: Array<out ExtendedMediaEntity.Variant>? = null
+    var mockVideoVariants: Array<out MediaEntity.Variant>? = null
     var mockURL: String? = null
     var mockEnd: Int = 0
     var mockText: String? = null

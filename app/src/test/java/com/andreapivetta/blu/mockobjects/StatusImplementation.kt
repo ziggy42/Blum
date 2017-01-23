@@ -38,7 +38,6 @@ class StatusImplementation : Status {
     var mockSymbolEntities: Array<out SymbolEntity>? = null
     var mockMediaEntities: Array<out MediaEntity>? = null
     var mockUrlEntities: Array<out URLEntity>? = arrayOf()
-    var mockExtendedMediaEntities: Array<out ExtendedMediaEntity>? = null
     var mockHashtagEntities: Array<out HashtagEntity>? = null
     var mockAccessLevel: Int = 0
     var mockRateLimitStatus: RateLimitStatus? = null
@@ -103,13 +102,15 @@ class StatusImplementation : Status {
 
     override fun getURLEntities() = mockUrlEntities
 
-    override fun getExtendedMediaEntities() = mockExtendedMediaEntities
-
     override fun getHashtagEntities() = mockHashtagEntities
 
     override fun getAccessLevel() = mockAccessLevel
 
     override fun getRateLimitStatus() = mockRateLimitStatus
+
+    override fun getDisplayTextRangeStart(): Int = 0
+
+    override fun getDisplayTextRangeEnd(): Int = 0
 
     override fun compareTo(other: Status?): Int {
         throw UnsupportedOperationException("not implemented")

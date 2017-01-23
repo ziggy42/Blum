@@ -1,6 +1,6 @@
 package com.andreapivetta.blu.data.model
 
-import twitter4j.ExtendedMediaEntity
+import twitter4j.MediaEntity
 import twitter4j.Status
 import twitter4j.User
 import java.io.Serializable
@@ -13,14 +13,11 @@ data class Tweet(val status: Status) : Serializable {
     val text: String = status.text
     val id: Long = status.id
     val timeStamp: Long = status.createdAt.time
-    val inReplayToStatusId: Long = status.inReplyToStatusId
     val user: User = status.user
     val quotedStatus: Boolean = status.quotedStatus != null
-    val quotedStatusId: Long = status.quotedStatusId
     val retweet: Boolean = status.isRetweet
-    val mediaEntities: Array<ExtendedMediaEntity> = status.extendedMediaEntities
+    val mediaEntities: Array<MediaEntity> = status.mediaEntities
 
-    var retweetedByMe: Boolean = status.isRetweetedByMe
     var retweeted: Boolean = status.isRetweeted
     var retweetCount: Int = status.retweetCount
     var favorited: Boolean = status.isFavorited
