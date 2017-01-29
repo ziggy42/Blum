@@ -1,11 +1,18 @@
 buildscript {
-    ext.kotlin_version = '1.0.6'
+
+    ext.KOTLIN_VERSION = '1.0.6'
+    ext.SUPPORT_LIBRARY_VERSION = '25.1.0'
+    ext.FIREBASE_VERSION = '10.0.1'
+    ext.RX_JAVA_VERSION = '1.2.5'
+    ext.TWITTER4J_VERSION = '4.0.6'
+
     repositories {
         jcenter()
     }
+
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.3'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$KOTLIN_VERSION"
         classpath 'com.google.gms:google-services:3.0.0'
         classpath "io.realm:realm-gradle-plugin:2.2.2"
     }

@@ -53,10 +53,6 @@ android {
 }
 
 dependencies {
-    final SUPPORT_LIBRARY_VERSION = '25.1.0'
-    final FIREBASE_VERSION = '10.0.1'
-    final RX_JAVA_VERSION = '1.2.5'
-
     compile "com.android.support:support-fragment:$SUPPORT_LIBRARY_VERSION"
     compile "com.android.support:recyclerview-v7:$SUPPORT_LIBRARY_VERSION"
     compile "com.android.support:cardview-v7:$SUPPORT_LIBRARY_VERSION"
@@ -66,7 +62,8 @@ dependencies {
     compile "io.reactivex:rxjava:$RX_JAVA_VERSION"
     compile 'io.reactivex:rxandroid:1.2.1'
 
-    compile 'org.twitter4j:twitter4j-core:4.0.6'
+    compile "org.twitter4j:twitter4j-core:$TWITTER4J_VERSION"
+
     compile 'com.mlsdev.rximagepicker:library:1.3.1'
     compile 'com.jakewharton.timber:timber:4.5.1'
     compile 'org.jsoup:jsoup:1.10.2'
@@ -91,7 +88,7 @@ dependencies {
     androidTestCompile 'com.android.support.test:rules:0.5'
 
     // Kotlin
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$KOTLIN_VERSION"
 }
 
 buildscript {
@@ -99,7 +96,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$KOTLIN_VERSION"
     }
 }
 
