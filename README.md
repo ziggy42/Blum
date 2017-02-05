@@ -15,6 +15,8 @@ ConsumerKey="<YOUR CONSUMER KEY>"
 ConsumerSecret="<YOUR CONSUMER SECRET>"
 DebugConsumerKey="<YOUR CONSUMER KEY>"
 DebugConsumerSecret="<YOUR CONSUMER SECRET>"
+TestToken="<YOUR ACCESS TOKEN>"
+TestSecret="<YOUR ACCESS TOKEN SECRET>"
 
 LicensesUrl="<THIS CAN BE EMPTY>"
 ```
