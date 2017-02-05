@@ -41,6 +41,8 @@ android {
     buildTypes.each {
         it.buildConfigField 'String', 'TWITTER_CALLBACK', CallBackUrl
         it.buildConfigField 'String', 'LICENSES_URL', LicensesUrl
+        it.buildConfigField 'String', 'TEST_TOKEN', TestToken
+        it.buildConfigField 'String', 'TEST_SECRET', TestSecret
     }
 
     splits {

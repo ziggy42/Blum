@@ -68,11 +68,8 @@ class PopulateDatabaseIntentService : IntentService("PopulateDatabaseIntentServi
             Timber.i("Retrieving followed users")
             // If the user doesn't follow too many users (so we don't hit Twitter API limits),
             // retrieves all of them
-            val users = NotificationsDataProvider.safeRetrieveFollowedUsers(twitter)
-            if (users.isNotEmpty()) {
-                storage.saveUsersFollowed(users)
-                settings.setUserFollowedAvailable(true)
-            }
+            settings.setUserFollowedAvailable(NotificationsDataProvider
+                    .safeRetrieveFollowedUsers(twitter, { storage.saveUsersFollowed(it) }))
 
             settings.setUserDataDownloaded(true)
             LocalBroadcastManager.getInstance(this)

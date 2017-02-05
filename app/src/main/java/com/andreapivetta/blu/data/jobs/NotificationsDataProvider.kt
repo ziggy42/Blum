@@ -49,8 +49,9 @@ object NotificationsDataProvider {
     }
 
     fun safeRetrieveFollowedUsers(twitter: Twitter): MutableList<UserFollowed> {
-        val users = mutableListOf<UserFollowed>()
-        if (twitter.showUser(twitter.id).friendsCount < 2800) {
+        val friendsNumber = twitter.showUser(twitter.id).friendsCount
+        if (friendsNumber < 2800) {
+            val users = ArrayList<UserFollowed>(friendsNumber)
             var cursor: Long = -1
             var pagableFollowings: PagableResponseList<User>
             do {
@@ -58,8 +59,23 @@ object NotificationsDataProvider {
                 users.addAll(pagableFollowings.map { UserFollowed.valueOf(it) })
                 cursor = pagableFollowings.nextCursor
             } while (cursor != 0L)
+            return users
+        } else {
+            return mutableListOf()
         }
-        return users
+    }
+
+    fun safeRetrieveFollowedUsers(twitter: Twitter, onNext: (List<UserFollowed>) -> Unit): Boolean {
+        if (twitter.showUser(twitter.id).friendsCount > 2800)
+            return false
+
+        var cursor: Long = -1
+        do {
+            val followings = twitter.getFriendsList(twitter.id, cursor, 200)
+            onNext(followings.map { UserFollowed.valueOf(it) })
+            cursor = followings.nextCursor
+        } while (cursor != 0L)
+        return true
     }
 
     fun getFavoriters(tweetID: Long): RealmList<UserId>? = getUsers(getFavoritersUrl(tweetID))
