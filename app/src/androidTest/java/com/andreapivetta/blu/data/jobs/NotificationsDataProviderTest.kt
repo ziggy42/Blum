@@ -23,17 +23,29 @@ class NotificationsDataProviderTest {
             .getInstance(AccessToken(BuildConfig.TEST_TOKEN, BuildConfig.TEST_SECRET))
 
     @Test
-    fun getFavoriters() {
-        val users = NotificationsDataProvider.getFavoriters(TWEET_ID_1)
-        assertTrue(users != null)
-        assertEquals(2, users?.size)
+    fun retrieveTweetInfo() {
+        val info = NotificationsDataProvider.retrieveTweetInfo(twitter)
+        assertTrue(info.isNotEmpty())
+        assertEquals(100, info.size)
     }
 
     @Test
-    fun getRetweeters() {
-        val users = NotificationsDataProvider.getRetweeters(TWEET_ID_1)
-        assertTrue(users != null)
-        assertEquals(1, users?.size)
+    fun retrieveMentions() {
+        val mentions = NotificationsDataProvider.retrieveMentions(twitter)
+        assertTrue(mentions.isNotEmpty())
+        assertTrue(mentions.size <= 200)
+    }
+
+    @Test
+    fun retrieveFollowers() {
+        val followers = NotificationsDataProvider.retrieveFollowers(twitter)
+        assertTrue(followers.isNotEmpty())
+    }
+
+    @Test
+    fun retrieveDirectMessages() {
+        val directMessages = NotificationsDataProvider.retrieveDirectMessages(twitter)
+        assertTrue(directMessages.isNotEmpty())
     }
 
     @Test
@@ -48,4 +60,17 @@ class NotificationsDataProviderTest {
         })
     }
 
+    @Test
+    fun getFavoriters() {
+        val users = NotificationsDataProvider.getFavoriters(TWEET_ID_1)
+        assertTrue(users != null)
+        assertEquals(2, users?.size)
+    }
+
+    @Test
+    fun getRetweeters() {
+        val users = NotificationsDataProvider.getRetweeters(TWEET_ID_1)
+        assertTrue(users != null)
+        assertEquals(1, users?.size)
+    }
 }
