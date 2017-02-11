@@ -22,12 +22,6 @@ open class BlumApplication : Application() {
         Realm.init(this)
         TweetsQueue.init(this)
         NotificationPrimaryKeyGenerator.init(AppStorageFactory.getAppStorage())
-
-        /**
-         * Migration from java version of Blum
-         * TODO remove me ASAP
-         */
-        Migration.migrate(applicationContext)
     }
 
 }
