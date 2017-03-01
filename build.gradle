@@ -1,9 +1,9 @@
 buildscript {
 
     ext.KOTLIN_VERSION = '1.0.6'
-    ext.SUPPORT_LIBRARY_VERSION = '25.1.1'
-    ext.FIREBASE_VERSION = '10.0.1'
-    ext.RX_JAVA_VERSION = '1.2.6'
+    ext.SUPPORT_LIBRARY_VERSION = '25.2.0'
+    ext.FIREBASE_VERSION = '10.2.0'
+    ext.RX_JAVA_VERSION = '1.2.7'
     ext.TWITTER4J_VERSION = '4.0.6'
 
     repositories {
