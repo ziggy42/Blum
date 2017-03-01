@@ -11,8 +11,8 @@ android {
         applicationId "com.andreapivetta.blu"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 52
-        versionName "5.1.0"
+        versionCode 53
+        versionName "5.1.1"
 
         resConfigs "en", "it"
 
