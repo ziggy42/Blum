@@ -57,7 +57,7 @@ class NotificationsFragment : Fragment(), NotificationsMvpView {
         recyclerView.addItemDecoration(SpaceTopItemDecoration(Utils.dpToPx(context, 10)))
         recyclerView.adapter = adapter
 
-        val refreshLayout = rootView?.findViewById(R.id.swipeRefreshLayout) as SwipeRefreshLayout
+        val refreshLayout = rootView.findViewById(R.id.swipeRefreshLayout) as SwipeRefreshLayout
         refreshLayout.setColorSchemeColors(Theme.getColorPrimary(context))
         refreshLayout.setOnRefreshListener {
             NotificationsIntentService.startService(context)
@@ -65,7 +65,7 @@ class NotificationsFragment : Fragment(), NotificationsMvpView {
             Handler().postDelayed({ refreshLayout.isRefreshing = false }, 2000)
         }
 
-        emptyView = rootView?.findViewById(R.id.emptyLinearLayout) as ViewGroup
+        emptyView = rootView.findViewById(R.id.emptyLinearLayout) as ViewGroup
 
         presenter.getNotifications()
 

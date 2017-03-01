@@ -60,15 +60,15 @@ class SearchUsersFragment : Fragment(), SearchUsersMvpView {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val rootView = inflater?.inflate(R.layout.fragment_timeline, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_timeline, container, false)
 
-        recyclerView = rootView?.findViewById(R.id.tweetsRecyclerView) as RecyclerView
-        loadingProgressBar = rootView?.findViewById(R.id.loadingProgressBar) as ProgressBar
-        swipeRefreshLayout = rootView?.findViewById(R.id.swipeRefreshLayout) as SwipeRefreshLayout
-        badThingsViewGroup = rootView?.findViewById(R.id.badThingsViewGroup) as ViewGroup
-        retryButton = rootView?.findViewById(R.id.retryButton) as Button
+        recyclerView = rootView.findViewById(R.id.tweetsRecyclerView) as RecyclerView
+        loadingProgressBar = rootView.findViewById(R.id.loadingProgressBar) as ProgressBar
+        swipeRefreshLayout = rootView.findViewById(R.id.swipeRefreshLayout) as SwipeRefreshLayout
+        badThingsViewGroup = rootView.findViewById(R.id.badThingsViewGroup) as ViewGroup
+        retryButton = rootView.findViewById(R.id.retryButton) as Button
 
         swipeRefreshLayout.isEnabled = false
 

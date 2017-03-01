@@ -29,13 +29,13 @@ class ScrollAwareFABBehavior(context: Context, attrs: AttributeSet) : FloatingAc
             nestedScrollAxes == ViewCompat.SCROLL_AXIS_VERTICAL || super.onStartNestedScroll(
                     coordinatorLayout, child, directTargetChild, target, nestedScrollAxes)
 
-    override fun onNestedScroll(coordinatorLayout: CoordinatorLayout?, child: FloatingActionButton?, target: View?,
+    override fun onNestedScroll(coordinatorLayout: CoordinatorLayout?, child: FloatingActionButton, target: View?,
                                 dxConsumed: Int, dyConsumed: Int, dxUnconsumed: Int, dyUnconsumed: Int) {
         super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed)
-        if (dyConsumed > 0 && child?.visibility == View.VISIBLE) {
-            child?.hide(listener)
-        } else if (dyConsumed < 0 && child?.visibility != View.VISIBLE) {
-            child?.show()
+        if (dyConsumed > 0 && child.visibility == View.VISIBLE) {
+            child.hide(listener)
+        } else if (dyConsumed < 0 && child.visibility != View.VISIBLE) {
+            child.show()
         }
     }
 }

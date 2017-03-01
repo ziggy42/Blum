@@ -43,12 +43,12 @@ class PrivateMessagesListFragment : Fragment(), PrivateMessagesListMvpView {
         adapterPrivateMessages = PrivateMessagesConversationsAdapter()
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val rootView = inflater?.inflate(R.layout.fragment_privatemessages, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_privatemessages, container, false)
 
         val recyclerView = rootView?.findViewById(R.id.tweetsRecyclerView) as RecyclerView
-        emptyViewGroup = rootView?.findViewById(R.id.emptyLinearLayout) as ViewGroup
+        emptyViewGroup = rootView.findViewById(R.id.emptyLinearLayout) as ViewGroup
 
         val linearLayoutManager = LinearLayoutManager(activity)
         recyclerView.layoutManager = linearLayoutManager

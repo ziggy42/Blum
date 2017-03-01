@@ -66,20 +66,20 @@ class TweetDetailsFragment : Fragment(), TweetDetailsMvpView, DetailsInteraction
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val rootView = inflater?.inflate(R.layout.fragment_tweet_details, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_tweet_details, container, false)
 
-        recyclerView = rootView?.findViewById(R.id.tweetsRecyclerView) as RecyclerView
-        badThingsViewGroup = rootView?.findViewById(R.id.badThingsViewGroup) as ViewGroup
-        loadingProgressBar = rootView?.findViewById(R.id.loadingProgressBar) as ProgressBar
+        recyclerView = rootView.findViewById(R.id.tweetsRecyclerView) as RecyclerView
+        badThingsViewGroup = rootView.findViewById(R.id.badThingsViewGroup) as ViewGroup
+        loadingProgressBar = rootView.findViewById(R.id.loadingProgressBar) as ProgressBar
 
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.setHasFixedSize(true)
         recyclerView.addItemDecoration(SpaceTopItemDecoration(Utils.dpToPx(activity, 10)))
         recyclerView.adapter = adapter
 
-        rootView?.findViewById(R.id.retryButton)?.setOnClickListener {
+        rootView.findViewById(R.id.retryButton)?.setOnClickListener {
             badThingsViewGroup.visible(false)
             presenter.getConversation(statusId)
         }

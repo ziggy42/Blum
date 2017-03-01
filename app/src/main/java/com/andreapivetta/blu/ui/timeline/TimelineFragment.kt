@@ -60,14 +60,14 @@ open class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val rootView = inflater?.inflate(R.layout.fragment_timeline, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_timeline, container, false)
 
         recyclerView = rootView?.findViewById(R.id.tweetsRecyclerView) as RecyclerView
-        swipeRefreshLayout = rootView?.findViewById(R.id.swipeRefreshLayout) as SwipeRefreshLayout
-        loadingProgressBar = rootView?.findViewById(R.id.loadingProgressBar) as ProgressBar
-        badThingsViewGroup = rootView?.findViewById(R.id.badThingsViewGroup) as ViewGroup
+        swipeRefreshLayout = rootView.findViewById(R.id.swipeRefreshLayout) as SwipeRefreshLayout
+        loadingProgressBar = rootView.findViewById(R.id.loadingProgressBar) as ProgressBar
+        badThingsViewGroup = rootView.findViewById(R.id.badThingsViewGroup) as ViewGroup
 
         val linearLayoutManager = LinearLayoutManager(activity)
         recyclerView.layoutManager = linearLayoutManager
@@ -86,7 +86,7 @@ open class TimelineFragment : Fragment(), TimelineMvpView, InteractionListener {
         swipeRefreshLayout.setOnRefreshListener { presenter.onRefresh() }
         swipeRefreshLayout.setColorSchemeColors(Theme.getColorPrimary(context))
 
-        rootView?.findViewById(R.id.retryButton)?.setOnClickListener {
+        rootView.findViewById(R.id.retryButton)?.setOnClickListener {
             badThingsViewGroup.visible(false)
             presenter.getTweets()
         }
