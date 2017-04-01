@@ -8,7 +8,6 @@ import android.util.DisplayMetrics
 import timber.log.Timber
 import java.io.IOException
 import java.io.InputStream
-import java.net.HttpURLConnection
 import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
@@ -20,8 +19,7 @@ object Utils {
             (context.resources.displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT))
 
     fun getBitmapFromURL(strURL: String): Bitmap? = try {
-        val connection = URL(strURL).openConnection() as HttpURLConnection
-        connection.doInput = true
+        val connection = URL(strURL).openConnection()
         connection.connect()
         BitmapFactory.decodeStream(connection.inputStream)
     } catch (e: IOException) {

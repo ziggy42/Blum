@@ -84,8 +84,7 @@ object NotificationsDataProvider {
 
     private fun getUsers(url: String): RealmList<UserId>? = try {
         val json = getJson(url)
-        RealmList(*Jsoup.parse(json.getString("htmlUsers"))
-                .getElementsByTag("img")
+        RealmList(*Jsoup.parse(json.getString("htmlUsers")).getElementsByTag("img")
                 .filter { it.hasAttr("data-user-id") && it.attr("data-user-id").isNotBlank() }
                 .map { UserId(it.attr("data-user-id").toLong()) }
                 .toTypedArray())

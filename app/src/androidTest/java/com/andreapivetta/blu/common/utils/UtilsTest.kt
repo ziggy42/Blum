@@ -14,7 +14,7 @@ class UtilsTest {
     @Test
     fun getBitmapFromURL() {
         val bitmap = Utils.getBitmapFromURL(testUrl)
-        assertNotNull(Utils.getBitmapFromURL(testUrl))
+        assertNotNull(bitmap)
         assertTrue(bitmap!!.byteCount > 0)
     }
 
