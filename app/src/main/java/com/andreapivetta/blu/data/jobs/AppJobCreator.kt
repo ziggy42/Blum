@@ -1,5 +1,6 @@
 package com.andreapivetta.blu.data.jobs
 
+import com.evernote.android.job.Job
 import com.evernote.android.job.JobCreator
 
 /**
@@ -14,7 +15,7 @@ class AppJobCreator : JobCreator {
         }
     }
 
-    override fun create(tag: String?) = when (tag) {
+    override fun create(tag: String?): Job = when (tag) {
         NotificationsJob.TAG -> NotificationsJob()
         UsersFollowedJob.TAG -> UsersFollowedJob()
         else -> throw RuntimeException("No such job $tag")

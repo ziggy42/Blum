@@ -47,10 +47,10 @@ class ImageFragment : Fragment() {
         val tweetImageView = rootView?.findViewById(R.id.tweetImageView) as ImageView
 
         tweetImageView.loadUrlWithoutPlaceholder(imageUrl)
-        tweetImageView.setOnTouchListener { v, event ->
+        tweetImageView.setOnTouchListener { _, _ ->
             if (photoViewAttacher == null) {
                 photoViewAttacher = PhotoViewAttacher(tweetImageView)
-                (photoViewAttacher as PhotoViewAttacher).setOnPhotoTapListener { view, fl1, fl2 ->
+                (photoViewAttacher as PhotoViewAttacher).setOnPhotoTapListener { _, _, _ ->
                     imageActivity.showToolbar()
                     imageActivity.hideToolbarDelay()
                 }

@@ -44,7 +44,7 @@ class SharedPreferencesAppSettings(context: Context) : AppSettings {
             sharedPreferences.getString(KEY_OAUTH_TOKEN, ""),
             sharedPreferences.getString(KEY_OAUTH_TOKEN_SECRET, ""))
 
-    override fun getLoggedUserId() = sharedPreferences.getLong(KEY_LOGGED_USER_ID, 0L)
+    override fun getLoggedUserId(): Long = sharedPreferences.getLong(KEY_LOGGED_USER_ID, 0L)
 
     override fun getLoggedUserScreenName(): String = sharedPreferences.getString(KEY_LOGGED_USER, "")
 

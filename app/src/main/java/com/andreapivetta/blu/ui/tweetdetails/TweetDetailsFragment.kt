@@ -141,7 +141,7 @@ class TweetDetailsFragment : Fragment(), TweetDetailsMvpView, DetailsInteraction
         AlertDialog.Builder(context)
                 .setTitle(context.getString(R.string.retweet_title))
                 .setPositiveButton(context.getString(R.string.retweet),
-                        { dialogInterface, i -> presenter.retweet(tweet) })
+                        { _, _ -> presenter.retweet(tweet) })
                 .setNegativeButton(R.string.cancel, null)
                 .create().show()
     }

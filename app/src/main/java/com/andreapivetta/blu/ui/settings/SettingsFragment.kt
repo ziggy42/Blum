@@ -30,7 +30,7 @@ class SettingsFragment : PreferenceFragment() {
         addPreferencesFromResource(R.xml.pref_general)
 
         findPreference("themes").onPreferenceChangeListener = Preference.OnPreferenceChangeListener {
-            preference, newValue ->
+            _, _ ->
             restartApplication()
             true
         }
@@ -86,8 +86,7 @@ class SettingsFragment : PreferenceFragment() {
         AlertDialog.Builder(activity)
                 .setView(image)
                 .setTitle(getString(R.string.logout_title_dialog))
-                .setPositiveButton(getString(R.string.yes),
-                        { dialogInterface, i -> logout() })
+                .setPositiveButton(getString(R.string.yes), { _, _ -> logout() })
                 .setNegativeButton(getString(R.string.cancel), null).show()
     }
 

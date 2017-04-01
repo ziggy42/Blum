@@ -185,9 +185,9 @@ class UserActivity : ThemedActivity(), UserMvpView {
         AlertDialog.Builder(this)
                 .setTitle(getString(R.string.retweet_title))
                 .setPositiveButton(getString(R.string.retweet),
-                        { dialogInterface, i -> presenter.retweet(tweet) })
+                        { _, _ -> presenter.retweet(tweet) })
                 .setNeutralButton(getString(R.string.quote),
-                        { dialogInterface, i -> NewTweetActivity.launch(this, tweet) })
+                        { _, _ -> NewTweetActivity.launch(this, tweet) })
                 .setNegativeButton(R.string.cancel, null)
                 .create().show()
     }
