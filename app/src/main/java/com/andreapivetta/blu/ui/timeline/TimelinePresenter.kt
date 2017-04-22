@@ -4,9 +4,9 @@ import com.andreapivetta.blu.R
 import com.andreapivetta.blu.data.model.Tweet
 import com.andreapivetta.blu.data.twitter.TwitterAPI
 import com.andreapivetta.blu.ui.base.BasePresenter
-import rx.Subscription
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import twitter4j.Paging
 import twitter4j.User
@@ -18,21 +18,11 @@ open class TimelinePresenter : BasePresenter<TimelineMvpView>() {
 
     var page: Int = 1
     protected var isLoading: Boolean = false
-    protected var subscription: Subscription? = null
-    protected var refreshSubscription: Subscription? = null
-    private var favoriteSubscription: Subscription? = null
-    private var retweetSubscription: Subscription? = null
-    private var unfavoriteSubscription: Subscription? = null
-    private var unretweetSubscription: Subscription? = null
+    protected val disposables = CompositeDisposable()
 
     override fun detachView() {
         super.detachView()
-        subscription?.unsubscribe()
-        refreshSubscription?.unsubscribe()
-        favoriteSubscription?.unsubscribe()
-        refreshSubscription?.unsubscribe()
-        unfavoriteSubscription?.unsubscribe()
-        unretweetSubscription?.unsubscribe()
+        disposables.clear()
     }
 
     open fun getTweets() {
@@ -40,7 +30,7 @@ open class TimelinePresenter : BasePresenter<TimelineMvpView>() {
         mvpView?.showLoading()
         isLoading = true
 
-        subscription = TwitterAPI.getHomeTimeline(Paging(page, 50))
+        disposables.add(TwitterAPI.getHomeTimeline(Paging(page, 50))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({
@@ -61,7 +51,7 @@ open class TimelinePresenter : BasePresenter<TimelineMvpView>() {
                     mvpView?.hideLoading()
                     mvpView?.showError()
                     isLoading = false
-                })
+                }))
     }
 
     open fun getMoreTweets() {
@@ -71,7 +61,7 @@ open class TimelinePresenter : BasePresenter<TimelineMvpView>() {
         checkViewAttached()
         isLoading = true
 
-        subscription = TwitterAPI.getHomeTimeline(Paging(page, 50))
+        disposables.add(TwitterAPI.getHomeTimeline(Paging(page, 50))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({
@@ -84,7 +74,7 @@ open class TimelinePresenter : BasePresenter<TimelineMvpView>() {
                 }, {
                     Timber.e(it?.message)
                     isLoading = false
-                })
+                }))
     }
 
     open fun onRefresh() {
@@ -94,7 +84,7 @@ open class TimelinePresenter : BasePresenter<TimelineMvpView>() {
         if (sinceId != null && sinceId > 0) {
             val page = Paging(1, 200)
             page.sinceId = sinceId
-            refreshSubscription = TwitterAPI.refreshTimeLine(page)
+            disposables.add(TwitterAPI.refreshTimeLine(page)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
                     .subscribe({
@@ -108,14 +98,14 @@ open class TimelinePresenter : BasePresenter<TimelineMvpView>() {
                         Timber.e(it?.message)
                         mvpView?.stopRefresh()
                         mvpView?.showSnackBar(R.string.error_refreshing_timeline)
-                    })
+                    }))
         } else mvpView?.stopRefresh()
     }
 
     fun favorite(tweet: Tweet) {
         checkViewAttached()
 
-        favoriteSubscription = TwitterAPI.favorite(tweet.id)
+        disposables.add(TwitterAPI.favorite(tweet.id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .map(::Tweet)
@@ -130,13 +120,13 @@ open class TimelinePresenter : BasePresenter<TimelineMvpView>() {
                 }, {
                     Timber.e(it?.message)
                     mvpView?.showSnackBar(R.string.error_favorite)
-                })
+                }))
     }
 
     fun retweet(tweet: Tweet) {
         checkViewAttached()
 
-        retweetSubscription = TwitterAPI.retweet(tweet.id)
+        disposables.add(TwitterAPI.retweet(tweet.id)
                 .map(::Tweet)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -151,13 +141,13 @@ open class TimelinePresenter : BasePresenter<TimelineMvpView>() {
                 }, {
                     Timber.e(it?.message)
                     mvpView?.showSnackBar(R.string.error_retweet)
-                })
+                }))
     }
 
     fun unfavorite(tweet: Tweet) {
         checkViewAttached()
 
-        unfavoriteSubscription = TwitterAPI.unfavorite(tweet.id)
+        disposables.add(TwitterAPI.unfavorite(tweet.id)
                 .map(::Tweet)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -172,13 +162,13 @@ open class TimelinePresenter : BasePresenter<TimelineMvpView>() {
                 }, {
                     Timber.e(it?.message)
                     mvpView?.showSnackBar(R.string.error_unfavorite)
-                })
+                }))
     }
 
     fun unretweet(tweet: Tweet) {
         checkViewAttached()
 
-        unfavoriteSubscription = TwitterAPI.unretweet(tweet.status.currentUserRetweetId)
+        disposables.add(TwitterAPI.unretweet(tweet.status.currentUserRetweetId)
                 .map(::Tweet)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -193,7 +183,7 @@ open class TimelinePresenter : BasePresenter<TimelineMvpView>() {
                 }, {
                     Timber.e(it?.message)
                     mvpView?.showSnackBar(R.string.error_unretweet)
-                })
+                }))
     }
 
     fun reply(tweet: Tweet, user: User) {

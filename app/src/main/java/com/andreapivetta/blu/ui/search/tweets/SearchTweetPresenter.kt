@@ -3,8 +3,8 @@ package com.andreapivetta.blu.ui.search.tweets
 import com.andreapivetta.blu.data.model.Tweet
 import com.andreapivetta.blu.data.twitter.TwitterAPI
 import com.andreapivetta.blu.ui.timeline.TimelinePresenter
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import twitter4j.Query
 import twitter4j.QueryResult
@@ -22,7 +22,7 @@ class SearchTweetPresenter(textQuery: String) : TimelinePresenter() {
         mvpView?.showLoading()
         isLoading = true
 
-        subscription = TwitterAPI.searchTweets(query!!)
+        disposables.add(TwitterAPI.searchTweets(query!!)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({
@@ -45,13 +45,13 @@ class SearchTweetPresenter(textQuery: String) : TimelinePresenter() {
                     mvpView?.hideLoading()
                     mvpView?.showError()
                     isLoading = false
-                })
+                }))
     }
 
     override fun getMoreTweets() {
         if (queryResult != null && queryResult!!.hasNext()) {
             query = queryResult?.nextQuery()
-            refreshSubscription = TwitterAPI.searchTweets(query!!)
+            disposables.add(TwitterAPI.searchTweets(query!!)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
                     .subscribe({
@@ -59,7 +59,7 @@ class SearchTweetPresenter(textQuery: String) : TimelinePresenter() {
                         val list = it?.tweets
                         if (list != null)
                             mvpView?.showMoreTweets(list.map(::Tweet).toMutableList())
-                    }, { Timber.e(it?.message) })
+                    }, { Timber.e(it?.message) }))
         }
     }
 

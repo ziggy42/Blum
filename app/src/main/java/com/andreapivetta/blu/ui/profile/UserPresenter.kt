@@ -5,10 +5,10 @@ import com.andreapivetta.blu.common.settings.AppSettings
 import com.andreapivetta.blu.data.model.Tweet
 import com.andreapivetta.blu.data.twitter.TwitterAPI
 import com.andreapivetta.blu.ui.base.BasePresenter
-import rx.Single
-import rx.Subscription
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import twitter4j.Paging
 import twitter4j.User
@@ -18,15 +18,9 @@ import twitter4j.User
  */
 class UserPresenter(val settings: AppSettings) : BasePresenter<UserMvpView>() {
 
+    private val disposables = CompositeDisposable()
+
     private var page = 1
-    private var userTimelineSubscription: Subscription? = null
-    private var relationshipSubscription: Subscription? = null
-    private var unfavoriteSubscription: Subscription? = null
-    private var unretweetSubscription: Subscription? = null
-    private var retweetSubscription: Subscription? = null
-    private var favoriteSubscription: Subscription? = null
-    private var refreshSubscription: Subscription? = null
-    private var updateFriendshipSubscription: Subscription? = null
 
     private lateinit var user: User
 
@@ -36,15 +30,14 @@ class UserPresenter(val settings: AppSettings) : BasePresenter<UserMvpView>() {
 
     override fun detachView() {
         super.detachView()
-        userTimelineSubscription?.unsubscribe()
-        relationshipSubscription?.unsubscribe()
+        disposables.clear()
     }
 
     fun loadUser(screenName: String) {
         checkViewAttached()
         mvpView?.showLoading()
 
-        userTimelineSubscription = TwitterAPI.showUser(screenName)
+        disposables.add(TwitterAPI.showUser(screenName)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({
@@ -56,14 +49,14 @@ class UserPresenter(val settings: AppSettings) : BasePresenter<UserMvpView>() {
                     Timber.e(it?.message)
                     mvpView?.hideLoading()
                     mvpView?.showError()
-                })
+                }))
     }
 
     fun loadUser(id: Long) {
         checkViewAttached()
         mvpView?.showLoading()
 
-        userTimelineSubscription = TwitterAPI.showUser(id)
+        disposables.add(TwitterAPI.showUser(id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({
@@ -75,7 +68,7 @@ class UserPresenter(val settings: AppSettings) : BasePresenter<UserMvpView>() {
                     Timber.e(it?.message)
                     mvpView?.hideLoading()
                     mvpView?.showError()
-                })
+                }))
     }
 
     fun loadUserData(user: User) {
@@ -92,7 +85,7 @@ class UserPresenter(val settings: AppSettings) : BasePresenter<UserMvpView>() {
         if (sinceId != null && sinceId > 0) {
             val page = Paging(1, 200)
             page.sinceId = sinceId
-            refreshSubscription = TwitterAPI.refreshUserTimeLine(user.id, page)
+            disposables.add(TwitterAPI.refreshUserTimeLine(user.id, page)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
                     .subscribe({
@@ -106,17 +99,17 @@ class UserPresenter(val settings: AppSettings) : BasePresenter<UserMvpView>() {
                         Timber.e(it?.message)
                         mvpView?.stopRefresh()
                         mvpView?.showSnackBar(R.string.error_refreshing_timeline)
-                    })
+                    }))
         } else mvpView?.stopRefresh()
     }
 
     private fun loadUserTimeline() {
-        userTimelineSubscription = TwitterAPI.getUserTimeline(user.id, Paging(page, 50))
+        disposables.add(TwitterAPI.getUserTimeline(user.id, Paging(page, 50))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({
                     mvpView?.showTweets(it.map(::Tweet).toMutableList())
-                }, { Timber.e(it?.message) })
+                }, { Timber.e(it?.message) }))
     }
 
     private fun loadFriendShip() {
@@ -124,32 +117,33 @@ class UserPresenter(val settings: AppSettings) : BasePresenter<UserMvpView>() {
             isLoggedUser = true
             mvpView?.showUpdateFriendshipControls()
         } else {
-            relationshipSubscription = TwitterAPI.getFriendship(settings.getLoggedUserId(), user.id)
+            disposables.add(TwitterAPI.getFriendship(settings.getLoggedUserId(), user.id)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
                     .subscribe({
                         relationshipDataAvailable = true
                         isLoggedUserFollowing = it.isSourceFollowingTarget
                         mvpView?.showUpdateFriendshipControls()
-                    }, { Timber.e(it) })
+                    }, { Timber.e(it) }))
         }
     }
 
     fun updateFriendship() {
         val single: Single<User> = if (isLoggedUserFollowing) TwitterAPI.unfollow(user.id) else
             TwitterAPI.follow(user.id)
-        updateFriendshipSubscription = single.observeOn(AndroidSchedulers.mainThread())
+        disposables.add(single
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({
                     isLoggedUserFollowing = !isLoggedUserFollowing
                     mvpView?.updateFriendshipStatus(isLoggedUserFollowing)
-                }, { Timber.e(it) })
+                }, { Timber.e(it) }))
     }
 
     fun favorite(tweet: Tweet) {
         checkViewAttached()
 
-        favoriteSubscription = TwitterAPI.favorite(tweet.id)
+        disposables.add(TwitterAPI.favorite(tweet.id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .map(::Tweet)
@@ -164,13 +158,13 @@ class UserPresenter(val settings: AppSettings) : BasePresenter<UserMvpView>() {
                 }, {
                     Timber.e(it?.message)
                     mvpView?.showSnackBar(R.string.error_favorite)
-                })
+                }))
     }
 
     fun retweet(tweet: Tweet) {
         checkViewAttached()
 
-        retweetSubscription = TwitterAPI.retweet(tweet.id)
+        disposables.add(TwitterAPI.retweet(tweet.id)
                 .map(::Tweet)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -185,13 +179,13 @@ class UserPresenter(val settings: AppSettings) : BasePresenter<UserMvpView>() {
                 }, {
                     Timber.e(it?.message)
                     mvpView?.showSnackBar(R.string.error_retweet)
-                })
+                }))
     }
 
     fun unfavorite(tweet: Tweet) {
         checkViewAttached()
 
-        unfavoriteSubscription = TwitterAPI.unfavorite(tweet.id)
+        disposables.add(TwitterAPI.unfavorite(tweet.id)
                 .map(::Tweet)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -206,13 +200,13 @@ class UserPresenter(val settings: AppSettings) : BasePresenter<UserMvpView>() {
                 }, {
                     Timber.e(it?.message)
                     mvpView?.showSnackBar(R.string.error_unfavorite)
-                })
+                }))
     }
 
     fun unretweet(tweet: Tweet) {
         checkViewAttached()
 
-        unretweetSubscription = TwitterAPI.unretweet(tweet.status.currentUserRetweetId)
+        disposables.add(TwitterAPI.unretweet(tweet.status.currentUserRetweetId)
                 .map(::Tweet)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -227,7 +221,7 @@ class UserPresenter(val settings: AppSettings) : BasePresenter<UserMvpView>() {
                 }, {
                     Timber.e(it?.message)
                     mvpView?.showSnackBar(R.string.error_unretweet)
-                })
+                }))
     }
 
 }

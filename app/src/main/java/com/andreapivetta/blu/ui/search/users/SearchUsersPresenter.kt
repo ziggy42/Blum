@@ -2,9 +2,9 @@ package com.andreapivetta.blu.ui.search.users
 
 import com.andreapivetta.blu.data.twitter.TwitterAPI
 import com.andreapivetta.blu.ui.base.BasePresenter
-import rx.Subscription
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import twitter4j.Paging
 
@@ -15,14 +15,19 @@ class SearchUsersPresenter(private val textQuery: String) : BasePresenter<Search
 
     var page: Int = 1
     private var isLoading: Boolean = false
-    private var mSubscriber: Subscription? = null
+    private val disposables = CompositeDisposable()
+
+    override fun detachView() {
+        super.detachView()
+        disposables.clear()
+    }
 
     fun getUsers() {
         checkViewAttached()
         mvpView?.showLoading()
         isLoading = true
 
-        mSubscriber = TwitterAPI.searchUsers(textQuery, Paging(page, 50))
+        disposables.add(TwitterAPI.searchUsers(textQuery, Paging(page, 50))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({
@@ -43,7 +48,7 @@ class SearchUsersPresenter(private val textQuery: String) : BasePresenter<Search
                     mvpView?.hideLoading()
                     mvpView?.showError()
                     isLoading = false
-                })
+                }))
     }
 
     fun getMoreUsers() {
@@ -53,7 +58,7 @@ class SearchUsersPresenter(private val textQuery: String) : BasePresenter<Search
         checkViewAttached()
         isLoading = true
 
-        mSubscriber = TwitterAPI.searchUsers(textQuery, Paging(page, 50))
+        disposables.add(TwitterAPI.searchUsers(textQuery, Paging(page, 50))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({
@@ -66,7 +71,7 @@ class SearchUsersPresenter(private val textQuery: String) : BasePresenter<Search
                 }, {
                     Timber.e(it)
                     isLoading = false
-                })
+                }))
     }
 
 }

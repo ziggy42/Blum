@@ -4,8 +4,8 @@ import android.content.Context
 import com.andreapivetta.blu.R
 import com.andreapivetta.blu.common.notifications.AppNotifications
 import com.andreapivetta.blu.common.notifications.AppNotificationsFactory
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import java.io.InputStream
 import java.util.*

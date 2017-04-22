@@ -1,10 +1,9 @@
 package com.andreapivetta.blu.data.twitter
 
-import rx.Observable
-import rx.Single
+import io.reactivex.Observable
+import io.reactivex.Single
 import twitter4j.*
 import java.io.InputStream
-import java.util.*
 
 /**
  * Created by andrea on 18/05/16.

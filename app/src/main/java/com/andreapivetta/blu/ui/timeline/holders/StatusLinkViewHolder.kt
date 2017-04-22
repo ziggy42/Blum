@@ -11,11 +11,11 @@ import com.andreapivetta.blu.data.model.MetaData
 import com.andreapivetta.blu.data.model.Tweet
 import com.andreapivetta.blu.data.url.UrlInfo
 import com.andreapivetta.blu.ui.timeline.InteractionListener
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.tweet_link.view.*
 import kotlinx.android.synthetic.main.url_preview.view.*
-import rx.Subscription
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
 import timber.log.Timber
 
 /**
@@ -29,7 +29,7 @@ class StatusLinkViewHolder(container: View, listener: InteractionListener) :
     private val urlTextDescriptionView: TextView = container.urlDescriptionTextView
     private val urlPreviewLayout = container.urlPreviewLayout
     private val loadingProgressBar = container.loadingProgressBar
-    private var subscriber: Subscription? = null
+    private var disposable: Disposable? = null
 
     override fun setup(tweet: Tweet) {
         super.setup(tweet)
@@ -37,8 +37,8 @@ class StatusLinkViewHolder(container: View, listener: InteractionListener) :
         setLoading(true)
         if (tweet.metaData == null) {
             urlPreviewLayout.setOnClickListener { }
-            subscriber?.unsubscribe()
-            subscriber = UrlInfo.generatePreview(tweet.getLink())
+            disposable?.dispose()
+            disposable = UrlInfo.generatePreview(tweet.getLink())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({

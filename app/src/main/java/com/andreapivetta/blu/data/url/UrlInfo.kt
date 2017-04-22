@@ -2,8 +2,8 @@ package com.andreapivetta.blu.data.url
 
 import com.schinizer.rxunfurl.RxUnfurl
 import com.schinizer.rxunfurl.model.PreviewData
-import rx.Observable
-import rx.schedulers.Schedulers
+import io.reactivex.Observable
+import io.reactivex.schedulers.Schedulers
 
 
 /**
@@ -11,7 +11,7 @@ import rx.schedulers.Schedulers
  */
 object UrlInfo {
 
-    val rxUrlInfo: RxUnfurl = RxUnfurl.Builder()
+    val rxUrlInfo = RxUnfurl.Builder()
             .scheduler(Schedulers.io())
             .build()
 

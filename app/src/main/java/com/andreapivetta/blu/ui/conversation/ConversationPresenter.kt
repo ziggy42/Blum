@@ -4,9 +4,9 @@ import com.andreapivetta.blu.data.model.PrivateMessage
 import com.andreapivetta.blu.data.storage.AppStorage
 import com.andreapivetta.blu.data.twitter.TwitterAPI
 import com.andreapivetta.blu.ui.base.BasePresenter
-import rx.Subscription
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
 /**
@@ -15,10 +15,9 @@ import timber.log.Timber
 class ConversationPresenter(private val storage: AppStorage, private val otherId: Long) :
         BasePresenter<ConversationMvpView>() {
 
-    private var isLoading = false
-    private var loadUserSubscriber: Subscription? = null
-    private var sendPrivateMessageSubscriber: Subscription? = null
+    private val disposables = CompositeDisposable()
 
+    private var isLoading = false
     private var messages: MutableList<PrivateMessage>? = null
 
     override fun attachView(mvpView: ConversationMvpView) {
@@ -28,7 +27,7 @@ class ConversationPresenter(private val storage: AppStorage, private val otherId
 
     override fun detachView() {
         super.detachView()
-        loadUserSubscriber?.unsubscribe()
+        disposables.clear()
     }
 
     fun onNewPrivateMessage() {
@@ -40,7 +39,7 @@ class ConversationPresenter(private val storage: AppStorage, private val otherId
     fun sendPrivateMessage(text: String) {
         checkViewAttached()
 
-        sendPrivateMessageSubscriber = TwitterAPI.sendPrivateMessage(text, otherId)
+        disposables.add(TwitterAPI.sendPrivateMessage(text, otherId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({
@@ -56,7 +55,7 @@ class ConversationPresenter(private val storage: AppStorage, private val otherId
                 }, {
                     Timber.e(it, "Send private message failed")
                     mvpView?.showSendFailed()
-                })
+                }))
     }
 
     private fun loadUser(userId: Long) {
@@ -64,7 +63,7 @@ class ConversationPresenter(private val storage: AppStorage, private val otherId
         mvpView?.showLoading()
         isLoading = true
 
-        loadUserSubscriber = TwitterAPI.showUser(userId)
+        disposables.add(TwitterAPI.showUser(userId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({
@@ -82,6 +81,6 @@ class ConversationPresenter(private val storage: AppStorage, private val otherId
                     Timber.e(it, "User lookup failed")
                     mvpView?.hideLoading()
                     mvpView?.showError()
-                })
+                }))
     }
 }

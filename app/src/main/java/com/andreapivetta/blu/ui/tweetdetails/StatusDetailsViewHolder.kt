@@ -19,9 +19,9 @@ import com.andreapivetta.blu.ui.custom.decorators.SpaceLeftItemDecoration
 import com.andreapivetta.blu.ui.timeline.holders.BaseViewHolder
 import com.andreapivetta.blu.ui.timeline.holders.ImagesAdapter
 import com.luseen.autolinklibrary.AutoLinkTextView
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.tweet_big.view.*
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
 import timber.log.Timber
 
 /**
